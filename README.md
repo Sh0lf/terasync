@@ -18,7 +18,7 @@ To beware for Angular sample project, as it should contain the node_modules:
 ![Angular sample project layout](/documentations/node_modules%20illustration.png)
 
 ## Authors ##
-Tiffany Rey
-Vincent Yap
-Filips Barakats
-Bruce L'Horset
+- Tiffany Rey
+- Vincent Yap
+- Filips Barakats
+- Bruce L'Horset
