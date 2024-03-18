@@ -1,13 +1,17 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Component} from '@angular/core';
+import {HomeComponent} from './home/home.component';
+import {HousingLocationComponent} from "./housing-location/housing-location.component";
+import {CommonModule} from "@angular/common";
+import { RouterModule, RouterLink, RouterOutlet } from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [HomeComponent, HousingLocationComponent, CommonModule, RouterModule, RouterLink, RouterOutlet],
+  templateUrl: 'back-app.component.html',
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'sample-angular';
+  title = 'homes';
 }
