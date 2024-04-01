@@ -1,0 +1,32 @@
+package isep.webapp.terasync.model.user;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Customer {
+    @Id
+    @GeneratedValue
+    @Column(name = "customerId")
+    private Long customerId;
+    @Column(name = "firstName")
+    private String firstName;
+    @Column(name = "lastName")
+    private String lastName;
+    @Column(name = "email")
+    private String email;
+    @Column(name = "username")
+    private String username;
+    @Column(name = "password")
+    private String password;
+}

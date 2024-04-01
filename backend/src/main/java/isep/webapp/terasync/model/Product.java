@@ -1,12 +1,11 @@
-package isep.webapp.terasync.model.restaurant;
+package isep.webapp.terasync.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Setter @Getter @AllArgsConstructor
-public class Food {
+public class Product {
     private Long foodId;
     private String foodName;
     private String foodDesc;
