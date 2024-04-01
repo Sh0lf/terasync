@@ -1,4 +1,4 @@
-package src.main.java.isep.webapp.terasync.model.restaurant;
+package isep.webapp.terasync.model.restaurant;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

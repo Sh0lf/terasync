@@ -1,4 +1,4 @@
-package src.main.java.isep.webapp.terasync.model.users;
+package isep.webapp.terasync.model.users;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
