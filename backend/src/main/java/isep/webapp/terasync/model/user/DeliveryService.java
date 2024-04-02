@@ -1,9 +1,6 @@
 package isep.webapp.terasync.model.user;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,9 +11,9 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeliveryService {
+public class DeliveryService extends User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "deliveryServiceId")
     private Long deliveryServiceId;
     @Column(name = "name")
@@ -27,4 +24,9 @@ public class DeliveryService {
     private String username;
     @Column(name = "password")
     private String password;
+
+    @Override
+    public Long getUserId() {
+        return deliveryServiceId;
+    }
 }

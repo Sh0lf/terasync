@@ -1,14 +1,26 @@
 package isep.webapp.terasync.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
-@Setter @Getter @AllArgsConstructor
+@Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
-    private Long foodId;
-    private String foodName;
-    private String foodDesc;
-    private String vegNonVeg;
-    private float foodPrice;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "productId")
+    private Long productId;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "description")
+    private String description;
+    @Column(name = "isVegan")
+    private boolean isVegan;
+    @Column(name = "price")
+    private float price;
+    @Column(name = "restaurantId")
+    private Long restaurantId;
 }
