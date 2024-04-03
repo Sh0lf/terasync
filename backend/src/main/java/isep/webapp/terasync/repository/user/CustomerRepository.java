@@ -1,4 +1,4 @@
-package isep.webapp.terasync.repository;
+package isep.webapp.terasync.repository.user;
 
 import isep.webapp.terasync.model.user.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
