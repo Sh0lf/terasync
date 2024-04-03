@@ -12,15 +12,15 @@ public abstract class EntityService<T, R extends JpaRepository<T, Integer>> {
         this.entityRepository = entityRepository;
     }
 
-    public T add(T entity) {
+    public T addEntity(T entity) {
         return entityRepository.save(entity);
     }
     
-    public List<T> getAll() {
+    public List<T> findAllEntities() {
         return entityRepository.findAll();
     }
 
-    public T getEntityById(int id) {
+    public T findEntityById(int id) {
         return entityRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
     }
 
