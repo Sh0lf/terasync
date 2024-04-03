@@ -15,7 +15,7 @@ public class DeliveryService extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "deliveryServiceId")
-    private Long deliveryServiceId;
+    private int deliveryServiceId;
     @Column(name = "name")
     private String name;
     @Column(name = "email")
@@ -24,9 +24,11 @@ public class DeliveryService extends User {
     private String username;
     @Column(name = "password")
     private String password;
+    @Column(name = "registrationDate")
+    private String registrationDate;
 
     @Override
-    public Long getUserId() {
+    public int getUserId() {
         return deliveryServiceId;
     }
 }

@@ -14,22 +14,24 @@ public class Business extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "businessId")
-    private Long businessId;
+    private int businessId;
     @Column(name = "name")
     private String name;
     @Column(name = "address")
     private String address;
-    @Column(name = "phoneNumber")
-    private Long phoneNumber;
+    @Column(name = "phone")
+    private String phone;
     @Column(name = "email")
     private String email;
     @Column(name = "username")
     private String username;
     @Column(name = "password")
     private String password;
+    @Column(name = "registrationDate")
+    private String registrationDate;
 
     @Override
-    public Long getUserId() {
+    public int getUserId() {
         return businessId;
     }
 }

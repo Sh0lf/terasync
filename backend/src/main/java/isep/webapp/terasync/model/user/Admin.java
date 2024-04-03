@@ -15,7 +15,7 @@ public class Admin extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "adminId")
-    private Long adminId;
+    private int adminId;
     @Column(name = "firstName")
     private String firstName;
     @Column(name = "lastName")
@@ -26,9 +26,11 @@ public class Admin extends User {
     private String username;
     @Column(name = "password")
     private String password;
+    @Column(name = "registrationDate")
+    private String registrationDate;
 
     @Override
-    public Long getUserId() {
+    public int getUserId() {
         return adminId;
     }
 

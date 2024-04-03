@@ -1,4 +1,4 @@
-package isep.webapp.terasync.model;
+package isep.webapp.terasync.model.odSystem;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,7 +12,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "productId")
-    private Long productId;
+    private int productId;
     @Column(name = "name")
     private String name;
     @Column(name = "description")
@@ -21,6 +21,8 @@ public class Product {
     private boolean isVegan;
     @Column(name = "price")
     private float price;
-    @Column(name = "restaurantId")
-    private Long restaurantId;
+    @Column(name = "creationTime")
+    private String creationTime;
+    @Column(name = "businessId")
+    private int businessId;
 }
