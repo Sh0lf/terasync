@@ -1,5 +1,5 @@
 server.port: 9090
-spring.datasource.url: jdbc:sqlserver://terasyncdb.cp4caykesns8.eu-north-1.rds.amazonaws.com:1433
-spring.datasource.username: admin
-spring.datasource.password: JkAXj5n7kGtSrAx
+spring.datasource.url: jdbc:sqlserver://terasyncserver.database.windows.net:1433;database=terasyncDB;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+spring.datasource.username: master@terasyncserver
+spring.datasource.password: Fpn3zCJB6AUW85Epovl
 spring.datasource.driver.class: org.sqlserver.Driver
