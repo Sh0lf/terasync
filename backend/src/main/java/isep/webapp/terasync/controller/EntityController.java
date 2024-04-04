@@ -15,7 +15,7 @@ public abstract class EntityController<T, S extends EntityService<T, ?>> {
     }
 
     // this is just for testing, otherwise anyone can read all the entities,
-    // will need to setup perms so only admins can use this method
+    // will need to set up perms so only admins can use this method
     @GetMapping("/all")
     public ResponseEntity<List<T>> getAllEntities() {
         return ResponseEntity.ok(entityService.findAllEntities());

@@ -2,6 +2,9 @@ package isep.webapp.terasync.model.user;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 @Entity
 @Setter
@@ -24,6 +27,7 @@ public class Customer extends User {
     private String username;
     @Column(name = "password")
     private String password;
+    @CreationTimestamp
     @Column(name = "registrationDate")
     private String registrationDate;
 

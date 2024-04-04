@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Setter
@@ -27,6 +28,7 @@ public class DeliveryPerson extends User {
     private String username;
     @Column(name = "password")
     private String password;
+    @CreationTimestamp
     @Column(name = "registrationDate")
     private String registrationDate;
     @Column(name = "deliveryServiceId")

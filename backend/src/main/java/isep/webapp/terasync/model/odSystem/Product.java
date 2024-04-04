@@ -2,6 +2,7 @@ package isep.webapp.terasync.model.odSystem;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Setter
@@ -22,6 +23,7 @@ public class Product {
     private boolean isVegan;
     @Column(name = "price")
     private float price;
+    @CreationTimestamp
     @Column(name = "creationTime")
     private String creationTime;
     @Column(name = "businessId")

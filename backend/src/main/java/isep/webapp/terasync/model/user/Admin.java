@@ -2,6 +2,7 @@ package isep.webapp.terasync.model.user;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Setter
@@ -25,6 +26,7 @@ public class Admin extends User {
     @Column(name = "password")
     private String password;
     @Column(name = "registrationDate")
+    @CreationTimestamp
     private String registrationDate;
 
     @Override

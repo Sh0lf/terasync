@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Setter
@@ -19,6 +20,7 @@ public class MessageList {
     private int messageListId;
     @Column(name = "message")
     private String message;
+    @CreationTimestamp
     @Column(name = "timestamp")
     private String timestamp;
     @Column(name = "ownerId")

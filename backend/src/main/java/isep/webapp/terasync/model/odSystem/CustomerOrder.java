@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Setter
@@ -17,6 +18,7 @@ public class CustomerOrder {
     @GeneratedValue
     @Column(name = "customerOrderId")
     private int customerOrderId;
+    @CreationTimestamp
     @Column(name = "creationTime")
     private String creationTime;
     @Column(name = "minTemp")

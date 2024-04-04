@@ -2,6 +2,7 @@ package isep.webapp.terasync.model.user;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Setter
@@ -22,6 +23,7 @@ public class DeliveryService extends User {
     private String username;
     @Column(name = "password")
     private String password;
+    @CreationTimestamp
     @Column(name = "registrationDate")
     private String registrationDate;
 

@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Setter
@@ -19,6 +20,7 @@ public class ProductMenu {
     private int productMenuId;
     @Column(name = "name")
     private String name;
+    @CreationTimestamp
     @Column(name = "creationTime")
     private String creationTime;
     @Column(name = "discount")

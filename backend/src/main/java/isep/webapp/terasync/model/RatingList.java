@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Setter
@@ -21,6 +22,7 @@ public class RatingList {
     private double rating;
     @Column(name = "comment")
     private String comment;
+    @CreationTimestamp
     @Column(name = "ratingDate")
     private String ratingDate;
     @Column(name = "customerId")
