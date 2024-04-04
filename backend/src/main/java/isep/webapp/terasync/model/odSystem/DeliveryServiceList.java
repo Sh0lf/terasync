@@ -16,5 +16,9 @@ public class DeliveryServiceList {
     @Id
     @GeneratedValue
     @Column(name = "deliveryServiceListId")
+    private int deliveryServiceListId;
+    @Column(name = "deliveryServiceId")
     private int deliveryServiceId;
+    @Column(name = "businessId")
+    private int businessId;
 }

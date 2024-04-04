@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {CustomerService} from "./service/customer.service";
+import {CustomerService} from "./service/user/customer.service";
 import {Customer} from "./model/user/customer";
 import {HttpClientModule, HttpErrorResponse} from "@angular/common/http";
 import {NgForOf} from "@angular/common";
