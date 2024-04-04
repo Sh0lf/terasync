@@ -1,0 +1,97 @@
+// COLOR PALETTE 1
+$colorP11: #64395F;
+$colorP12: #C075B7;
+$colorP13: #6CACA0;
+$colorP14: #07878B;
+
+// COLOR PALETTE 2
+$colorP21: #EDCB96;
+$colorP22: #F7C4A5;
+$colorP23: #9E7682;
+$colorP24: #605770;
+$colorP25: #4D4861;
+
+// DEFAULT FONT FAMILY FOR EVERYTHING
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+.separation-line-1 {
+  padding: 1px;
+  background: radial-gradient(#494848 30%, #D9D9D9, #D9D9D9);
+  border-radius: 1px;
+  margin: 10px 15px 10px 15px;
+}
+
+.separation-line-2 {
+  padding: 1px;
+  background: radial-gradient(#494848 55%, white, white);
+  border-radius: 1px;
+  margin: 10px 15px 10px 15px;
+}
+
+.separation-line-small {
+  width: 80%;
+  padding: 1px;
+  background: radial-gradient(#494848 30%, #D9D9D9, #D9D9D9);
+  border-radius: 1px;
+  margin: 1px 15px 1px 15px;
+}
+
+
+.text-font {
+  font-style: normal;
+}
+
+.text-font-100 {
+  font-style: normal;
+  font-weight: 100;
+}
+
+.text-font-200 {
+  font-style: normal;
+  font-weight: 200;
+}
+
+.text-font-300 {
+  font-style: normal;
+  font-weight: 300;
+}
+
+.text-font-500 {
+  font-style: normal;
+  font-weight: 500;
+}
+
+.text-font-700{
+  font-style: normal;
+  font-weight: 700;
+}
+
+span[class*="form-error-span"] {
+  color: #B81111;
+  text-align: center;
+}
+
+/*SCROLLBAR STUFF*/
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+

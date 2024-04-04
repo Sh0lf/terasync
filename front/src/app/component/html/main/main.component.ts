@@ -1,18 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {CustomerService} from "./service/user/customer.service";
-import {Customer} from "./model/user/customer";
+import {CustomerService} from "../../../service/user/customer.service";
+import {Customer} from "../../../model/user/customer";
 import {HttpClientModule, HttpErrorResponse} from "@angular/common/http";
 import {NgForOf} from "@angular/common";
+import {LoginComponent} from "../login/login.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgForOf, HttpClientModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [RouterOutlet, NgForOf, HttpClientModule, LoginComponent],
+  templateUrl: 'main.component.html',
+  styleUrls: ['../../css/main.component.scss']
 })
-export class AppComponent implements OnInit {
+export class MainComponent implements OnInit {
   public title = 'teraSyncFront';
   public customers: Customer[] = [];
 

@@ -1,0 +1,84 @@
+#sign-form-body, #signup-form {
+  margin: 0 0 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#sign-form-body-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: #d9d9d9 solid 1px;
+  border-radius: 20px;
+  width: 450px;
+  padding: 20px 0 20px 0;
+}
+
+.sign-form-elem h1 {
+  margin: 0 0 0 0;
+  text-align: center;
+}
+
+#sign-form-body-div .sign-form-elem  {
+  padding: 10px 10px 10px 10px;
+}
+
+.sign-form-elem span {
+  text-align: center;
+}
+#sign-form-message-success {
+  display: none;
+}
+
+.sign-form-elem label, .sign-form-elem span, .sign-form-elem input {
+  width: 100%;
+}
+
+#sign-form-robot, #sign-form-validate-error {
+  display: none;
+  color: #B81111;
+}
+
+.sign-form-elem {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 395px;
+}
+
+.sign-form-elem input {
+  background: #E2E2E2;
+  border-radius: 10px;
+  border: grey solid 1px;
+  height: 40px;
+  margin: 5px 0 5px 0;
+  font-weight: 700;
+  white-space:pre;
+  text-indent: 10px;
+}
+
+.sign-form-elem button {
+  background: #d9d9d9;
+  border-radius: 40px;
+  border: #d9d9d9 solid 2px;
+  height: 50px;
+  width: 150px;
+  margin: 5px 0 5px 0;
+  font-weight: 700;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.sign-form-elem button:hover {
+  background: #69A6E3;;
+  border: #69A6E3 solid 2px;
+}
+
+a {
+  text-decoration: none;
+  color: #69A6E3;
+}
+
+
