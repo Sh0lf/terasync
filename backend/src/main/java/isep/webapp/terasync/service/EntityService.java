@@ -21,7 +21,8 @@ public abstract class EntityService<T, R extends JpaRepository<T, Integer>> {
     }
 
     public T findEntityById(int id) {
-        return entityRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
+        return entityRepository.findById(id).
+                orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
     }
 
     public T updateEntity(T entity) {
