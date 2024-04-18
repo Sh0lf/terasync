@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {HttpClientModule} from "@angular/common/http";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {RECAPTCHA_SETTINGS, RecaptchaModule} from "ng-recaptcha";
 import {FormsModule} from "@angular/forms";
-import {environment} from "../../../../environment/environment.prod";
+import {environment} from "../../../environment/environment.prod";
 
 @Component({
   selector: 'login-component',
@@ -13,7 +13,7 @@ import {environment} from "../../../../environment/environment.prod";
     RouterOutlet,
     NgForOf, HttpClientModule,
     FormsModule,
-    RecaptchaModule
+    RecaptchaModule, NgIf
   ],
   providers: [
     {
@@ -23,21 +23,34 @@ import {environment} from "../../../../environment/environment.prod";
     }
   ],
   templateUrl: './login.component.html',
-  styleUrls: ['../../css/login.styles.css', '../../css/main.component.scss']
+  styleUrls: ['./login.styles.css', '../main/main.component.scss']
 })
 export class LoginComponent implements OnInit {
-  captcha: string | null;
+  lgEmail: string = '';
+  lgPassword: string = '';
+  captcha: string | null = '';
+  submitted: boolean = false;
 
-  constructor() {
-    this.captcha = '';
-  }
+  constructor() {}
 
   ngOnInit() {
   }
 
   resolved(captchaResponse: string | null) {
     this.captcha = captchaResponse;
-    console.log(`Resolved captcha with response: ${captchaResponse}`);
   }
 
+  onSubmit() {
+    this.submitted = true;
+    this.isCaptchaValid();
+
+    console.log('is valid: ' + this.isCaptchaValid());
+    console.log('Email: ' + this.lgEmail);
+    console.log('Password: ' + this.lgPassword);
+    console.log('Captcha: ' + this.captcha);
+  }
+
+  isCaptchaValid(): boolean {
+    return this.captcha != null && this.captcha.length > 0;
+  }
 }
