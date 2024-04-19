@@ -1,6 +1,8 @@
 package isep.webapp.terasync.model.user;
 
-public abstract class User {
+import isep.webapp.terasync.model.Entity;
+
+public abstract class User extends Entity {
     public abstract int getUserId();
     public abstract String getName();
     public abstract String getEmail();

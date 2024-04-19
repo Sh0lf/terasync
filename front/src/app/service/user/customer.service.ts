@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Customer} from "../../model/user/customer";
 import {UserService} from "./user.service";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -10,5 +11,9 @@ export class CustomerService extends UserService<Customer> {
 
   constructor(http: HttpClient) {
     super(http, "customer");
+  }
+
+  public findCustomerByEmail(email: String): Observable<Customer> {
+    return this.http.get<Customer>(`${this.apiServerUrl}/${this.entityName}/findByEmail/${email}`);
   }
 }

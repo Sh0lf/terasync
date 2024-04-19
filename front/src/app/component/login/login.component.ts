@@ -26,33 +26,21 @@ import {CustomerService} from "../../service/user/customer.service";
     }
   ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.styles.css', '../main/main.component.scss']
+  styleUrls: ['../commonCss/auth.styles.css', '../main/main.component.scss']
 })
-export class LoginComponent implements OnInit {
-  lgEmail: string = "";
-  lgPassword: string = "";
-  captcha: string | null = "";
-  submitted: boolean = false;
+export class LoginComponent {
+  protected lgEmail: string = "";
+  protected lgPassword: string = "";
+  protected captcha: string | null = "";
+  protected submitted: boolean = false;
+  protected loginValid: boolean = false;
 
-  public customers: Customer[] =[];
+  // public customers: Customer[] =[];
 
-  constructor(private customerService: CustomerService) {}
+  constructor(private customerService: CustomerService
+  ) {
 
-  ngOnInit() {
-    this.getCustomers();
   }
-
-  public getCustomers(): void {
-    this.customerService.getEntities().subscribe({
-      next: (customers: Customer[]) => {
-        this.customers = customers;
-      },
-      error: (error: HttpErrorResponse) => {
-        console.error(error);
-      }
-    });
-  }
-
   resolved(captchaResponse: string | null) {
     this.captcha = captchaResponse;
   }
@@ -65,7 +53,14 @@ export class LoginComponent implements OnInit {
     console.log('Captcha: ' + this.captcha);
 
     if(this.isFormValid()) {
-      // this.customerService.
+      this.customerService.findCustomerByEmail(this.lgEmail).subscribe({
+        next: (customer: Customer) => {
+          this.loginValid = customer.password === this.lgPassword;
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error(error);
+        }
+      });
     }
   }
 
@@ -84,5 +79,9 @@ export class LoginComponent implements OnInit {
 
   isFormValid(): boolean {
     return !this.isEmailInvalid() && !this.isPasswordInvalid() && !this.isCaptchaInvalid();
+  }
+
+  isLoginInvalid(): boolean {
+    return !(this.loginValid) && this.submitted;
   }
 }

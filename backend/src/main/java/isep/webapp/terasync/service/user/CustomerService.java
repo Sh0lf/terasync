@@ -13,4 +13,8 @@ public class CustomerService extends UserService<Customer, CustomerRepository> {
         super(customerRepository);
     }
 
+    public Customer findByEmail(String email) {
+        return entityRepository.findByEmail(email);
+    }
+
 }

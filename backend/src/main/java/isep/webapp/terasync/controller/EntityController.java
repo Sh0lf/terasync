@@ -22,8 +22,8 @@ public abstract class EntityController<T, S extends EntityService<T, ?>> {
     }
 
     // also testing
-    @GetMapping("/find/{id}")
-    public ResponseEntity<T> getEntityById(@PathVariable("id") Integer id) {
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<T> findEntityById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(entityService.findEntityById(id));
     }
 
