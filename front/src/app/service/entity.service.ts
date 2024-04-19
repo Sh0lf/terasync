@@ -29,5 +29,9 @@ export abstract class EntityService<T> {
   public deleteEntity(entityId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiServerUrl}/${this.entityName}/delete/${entityId}`);
   }
+
+  public getEntityById(entityId: number): Observable<T> {
+    return this.http.get<T>(`${this.apiServerUrl}/${this.entityName}/find/${entityId}`);
+  }
 }
 

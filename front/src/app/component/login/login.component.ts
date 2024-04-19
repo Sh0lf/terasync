@@ -1,11 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, forwardRef, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClientModule, HttpErrorResponse} from "@angular/common/http";
 import {NgForOf, NgIf} from "@angular/common";
 import {RECAPTCHA_SETTINGS, RecaptchaModule} from "ng-recaptcha";
 import {FormsModule} from "@angular/forms";
 import {environment} from "../../../environment/environment.prod";
+import {Customer} from "../../model/user/customer";
+import {CustomerService} from "../../service/user/customer.service";
 
+// @ts-ignore
 @Component({
   selector: 'login-component',
   standalone: true,
@@ -26,14 +29,28 @@ import {environment} from "../../../environment/environment.prod";
   styleUrls: ['./login.styles.css', '../main/main.component.scss']
 })
 export class LoginComponent implements OnInit {
-  lgEmail: string = '';
-  lgPassword: string = '';
-  captcha: string | null = '';
+  lgEmail: string = "";
+  lgPassword: string = "";
+  captcha: string | null = "";
   submitted: boolean = false;
 
-  constructor() {}
+  public customers: Customer[] =[];
+
+  constructor(private customerService: CustomerService) {}
 
   ngOnInit() {
+    this.getCustomers();
+  }
+
+  public getCustomers(): void {
+    this.customerService.getEntities().subscribe({
+      next: (customers: Customer[]) => {
+        this.customers = customers;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error(error);
+      }
+    });
   }
 
   resolved(captchaResponse: string | null) {
@@ -42,15 +59,30 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    this.isCaptchaValid();
-
-    console.log('is valid: ' + this.isCaptchaValid());
+    console.log('is valid: ' + this.isCaptchaInvalid());
     console.log('Email: ' + this.lgEmail);
     console.log('Password: ' + this.lgPassword);
     console.log('Captcha: ' + this.captcha);
+
+    if(this.isFormValid()) {
+      // this.customerService.
+    }
   }
 
-  isCaptchaValid(): boolean {
-    return this.captcha != null && this.captcha.length > 0;
+  isEmailInvalid(): boolean {
+    let regex = new RegExp("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
+    return !(regex.test(this.lgEmail) && this.lgEmail != null && this.lgEmail.length > 0) && this.submitted;
+  }
+
+  isPasswordInvalid(): boolean {
+    return !(this.lgPassword != null && this.lgPassword.length > 0) && this.submitted;
+  }
+
+  isCaptchaInvalid(): boolean {
+    return !(this.captcha != null && this.captcha.length > 0) && this.submitted;
+  }
+
+  isFormValid(): boolean {
+    return !this.isEmailInvalid() && !this.isPasswordInvalid() && !this.isCaptchaInvalid();
   }
 }

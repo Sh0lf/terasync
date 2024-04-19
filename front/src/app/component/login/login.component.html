@@ -1,4 +1,4 @@
-<form #form="ngForm" (ngSubmit)="onSubmit()">
+<form #form="ngForm" (ngSubmit)="onSubmit()" name="loginForm">
   <div id="sign-form-body" class="text-font-700">
     <div id="sign-form-body-div">
       <div class="sign-form-elem"><h1>Login</h1></div>
@@ -7,20 +7,18 @@
       </div>
       <div class="sign-form-elem">
         <label for="lgEmail">Email:</label>
-        <input type="email" id="lgEmail" name="lgEmail" [ngModel]="lgEmail" value="" required #lgEmail="ngModel">
-        <label class="validation-label" *ngIf="lgEmail.errors?.['required']">Email field is required.</label>
+        <input type="email" id="lgEmail" [(ngModel)]="lgEmail" name="lgEmail">
+        <label class="validation-label" *ngIf="isEmailInvalid()">Email field is required.</label>
       </div>
 
       <div class="sign-form-elem">
         <label for="lgPassword">Password:</label>
-        <input type="password" id="lgPassword" name="lgPassword" [ngModel]="lgPassword" required #lgPassword="ngModel">
-        <label class="validation-label" *ngIf="lgPassword.errors?.['required'] && submitted">Password field is required.</label>
+        <input type="password" id="lgPassword" [(ngModel)]="lgPassword" name="lgPassword">
+        <label class="validation-label" *ngIf="isPasswordInvalid()">Password field is required.</label>
       </div>
       <div class="sign-form-elem">
         <re-captcha (resolved)="resolved($event)"></re-captcha>
-      </div>
-      <div *ngIf="!isCaptchaValid() && submitted" class="sign-form-elem" id="sign-form-robot">
-        <span>Please verify that you're not a robot.</span>
+        <label class="validation-label" *ngIf="isCaptchaInvalid()">Please verify that you're not a robot.</label>
       </div>
       <div class="separation-line-small"></div>
 
