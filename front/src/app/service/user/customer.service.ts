@@ -12,8 +12,4 @@ export class CustomerService extends UserService<Customer> {
   constructor(http: HttpClient) {
     super(http, "customer");
   }
-
-  public findCustomerByEmail(email: String): Observable<Customer> {
-    return this.http.get<Customer>(`${this.apiServerUrl}/${this.entityName}/findByEmail/${email}`);
-  }
 }

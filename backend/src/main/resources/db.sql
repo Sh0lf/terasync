@@ -221,3 +221,4 @@ CREATE TABLE Faq
     question VARCHAR(255) NOT NULL,
     answer   VARCHAR(255) NOT NULL
 );
+

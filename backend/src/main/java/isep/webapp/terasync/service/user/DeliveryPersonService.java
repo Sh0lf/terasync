@@ -1,5 +1,6 @@
 package isep.webapp.terasync.service.user;
 
+import isep.webapp.terasync.model.user.Admin;
 import isep.webapp.terasync.model.user.DeliveryPerson;
 import isep.webapp.terasync.repository.user.DeliveryPersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,5 +11,9 @@ public class DeliveryPersonService extends UserService<DeliveryPerson, DeliveryP
     @Autowired
     public DeliveryPersonService(DeliveryPersonRepository entityRepository) {
         super(entityRepository);
+    }
+
+    public DeliveryPerson findByEmail(String email) {
+        return entityRepository.findByEmail(email);
     }
 }

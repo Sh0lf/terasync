@@ -1,0 +1,10 @@
+<div id="sign-form-body" class="text-font-700">
+  <div id="sign-form-body-div">
+    <div class="sign-form-elem"><h1>Partner Selection</h1></div>
+    <div class="sign-form-elem">
+      <button *ngFor="let userCategory of userCategories" (click)="userOnSelected(userCategory)">
+        {{ userCategory?.name }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,12 +1,18 @@
-import {Component, forwardRef, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {HttpClientModule, HttpErrorResponse} from "@angular/common/http";
 import {NgForOf, NgIf} from "@angular/common";
 import {RECAPTCHA_SETTINGS, RecaptchaModule} from "ng-recaptcha";
 import {FormsModule} from "@angular/forms";
-import {environment} from "../../../environment/environment.prod";
-import {Customer} from "../../model/user/customer";
-import {CustomerService} from "../../service/user/customer.service";
+import {environment} from "../../../../environment/environment.prod";
+import {Customer} from "../../../model/user/customer";
+import {CustomerService} from "../../../service/user/customer.service";
+import {customerCategory, UserCategory} from "../../../service/user/userCategories";
+import {UserType} from "../../../service/user/user.type";
+import {BusinessService} from "../../../service/user/business.service";
+import {AdminService} from "../../../service/user/admin.service";
+import {DeliveryServiceService} from "../../../service/user/delivery-service.service";
+import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
 
 // @ts-ignore
 @Component({
@@ -26,7 +32,7 @@ import {CustomerService} from "../../service/user/customer.service";
     }
   ],
   templateUrl: './login.component.html',
-  styleUrls: ['../commonCss/auth.styles.css', '../main/main.component.scss']
+  styleUrls: ['../commonCss/auth.styles.css', '../../main/main.component.scss']
 })
 export class LoginComponent {
   protected lgEmail: string = "";
@@ -34,33 +40,43 @@ export class LoginComponent {
   protected captcha: string | null = "";
   protected submitted: boolean = false;
   protected loginValid: boolean = false;
+  protected _currentUserCategory: UserCategory = customerCategory;
 
-  // public customers: Customer[] =[];
-
-  constructor(private customerService: CustomerService
-  ) {
+  constructor(private customerService: CustomerService,
+              private businessService: BusinessService,
+              private adminService: AdminService,
+              private deliveryServiceService: DeliveryServiceService,
+              private deliveryPersonService: DeliveryPersonService) {
 
   }
+
   resolved(captchaResponse: string | null) {
     this.captcha = captchaResponse;
   }
 
   onSubmit() {
     this.submitted = true;
-    console.log('is valid: ' + this.isCaptchaInvalid());
     console.log('Email: ' + this.lgEmail);
     console.log('Password: ' + this.lgPassword);
     console.log('Captcha: ' + this.captcha);
 
-    if(this.isFormValid()) {
-      this.customerService.findCustomerByEmail(this.lgEmail).subscribe({
+    if (this.isFormValid()) {
+      this.customerService.findUserByEmail(this.lgEmail).subscribe({
         next: (customer: Customer) => {
           this.loginValid = customer.password === this.lgPassword;
+          if (this.loginValid) {
+            console.log('Login is valid');
+            console.log(customer.test())
+          } else {
+            console.log('Login is invalid');
+          }
         },
         error: (error: HttpErrorResponse) => {
           console.error(error);
         }
       });
+    } else {
+      console.log('Login is invalid');
     }
   }
 
@@ -83,5 +99,23 @@ export class LoginComponent {
 
   isLoginInvalid(): boolean {
     return !(this.loginValid) && this.submitted;
+  }
+
+  isCustomerType(): boolean {
+    return this.currenUserCategory.userType === UserType.CUSTOMER;
+  }
+
+  isPartnerType(): boolean {
+    return this.currenUserCategory.userType === UserType.PARTNER;
+  }
+
+  public get currenUserCategory(): UserCategory {
+    try {
+      // @ts-ignore
+      let jsonString: string = sessionStorage.getItem(UserCategory.name)
+      this._currentUserCategory = JSON.parse(jsonString);
+
+    } catch (e: any) {}
+    return this._currentUserCategory;
   }
 }
