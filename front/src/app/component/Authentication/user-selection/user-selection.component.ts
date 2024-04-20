@@ -1,13 +1,14 @@
 import {Component} from '@angular/core';
-import {userCategories, UserCategory} from "../../../service/user/userCategories";
-import {NgForOf} from "@angular/common";
+import {customerCategory, userCategories, UserCategory} from "../../../service/user/userCategories";
+import {NgForOf, NgIf} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-partner-selection',
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './user-selection.component.html',
   styleUrls: ['../commonCss/auth.styles.css', './user-selection.component.css']
@@ -19,10 +20,9 @@ export class UserSelectionComponent {
   }
 
   userOnSelected(userCategory: UserCategory) {
-    // console.log(userCategory.name)
     sessionStorage.setItem(UserCategory.name, JSON.stringify(userCategory));
-    this.router.navigate(['/login'], {relativeTo: this.route}).then(hasRouted => {
-      console.log('Has routed ' + hasRouted + ' to login page.');
-    })
+    this.router.navigate(['/login'], {relativeTo: this.route}).then();
   }
+
+  protected readonly customerCategory = customerCategory;
 }

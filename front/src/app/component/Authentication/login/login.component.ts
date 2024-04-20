@@ -1,22 +1,33 @@
 import {Component} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
+import {ActivatedRoute, Router, RouterOutlet} from '@angular/router';
 import {HttpClientModule, HttpErrorResponse} from "@angular/common/http";
 import {NgForOf, NgIf} from "@angular/common";
 import {RECAPTCHA_SETTINGS, RecaptchaModule} from "ng-recaptcha";
 import {FormsModule} from "@angular/forms";
 import {environment} from "../../../../environment/environment.prod";
-import {Customer} from "../../../model/user/customer";
 import {CustomerService} from "../../../service/user/customer.service";
-import {customerCategory, UserCategory} from "../../../service/user/userCategories";
+import {
+  adminCategory,
+  businessCategory,
+  customerCategory,
+  deliveryPersonCategory,
+  deliveryServiceCategory,
+  UserCategory
+} from "../../../service/user/userCategories";
 import {UserType} from "../../../service/user/user.type";
 import {BusinessService} from "../../../service/user/business.service";
 import {AdminService} from "../../../service/user/admin.service";
 import {DeliveryServiceService} from "../../../service/user/delivery-service.service";
 import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
+import {UserService} from "../../../service/user/user.service";
+import {User} from "../../../model/user/user";
+import {Authentication} from "../authentication";
+import bcrypt from "bcryptjs";
+import {Customer} from "../../../model/user/customer";
 
 // @ts-ignore
 @Component({
-  selector: 'login-component',
+  selector: 'app-login',
   standalone: true,
   imports: [
     RouterOutlet,
@@ -32,90 +43,103 @@ import {DeliveryPersonService} from "../../../service/user/delivery-person.servi
     }
   ],
   templateUrl: './login.component.html',
-  styleUrls: ['../commonCss/auth.styles.css', '../../main/main.component.scss']
+  styleUrls: ['./login.component.css', '../commonCss/auth.styles.css', '../../main/main.component.scss']
 })
-export class LoginComponent {
-  protected lgEmail: string = "";
-  protected lgPassword: string = "";
-  protected captcha: string | null = "";
-  protected submitted: boolean = false;
-  protected loginValid: boolean = false;
+export class LoginComponent extends Authentication {
+  // Form fields
+  protected emailInput: string = "";
+  protected passwordInput: string = "";
+
+  // Logic Fields
+  protected isLoginValid: boolean = false;
   protected _currentUserCategory: UserCategory = customerCategory;
 
   constructor(private customerService: CustomerService,
               private businessService: BusinessService,
               private adminService: AdminService,
               private deliveryServiceService: DeliveryServiceService,
-              private deliveryPersonService: DeliveryPersonService) {
-
+              private deliveryPersonService: DeliveryPersonService,
+              private router: Router, private route: ActivatedRoute) {
+    super();
   }
 
-  resolved(captchaResponse: string | null) {
-    this.captcha = captchaResponse;
-  }
-
-  onSubmit() {
-    this.submitted = true;
-    console.log('Email: ' + this.lgEmail);
-    console.log('Password: ' + this.lgPassword);
-    console.log('Captcha: ' + this.captcha);
+  override onSubmit() {
+    super.onSubmit();
 
     if (this.isFormValid()) {
-      this.customerService.findUserByEmail(this.lgEmail).subscribe({
-        next: (customer: Customer) => {
-          this.loginValid = customer.password === this.lgPassword;
-          if (this.loginValid) {
-            console.log('Login is valid');
-            console.log(customer.test())
-          } else {
-            console.log('Login is invalid');
-          }
-        },
+      this.fetchService().findUserByEmail(this.emailInput).subscribe({
         error: (error: HttpErrorResponse) => {
-          console.error(error);
-        }
+          console.log('Login is invalid, HTTP ERROR');
+        },
+        next: (jsonUser: User) => {
+          bcrypt.compare(this.passwordInput, jsonUser.password).then(success => {
+            this.isLoginValid = success;
+            if (this.isLoginValid) {
+              console.log('Login is valid');
+            } else {
+              console.log('Login is invalid');
+            }
+          });
+        },
       });
     } else {
       console.log('Login is invalid');
     }
   }
 
-  isEmailInvalid(): boolean {
-    let regex = new RegExp("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
-    return !(regex.test(this.lgEmail) && this.lgEmail != null && this.lgEmail.length > 0) && this.submitted;
-  }
-
-  isPasswordInvalid(): boolean {
-    return !(this.lgPassword != null && this.lgPassword.length > 0) && this.submitted;
-  }
-
-  isCaptchaInvalid(): boolean {
-    return !(this.captcha != null && this.captcha.length > 0) && this.submitted;
-  }
-
-  isFormValid(): boolean {
+  override isFormValid(): boolean {
     return !this.isEmailInvalid() && !this.isPasswordInvalid() && !this.isCaptchaInvalid();
   }
 
-  isLoginInvalid(): boolean {
-    return !(this.loginValid) && this.submitted;
+  fetchService(): UserService<any> {
+    switch (this.currenUserCategory.name) {
+      case(adminCategory.name):
+        return this.adminService;
+      case(businessCategory.name):
+        return this.businessService;
+      case(customerCategory.name):
+        return this.customerService;
+      case(deliveryPersonCategory.name):
+        return this.deliveryPersonService;
+      case(deliveryServiceCategory.name):
+        return this.deliveryServiceService;
+    }
+    return this.customerService;
   }
 
-  isCustomerType(): boolean {
-    return this.currenUserCategory.userType === UserType.CUSTOMER;
+  isEmailInvalid(): boolean {
+    return !(this.isEmailProper(this.emailInput) && this.emailInput.length > 0) && this.isSubmitted;
+  }
+
+  isPasswordInvalid(): boolean {
+    return !(this.passwordInput.length > 0) && this.isSubmitted;
+  }
+
+  isLoginInvalid(): boolean {
+    return !(this.isLoginValid) && this.isSubmitted;
   }
 
   isPartnerType(): boolean {
     return this.currenUserCategory.userType === UserType.PARTNER;
   }
 
-  public get currenUserCategory(): UserCategory {
+  get currenUserCategory(): UserCategory {
     try {
-      // @ts-ignore
-      let jsonString: string = sessionStorage.getItem(UserCategory.name)
-      this._currentUserCategory = JSON.parse(jsonString);
-
-    } catch (e: any) {}
+      this._currentUserCategory = UserCategory.fromJson(sessionStorage.getItem(UserCategory.name));
+    } catch (e: any) {
+    }
     return this._currentUserCategory;
+  }
+
+  getOppositeUserType(): UserType {
+    return this.isPartnerType() ? UserType.CUSTOMER : UserType.PARTNER;
+  }
+
+  switchUserType() {
+    if (this.isPartnerType()) {
+      sessionStorage.setItem(UserCategory.name, JSON.stringify(customerCategory));
+    } else {
+      this.router.navigate(['/partner-selection'], {relativeTo: this.route}).then();
+    }
   }
 }

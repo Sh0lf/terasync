@@ -26,9 +26,6 @@
   padding: 10px 10px 10px 10px;
 }
 
-.sign-form-elem span {
-  text-align: center;
-}
 #sign-form-message-success {
   display: none;
 }
@@ -37,13 +34,13 @@
   width: 100%;
 }
 
-#sign-form-robot, #sign-form-validate-error {
-  color: #B81111;
-}
-
-.validation-label {
+.validation-span {
   color: #B81111;
   font-size: 13px;
+}
+
+.centered-span {
+  text-align: center;
 }
 
 .sign-form-elem {
@@ -71,7 +68,7 @@
   text-indent: 10px;
 }
 
-.sign-form-elem button {
+.default-button {
   background: #d9d9d9;
   border-radius: 40px;
   border: #d9d9d9 solid 2px;
@@ -82,9 +79,22 @@
   transition: background-color 0.2s ease-in-out;
 }
 
-.sign-form-elem button:hover {
+.default-button:hover {
   background: #69A6E3;;
   border: #69A6E3 solid 2px;
+}
+
+.href-button {
+  font-weight: 500;
+  font-size: 16px;
+  border: transparent;
+  background: transparent;
+  text-decoration: none;
+  color: #69A6E3;
+}
+
+.href-button:hover {
+  cursor: pointer;
 }
 
 a {

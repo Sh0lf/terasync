@@ -3,37 +3,37 @@
     <div id="sign-form-body-div">
       <div class="sign-form-elem">
         <h1>Login</h1></div>
-        <h3 *ngIf="isPartnerType()">As {{ currenUserCategory.name }}</h3>
+      <h3 *ngIf="isPartnerType()">As {{ currenUserCategory.name }}</h3>
       <div class="sign-form-elem">
-        <label for="lgEmail">Email:</label>
-        <input type="email" id="lgEmail" [(ngModel)]="lgEmail" name="lgEmail">
-        <label class="validation-label" *ngIf="isEmailInvalid()">Email field is required.</label>
+        <label for="email-input">Email:</label>
+        <input type="email" id="email-input" [(ngModel)]="emailInput" name="lgEmail">
+        <span class="validation-span" *ngIf="isEmailInvalid()">Email field is required.</span>
       </div>
 
       <div class="sign-form-elem">
-        <label for="lgPassword">Password:</label>
-        <input type="password" id="lgPassword" [(ngModel)]="lgPassword" name="lgPassword">
-        <label class="validation-label" *ngIf="isPasswordInvalid()">Password field is required.</label>
+        <label for="password-input">Password:</label>
+        <input type="password" id="password-input" [(ngModel)]="passwordInput" name="lgPassword">
+        <span class="validation-span" *ngIf="isPasswordInvalid()">Password field is required.</span>
       </div>
       <div class="sign-form-elem">
         <re-captcha (resolved)="resolved($event)"></re-captcha>
-        <label class="validation-label" *ngIf="isCaptchaInvalid()">Please verify that you're not a robot.</label>
+        <span class="validation-span centered-span" *ngIf="isCaptchaInvalid()">Please verify that you're not a robot.</span>
       </div>
       <div class="separation-line-small"></div>
-      <label class="validation-label" *ngIf="isLoginInvalid()">Invalid Login</label>
+      <span class="validation-span" *ngIf="isLoginInvalid()">Invalid Email / Password</span>
 
       <div class="sign-form-elem">
-        <button type="submit">Login</button>
+        <button class="default-button" type="submit">Login</button>
       </div>
 
       <div class="sign-form-elem">
         <a href="">Forgot Password</a>
       </div>
-      <div class="sign-form-elem">
-        <span>Don't have an account?<a href=""> Register</a></span>
+      <div class="sign-form-elem" *ngIf="!isPartnerType()">
+        <span class="centered-span">Don't have an account?<a href="/registration"> Register</a></span>
       </div>
       <div class="sign-form-elem">
-        <span>Are you a partner?<a href="/partner-selection"> Login here</a></span>
+        <span class="centered-span">Are you a {{ getOppositeUserType() }}?<button type="button" class="href-button" (click)="switchUserType()"> Login here</button></span>
       </div>
     </div>
   </div>

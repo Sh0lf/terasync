@@ -12,4 +12,6 @@ export class CustomerService extends UserService<Customer> {
   constructor(http: HttpClient) {
     super(http, "customer");
   }
+
+
 }
