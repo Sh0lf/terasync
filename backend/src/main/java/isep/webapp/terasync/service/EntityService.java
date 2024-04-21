@@ -25,11 +25,6 @@ public abstract class EntityService<T, R extends JpaRepository<T, Integer>> {
                 orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
     }
 
-    // todo - need to make a generic entity repository
-//    public T findEntityByField(String field, String value) {
-//        return entityRepository.findEntityByField(field, value);
-//    }
-
     public T updateEntity(T entity) {
         return entityRepository.save(entity);
     }

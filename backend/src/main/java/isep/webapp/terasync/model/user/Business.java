@@ -27,6 +27,8 @@ public class Business extends User {
     private String username;
     @Column(name = "password")
     private String password;
+    @Column(name = "token")
+    private String token;
     @Column(name = "registrationDate")
     @CreationTimestamp
     private String registrationDate;

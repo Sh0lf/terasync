@@ -1,17 +1,20 @@
-import {Component, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NgIf} from "@angular/common";
 import {RECAPTCHA_SETTINGS, RecaptchaModule} from "ng-recaptcha";
 import {environment} from "../../../../environment/environment.prod";
-import {Authentication} from "../authentication";
+import {AuthenticationComponent} from "../authentication-component";
 import {FormsModule} from "@angular/forms";
 import {CustomerService} from "../../../service/user/customer.service";
 import {Customer} from "../../../model/user/customer";
 import {HttpErrorResponse} from "@angular/common/http";
 import bcrypt from "bcryptjs";
 import {ActivatedRoute, Router} from "@angular/router";
+import {EmailService} from "../../../service/email.service";
+import {Email} from "../../../model/email";
+import {InternalObjectService} from "../../../service/internal-object.service";
 
 @Component({
-  selector: 'app-registration',
+  selector: 'app-register',
   standalone: true,
   imports: [
     NgIf,
@@ -28,7 +31,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css', '../commonCss/auth.styles.css', '../../main/main.component.scss']
 })
-export class RegisterComponent extends Authentication implements OnChanges {
+export class RegisterComponent extends AuthenticationComponent {
   // Form fields
   protected firstNameInput: string = "";
   protected lastNameInput: string = "";
@@ -40,21 +43,19 @@ export class RegisterComponent extends Authentication implements OnChanges {
   // Logic Fields
   protected isEmailExists: boolean = false;
 
-
   constructor(private customerService: CustomerService,
+              private internalObjectService: InternalObjectService<{
+                verificationCodeHash: string,
+                customer: Customer
+              }>,
+              private emailService: EmailService,
               private router: Router, private route: ActivatedRoute) {
     super();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log("Changes: ", changes)
-    if (changes["inputEmail"]) {
-      console.log("Email changed");
-    }
-  }
-
   override onSubmit() {
     super.onSubmit();
+
     this.checkEmail().then(() => {
       if (this.isFormValid()) {
         // Generating hash from password with bcrypt (one of the packages that is used for hashing passwords)
@@ -63,13 +64,39 @@ export class RegisterComponent extends Authentication implements OnChanges {
             this.firstNameInput, this.lastNameInput, this.emailInput,
             this.usernameInput, hash
           );
-          this.customerService.addEntity(newCustomer).subscribe({
-            next: (customer: Customer) => {
-              this.router.navigate(['/register-success'], {relativeTo: this.route}).then();
-            },
-            error: (error: HttpErrorResponse) => {
-              console.log("Error: ", error);
-            }
+          // Generating random number for the verification code
+          let code = Math.floor(Math.random() * 100000);
+          console.log("Code: ", code);
+          // Creating another hash for the verification code
+          bcrypt.hash(String(code), 5, (err, hash) => {
+            let email: Email = Email.verificationEmail(this.emailInput, code);
+            console.log("Email: ", email);
+            this.emailService.sendEmail(email).subscribe({
+              next: (success: boolean) => {
+                if (success) {
+                  // Adding the new customer to the database
+                  this.customerService.addEntity(newCustomer).subscribe({
+                    next: (newCustomer: Customer) => {
+                      if (newCustomer != null) {
+                        console.log("Customer added: ", newCustomer);
+                        this.internalObjectService.setObject({verificationCodeHash: hash, customer: newCustomer});
+                        this.router.navigate(['/register-success'], {relativeTo: this.route}).then();
+                      } else {
+                        console.log("Error, customer is null");
+                      }
+                    },
+                    error: (error: HttpErrorResponse) => {
+                      console.log("Error in adding new customer: ", error);
+                    }
+                  });
+                } else {
+                  console.log("Error, email not sent");
+                }
+              },
+              error: (error: HttpErrorResponse) => {
+                console.log("Error in sending email: ", error);
+              }
+            })
           });
         });
       }
@@ -77,7 +104,7 @@ export class RegisterComponent extends Authentication implements OnChanges {
   }
 
   override isFormValid(): boolean {
-    return !this.isCaptchaInvalid() && !this.isEmailExists && !this.isPasswordsNotMatch()
+    return !this.isCaptchaInvalid() && !this.isEmailExists && !this.isPasswordsNotMatch() && !this.isPasswordDirty()
   }
 
   isFirstNameInvalid(): boolean {

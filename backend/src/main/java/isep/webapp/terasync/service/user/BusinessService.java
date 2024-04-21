@@ -17,4 +17,14 @@ public class BusinessService extends UserService<Business, BusinessRepository> {
     public Business findByEmail(String email) {
         return entityRepository.findByEmail(email);
     }
+
+    @Override
+    public Business findByToken(String token) {
+        return entityRepository.findByToken(token);
+    }
+
+    @Override
+    public Integer updatePassword(String email, String password) {
+        return entityRepository.updatePassword(email, password);
+    }
 }

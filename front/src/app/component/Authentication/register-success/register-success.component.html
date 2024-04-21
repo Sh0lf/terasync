@@ -1,19 +1,24 @@
-<div id="sign-form-body">
-  <div id="sign-form-body-div">
-    <div class="sign-form-elem">
-      <h1>Validate your email</h1>
-    </div>
-    <div class="sign-form-elem">
-      <span id="sign-form-message">Email Has Been Validated Successfully</span>
-      <span id="sign-form-message-success">Your email has been validated. You can now<a href="/login">Login</a></span>
-    </div>
-    <div class="sign-form-elem" id="sign-form-input-div">
-      <label for="verificationCode-input">Verification Code:</label>
-      <input type="text" id="verificationCode-input" name="verificationCode-input">
-      <span class="validation-span">The verification code is incorrect.</span>
-    </div>
-    <div class="sign-form-elem" id="submit-button-div">
-      <button class="default-button" type="button" name="submit-button">Validate Email</button>
+<form #form="ngForm" (ngSubmit)="onSubmit()" name="registerSuccessForm">
+  <div class="sign-form-body">
+    <div class="sign-form-body-div">
+      <div class="sign-form-elem">
+        <h1>Validate your email</h1>
+      </div>
+      <div class="sign-form-elem" *ngIf="isCodeValid">
+        <span class="centered-span">Your email has been validated successfully.</span>
+        <span class="centered-span">You can now <a href="/login">Login.</a></span>
+      </div>
+      <div class="sign-form-elem">
+        <span *ngIf="!isCodeValid">A Code has been sent to your email address.</span>
+      </div>
+      <div class="sign-form-elem" *ngIf="!isCodeValid">
+        <label for="verificationCodeInput">Verification Code:</label>
+        <input type="text" id="verificationCodeInput" [(ngModel)]="verificationCodeInput" name="verificationCodeInput">
+        <span class="validation-span" *ngIf="isCodeInvalid()">The verification code is incorrect.</span>
+      </div>
+      <div class="sign-form-elem" *ngIf="!isCodeValid">
+        <button class="default-button" type="submit" name="submit-button">Validate Email</button>
+      </div>
     </div>
   </div>
-</div>
+</form>

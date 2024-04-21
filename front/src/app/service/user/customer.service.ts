@@ -13,5 +13,7 @@ export class CustomerService extends UserService<Customer> {
     super(http, "customer");
   }
 
-
+  public verifyEmail(email: String): Observable<number> {
+    return this.http.get<number>(`${this.apiServerUrl}/${this.entityName}/verify-email/${email}`);
+  }
 }

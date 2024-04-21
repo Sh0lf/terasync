@@ -1,58 +1,63 @@
-<form  #form="ngForm" (ngSubmit)="onSubmit()" id="signup-form" name="signup-form" method="post">
-  <div id="sign-form-body-div" class="text-font-700">
-    <div class="sign-form-elem">
-      <h1>Create an Account</h1>
-    </div>
-    <div class="sign-form-elem">
-      <label for="firstName-input">First Name:</label>
-      <input type="text" id="firstName-input" [(ngModel)]="firstNameInput" name="firstName-input">
-      <span class="validation-span" *ngIf="isFirstNameInvalid()">First Name field is required.</span>
-    </div>
-    <div class="sign-form-elem">
-      <label for="lastName-input">Last Name:</label>
-      <input type="text" id="lastName-input" [(ngModel)]="lastNameInput" name="lastName-input">
-      <span class="validation-span" *ngIf="isLastNameInvalid()">Last Name field is required.</span>
-    </div>
-    <div class="sign-form-elem">
-      <label for="email-input">Email:</label>
-      <input type="email" id="email-input" [(ngModel)]="emailInput" name="email-input">
-      <span class="validation-span" *ngIf="isEmailInvalid()">Email field is required.</span>
-      <span class="validation-span" *ngIf="isEmailExists">Email already exists.</span>
-    </div>
-    <div class="sign-form-elem">
-      <label for="username-input">Username:</label>
-      <input type="text" id="username-input" [(ngModel)]="usernameInput" name="username-input">
-      <span class="validation-span" *ngIf="isUsernameInvalid()">Username field is required.</span>
-    </div>
-    <div class="sign-form-elem">
-      <label for="password-input">Password:</label>
-      <input type="password" id="password-input" [(ngModel)]="passwordInput" name="password-input">
-      <span class="validation-span" *ngIf="isPasswordInvalid()">Password field is required.</span>
-      <span class="validation-span" *ngIf="isPasswordDirty()">
+<form #form="ngForm" (ngSubmit)="onSubmit()" name="registerForm">
+  <div class="sign-form-body">
+    <div class="sign-form-body-div">
+      <div class="sign-form-elem">
+        <h1>Create an Account</h1>
+      </div>
+      <div class="sign-form-elem">
+        <label for="firstName-input">First Name:</label>
+        <input type="text" id="firstName-input" [(ngModel)]="firstNameInput" name="firstName-input">
+        <span class="validation-span" *ngIf="isFirstNameInvalid()">First Name field is required.</span>
+      </div>
+      <div class="sign-form-elem">
+        <label for="lastName-input">Last Name:</label>
+        <input type="text" id="lastName-input" [(ngModel)]="lastNameInput" name="lastName-input">
+        <span class="validation-span" *ngIf="isLastNameInvalid()">Last Name field is required.</span>
+      </div>
+      <div class="sign-form-elem">
+        <label for="email-input">Email:</label>
+        <input type="email" id="email-input" [(ngModel)]="emailInput" name="email-input">
+        <span class="validation-span" *ngIf="isEmailInvalid()">Email field is required.</span>
+        <span class="validation-span" *ngIf="isEmailExists">Email already exists.</span>
+      </div>
+      <div class="sign-form-elem">
+        <label for="username-input">Username:</label>
+        <input type="text" id="username-input" [(ngModel)]="usernameInput" name="username-input">
+        <span class="validation-span" *ngIf="isUsernameInvalid()">Username field is required.</span>
+      </div>
+      <div class="sign-form-elem">
+        <label for="password-input">Password:</label>
+        <input type="password" id="password-input" [(ngModel)]="passwordInput" name="password-input">
+        <span class="validation-span" *ngIf="isPasswordInvalid()">Password field is required.</span>
+        <span class="validation-span" *ngIf="isPasswordDirty()">
         Password must have at least one lowercase and uppercase letter, one number, and 8 characters long.</span>
-    </div>
-    <div class="sign-form-elem">
-      <label for="passwordConfirmation-input">Password Confirmation:</label>
-      <input type="password" id="passwordConfirmation-input" [(ngModel)]="confirmPasswordInput" name="passwordConfirmation-input">
-      <span class="validation-span" *ngIf="isConfirmPasswordInvalid()">Confirm Password field is required.</span>
-      <span class="validation-span" *ngIf="isPasswordsNotMatch()">Passwords do not match.</span>
-    </div>
-    <div class="sign-form-elem">
-      <re-captcha (resolved)="resolved($event)"></re-captcha>
-      <label class="validation-span centered-span" *ngIf="isCaptchaInvalid()">Please verify that you're not a robot.</label>
-    </div>
-    <div class="separation-line-small"></div>
-    <div class="sign-form-elem">
-      <button class="default-button" type="submit" id="sign-submit-button" name="submit-button">Create an Account</button>
-    </div>
-    <div class="sign-form-elem">
+      </div>
+      <div class="sign-form-elem">
+        <label for="passwordConfirmation-input">Password Confirmation:</label>
+        <input type="password" id="passwordConfirmation-input" [(ngModel)]="confirmPasswordInput"
+               name="passwordConfirmation-input">
+        <span class="validation-span" *ngIf="isConfirmPasswordInvalid()">Confirm Password field is required.</span>
+        <span class="validation-span" *ngIf="isPasswordsNotMatch()">Passwords do not match.</span>
+      </div>
+      <div class="sign-form-elem">
+        <re-captcha (resolved)="resolved($event)"></re-captcha>
+        <label class="validation-span centered-span" *ngIf="isCaptchaInvalid()">Please verify that you're not a
+          robot.</label>
+      </div>
+      <div class="separation-line-small"></div>
+      <div class="sign-form-elem">
+        <button class="default-button" type="submit" name="submit-button">Create an Account
+        </button>
+      </div>
+      <div class="sign-form-elem">
             <span>By creating an account, you agree to Terasync's
               <a href="">Conditions of Use</a>
               and
               <a href="">Privacy Notice</a>.</span>
-    </div>
-    <div class="sign-form-elem">
-      <p>Already have an account? <a href="/login">Login here &rarr;</a></p>
+      </div>
+      <div class="sign-form-elem">
+        <p>Already have an account? <a href="/login">Login here &rarr;</a></p>
+      </div>
     </div>
   </div>
 </form>

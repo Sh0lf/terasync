@@ -23,6 +23,8 @@ public class DeliveryService extends User {
     private String username;
     @Column(name = "password")
     private String password;
+    @Column(name = "token")
+    private String token;
     @CreationTimestamp
     @Column(name = "registrationDate")
     private String registrationDate;

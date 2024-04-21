@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterOutlet} from '@angular/router';
 import {HttpClientModule, HttpErrorResponse} from "@angular/common/http";
 import {NgForOf, NgIf} from "@angular/common";
@@ -21,9 +21,9 @@ import {DeliveryServiceService} from "../../../service/user/delivery-service.ser
 import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
 import {UserService} from "../../../service/user/user.service";
 import {User} from "../../../model/user/user";
-import {Authentication} from "../authentication";
+import {AuthenticationComponent} from "../authentication-component";
 import bcrypt from "bcryptjs";
-import {Customer} from "../../../model/user/customer";
+import {SessionStorageKeys} from "../../session-storage-keys";
 
 // @ts-ignore
 @Component({
@@ -45,14 +45,13 @@ import {Customer} from "../../../model/user/customer";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css', '../commonCss/auth.styles.css', '../../main/main.component.scss']
 })
-export class LoginComponent extends Authentication {
+export class LoginComponent extends AuthenticationComponent implements OnInit{
   // Form fields
   protected emailInput: string = "";
   protected passwordInput: string = "";
 
   // Logic Fields
   protected isLoginValid: boolean = false;
-  protected _currentUserCategory: UserCategory = customerCategory;
 
   constructor(private customerService: CustomerService,
               private businessService: BusinessService,
@@ -61,6 +60,14 @@ export class LoginComponent extends Authentication {
               private deliveryPersonService: DeliveryPersonService,
               private router: Router, private route: ActivatedRoute) {
     super();
+  }
+
+  ngOnInit(): void {
+    try {
+      if(sessionStorage.getItem(SessionStorageKeys.USER_CATEGORY) == null) {
+        sessionStorage.setItem(SessionStorageKeys.USER_CATEGORY, JSON.stringify(customerCategory));
+      }
+    } catch (e) {}
   }
 
   override onSubmit() {
@@ -123,21 +130,13 @@ export class LoginComponent extends Authentication {
     return this.currenUserCategory.userType === UserType.PARTNER;
   }
 
-  get currenUserCategory(): UserCategory {
-    try {
-      this._currentUserCategory = UserCategory.fromJson(sessionStorage.getItem(UserCategory.name));
-    } catch (e: any) {
-    }
-    return this._currentUserCategory;
-  }
-
   getOppositeUserType(): UserType {
     return this.isPartnerType() ? UserType.CUSTOMER : UserType.PARTNER;
   }
 
   switchUserType() {
     if (this.isPartnerType()) {
-      sessionStorage.setItem(UserCategory.name, JSON.stringify(customerCategory));
+      sessionStorage.setItem(SessionStorageKeys.USER_CATEGORY, JSON.stringify(customerCategory));
     } else {
       this.router.navigate(['/partner-selection'], {relativeTo: this.route}).then();
     }

@@ -4,9 +4,11 @@ CREATE TABLE Customer
     customerId       INT IDENTITY (1, 1) PRIMARY KEY,
     firstName        VARCHAR(255) NOT NULL,
     lastName         VARCHAR(255) NOT NULL,
-    email            VARCHAR(255) NOT NULL,
+    email            VARCHAR(255) NOT NULL UNIQUE,
     username         VARCHAR(255) NOT NULL,
     password         VARCHAR(255) NOT NULL,
+    token            VARCHAR(255),
+    isEmailVerified  BIT          NOT NULL DEFAULT (0),
     registrationDate DATETIME     NOT NULL DEFAULT (GETDATE())
 );
 
@@ -15,9 +17,10 @@ CREATE TABLE Admin
     adminId          INT IDENTITY (1, 1) PRIMARY KEY,
     firstName        VARCHAR(255) NOT NULL,
     lastName         VARCHAR(255) NOT NULL,
-    email            VARCHAR(255) NOT NULL,
+    email            VARCHAR(255) NOT NULL UNIQUE,
     username         VARCHAR(255) NOT NULL,
     password         VARCHAR(255) NOT NULL,
+    token            VARCHAR(255),
     registrationDate DATETIME     NOT NULL DEFAULT (GETDATE())
 );
 
@@ -27,9 +30,10 @@ CREATE TABLE Business
     name             VARCHAR(255) NOT NULL,
     address          VARCHAR(255) NOT NULL,
     phone            VARCHAR(255) NOT NULL,
-    email            VARCHAR(255) NOT NULL,
+    email            VARCHAR(255) NOT NULL UNIQUE,
     username         VARCHAR(255) NOT NULL,
     password         VARCHAR(255) NOT NULL,
+    token            VARCHAR(255),
     registrationDate DATETIME     NOT NULL DEFAULT (GETDATE())
 );
 
@@ -37,9 +41,10 @@ CREATE TABLE DeliveryService
 (
     deliveryServiceId INT IDENTITY (1, 1) PRIMARY KEY,
     name              VARCHAR(255) NOT NULL,
-    email             VARCHAR(255) NOT NULL,
+    email             VARCHAR(255) NOT NULL UNIQUE,
     username          VARCHAR(255) NOT NULL,
     password          VARCHAR(255) NOT NULL,
+    token             VARCHAR(255),
     registrationDate  DATETIME     NOT NULL DEFAULT (GETDATE())
 );
 
@@ -48,9 +53,10 @@ CREATE TABLE DeliveryPerson
     deliveryPersonId  INT IDENTITY (1, 1) PRIMARY KEY,
     firstName         VARCHAR(255) NOT NULL,
     lastName          VARCHAR(255) NOT NULL,
-    email             VARCHAR(255) NOT NULL,
+    email             VARCHAR(255) NOT NULL UNIQUE,
     username          VARCHAR(255) NOT NULL,
     password          VARCHAR(255) NOT NULL,
+    token             VARCHAR(255),
     registrationDate  DATETIME     NOT NULL DEFAULT (GETDATE()),
     deliveryServiceId INT          NOT NULL,
     constraint deliveryService_deliveryPerson_fk FOREIGN KEY (deliveryServiceId) REFERENCES DeliveryService (deliveryServiceId)
@@ -221,4 +227,3 @@ CREATE TABLE Faq
     question VARCHAR(255) NOT NULL,
     answer   VARCHAR(255) NOT NULL
 );
-

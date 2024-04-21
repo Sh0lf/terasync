@@ -9,4 +9,6 @@ public abstract class UserService<T, R extends JpaRepository<T, Integer>> extend
         super(entityRepository);
     }
     public abstract T findByEmail(String email);
+    public abstract T findByToken(String token);
+    public abstract Integer updatePassword(String email, String password);
 }

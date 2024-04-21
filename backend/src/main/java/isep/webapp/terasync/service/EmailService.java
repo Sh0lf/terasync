@@ -1,25 +1,47 @@
 package isep.webapp.terasync.service;
 
-import org.springframework.mail.SimpleMailMessage;
+import isep.webapp.terasync.model.Email;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 @Service
 public class EmailService {
     private final JavaMailSender mailSender;
+    private final TemplateEngine templateEngine;
 
-    public EmailService(JavaMailSender mailSender) {
+
+    public EmailService(JavaMailSender mailSender, TemplateEngine templateEngine) {
         this.mailSender = mailSender;
+        this.templateEngine = templateEngine;
     }
 
-    public void sendEmail(String to, String subject, String body) {
-        SimpleMailMessage message = new SimpleMailMessage();
+    public void sendEmail(Email email) throws MessagingException {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "UTF-8");
 
-        message.setFrom(to);
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(body);
+        mimeMessageHelper.setFrom("petconnecttest@gmail.com");
+        mimeMessageHelper.setTo(email.getTo());
+        mimeMessageHelper.setSubject(email.getSubject());
 
-        mailSender.send(message);
+        System.out.println("ishtml: " + email.isHTML());
+
+        if(email.isHTML()) {
+            Context context = new Context();
+            context.setVariable("message", email.getBody());
+            String processedString = templateEngine.process("password-recovery-template", context);
+
+            mimeMessageHelper.setText(processedString, true);
+        } else {
+            mimeMessageHelper.setText(email.getBody(), false);
+        }
+
+        mailSender.send(mimeMessage);
+
+
     }
 }

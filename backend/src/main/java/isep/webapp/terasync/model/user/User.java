@@ -8,5 +8,6 @@ public abstract class User extends Entity {
     public abstract String getEmail();
     public abstract String getUsername();
     public abstract String getPassword();
+    public abstract String getToken();
     public abstract String getRegistrationDate();
 }

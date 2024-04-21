@@ -1,4 +1,4 @@
-#sign-form-body, #signup-form {
+.sign-form-body {
   margin: 0 0 0 0;
   display: flex;
   flex-direction: column;
@@ -6,7 +6,7 @@
   align-items: center;
 }
 
-#sign-form-body-div {
+.sign-form-body-div {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -22,12 +22,8 @@
   text-align: center;
 }
 
-#sign-form-body-div .sign-form-elem  {
+.sign-form-body-div .sign-form-elem  {
   padding: 10px 10px 10px 10px;
-}
-
-#sign-form-message-success {
-  display: none;
 }
 
 .sign-form-elem label, .sign-form-elem span, .sign-form-elem input {

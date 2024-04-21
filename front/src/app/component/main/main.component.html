@@ -1,10 +1,10 @@
-<!--Header doesn't show on login page-->
-<app-header *ngIf="!isCurrentRoute('/login', '/partner-selection', '/registration', '/register-success')"></app-header>
+<!--Header doesn't show on selected pages-->
+<app-header *ngIf="isNotExcludedHeaderRoute()"></app-header>
 
 <!--Application contents-->
 <div>
   <router-outlet></router-outlet>
 </div>
 
-<!--Footer, doesn't show on login page-->
-<app-footer *ngIf="!isCurrentRoute('/login', '/partner-selection', '/registration', '/register-success')"></app-footer>
+<!--Footer, doesn't show on selected pages-->
+<app-footer *ngIf="isNotExcludedFooterRoute()"></app-footer>

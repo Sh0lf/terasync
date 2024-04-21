@@ -22,7 +22,7 @@ public abstract class EntityController<T, S extends EntityService<T, ?>> {
     }
 
     // also testing
-    @GetMapping("/findById/{id}")
+    @GetMapping("/find-by-id/{id}")
     public ResponseEntity<T> findEntityById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(entityService.findEntityById(id));
     }
@@ -40,7 +40,7 @@ public abstract class EntityController<T, S extends EntityService<T, ?>> {
     @GetMapping("/delete/{id}")
     public ResponseEntity<Void> deleteEntity(@PathVariable("id") Integer id) {
         entityService.deleteEntity(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
 
