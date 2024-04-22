@@ -3,13 +3,14 @@ import {customerCategory, userCategories, UserCategory} from "../../../service/u
 import {NgForOf, NgIf} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SessionStorageKeys} from "../../session-storage-keys";
+import {LogoComponent} from "../../logo/logo.component";
 
 @Component({
   selector: 'app-partner-selection',
   standalone: true,
   imports: [
     NgForOf,
-    NgIf
+    NgIf, LogoComponent
   ],
   templateUrl: './partner-selection.component.html',
   styleUrls: ['../commonCss/auth.styles.scss', './partner-selection.component.css']
