@@ -55,27 +55,33 @@ export class RegisterSuccessComponent extends FormComponent implements OnInit {
   }
 
   override onSubmit() {
-    if (this.isFormValid() && this.verificationCodeHash != null) {
-      bcrypt.compare(this.verificationCodeInput, this.verificationCodeHash).then(successCompare => {
-        if (successCompare) {
-          console.log('Code is valid');
-          this.customerService.verifyEmail(this.inputObject.customer.email).subscribe({
+    new Promise<boolean>((resolve, reject) => {
+      if (this.isFormValid() && this.verificationCodeHash != null) {
+        bcrypt.compare(this.verificationCodeInput, this.verificationCodeHash).then(successCompare => {
+          if (successCompare) {
+            console.log('Code is valid');
+            this.customerService.verifyEmail(this.inputObject.customer.email).subscribe({
               next: (successEmail: number) => {
                 if(successEmail == 1) {
                   console.log('Email is verified');
-                  this.isCodeValid = successCompare;
+                  resolve(true);
                 }
               },
               error: (error: HttpErrorResponse) => {
                 console.log('Email is not verified, HTTP ERROR');
+                resolve(false);
               }
-          });
-        } else {
-          console.log('Code is invalid');
-        }
-        super.onSubmit();
-      });
-    }
+            });
+          } else {
+            console.log('Code is invalid');
+            resolve(false);
+          }
+        });
+      }
+    }).then((success) => {
+      this.isCodeValid = success;
+      super.onSubmit();
+    });
   }
 
   isCodeInvalid(): boolean {

@@ -24,6 +24,8 @@ import {User} from "../../../model/user/user";
 import {AuthenticationComponent} from "../authentication-component";
 import bcrypt from "bcryptjs";
 import {SessionStorageKeys} from "../../session-storage-keys";
+import {makeRandom, makeRandomToken} from "../../functions";
+import {Customer} from "../../../model/user/customer";
 
 // @ts-ignore
 @Component({
@@ -71,27 +73,63 @@ export class LoginComponent extends AuthenticationComponent implements OnInit{
   }
 
   override onSubmit() {
-    super.onSubmit();
+    new Promise<boolean>((resolve, reject) => {
+      if (this.isFormValid()) {
+        this.fetchService().findUserByEmail(this.emailInput).subscribe({
+          next: (jsonUser: User) => {
+            if(jsonUser != null) {
+              if(this.currenUserCategory.userType == UserType.CUSTOMER) {
+                console.log("isVerified: " +(jsonUser as Customer).isEmailVerified);
+              }
 
-    if (this.isFormValid()) {
-      this.fetchService().findUserByEmail(this.emailInput).subscribe({
-        error: (error: HttpErrorResponse) => {
-          console.log('Login is invalid, HTTP ERROR');
-        },
-        next: (jsonUser: User) => {
-          bcrypt.compare(this.passwordInput, jsonUser.password).then(success => {
-            this.isLoginValid = success;
-            if (this.isLoginValid) {
-              console.log('Login is valid');
+              bcrypt.compare(this.passwordInput, jsonUser.password).then(success => {
+                if (success) {
+                  // CREATE A TOKEN AND STORE IT IN SESSION STORAGE
+                  const token = makeRandomToken();
+                  this.fetchService().updateToken(jsonUser.email, token).subscribe({
+                    next: (success: number) => {
+                      if (success == 1) {
+                        console.log('Token updated');
+                        sessionStorage.setItem(SessionStorageKeys.USER_TOKEN, token);
+                        resolve(true);
+                      } else {
+                        console.error('Token not updated');
+                        resolve(false);
+                      }
+                    },
+                    error: (error: HttpErrorResponse) => {
+                      console.error('HTTP Error: Token not updated');
+                      resolve(false);
+                    }
+                  });
+                  console.log('Login is valid');
+                } else {
+                  console.log('Login is invalid');
+                  resolve(false);
+                }
+              });
             } else {
               console.log('Login is invalid');
+              resolve(false);
             }
-          });
-        },
-      });
-    } else {
-      console.log('Login is invalid');
-    }
+          },
+          error: (error: HttpErrorResponse) => {
+            console.log('Login is invalid, HTTP ERROR');
+            resolve(false);
+          }
+        });
+      } else {
+        console.log('Login is invalid');
+        resolve(false);
+      }
+    }).then(success  => {
+      this.isLoginValid = success;
+      super.onSubmit();
+
+      console.log("submitted: " + this.isSubmitted);
+      console.log("isLoginValid: " + this.isLoginValid)
+      console.log("here: " + this.isLoginInvalid());
+    });
   }
 
   override isFormValid(): boolean {

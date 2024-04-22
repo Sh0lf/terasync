@@ -14,6 +14,7 @@ public class CustomerService extends UserService<Customer, CustomerRepository> {
         super(customerRepository);
     }
 
+    @Override
     public Customer findByEmail(String email) {
         return entityRepository.findByEmail(email);
     }
@@ -29,8 +30,15 @@ public class CustomerService extends UserService<Customer, CustomerRepository> {
     }
 
     @Transactional
+    @Override
     public Integer updatePassword(String email, String password) {
         return entityRepository.updatePassword(email, password);
+    }
+
+    @Transactional
+    @Override
+    public Integer updateToken(String email, String token) {
+        return entityRepository.updateToken(email, token);
     }
 
 }

@@ -1,12 +1,15 @@
 import {User} from "./user";
 
-export abstract class Admin extends User{
-  adminId: number;
+export class Admin extends User{
+  adminId: number | undefined;
   firstName: string;
   lastName: string;
 
-  protected constructor(email: string, username: string, password: string, registrationDate: string, adminId: number, firstName: string, lastName: string) {
-    super(email, username, password, registrationDate);
+  constructor(firstName: string, lastName: string, email: string,
+              username: string, password: string,
+              adminId?: number | undefined,
+              registrationDate?: string | undefined,  token?: string | undefined) {
+    super(email, username, password, registrationDate, token);
     this.adminId = adminId;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -16,7 +19,16 @@ export abstract class Admin extends User{
     return this.firstName + " " + this.lastName;
   }
 
-  override getUserId(): number {
+  override getUserId(): number | undefined {
     return this.adminId;
+  }
+
+  createInstance(jsonString: Admin): Admin {
+    return new Admin(
+      jsonString.firstName, jsonString.lastName, jsonString.email,
+      jsonString.username, jsonString.password,
+      jsonString.adminId,
+      jsonString.registrationDate, jsonString.token
+    )
   }
 }

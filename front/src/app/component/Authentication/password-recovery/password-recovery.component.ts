@@ -22,7 +22,7 @@ import {
 import {EmailService} from "../../../service/email.service";
 import {Email} from "../../../model/email";
 import {HttpErrorResponse} from "@angular/common/http";
-import {makeRandom} from "../../functions";
+import {makeRandom, makeRandomToken} from "../../functions";
 import {SessionStorageKeys} from "../../session-storage-keys";
 
 @Component({
@@ -84,7 +84,7 @@ export class PasswordRecoveryComponent extends AuthenticationComponent implement
                 next: (success: boolean) => {
                   if (success) {
                     console.log('Email sent');
-                    this.userToken = makeRandom(20);
+                    this.userToken = makeRandomToken();
                     sessionStorage.setItem(SessionStorageKeys.USER_TOKEN, this.userToken);
                   } else {
                     console.error('Email not sent');

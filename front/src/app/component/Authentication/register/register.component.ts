@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {NgIf} from "@angular/common";
 import {RECAPTCHA_SETTINGS, RecaptchaModule} from "ng-recaptcha";
 import {environment} from "../../../../environment/environment.prod";
@@ -54,52 +54,56 @@ export class RegisterComponent extends AuthenticationComponent {
   }
 
   override onSubmit() {
-    super.onSubmit();
+    // super.onSubmit();
 
-    this.checkEmail().then(() => {
-      if (this.isFormValid()) {
-        // Generating hash from password with bcrypt (one of the packages that is used for hashing passwords)
-        bcrypt.hash(this.passwordInput, 10, (err, hash) => {
-          let newCustomer = new Customer(
-            this.firstNameInput, this.lastNameInput, this.emailInput,
-            this.usernameInput, hash
-          );
-          // Generating random number for the verification code
-          let code = Math.floor(Math.random() * 100000);
-          console.log("Code: ", code);
-          // Creating another hash for the verification code
-          bcrypt.hash(String(code), 5, (err, hash) => {
-            let email: Email = Email.verificationEmail(this.emailInput, code);
-            console.log("Email: ", email);
-            this.emailService.sendEmail(email).subscribe({
-              next: (success: boolean) => {
-                if (success) {
-                  // Adding the new customer to the database
-                  this.customerService.addEntity(newCustomer).subscribe({
-                    next: (newCustomer: Customer) => {
-                      if (newCustomer != null) {
-                        console.log("Customer added: ", newCustomer);
-                        this.internalObjectService.setObject({verificationCodeHash: hash, customer: newCustomer});
-                        this.router.navigate(['/register-success'], {relativeTo: this.route}).then();
-                      } else {
-                        console.log("Error, customer is null");
+    new Promise<boolean>((resolve, reject) => {
+      this.checkEmail().then(() => {
+        if (this.isFormValid()) {
+          // Generating hash from password with bcrypt (one of the packages that is used for hashing passwords)
+          bcrypt.hash(this.passwordInput, 10, (err, hash) => {
+            let newCustomer = new Customer(
+              this.firstNameInput, this.lastNameInput, this.emailInput,
+              this.usernameInput, hash
+            );
+            // Generating random number for the verification code
+            let code = Math.floor(Math.random() * 100000);
+            console.log("Code: ", code);
+            // Creating another hash for the verification code
+            bcrypt.hash(String(code), 5, (err, hash) => {
+              let email: Email = Email.verificationEmail(this.emailInput, code);
+              console.log("Email: ", email);
+              this.emailService.sendEmail(email).subscribe({
+                next: (success: boolean) => {
+                  if (success) {
+                    // Adding the new customer to the database
+                    this.customerService.addEntity(newCustomer).subscribe({
+                      next: (newCustomer: Customer) => {
+                        if (newCustomer != null) {
+                          console.log("Customer added: ", newCustomer);
+                          this.internalObjectService.setObject({verificationCodeHash: hash, customer: newCustomer});
+                          this.router.navigate(['/register-success'], {relativeTo: this.route}).then();
+                        } else {
+                          console.log("Error, customer is null");
+                        }
+                      },
+                      error: (error: HttpErrorResponse) => {
+                        console.log("Error in adding new customer: ", error);
                       }
-                    },
-                    error: (error: HttpErrorResponse) => {
-                      console.log("Error in adding new customer: ", error);
-                    }
-                  });
-                } else {
-                  console.log("Error, email not sent");
+                    });
+                  } else {
+                    console.log("Error, email not sent");
+                  }
+                },
+                error: (error: HttpErrorResponse) => {
+                  console.log("Error in sending email: ", error);
                 }
-              },
-              error: (error: HttpErrorResponse) => {
-                console.log("Error in sending email: ", error);
-              }
-            })
+              })
+            });
           });
-        });
-      }
+        }
+      });
+    }).then(r => {
+      super.onSubmit();
     });
   }
 
@@ -124,11 +128,11 @@ export class RegisterComponent extends AuthenticationComponent {
       this.customerService.findUserByEmail(this.emailInput).subscribe({
         next: (customer: Customer) => {
           this.isEmailExists = customer != null;
-          resolve(true);
+          resolve(customer != null);
         },
         error: (error: HttpErrorResponse) => {
           this.isEmailExists = false;
-          reject(false);
+          resolve(false);
         }
       });
     });

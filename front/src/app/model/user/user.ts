@@ -3,12 +3,14 @@ export abstract class User {
   username: string;
   password: string;
   registrationDate: string | undefined;
+  token: string | undefined;
 
-  protected constructor(email: string, username: string, password: string, registrationDate?: string) {
+  protected constructor(email: string, username: string, password: string, registrationDate?: string, token?: string) {
     this.email = email;
     this.username = username;
     this.password = password;
     this.registrationDate = registrationDate;
+    this.token = token;
   }
 
   abstract getName(): string;

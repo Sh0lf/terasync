@@ -19,4 +19,8 @@ export abstract class UserService<T> extends EntityService<T> {
   public updatePassword(email: String, newPassword: String): Observable<number> {
     return this.http.get<number>(`${this.apiServerUrl}/${this.entityName}/update-password/${email}/${newPassword}`);
   }
+
+  public updateToken(email: String, newToken: String): Observable<number> {
+    return this.http.get<number>(`${this.apiServerUrl}/${this.entityName}/update-token/${email}/${newToken}`);
+  }
 }

@@ -13,6 +13,7 @@ public class DeliveryPersonService extends UserService<DeliveryPerson, DeliveryP
         super(entityRepository);
     }
 
+    @Override
     public DeliveryPerson findByEmail(String email) {
         return entityRepository.findByEmail(email);
     }
@@ -25,5 +26,10 @@ public class DeliveryPersonService extends UserService<DeliveryPerson, DeliveryP
     @Override
     public Integer updatePassword(String email, String password) {
         return entityRepository.updatePassword(email, password);
+    }
+
+    @Override
+    public Integer updateToken(String email, String token) {
+        return null;
     }
 }

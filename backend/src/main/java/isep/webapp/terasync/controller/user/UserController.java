@@ -18,4 +18,14 @@ public abstract class UserController<T, S extends UserService<T, ?>> extends Ent
     public ResponseEntity<T> findCustomerByEmail(@PathVariable("email") String email) {
         return ResponseEntity.ok(entityService.findByEmail(email));
     }
+
+    @GetMapping("/update-password/{email}/{password}")
+    public ResponseEntity<Integer> updatePassword(@PathVariable("email") String email, @PathVariable("password") String password) {
+        return ResponseEntity.ok(entityService.updatePassword(email, password));
+    }
+
+    @GetMapping("/update-token/{email}/{token}")
+    public ResponseEntity<Integer> updateToken(@PathVariable("email") String email, @PathVariable("token") String token) {
+        return ResponseEntity.ok(entityService.updateToken(email, token));
+    }
 }

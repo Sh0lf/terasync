@@ -14,4 +14,8 @@ public interface DeliveryServiceRepository extends JpaRepository<DeliveryService
     @Modifying
     @Query("Update DeliveryService c SET c.password = :password WHERE c.email = :email")
     Integer updatePassword(@Param("email") String email, @Param("password") String password);
+
+    @Modifying
+    @Query("UPDATE DeliveryService c SET c.token = :token WHERE c.email = :email")
+    Integer updateToken(@Param("email") String email, @Param("token") String token);
 }

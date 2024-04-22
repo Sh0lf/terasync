@@ -18,4 +18,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     @Modifying
     @Query("Update Customer c SET c.password = :password WHERE c.email = :email")
     Integer updatePassword(@Param("email") String email, @Param("password") String password);
+
+    @Modifying
+    @Query("UPDATE Customer c SET c.token = :token WHERE c.email = :email")
+    Integer updateToken(@Param("email") String email, @Param("token") String token);
 }

@@ -4,14 +4,18 @@ export class Customer extends User {
   customerId: number | undefined;
   firstName: string;
   lastName: string;
+  isEmailVerified: boolean | undefined;
 
   constructor(firstName: string, lastName: string, email: string,
               username: string, password: string,
-              customerId?: number | undefined, registrationDate?: string | undefined) {
-    super(email, username, password, registrationDate);
+              customerId?: number | undefined,
+              isEmailVerified?: boolean | undefined,
+              registrationDate?: string | undefined,  token?: string | undefined) {
+    super(email, username, password, registrationDate, token);
     this.customerId = customerId;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.isEmailVerified = isEmailVerified;
   }
 
   override getName(): string {
@@ -33,7 +37,8 @@ export class Customer extends User {
     return new Customer(
       jsonString.firstName, jsonString.lastName, jsonString.email,
       jsonString.username, jsonString.password,
-      jsonString.customerId, jsonString.registrationDate
+      jsonString.customerId, jsonString.isEmailVerified,
+      jsonString.registrationDate, jsonString.token
     )
   }
 }

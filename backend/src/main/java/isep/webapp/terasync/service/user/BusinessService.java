@@ -5,6 +5,7 @@ import isep.webapp.terasync.model.user.Business;
 import isep.webapp.terasync.repository.user.BusinessRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BusinessService extends UserService<Business, BusinessRepository> {
@@ -14,6 +15,7 @@ public class BusinessService extends UserService<Business, BusinessRepository> {
         super(entityRepository);
     }
 
+    @Override
     public Business findByEmail(String email) {
         return entityRepository.findByEmail(email);
     }
@@ -26,5 +28,11 @@ public class BusinessService extends UserService<Business, BusinessRepository> {
     @Override
     public Integer updatePassword(String email, String password) {
         return entityRepository.updatePassword(email, password);
+    }
+
+    @Transactional
+    @Override
+    public Integer updateToken(String email, String token) {
+        return entityRepository.updateToken(email, token);
     }
 }
