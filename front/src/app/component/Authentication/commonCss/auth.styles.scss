@@ -1,3 +1,5 @@
+@import '../../main/main.component.scss';
+
 .sign-form-body {
   margin: 0 0 0 0;
   display: flex;
@@ -15,6 +17,7 @@
   border-radius: 20px;
   width: 450px;
   padding: 20px 0 20px 0;
+  background-color: $colorP12;
 }
 
 .sign-form-elem h1 {
@@ -54,7 +57,7 @@
 }
 
 .sign-form-elem input {
-  background: #E2E2E2;
+  background: $colorP13;
   border-radius: 10px;
   border: grey solid 1px;
   height: 40px;
@@ -64,8 +67,12 @@
   text-indent: 10px;
 }
 
+.sign-form-elem input:hover{
+  border: $colorP11 solid 1px;
+}
+
 .default-button {
-  background: #d9d9d9;
+  background: $colorP13;
   border-radius: 40px;
   border: #d9d9d9 solid 2px;
   height: 50px;
@@ -76,8 +83,8 @@
 }
 
 .default-button:hover {
-  background: #69A6E3;;
-  border: #69A6E3 solid 2px;
+  background: $colorP14;
+  border: $colorP11 solid 2px;
 }
 
 .href-button {
@@ -86,7 +93,7 @@
   border: transparent;
   background: transparent;
   text-decoration: none;
-  color: #69A6E3;
+  color: $colorP11;
 }
 
 .href-button:hover {
@@ -95,7 +102,7 @@
 
 a {
   text-decoration: none;
-  color: #69A6E3;
+  color: $colorP11;
 }
 
 

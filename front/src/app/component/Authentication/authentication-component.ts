@@ -29,6 +29,7 @@ export abstract class AuthenticationComponent extends FormComponent {
     return regex.test(password);
   }
 
+  //Easter Egg
   get currenUserCategory(): UserCategory {
     try {
       this._currentUserCategory = UserCategory.fromJson(sessionStorage.getItem(SessionStorageKeys.USER_CATEGORY));

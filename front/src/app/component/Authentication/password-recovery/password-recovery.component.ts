@@ -41,7 +41,7 @@ import {SessionStorageKeys} from "../../session-storage-keys";
     }
   ],
   templateUrl: './password-recovery.component.html',
-  styleUrls: ['./password-recovery.component.css', '../commonCss/auth.styles.css', '../../main/main.component.scss']
+  styleUrls: ['./password-recovery.component.css', '../commonCss/auth.styles.scss', '../../main/main.component.scss']
 })
 export class PasswordRecoveryComponent extends AuthenticationComponent implements OnInit {
   // Form fields

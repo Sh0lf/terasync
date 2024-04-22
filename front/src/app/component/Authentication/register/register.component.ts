@@ -29,7 +29,7 @@ import {InternalObjectService} from "../../../service/internal-object.service";
     }
   ],
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css', '../commonCss/auth.styles.css', '../../main/main.component.scss']
+  styleUrls: ['./register.component.css', '../commonCss/auth.styles.scss', '../../main/main.component.scss']
 })
 export class RegisterComponent extends AuthenticationComponent {
   // Form fields

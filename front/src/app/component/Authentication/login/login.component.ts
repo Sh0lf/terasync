@@ -45,7 +45,7 @@ import {Customer} from "../../../model/user/customer";
     }
   ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css', '../commonCss/auth.styles.css', '../../main/main.component.scss']
+  styleUrls: ['./login.component.css', '../commonCss/auth.styles.scss', '../../main/main.component.scss']
 })
 export class LoginComponent extends AuthenticationComponent implements OnInit{
   // Form fields

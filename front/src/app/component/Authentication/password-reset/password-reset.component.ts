@@ -22,7 +22,7 @@ import {environment} from "../../../../environment/environment.prod";
     }
   ],
   templateUrl: './password-reset.component.html',
-  styleUrls: ['./password-reset.component.css', '../commonCss/auth.styles.css', '../../main/main.component.scss']
+  styleUrls: ['./password-reset.component.css', '../commonCss/auth.styles.scss', '../../main/main.component.scss']
 })
 export class PasswordResetComponent extends AuthenticationComponent {
 

@@ -1,6 +1,7 @@
 <form #form="ngForm" (ngSubmit)="onSubmit()" name="loginForm">
   <div class="sign-form-body">
     <div class="sign-form-body-div">
+      <img src="assets/logo.jpeg" width="50">
       <div class="sign-form-elem">
         <h1>Login</h1></div>
       <h3 *ngIf="isPartnerType()">As {{ currenUserCategory.name }}</h3>

@@ -19,7 +19,7 @@ import {HttpErrorResponse} from "@angular/common/http";
     NgIf
   ],
   templateUrl: './register-success.component.html',
-  styleUrls: ['./register-success.component.css', '../commonCss/auth.styles.css', '../../main/main.component.scss']
+  styleUrls: ['./register-success.component.css', '../commonCss/auth.styles.scss', '../../main/main.component.scss']
 })
 export class RegisterSuccessComponent extends FormComponent implements OnInit {
   // Form Fields

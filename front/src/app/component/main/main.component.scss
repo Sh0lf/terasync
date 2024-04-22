@@ -1,15 +1,24 @@
-// COLOR PALETTE 1
+/* COLOR PALETTE 1
 $colorP11: #64395F;
 $colorP12: #C075B7;
 $colorP13: #6CACA0;
 $colorP14: #07878B;
+*/
 
-// COLOR PALETTE 2
+/* COLOR PALETTE 2
 $colorP21: #EDCB96;
 $colorP22: #F7C4A5;
 $colorP23: #9E7682;
 $colorP24: #605770;
 $colorP25: #4D4861;
+ */
+
+// Actual Color Palette
+$colorP11: #D4A373;
+$colorP12: #FAEDCD;
+$colorP13: #FEFAE0;
+$colorP14: #E9EDC9;
+$colorP15: #CCD5AE;
 
 // DEFAULT FONT FAMILY FOR EVERYTHING
 * {
@@ -18,14 +27,14 @@ $colorP25: #4D4861;
 
 .separation-line-1 {
   padding: 1px;
-  background: radial-gradient(#494848 30%, #D9D9D9, #D9D9D9);
+  background: radial-gradient($colorP11 30%, $colorP12, $colorP12);
   border-radius: 1px;
   margin: 10px 15px 10px 15px;
 }
 
 .separation-line-2 {
   padding: 1px;
-  background: radial-gradient(#494848 55%, white, white);
+  background: radial-gradient($colorP11 55%, $colorP12, $colorP12);
   border-radius: 1px;
   margin: 10px 15px 10px 15px;
 }
@@ -33,11 +42,10 @@ $colorP25: #4D4861;
 .separation-line-small {
   width: 80%;
   padding: 1px;
-  background: radial-gradient(#494848 30%, #D9D9D9, #D9D9D9);
+  background: radial-gradient($colorP11 30%, $colorP12, $colorP12);
   border-radius: 1px;
   margin: 1px 15px 1px 15px;
 }
-
 
 .text-font {
   font-style: normal;
