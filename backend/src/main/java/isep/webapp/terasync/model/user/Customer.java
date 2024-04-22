@@ -3,8 +3,6 @@ package isep.webapp.terasync.model.user;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 @Entity
 @Setter
@@ -32,8 +30,8 @@ public class Customer extends User {
     @CreationTimestamp
     @Column(name = "registrationDate")
     private String registrationDate;
-    @Column(name = "isEmailVerified")
-    private boolean isEmailVerified;
+    @Column(name = "emailVerified")
+    private boolean emailVerified;
 
     @Override
     public int getUserId() {

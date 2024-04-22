@@ -11,8 +11,7 @@ import {
   businessCategory,
   customerCategory,
   deliveryPersonCategory,
-  deliveryServiceCategory,
-  UserCategory
+  deliveryServiceCategory
 } from "../../../service/user/userCategories";
 import {UserType} from "../../../service/user/user.type";
 import {BusinessService} from "../../../service/user/business.service";
@@ -24,7 +23,7 @@ import {User} from "../../../model/user/user";
 import {AuthenticationComponent} from "../authentication-component";
 import bcrypt from "bcryptjs";
 import {SessionStorageKeys} from "../../session-storage-keys";
-import {makeRandom, makeRandomToken} from "../../functions";
+import {makeRandomToken} from "../../functions";
 import {Customer} from "../../../model/user/customer";
 import {LogoComponent} from "../../logo/logo.component";
 
@@ -48,7 +47,7 @@ import {LogoComponent} from "../../logo/logo.component";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css', '../commonCss/auth.styles.scss', '../../main/main.component.scss']
 })
-export class LoginComponent extends AuthenticationComponent implements OnInit{
+export class LoginComponent extends AuthenticationComponent implements OnInit {
   // Form fields
   protected emailInput: string = "";
   protected passwordInput: string = "";
@@ -67,10 +66,11 @@ export class LoginComponent extends AuthenticationComponent implements OnInit{
 
   ngOnInit(): void {
     try {
-      if(sessionStorage.getItem(SessionStorageKeys.USER_CATEGORY) == null) {
+      if (sessionStorage.getItem(SessionStorageKeys.USER_CATEGORY) == null) {
         sessionStorage.setItem(SessionStorageKeys.USER_CATEGORY, JSON.stringify(customerCategory));
       }
-    } catch (e) {}
+    } catch (e) {
+    }
   }
 
   override onSubmit() {
@@ -78,15 +78,13 @@ export class LoginComponent extends AuthenticationComponent implements OnInit{
       if (this.isFormValid()) {
         this.fetchService().findUserByEmail(this.emailInput).subscribe({
           next: (jsonUser: User) => {
-            if(jsonUser != null) {
-              if(this.currenUserCategory.userType == UserType.CUSTOMER) {
-                console.log("isVerified: " +(jsonUser as Customer).isEmailVerified);
-              }
-
+            if (jsonUser != null) {
+              this.checkCustomerEmailVerified(jsonUser);
               bcrypt.compare(this.passwordInput, jsonUser.password).then(success => {
                 if (success) {
                   // CREATE A TOKEN AND STORE IT IN SESSION STORAGE
                   const token = makeRandomToken();
+
                   this.fetchService().updateToken(jsonUser.email, token).subscribe({
                     next: (success: number) => {
                       if (success == 1) {
@@ -123,13 +121,12 @@ export class LoginComponent extends AuthenticationComponent implements OnInit{
         console.log('Login is invalid');
         resolve(false);
       }
-    }).then(success  => {
+    }).then(success => {
       this.isLoginValid = success;
       super.onSubmit();
 
       console.log("submitted: " + this.isSubmitted);
       console.log("isLoginValid: " + this.isLoginValid)
-      console.log("here: " + this.isLoginInvalid());
     });
   }
 
@@ -178,6 +175,13 @@ export class LoginComponent extends AuthenticationComponent implements OnInit{
       sessionStorage.setItem(SessionStorageKeys.USER_CATEGORY, JSON.stringify(customerCategory));
     } else {
       this.router.navigate(['/partner-selection'], {relativeTo: this.route}).then();
+    }
+  }
+
+  private checkCustomerEmailVerified(jsonUser: User) {
+    if (this.currenUserCategory.userType == UserType.CUSTOMER && !(jsonUser as Customer).emailVerified) {
+
+      this.router.navigate(['/register-success'], {relativeTo: this.route}).then();
     }
   }
 }

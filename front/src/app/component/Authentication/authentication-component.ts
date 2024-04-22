@@ -15,7 +15,11 @@ export abstract class AuthenticationComponent extends FormComponent {
   }
 
   isCaptchaInvalid(): boolean {
-    return !(this.captcha != null && this.captcha.length > 0) && this.isSubmitted;
+    return !this.isCaptchaValid() && this.isSubmitted;
+  }
+
+  isCaptchaValid(): boolean {
+    return this.captcha != null && this.captcha.length > 0;
   }
 
   isEmailProper(email: string): boolean {

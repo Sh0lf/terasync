@@ -79,6 +79,9 @@ export class RegisterSuccessComponent extends FormComponent implements OnInit {
             resolve(false);
           }
         });
+      } else {
+        console.log('Form is invalid');
+        resolve(false);
       }
     }).then((success) => {
       this.isCodeValid = success;

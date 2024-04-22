@@ -13,6 +13,7 @@ import {EmailService} from "../../../service/email.service";
 import {Email} from "../../../model/email";
 import {InternalObjectService} from "../../../service/internal-object.service";
 import {LogoComponent} from "../../logo/logo.component";
+import {checkEmail} from "../../functions";
 
 @Component({
   selector: 'app-register',
@@ -56,10 +57,9 @@ export class RegisterComponent extends AuthenticationComponent {
   }
 
   override onSubmit() {
-    // super.onSubmit();
-
     new Promise<boolean>((resolve, reject) => {
-      this.checkEmail().then(() => {
+      checkEmail(this.emailInput, this.customerService).then((isEmailExists) => {
+        this.isEmailExists = isEmailExists;
         if (this.isFormValid()) {
           // Generating hash from password with bcrypt (one of the packages that is used for hashing passwords)
           bcrypt.hash(this.passwordInput, 10, (err, hash) => {
@@ -84,79 +84,82 @@ export class RegisterComponent extends AuthenticationComponent {
                           console.log("Customer added: ", newCustomer);
                           this.internalObjectService.setObject({verificationCodeHash: hash, customer: newCustomer});
                           this.router.navigate(['/register-success'], {relativeTo: this.route}).then();
+                          resolve(true);
                         } else {
                           console.log("Error, customer is null");
+                          resolve(false);
                         }
                       },
                       error: (error: HttpErrorResponse) => {
                         console.log("Error in adding new customer: ", error);
+                        resolve(false);
                       }
                     });
                   } else {
                     console.log("Error, email not sent");
+                    resolve(false);
                   }
                 },
                 error: (error: HttpErrorResponse) => {
                   console.log("Error in sending email: ", error);
+                  resolve(false);
                 }
               })
             });
           });
+        } else {
+          resolve(false)
         }
       });
-    }).then(r => {
+    }).then(success => {
       super.onSubmit();
     });
   }
 
   override isFormValid(): boolean {
-    return !this.isCaptchaInvalid() && !this.isEmailExists && !this.isPasswordsNotMatch() && !this.isPasswordDirty()
+    return this.isCaptchaValid() &&
+      this.isEmailProper(this.emailInput) &&
+      this.isPasswordsMatch() &&
+      this.isPasswordProper(this.passwordInput);
   }
 
   isFirstNameInvalid(): boolean {
-    return !(this.firstNameInput.length > 0) && this.isSubmitted;
+    return !this.isFirstNameValid() && this.isSubmitted;
+  }
+
+  isFirstNameValid(): boolean {
+    return this.firstNameInput.length > 0;
   }
 
   isLastNameInvalid(): boolean {
-    return !(this.lastNameInput.length > 0) && this.isSubmitted;
+    return !this.isLastNameValid() && this.isSubmitted;
+  }
+
+  isLastNameValid(): boolean {
+    return this.lastNameInput.length > 0;
   }
 
   isEmailInvalid(): boolean {
-    return !(this.isEmailProper(this.emailInput) && this.emailInput.length > 0) && this.isSubmitted;
-  }
-
-  checkEmail(): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
-      this.customerService.findUserByEmail(this.emailInput).subscribe({
-        next: (customer: Customer) => {
-          this.isEmailExists = customer != null;
-          resolve(customer != null);
-        },
-        error: (error: HttpErrorResponse) => {
-          this.isEmailExists = false;
-          resolve(false);
-        }
-      });
-    });
+    return !this.isEmailProper(this.emailInput) && this.isSubmitted;
   }
 
   isUsernameInvalid(): boolean {
-    return !(this.usernameInput.length > 0) && this.isSubmitted;
+    return !this.isUsernameValid() && this.isSubmitted;
+  }
+
+  isUsernameValid(): boolean {
+    return this.usernameInput.length > 0;
   }
 
   isPasswordInvalid(): boolean {
-    return !(this.passwordInput.length > 0) && this.isSubmitted;
-  }
-
-  isPasswordDirty(): boolean {
     return !(this.isPasswordProper(this.passwordInput)) && this.isSubmitted;
   }
 
-  isConfirmPasswordInvalid(): boolean {
-    return !(this.confirmPasswordInput.length > 0) && this.isSubmitted;
+  isPasswordsNotMatch(): boolean {
+    return !this.isPasswordsMatch() && this.isSubmitted;
   }
 
-  isPasswordsNotMatch(): boolean {
-    return !(this.passwordInput === this.confirmPasswordInput) && this.isSubmitted;
+  isPasswordsMatch(): boolean {
+    return this.passwordInput === this.confirmPasswordInput;
   }
 }

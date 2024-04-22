@@ -12,7 +12,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     Customer findByToken(String token);
 
     @Modifying
-    @Query("UPDATE Customer c SET c.isEmailVerified = true WHERE c.email = :email")
+    @Query("UPDATE Customer c SET c.emailVerified = true WHERE c.email = :email")
     Integer verifyEmail(@Param("email") String email);
 
     @Modifying
