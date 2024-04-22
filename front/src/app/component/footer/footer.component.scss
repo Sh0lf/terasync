@@ -1,29 +1,5 @@
 @import '../main/main.component.scss';
 
-/* Defining bottom navigation bar */
-.bottombar {
-  display: flex;
-  bottom: 0;
-  align-self: flex-end;
-  align-items: flex-start;
-  background-color: $colorP11;
-  position: sticky;
-}
-
-.bottombar a {
-  color: white;
-  text-align: center;
-  padding: 12px 12px;
-  text-decoration: none;
-  font-size: 12px;
-}
-
-/* Define Hover on selection color */
-.bottombar a:hover {
-  background-color: $colorP12;
-  color: black;
-}
-
 body {
   margin: 0 0 0 0;
   min-width: 350px;
@@ -32,7 +8,7 @@ body {
 #site-footer-main-div {
   position: absolute;
   top: 1035px;
-  background-color: #363636;
+  background-color: $colorP11;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -49,11 +25,7 @@ body {
 #site-footer-top-div a {
   font-size: 16px;
   text-decoration: none;
-  color: #9D9D9D;
-}
-
-#site-footer-first-column a {
-  color: white;
+  color: $colorP12;
 }
 
 #site-footer-top-div span {
@@ -106,7 +78,7 @@ body {
 #site-footer-bottom-div a {
   font-size: 14px;
   text-decoration: none;
-  color: #9D9D9D;
+  color: $colorP12;
 }
 
 #site-footer-bottom-div span {
@@ -138,7 +110,7 @@ body {
   justify-content: end;
 }
 
-@media only screen and (max-width: 1750px) {
+@media only screen and (max-width: 1400px) {
   .site-footer-column, #site-footer-last-column {
     flex-basis: 43%;
   }
@@ -156,7 +128,7 @@ body {
   }
 
   .site-footer-row > div {
-    width: 100%;
+    width: 100vw;
   }
 
   #column-2 {
