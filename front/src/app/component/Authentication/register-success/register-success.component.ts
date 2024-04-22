@@ -10,13 +10,15 @@ import {Customer} from "../../../model/user/customer";
 import {InternalObjectService} from "../../../service/internal-object.service";
 import {CustomerService} from "../../../service/user/customer.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {LogoComponent} from "../../logo/logo.component";
 
 @Component({
   selector: 'app-register-success',
   standalone: true,
   imports: [
     FormsModule,
-    NgIf
+    NgIf,
+    LogoComponent
   ],
   templateUrl: './register-success.component.html',
   styleUrls: ['./register-success.component.css', '../commonCss/auth.styles.scss', '../../main/main.component.scss']

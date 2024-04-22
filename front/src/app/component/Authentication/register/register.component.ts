@@ -12,6 +12,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {EmailService} from "../../../service/email.service";
 import {Email} from "../../../model/email";
 import {InternalObjectService} from "../../../service/internal-object.service";
+import {LogoComponent} from "../../logo/logo.component";
 
 @Component({
   selector: 'app-register',
@@ -19,7 +20,8 @@ import {InternalObjectService} from "../../../service/internal-object.service";
   imports: [
     NgIf,
     RecaptchaModule,
-    FormsModule
+    FormsModule,
+    LogoComponent
   ],
   providers: [
     {

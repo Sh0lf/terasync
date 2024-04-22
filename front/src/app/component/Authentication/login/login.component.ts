@@ -26,6 +26,7 @@ import bcrypt from "bcryptjs";
 import {SessionStorageKeys} from "../../session-storage-keys";
 import {makeRandom, makeRandomToken} from "../../functions";
 import {Customer} from "../../../model/user/customer";
+import {LogoComponent} from "../../logo/logo.component";
 
 // @ts-ignore
 @Component({
@@ -35,7 +36,7 @@ import {Customer} from "../../../model/user/customer";
     RouterOutlet,
     NgForOf, HttpClientModule,
     FormsModule,
-    RecaptchaModule, NgIf
+    RecaptchaModule, NgIf, LogoComponent
   ],
   providers: [
     {

@@ -24,6 +24,7 @@ import {Email} from "../../../model/email";
 import {HttpErrorResponse} from "@angular/common/http";
 import {makeRandom, makeRandomToken} from "../../functions";
 import {SessionStorageKeys} from "../../session-storage-keys";
+import {LogoComponent} from "../../logo/logo.component";
 
 @Component({
   selector: 'app-password-recovery',
@@ -31,7 +32,7 @@ import {SessionStorageKeys} from "../../session-storage-keys";
   imports: [
     NgIf,
     RecaptchaModule,
-    FormsModule
+    FormsModule, LogoComponent
   ],
   providers: [
     {

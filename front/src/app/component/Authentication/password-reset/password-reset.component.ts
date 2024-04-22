@@ -5,6 +5,7 @@ import {AuthenticationComponent} from "../authentication-component";
 import {NgIf} from "@angular/common";
 import {RECAPTCHA_SETTINGS, RecaptchaModule} from "ng-recaptcha";
 import {environment} from "../../../../environment/environment.prod";
+import {LogoComponent} from "../../logo/logo.component";
 
 @Component({
   selector: 'app-password-reset',
@@ -12,7 +13,8 @@ import {environment} from "../../../../environment/environment.prod";
   imports: [
     FormsModule,
     NgIf,
-    RecaptchaModule
+    RecaptchaModule,
+    LogoComponent
   ],
   providers: [
     {
