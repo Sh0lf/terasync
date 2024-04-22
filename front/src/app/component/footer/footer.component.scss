@@ -1,0 +1,25 @@
+@import '../main/main.component.scss';
+
+/* Defining bottom navigation bar */
+.bottombar {
+  display: flex;
+  bottom: 0;
+  align-self: flex-end;
+  align-items: flex-start;
+  background-color: $colorP11;
+  position: sticky;
+}
+
+.bottombar a {
+  color: white;
+  text-align: center;
+  padding: 12px 12px;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+/* Define Hover on selection color */
+.bottombar a:hover {
+  background-color: $colorP12;
+  color: black;
+}
