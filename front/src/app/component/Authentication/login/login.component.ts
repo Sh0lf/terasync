@@ -23,9 +23,11 @@ import {User} from "../../../model/user/user";
 import {AuthenticationComponent} from "../authentication-component";
 import bcrypt from "bcryptjs";
 import {SessionStorageKeys} from "../../session-storage-keys";
-import {makeRandomToken} from "../../functions";
+import {makeRandomToken, sendVerificationEmail} from "../../functions";
 import {Customer} from "../../../model/user/customer";
 import {LogoComponent} from "../../logo/logo.component";
+import {EmailService} from "../../../service/email.service";
+import {InternalObjectService} from "../../../service/internal-object.service";
 
 // @ts-ignore
 @Component({
@@ -60,6 +62,11 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
               private adminService: AdminService,
               private deliveryServiceService: DeliveryServiceService,
               private deliveryPersonService: DeliveryPersonService,
+              private emailService: EmailService,
+              private internalObjectService: InternalObjectService<{
+                verificationCodeHash: string,
+                customer: Customer
+              }>,
               private router: Router, private route: ActivatedRoute) {
     super();
   }
@@ -79,34 +86,37 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
         this.fetchService().findUserByEmail(this.emailInput).subscribe({
           next: (jsonUser: User) => {
             if (jsonUser != null) {
-              this.checkCustomerEmailVerified(jsonUser);
-              bcrypt.compare(this.passwordInput, jsonUser.password).then(success => {
-                if (success) {
-                  // CREATE A TOKEN AND STORE IT IN SESSION STORAGE
-                  const token = makeRandomToken();
+              if (!this.checkCustomerEmailVerified(jsonUser)) {
+                resolve(true);
+              } else {
+                bcrypt.compare(this.passwordInput, jsonUser.password).then(success => {
+                  if (success) {
+                    // CREATE A TOKEN AND STORE IT IN SESSION STORAGE
+                    const token = makeRandomToken();
 
-                  this.fetchService().updateToken(jsonUser.email, token).subscribe({
-                    next: (success: number) => {
-                      if (success == 1) {
-                        console.log('Token updated');
-                        sessionStorage.setItem(SessionStorageKeys.USER_TOKEN, token);
-                        resolve(true);
-                      } else {
-                        console.error('Token not updated');
+                    this.fetchService().updateToken(jsonUser.email, token).subscribe({
+                      next: (success: number) => {
+                        if (success == 1) {
+                          console.log('Token updated');
+                          sessionStorage.setItem(SessionStorageKeys.USER_TOKEN, token);
+                          resolve(true);
+                        } else {
+                          console.error('Token not updated');
+                          resolve(false);
+                        }
+                      },
+                      error: (error: HttpErrorResponse) => {
+                        console.error('HTTP Error: Token not updated');
                         resolve(false);
                       }
-                    },
-                    error: (error: HttpErrorResponse) => {
-                      console.error('HTTP Error: Token not updated');
-                      resolve(false);
-                    }
-                  });
-                  console.log('Login is valid');
-                } else {
-                  console.log('Login is invalid');
-                  resolve(false);
-                }
-              });
+                    });
+                    console.log('Login is valid');
+                  } else {
+                    console.log('Login is invalid');
+                    resolve(false);
+                  }
+                });
+              }
             } else {
               console.log('Login is invalid');
               resolve(false);
@@ -178,10 +188,18 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
     }
   }
 
-  private checkCustomerEmailVerified(jsonUser: User) {
+  private checkCustomerEmailVerified(jsonUser: User): boolean {
     if (this.currenUserCategory.userType == UserType.CUSTOMER && !(jsonUser as Customer).emailVerified) {
-
-      this.router.navigate(['/register-success'], {relativeTo: this.route}).then();
+      console.log('Email not verified');
+      sendVerificationEmail(jsonUser.email, this.emailService).then((verificationCodeHash) => {
+        if (verificationCodeHash != null) {
+          this.internalObjectService.setObject({verificationCodeHash: verificationCodeHash, customer: jsonUser as Customer});
+          this.router.navigate(['/verify-email'], {relativeTo: this.route}).then();
+        }
+      });
+      return false;
+    } else {
+      return true;
     }
   }
 }

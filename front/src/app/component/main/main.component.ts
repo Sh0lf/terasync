@@ -16,8 +16,8 @@ import {RegisterComponent} from "../Authentication/register/register.component";
 })
 export class MainComponent {
   public title = 'teraSyncFront';
-  excludedHeaderRoutes = ['/login', '/partner-selection', '/register', '/register-success', '/password-recovery', '/password-reset'];
-  excludedFooterRoutes = ['/login', '/partner-selection', '/register', '/register-success', '/password-recovery', '/password-reset'];
+  excludedHeaderRoutes = ['/login', '/partner-selection', '/register', '/verify-email', '/password-recovery', '/password-reset'];
+  excludedFooterRoutes = ['/login', '/partner-selection', '/register', '/verify-email', '/password-recovery', '/password-reset'];
 
   constructor(private router: Router) {
   }

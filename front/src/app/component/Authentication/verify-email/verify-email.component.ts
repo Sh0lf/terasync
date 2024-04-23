@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {SessionStorageKeys} from "../../session-storage-keys";
 import bcrypt from "bcryptjs";
 import {NgIf} from "@angular/common";
 import {FormComponent} from "../../form-component";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Subscription} from "rxjs";
 import {Customer} from "../../../model/user/customer";
 import {InternalObjectService} from "../../../service/internal-object.service";
 import {CustomerService} from "../../../service/user/customer.service";
@@ -13,17 +11,17 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {LogoComponent} from "../../logo/logo.component";
 
 @Component({
-  selector: 'app-register-success',
+  selector: 'app-verify-email',
   standalone: true,
   imports: [
     FormsModule,
     NgIf,
     LogoComponent
   ],
-  templateUrl: './register-success.component.html',
-  styleUrls: ['./register-success.component.css', '../commonCss/auth.styles.scss', '../../main/main.component.scss']
+  templateUrl: './verify-email.component.html',
+  styleUrls: ['./verify-email.component.css', '../commonCss/auth.styles.scss', '../../main/main.component.scss']
 })
-export class RegisterSuccessComponent extends FormComponent implements OnInit {
+export class VerifyEmailComponent extends FormComponent implements OnInit {
   // Form Fields
   verificationCodeInput: string = "";
 
@@ -32,10 +30,13 @@ export class RegisterSuccessComponent extends FormComponent implements OnInit {
   isCodeValid: boolean = false;
 
   // Service Fields
-  inputObject!: {verificationCodeHash: string, customer: Customer};
+  inputObject!: { verificationCodeHash: string, customer: Customer };
 
   constructor(private customerService: CustomerService,
-              private internalObjectService: InternalObjectService<{verificationCodeHash: string, customer: Customer}>,
+              private internalObjectService: InternalObjectService<{
+                verificationCodeHash: string,
+                customer: Customer
+              }>,
               private router: Router, private route: ActivatedRoute) {
     super();
   }
@@ -46,6 +47,7 @@ export class RegisterSuccessComponent extends FormComponent implements OnInit {
 
     // Checks if a verification code exists
     if (this.inputObject?.verificationCodeHash == null) {
+      // todo may need to change the redirection here in the future
       this.router.navigate([''], {relativeTo: this.route}).then();
     } else {
       this.verificationCodeHash = this.inputObject.verificationCodeHash;
@@ -64,7 +66,7 @@ export class RegisterSuccessComponent extends FormComponent implements OnInit {
             console.log('Code is valid');
             this.customerService.verifyEmail(this.inputObject.customer.email).subscribe({
               next: (successEmail: number) => {
-                if(successEmail == 1) {
+                if (successEmail == 1) {
                   console.log('Email is verified');
                   resolve(true);
                 }
