@@ -1,0 +1,96 @@
+@import "../../main/main.component.scss";
+
+* {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.header-body-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  background: $colorP12;
+  min-height: 40px;
+  padding: 5px 15px 5px 15px;
+}
+
+.header-elem {
+  min-height: 40px;
+  align-items: center;
+  display: flex;
+  padding: 0 10px 0 10px;
+}
+
+.title-elem {
+  min-width: 100px;
+  max-width: 100px;
+  text-wrap: wrap;
+  text-align: center;
+}
+
+.address-elem {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.address-elem-text {
+  max-width: 115px;
+  text-wrap: wrap;
+  text-align: start;
+}
+
+.address-elem-img {
+  padding: 0 5px 0 5px;
+}
+
+.search-elem {
+  flex-grow: 1;
+  min-width: 200px;
+}
+
+.search-input {
+  background: $colorP13;
+  border-radius: 15px;
+  border: grey solid 1px;
+  height: 30px;
+  margin: 5px 0 5px 0;
+  white-space:pre;
+  text-indent: 10px;
+  width: 100%;
+}
+
+.login-button-elem {
+  min-width: 70px;
+}
+
+.login-button {
+  height: 35px;
+  width: 100%;
+  border-radius: 15px;
+  border: transparent;
+  background: transparent;
+}
+
+.login-button:hover {
+  background: $colorP14;
+  border: $colorP11 solid 2px;
+}
+
+.register-button-elem {
+  min-width: 150px;
+}
+
+.register-button {
+  height: 35px;
+  width: 100%;
+  border-radius: 15px;
+  border: #d9d9d9 solid 2px;
+
+  background: $colorP13;
+}
+
+.register-button:hover{
+  background: $colorP14;
+  border: $colorP11 solid 2px;
+}
