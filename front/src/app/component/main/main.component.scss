@@ -14,11 +14,24 @@ $colorP25: #4D4861;
  */
 
 // Actual Color Palette
+$colorP10: #915c35;
 $colorP11: #D4A373;
 $colorP12: #FAEDCD;
 $colorP13: #FEFAE0;
 $colorP14: #E9EDC9;
 $colorP15: #CCD5AE;
+
+
+// For non scss files
+:root {
+  --colorP10: #915c35;
+  --colorP11: #D4A373;
+  --colorP12: #FAEDCD;
+  --colorP13: #FEFAE0;
+  --colorP14: #E9EDC9;
+  --colorP15: #CCD5AE;
+
+}
 
 // DEFAULT FONT FAMILY FOR EVERYTHING
 * {
@@ -80,26 +93,3 @@ span[class*="form-error-span"] {
   color: #B81111;
   text-align: center;
 }
-
-/*SCROLLBAR STUFF*/
-/* width */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-
