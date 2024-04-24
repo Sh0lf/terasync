@@ -1,6 +1,7 @@
 package isep.webapp.terasync.service.user;
 
-import isep.webapp.terasync.model.misc.TokenByOldToken;
+import isep.webapp.terasync.model.query.TokenByEmail;
+import isep.webapp.terasync.model.query.TokenByOldToken;
 import isep.webapp.terasync.model.user.Admin;
 import isep.webapp.terasync.repository.user.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +34,11 @@ public class AdminService extends UserService<Admin, AdminRepository> {
 
     @Transactional
     @Override
-    public Integer updateTokenByEmail(Admin admin) {
-        return entityRepository.updateTokenByEmail(admin.getEmail(), admin.getToken());
+    public Integer updateTokenByEmail(TokenByEmail tokenByEmail) {
+        return entityRepository.updateTokenByEmail(tokenByEmail.getEmail(), tokenByEmail.getNewToken());
     }
 
+    @Transactional
     @Override
     public Integer updateTokenByOldToken(TokenByOldToken tokenByOldToken) {
         return entityRepository.updateTokenByOldToken(tokenByOldToken.getOldToken(), tokenByOldToken.getNewToken());

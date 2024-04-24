@@ -14,6 +14,6 @@ export class CustomerService extends UserService<Customer> {
   }
 
   public verifyEmail(email: String): Observable<number> {
-    return this.http.get<number>(`${this.apiServerUrl}/${this.entityName}/verify-email/${email}`);
+    return this.http.get<number>(`${this.apiBackendUrl}/${this.entityName}/verify-email/${email}`);
   }
 }

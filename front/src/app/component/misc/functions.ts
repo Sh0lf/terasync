@@ -3,8 +3,8 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {UserService} from "../../service/user/user.service";
 import {User} from "../../model/user/user";
 import bcrypt from "bcryptjs";
-import {Email} from "../../model/email";
-import {EmailService} from "../../service/email.service";
+import {Email} from "../../model/misc/email";
+import {EmailService} from "../../service/misc/email.service";
 
 export function generateRandomString(length: number): string {
   let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";

@@ -7,7 +7,7 @@ import {Injectable} from "@angular/core";
   providedIn: 'root'
 })
 export abstract class EntityService<T> {
-  protected apiServerUrl = environment.apiBackendUrl;
+  protected apiBackendUrl = environment.apiBackendUrl;
   protected readonly entityName: String;
 
   protected constructor(protected http: HttpClient, entityName: String) {
@@ -15,23 +15,23 @@ export abstract class EntityService<T> {
   }
 
   public getEntities(): Observable<T[]> {
-    return this.http.get<T[]>(`${this.apiServerUrl}/${this.entityName}/all`);
+    return this.http.get<T[]>(`${this.apiBackendUrl}/${this.entityName}/all`);
   }
 
   public addEntity(entity: T): Observable<T> {
-    return this.http.post<T>(`${this.apiServerUrl}/${this.entityName}/add`, entity);
+    return this.http.post<T>(`${this.apiBackendUrl}/${this.entityName}/add`, entity);
   }
 
   public updateEntity(entity: T): Observable<T> {
-    return this.http.put<T>(`${this.apiServerUrl}/${this.entityName}/update`, entity);
+    return this.http.put<T>(`${this.apiBackendUrl}/${this.entityName}/update`, entity);
   }
 
   public deleteEntity(entityId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiServerUrl}/${this.entityName}/delete/${entityId}`);
+    return this.http.delete<void>(`${this.apiBackendUrl}/${this.entityName}/delete/${entityId}`);
   }
 
   public findEntityById(entityId: number): Observable<T> {
-    return this.http.get<T>(`${this.apiServerUrl}/${this.entityName}/findById/${entityId}`);
+    return this.http.get<T>(`${this.apiBackendUrl}/${this.entityName}/findById/${entityId}`);
   }
 }
 

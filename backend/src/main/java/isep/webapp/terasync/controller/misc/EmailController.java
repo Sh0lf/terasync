@@ -1,4 +1,4 @@
-package isep.webapp.terasync.controller;
+package isep.webapp.terasync.controller.misc;
 
 import isep.webapp.terasync.model.misc.Email;
 import isep.webapp.terasync.service.misc.EmailService;

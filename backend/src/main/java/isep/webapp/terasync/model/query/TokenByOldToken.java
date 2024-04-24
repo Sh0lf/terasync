@@ -1,4 +1,4 @@
-package isep.webapp.terasync.model.misc;
+package isep.webapp.terasync.model.query;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

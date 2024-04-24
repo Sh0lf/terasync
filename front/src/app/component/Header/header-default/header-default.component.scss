@@ -1,17 +1,16 @@
 @import "../../main/main.component.scss";
 
-* {
-  font-size: 16px;
-  font-weight: bold;
-}
+$font-size: 16px;
+$font-weight: bold;
+
 
 .header-body-div {
   display: flex;
   flex-direction: row;
   justify-content: start;
+  flex-wrap: wrap;
   background: $colorP12;
   min-height: 40px;
-  padding: 5px 15px 5px 15px;
 }
 
 .logo-img {
@@ -23,7 +22,11 @@
   min-height: 40px;
   align-items: center;
   display: flex;
-  padding: 0 10px 0 10px;
+  padding: 10px
+}
+
+.logo-title-elem {
+  cursor: pointer;
 }
 
 .title-elem {
@@ -46,6 +49,8 @@
 }
 
 .address-elem-img {
+  display: flex;
+  flex-direction: column;
   padding: 0 5px 0 5px;
 }
 
@@ -75,6 +80,9 @@
   border-radius: 15px;
   border: transparent;
   background: transparent;
+
+  font-size: $font-size;
+  font-weight: $font-weight;
 }
 
 .login-button:hover {
@@ -93,9 +101,83 @@
   border: #d9d9d9 solid 2px;
 
   background: $colorP13;
+  font-size: $font-size;
+  font-weight: $font-weight;
 }
 
 .register-button:hover{
   background: $colorP14;
   border: $colorP11 solid 2px;
+}
+
+.burger-menu-elem {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+
+}
+
+.burger-menu-icon-elem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  min-width: 45px;
+  min-height: 45px;
+  border-radius: 50px;
+}
+
+.burger-menu-icon-elem:hover {
+  background: $colorP11;
+}
+
+.burger-menu-icon {
+  font-size: 30px;
+}
+
+.chevron-icon {
+
+}
+
+//// DROP DOWN LIST STYLES
+
+#drop-down-menu {
+  position: absolute;
+  z-index: 0;
+  background: $colorP12;
+  border-radius: 5px;
+  min-width: 290px;
+}
+
+.dpm-title-elem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  margin: 10px;
+}
+
+.x-mark-icon-elem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 50px;
+}
+
+.x-mark-icon-elem:hover {
+  background: $colorP11;
+}
+
+.x-mark-icon {
+  font-size: 25px;
+  padding: 5px;
+}
+
+.main-title-span {
+  flex-grow: 1;
 }

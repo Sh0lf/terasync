@@ -6,20 +6,12 @@ import {RECAPTCHA_SETTINGS, RecaptchaModule} from "ng-recaptcha";
 import {environment} from "../../../../environment/environment.prod";
 import {LogoComponent} from "../../logo/logo.component";
 import {ActivatedRoute, Router} from "@angular/router";
-import {UserService} from "../../../service/user/user.service";
-import {
-  adminCategory,
-  businessCategory,
-  customerCategory,
-  deliveryPersonCategory,
-  deliveryServiceCategory
-} from "../../../service/user/userCategories";
 import {CustomerService} from "../../../service/user/customer.service";
 import {BusinessService} from "../../../service/user/business.service";
 import {AdminService} from "../../../service/user/admin.service";
 import {DeliveryServiceService} from "../../../service/user/delivery-service.service";
 import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
-import {EmailService} from "../../../service/email.service";
+import {EmailService} from "../../../service/misc/email.service";
 import {StorageKeys} from "../../misc/storage-keys";
 import bcrypt from "bcryptjs";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -55,13 +47,13 @@ export class PasswordResetComponent extends AuthenticationComponent implements O
   token: string | null = "";
   _isPasswordReset: boolean = false;
 
-  constructor(private customerService: CustomerService,
-              private businessService: BusinessService,
-              private adminService: AdminService,
-              private deliveryServiceService: DeliveryServiceService,
-              private deliveryPersonService: DeliveryPersonService,
+  constructor(protected override customerService: CustomerService,
+              protected override businessService: BusinessService,
+              protected override adminService: AdminService,
+              protected override deliveryServiceService: DeliveryServiceService,
+              protected override deliveryPersonService: DeliveryPersonService,
+              protected override cookieService: CookieService,
               private emailService: EmailService,
-              private cookieService: CookieService,
               private router: Router, private route: ActivatedRoute) {
     super();
   }
@@ -72,8 +64,9 @@ export class PasswordResetComponent extends AuthenticationComponent implements O
     });
 
     try {
-      this.token = this.cookieService.get(StorageKeys.USER_TOKEN);
-      if (this.token == null || !(this.token.length > 0)) {
+      if (this.token == null ||
+        !(this.token.length > 0) ||
+        this.token != this.cookieService.get(StorageKeys.USER_TOKEN)) {
         this.routeToHome(this.router, this.route);
       }
     } catch (e) {
@@ -98,10 +91,10 @@ export class PasswordResetComponent extends AuthenticationComponent implements O
                             next: (success: number) => {
                               if (success == 1) {
                                 console.log("Password updated");
-                                this.resetTokenCookie(this.cookieService, this.fetchService())
+                                this.resetTokenByOldToken(this.cookieService, this.fetchService())
                                   .then((success) => {
                                     resolve(success);
-                                });
+                                  });
                               } else {
                                 console.log("Password not updated");
                                 resolve(false);
@@ -150,22 +143,6 @@ export class PasswordResetComponent extends AuthenticationComponent implements O
     return this.isPasswordsMatch()
       && this.isCaptchaValid()
       && this.isPasswordProper(this.newPasswordInput);
-  }
-
-  fetchService(): UserService<any> {
-    switch (this.getCurrentUserCategory(this.cookieService).name) {
-      case(adminCategory.name):
-        return this.adminService;
-      case(businessCategory.name):
-        return this.businessService;
-      case(customerCategory.name):
-        return this.customerService;
-      case(deliveryPersonCategory.name):
-        return this.deliveryPersonService;
-      case(deliveryServiceCategory.name):
-        return this.deliveryServiceService;
-    }
-    return this.customerService;
   }
 
   isPasswordsNotMatch() {

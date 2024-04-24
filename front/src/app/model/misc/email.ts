@@ -1,4 +1,4 @@
-import {environment} from "../../environment/environment.prod";
+import {environment} from "../../../environment/environment.prod";
 
 export class Email {
   to: string;

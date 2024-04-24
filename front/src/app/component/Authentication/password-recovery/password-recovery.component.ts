@@ -19,13 +19,14 @@ import {
   deliveryPersonCategory,
   deliveryServiceCategory
 } from "../../../service/user/userCategories";
-import {EmailService} from "../../../service/email.service";
-import {Email} from "../../../model/email";
+import {EmailService} from "../../../service/misc/email.service";
+import {Email} from "../../../model/misc/email";
 import {HttpErrorResponse} from "@angular/common/http";
 import {generateRandomToken} from "../../misc/functions";
 import {StorageKeys} from "../../misc/storage-keys";
 import {LogoComponent} from "../../logo/logo.component";
 import { CookieService } from 'ngx-cookie-service';
+import {TokenByEmail} from "../../../model/query/token-by-email";
 
 @Component({
   selector: 'app-password-recovery',
@@ -55,13 +56,13 @@ export class PasswordRecoveryComponent extends AuthenticationComponent {
   isEmailChecked: boolean = false;
   _isEmailSent: boolean = false;
 
-  constructor(private customerService: CustomerService,
-              private businessService: BusinessService,
-              private adminService: AdminService,
-              private deliveryServiceService: DeliveryServiceService,
-              private deliveryPersonService: DeliveryPersonService,
+  constructor(protected override customerService: CustomerService,
+              protected override businessService: BusinessService,
+              protected override adminService: AdminService,
+              protected override deliveryServiceService: DeliveryServiceService,
+              protected override deliveryPersonService: DeliveryPersonService,
+              protected override cookieService: CookieService,
               private emailService: EmailService,
-              private cookieService: CookieService,
               private router: Router, private route: ActivatedRoute) {
     super();
   }
@@ -82,22 +83,9 @@ export class PasswordRecoveryComponent extends AuthenticationComponent {
               this.emailService.sendEmail(Email.recoveryEmail(user.email, newToken)).subscribe({
                   next: (success: boolean) => {
                     if (success) {
-                      this.fetchService().updateTokenByEmail({email: user.email, newToken: newToken}).subscribe({
-                        next: (success: number) => {
-                          if(success == 1) {
-                            this.cookieService.set(StorageKeys.USER_TOKEN, newToken);
-                            console.log('Token updated');
-                            resolve(true);
-                          } else {
-                            console.error('Token not updated');
-                            resolve(false);
-                          }
-                        },
-                        error: (error: HttpErrorResponse) => {
-                          console.error('HTTP ERROR: Token not updated');
-                          resolve(false);
-                        }
-                      })
+                      this.resetTokenByEmail(this.cookieService, this.fetchService(), user.email, newToken).then((success) => {
+                        resolve(success);
+                      });
                       console.log('Email sent');
                     } else {
                       console.error('Email not sent');
@@ -129,22 +117,6 @@ export class PasswordRecoveryComponent extends AuthenticationComponent {
       this._isEmailSent = success;
       super.onSubmit();
     });
-  }
-
-  fetchService(): UserService<any> {
-    switch (this.getCurrentUserCategory(this.cookieService).name) {
-      case(adminCategory.name):
-        return this.adminService;
-      case(businessCategory.name):
-        return this.businessService;
-      case(customerCategory.name):
-        return this.customerService;
-      case(deliveryPersonCategory.name):
-        return this.deliveryPersonService;
-      case(deliveryServiceCategory.name):
-        return this.deliveryServiceService;
-    }
-    return this.customerService;
   }
 
   isEmailNotExist(): boolean {

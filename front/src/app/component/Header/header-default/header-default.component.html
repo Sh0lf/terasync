@@ -1,9 +1,22 @@
-<div class="header-body">
+<div #headerBody id="header-body" (window:resize)="onResize()">
   <div class="header-body-div">
     <div class="header-elem">
-      <img class="burger-menu-img" src="assets/icons/burger-menu.png" alt="burger-menu">
+      <div class="burger-menu-elem">
+        <div class="burger-menu-icon-elem" (click)="burgerMenuOnClick()">
+          <fa-icon [class]="['burger-menu-icon']" [icon]="faBars"></fa-icon>
+        </div>
+        <div id="drop-down-menu" [style.top.px]="dropDownMenuTop" *ngIf="showMenu">
+          <div class="dpm-title-elem">
+            <span *ngIf="isUserLoggedIn" class="main-title-span">Name Of The User</span>
+            <span *ngIf="!isUserLoggedIn" class="main-title-span">Welcome To TeraSync!</span>
+            <div class="x-mark-icon-elem" (click)="xMarkOnClick()">
+              <fa-icon [icon]="xMark" [class]="['x-mark-icon']"></fa-icon>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="header-elem">
+    <div class="header-elem logo-title-elem" (click)="routeToHome(router, route)">
       <img class="logo-img" src="assets/logo.jpeg" alt="logo">
       <div class="title-elem">
         <span>terasync/ foodapp</span>
@@ -17,13 +30,14 @@
         <span>Some Address Variable</span>
       </div>
       <div class="address-elem-img">
-        <img class="arrow-down-img" src="assets/icons/arrow-down.png" alt="arrow-down">
+        <fa-icon [class]="['chevron-icon']" [icon]="faChevronDown"></fa-icon>
+        <fa-icon [class]="['chevron-icon']" [icon]="faChevronUp" *ngIf="false"></fa-icon>
       </div>
     </div>
-    <div class="header-elem login-button-elem">
+    <div class="header-elem login-button-elem" *ngIf="!isUserLoggedIn">
       <button class="login-button" type="button" (click)="loginOnClick()">Login</button>
     </div>
-    <div class="header-elem register-button-elem">
+    <div class="header-elem register-button-elem" *ngIf="!isUserLoggedIn">
       <button class="register-button" type="button" (click)="registerOnClick()">Register</button>
     </div>
   </div>

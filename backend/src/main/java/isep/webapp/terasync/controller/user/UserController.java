@@ -1,7 +1,8 @@
 package isep.webapp.terasync.controller.user;
 
 import isep.webapp.terasync.controller.EntityController;
-import isep.webapp.terasync.model.misc.TokenByOldToken;
+import isep.webapp.terasync.model.query.TokenByEmail;
+import isep.webapp.terasync.model.query.TokenByOldToken;
 import isep.webapp.terasync.service.user.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,12 +30,12 @@ public abstract class UserController<T, S extends UserService<T, ?>> extends Ent
         return ResponseEntity.ok(entityService.updatePasswordByEmail(user));
     }
 
-    @GetMapping("/update-token-by-email")
-    public ResponseEntity<Integer> updateTokenByEmail(@RequestBody T user) {
-        return ResponseEntity.ok(entityService.updateTokenByEmail(user));
+    @PostMapping("/update-token-by-email")
+    public ResponseEntity<Integer> updateTokenByEmail(@RequestBody TokenByEmail tokenByEmail) {
+        return ResponseEntity.ok(entityService.updateTokenByEmail(tokenByEmail));
     }
 
-    @GetMapping("/update-token-by-old-token")
+    @PostMapping("/update-token-by-old-token")
     public ResponseEntity<Integer> updateTokenByOldToken(@RequestBody TokenByOldToken tokenByOldToken) {
         return ResponseEntity.ok(entityService.updateTokenByOldToken(tokenByOldToken));
     }

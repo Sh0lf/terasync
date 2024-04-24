@@ -6,27 +6,20 @@ import {RECAPTCHA_SETTINGS, RecaptchaModule} from "ng-recaptcha";
 import {FormsModule} from "@angular/forms";
 import {environment} from "../../../../environment/environment.prod";
 import {CustomerService} from "../../../service/user/customer.service";
-import {
-  adminCategory,
-  businessCategory,
-  customerCategory,
-  deliveryPersonCategory,
-  deliveryServiceCategory
-} from "../../../service/user/userCategories";
+import {customerCategory} from "../../../service/user/userCategories";
 import {UserType} from "../../../service/user/user.type";
 import {BusinessService} from "../../../service/user/business.service";
 import {AdminService} from "../../../service/user/admin.service";
 import {DeliveryServiceService} from "../../../service/user/delivery-service.service";
 import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
-import {UserService} from "../../../service/user/user.service";
 import {User} from "../../../model/user/user";
 import {AuthenticationComponent} from "../authentication-component";
 import bcrypt from "bcryptjs";
 import {StorageKeys} from "../../misc/storage-keys";
-import {generateRandomToken, sendVerificationEmail} from "../../misc/functions";
+import {sendVerificationEmail} from "../../misc/functions";
 import {Customer} from "../../../model/user/customer";
 import {LogoComponent} from "../../logo/logo.component";
-import {EmailService} from "../../../service/email.service";
+import {EmailService} from "../../../service/misc/email.service";
 import {InternalObjectService} from "../../../service/internal-object.service";
 import {CookieService} from "ngx-cookie-service";
 
@@ -58,13 +51,13 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
   // Logic Fields
   protected isLoginValid: boolean = false;
 
-  constructor(private customerService: CustomerService,
-              private businessService: BusinessService,
-              private adminService: AdminService,
-              private deliveryServiceService: DeliveryServiceService,
-              private deliveryPersonService: DeliveryPersonService,
+  constructor(protected override customerService: CustomerService,
+              protected override businessService: BusinessService,
+              protected override adminService: AdminService,
+              protected override deliveryServiceService: DeliveryServiceService,
+              protected override deliveryPersonService: DeliveryPersonService,
+              protected override cookieService: CookieService,
               private emailService: EmailService,
-              protected cookieService: CookieService,
               private internalObjectService: InternalObjectService<{
                 verificationCodeHash: string,
                 customer: Customer
@@ -74,11 +67,8 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    try {
-      if (this.cookieService.get(StorageKeys.USER_CATEGORY) == null) {
-        this.cookieService.set(StorageKeys.USER_CATEGORY, JSON.stringify(customerCategory));
-      }
-    } catch (e) {
+    if(this.hasUserToken()) {
+      this.deleteUserToken();
     }
   }
 
@@ -93,25 +83,9 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
                   if (!this.checkCustomerEmailVerified(jsonUser)) {
                     resolve(true);
                   } else {
-                    // CREATE A TOKEN AND STORE THE HASH IN SESSION STORAGE
-                    const newToken = generateRandomToken();
-                    this.fetchService().updateTokenByEmail({email: jsonUser.email, newToken: newToken}).subscribe({
-                      next: (success: number) => {
-                        if (success == 1) {
-                          console.log('Token updated');
-                          this.cookieService.set(StorageKeys.USER_TOKEN, newToken);
-                          resolve(true);
-                        } else {
-                          console.error('Token not updated');
-                          resolve(false);
-                        }
-                      },
-                      error: (error: HttpErrorResponse) => {
-                        console.error('HTTP Error: Token not updated');
-                        resolve(false);
-                      }
+                    this.resetTokenByEmail(this.cookieService, this.fetchService(), jsonUser.email).then((success) => {
+                      resolve(success);
                     });
-
                     console.log('Login is valid');
                   }
                 } else {
@@ -140,7 +114,7 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
       console.log("submitted: " + this.isSubmitted);
       console.log("isLoginValid: " + this.isLoginValid)
 
-      if(this.isLoginValid) {
+      if (this.isLoginValid) {
         this.routeToHome(this.router, this.route);
       }
     });
@@ -148,22 +122,6 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
 
   override isFormValid(): boolean {
     return !this.isEmailInvalid() && !this.isPasswordInvalid() && !this.isCaptchaInvalid();
-  }
-
-  fetchService(): UserService<any> {
-    switch (this.getCurrentUserCategory(this.cookieService).name) {
-      case(adminCategory.name):
-        return this.adminService;
-      case(businessCategory.name):
-        return this.businessService;
-      case(customerCategory.name):
-        return this.customerService;
-      case(deliveryPersonCategory.name):
-        return this.deliveryPersonService;
-      case(deliveryServiceCategory.name):
-        return this.deliveryServiceService;
-    }
-    return this.customerService;
   }
 
   isEmailInvalid(): boolean {
@@ -179,7 +137,7 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
   }
 
   isPartnerType(): boolean {
-    return this.getCurrentUserCategory(this.cookieService).userType === UserType.PARTNER;
+    return this.getCurrentUserCategory().userType === UserType.PARTNER;
   }
 
   getOppositeUserType(): UserType {
@@ -188,18 +146,21 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
 
   switchUserType() {
     if (this.isPartnerType()) {
-      this.cookieService.set(StorageKeys.USER_CATEGORY, JSON.stringify(customerCategory));
+      this.setCurrentUserCategory(customerCategory);
     } else {
       this.router.navigate(['/partner-selection'], {relativeTo: this.route}).then();
     }
   }
 
   private checkCustomerEmailVerified(jsonUser: User): boolean {
-    if (this.getCurrentUserCategory(this.cookieService).userType == UserType.CUSTOMER && !(jsonUser as Customer).emailVerified) {
+    if (this.getCurrentUserCategory().userType == UserType.CUSTOMER && !(jsonUser as Customer).emailVerified) {
       console.log('Email not verified');
       sendVerificationEmail(jsonUser.email, this.emailService).then((verificationCodeHash) => {
         if (verificationCodeHash != null) {
-          this.internalObjectService.setObject({verificationCodeHash: verificationCodeHash, customer: jsonUser as Customer});
+          this.internalObjectService.setObject({
+            verificationCodeHash: verificationCodeHash,
+            customer: jsonUser as Customer
+          });
           this.router.navigate(['/verify-email'], {relativeTo: this.route}).then();
         }
       });

@@ -1,11 +1,23 @@
 import {FormComponent} from "../misc/form-component";
-import {customerCategory, UserCategory} from "../../service/user/userCategories";
+import {
+  adminCategory,
+  businessCategory,
+  customerCategory,
+  deliveryPersonCategory, deliveryServiceCategory,
+  UserCategory
+} from "../../service/user/userCategories";
 import {StorageKeys} from "../misc/storage-keys";
 import {CookieService} from "ngx-cookie-service";
+import {CustomerService} from "../../service/user/customer.service";
+import {BusinessService} from "../../service/user/business.service";
+import {AdminService} from "../../service/user/admin.service";
+import {DeliveryServiceService} from "../../service/user/delivery-service.service";
+import {DeliveryPersonService} from "../../service/user/delivery-person.service";
+import {EmailService} from "../../service/misc/email.service";
+import {UserService} from "../../service/user/user.service";
 
 export abstract class AuthenticationComponent extends FormComponent {
   protected captcha: string | null = "";
-  protected _currentUserCategory: UserCategory = customerCategory;
 
   // Validation messages
   protected passwordInvalidMessage: String = "Password must have at least one lowercase and uppercase letter, one number, and 8 characters long.";
@@ -14,6 +26,14 @@ export abstract class AuthenticationComponent extends FormComponent {
 
   // Static vars
   protected hashSalt: number = 10;
+
+  // Services
+  protected customerService!: CustomerService;
+  protected businessService!: BusinessService;
+  protected adminService!: AdminService;
+  protected deliveryServiceService!: DeliveryServiceService;
+  protected deliveryPersonService!: DeliveryPersonService;
+
   protected constructor() {
     super();
   }
@@ -41,11 +61,20 @@ export abstract class AuthenticationComponent extends FormComponent {
     return regex.test(password);
   }
 
-  getCurrentUserCategory(cookieService: CookieService): UserCategory {
-    try {
-      this._currentUserCategory = UserCategory.fromJson(cookieService.get(StorageKeys.USER_CATEGORY));
-    } catch (e: any) {
+  fetchService(): UserService<any> {
+    switch (this.getCurrentUserCategory().name) {
+      case(adminCategory.name):
+        return this.adminService;
+      case(businessCategory.name):
+        return this.businessService;
+      case(customerCategory.name):
+        return this.customerService;
+      case(deliveryPersonCategory.name):
+        return this.deliveryPersonService;
+      case(deliveryServiceCategory.name):
+        return this.deliveryServiceService;
     }
-    return this._currentUserCategory;
+    return this.customerService;
   }
+
 }

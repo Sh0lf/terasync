@@ -8,7 +8,7 @@ import {CustomerService} from "../../../service/user/customer.service";
 import {Customer} from "../../../model/user/customer";
 import bcrypt from "bcryptjs";
 import {ActivatedRoute, Router} from "@angular/router";
-import {EmailService} from "../../../service/email.service";
+import {EmailService} from "../../../service/misc/email.service";
 import {InternalObjectService} from "../../../service/internal-object.service";
 import {LogoComponent} from "../../logo/logo.component";
 import {checkEmail, sendVerificationEmail} from "../../misc/functions";
@@ -45,7 +45,7 @@ export class RegisterComponent extends AuthenticationComponent {
   // Logic Fields
   protected isEmailExists: boolean = false;
 
-  constructor(private customerService: CustomerService,
+  constructor(protected override customerService: CustomerService,
               private internalObjectService: InternalObjectService<{
                 verificationCodeHash: string,
                 customer: Customer

@@ -8,9 +8,5 @@ export abstract class FormComponent extends CookieComponent {
     this.isSubmitted = true;
   };
 
-  routeToHome(router: Router, route: ActivatedRoute) {
-    router.navigate([''], {relativeTo: route}).then();
-  }
-
   abstract isFormValid(): boolean;
 }

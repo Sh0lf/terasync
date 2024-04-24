@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
 import {HttpClientModule} from "@angular/common/http";
 import {NgForOf, NgIf} from "@angular/common";
@@ -7,6 +7,9 @@ import {HeaderDefaultComponent} from "../Header/header-default/header-default.co
 import {FooterComponent} from "../footer/footer.component";
 import {RegisterComponent} from "../Authentication/register/register.component";
 import {StorageKeys} from "../misc/storage-keys";
+import {customerCategory} from "../../service/user/userCategories";
+import {CookieComponent} from "../misc/cookie-component";
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'main-component',
@@ -15,12 +18,18 @@ import {StorageKeys} from "../misc/storage-keys";
   templateUrl: 'main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent {
-  public title = 'teraSyncFront';
+export class MainComponent extends CookieComponent implements OnInit {
+  // Excluded Routes for headers / footers
   excludedHeaderRoutes = ['/login', '/partner-selection', '/register', '/verify-email', '/password-recovery', '/password-reset/'];
   excludedFooterRoutes = ['/login', '/partner-selection', '/register', '/verify-email', '/password-recovery', '/password-reset'];
 
-  constructor(private router: Router) {
+  constructor(protected override cookieService: CookieService,
+              private router: Router) {
+    super();
+  }
+
+  ngOnInit(): void {
+    this.getCurrentUserCategory();
   }
 
   isCurrentRoute(route: string): boolean {
