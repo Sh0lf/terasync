@@ -1,22 +1,22 @@
-import {Customer} from "../model/user/customer";
+import {Customer} from "../../model/user/customer";
 import {HttpErrorResponse} from "@angular/common/http";
-import {UserService} from "../service/user/user.service";
-import {User} from "../model/user/user";
+import {UserService} from "../../service/user/user.service";
+import {User} from "../../model/user/user";
 import bcrypt from "bcryptjs";
-import {Email} from "../model/email";
-import {EmailService} from "../service/email.service";
+import {Email} from "../../model/email";
+import {EmailService} from "../../service/email.service";
 
-export function makeRandom(lengthOfCode: number): string {
+export function generateRandomString(length: number): string {
   let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz";
   let text = "";
-  for (let i = 0; i < lengthOfCode; i++) {
+  for (let i = 0; i < length; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   }
   return text;
 }
 
-export function makeRandomToken(): string {
-  return makeRandom(40);
+export function generateRandomToken(): string {
+  return generateRandomString(150);
 }
 
 export function makeRandomNumber(lengthOfCode: number): number {

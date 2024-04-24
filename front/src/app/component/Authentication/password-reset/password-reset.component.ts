@@ -20,10 +20,11 @@ import {AdminService} from "../../../service/user/admin.service";
 import {DeliveryServiceService} from "../../../service/user/delivery-service.service";
 import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
 import {EmailService} from "../../../service/email.service";
-import {StorageKeys} from "../../storage-keys";
+import {StorageKeys} from "../../misc/storage-keys";
 import bcrypt from "bcryptjs";
 import {HttpErrorResponse} from "@angular/common/http";
 import {CookieService} from "ngx-cookie-service";
+import {User} from "../../../model/user/user";
 
 @Component({
   selector: 'app-password-reset',
@@ -51,7 +52,8 @@ export class PasswordResetComponent extends AuthenticationComponent implements O
 
   // Logic Fields
   isPasswordSame: boolean = false;
-  cookieToken: string | null = "";
+  token: string | null = "";
+  _isPasswordReset: boolean = false;
 
   constructor(private customerService: CustomerService,
               private businessService: BusinessService,
@@ -66,14 +68,12 @@ export class PasswordResetComponent extends AuthenticationComponent implements O
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.cookieToken = params[StorageKeys.USER_TOKEN];
+      this.token = params[StorageKeys.USER_TOKEN];
     });
 
-    console.log("Session token: " + this.cookieToken);
-
     try {
-      this.cookieToken = this.cookieService.get(StorageKeys.USER_TOKEN);
-      if (this.cookieToken == null || !(this.cookieToken.length > 0)) {
+      this.token = this.cookieService.get(StorageKeys.USER_TOKEN);
+      if (this.token == null || !(this.token.length > 0)) {
         this.routeToHome(this.router, this.route);
       }
     } catch (e) {
@@ -83,35 +83,38 @@ export class PasswordResetComponent extends AuthenticationComponent implements O
 
 
   override onSubmit() {
-
     new Promise<boolean>((resolve, reject) => {
       if (this.isFormValid()) {
-        if (this.cookieToken != null) {
-          this.fetchService().findUserByToken(this.cookieToken).subscribe({
-            next: (user) => {
-              if (user != null) {
-                if (this.cookieToken == user.token) {
-                  bcrypt.compare(this.newPasswordInput, user.password).then(success => {
+        if (this.token != null) {
+          this.fetchService().findUserByToken(this.token).subscribe({
+            next: (jsonUser: User) => {
+              if (jsonUser != null) {
+                if (this.token == jsonUser.token) {
+                  bcrypt.compare(this.newPasswordInput, jsonUser.password).then(success => {
                     if (!success) {
-                      bcrypt.hash(this.newPasswordInput, this.passwordSalt, (err, hashPassword) => {
-                        this.fetchService().updatePassword(user.email, hashPassword).subscribe({
-                          next: (success: number) => {
-                            if (success == 1) {
-                              console.log("Password updated");
-                              this.routeToHome(this.router, this.route);
-                              resolve(true);
-                            } else {
-                              console.log("Password not updated");
+                      bcrypt.hash(this.newPasswordInput, this.hashSalt, (err, hashPassword) => {
+                        this.fetchService().updatePasswordByEmail({email: jsonUser.email, password: hashPassword})
+                          .subscribe({
+                            next: (success: number) => {
+                              if (success == 1) {
+                                console.log("Password updated");
+                                this.resetTokenCookie(this.cookieService, this.fetchService())
+                                  .then((success) => {
+                                    resolve(success);
+                                });
+                              } else {
+                                console.log("Password not updated");
+                                resolve(false);
+                              }
+                            },
+                            error: (e: HttpErrorResponse) => {
+                              console.log("HTTP Error: Password not updated");
                               resolve(false);
                             }
-                          },
-                          error: (e: HttpErrorResponse) => {
-                            console.log("HTTP Error: Password not updated");
-                            resolve(false);
-                          }
-                        });
+                          });
                       });
                     } else {
+                      this.isPasswordSame = success;
                       console.log("Password is the same")
                       resolve(false);
                     }
@@ -124,28 +127,33 @@ export class PasswordResetComponent extends AuthenticationComponent implements O
                 console.log("User not found");
                 resolve(false);
               }
+            },
+            error: (e: HttpErrorResponse) => {
+              console.log("HTTP Error: User not found");
+              resolve(false);
             }
           });
         }
-
       } else {
         resolve(false)
       }
     }).then((success) => {
-      this.isPasswordSame = !success;
       super.onSubmit();
+      if (success) {
+        this._isPasswordReset = true;
+      }
     });
 
   }
 
   override isFormValid(): boolean {
-    return this.isPasswordProper(this.newPasswordInput)
-      && this.isPasswordsMatch()
-      && this.isCaptchaValid();
+    return this.isPasswordsMatch()
+      && this.isCaptchaValid()
+      && this.isPasswordProper(this.newPasswordInput);
   }
 
   fetchService(): UserService<any> {
-    switch (this.currenUserCategory.name) {
+    switch (this.getCurrentUserCategory(this.cookieService).name) {
       case(adminCategory.name):
         return this.adminService;
       case(businessCategory.name):
@@ -171,5 +179,9 @@ export class PasswordResetComponent extends AuthenticationComponent implements O
 
   isPasswordsMatch(): boolean {
     return this.newPasswordInput === this.newPasswordConfirmInput;
+  }
+
+  isPasswordReset(): boolean {
+    return this._isPasswordReset && this.isSubmitted;
   }
 }

@@ -22,8 +22,8 @@ import {
 import {EmailService} from "../../../service/email.service";
 import {Email} from "../../../model/email";
 import {HttpErrorResponse} from "@angular/common/http";
-import {makeRandomToken} from "../../functions";
-import {StorageKeys} from "../../storage-keys";
+import {generateRandomToken} from "../../misc/functions";
+import {StorageKeys} from "../../misc/storage-keys";
 import {LogoComponent} from "../../logo/logo.component";
 import { CookieService } from 'ngx-cookie-service';
 
@@ -45,7 +45,7 @@ import { CookieService } from 'ngx-cookie-service';
   templateUrl: './password-recovery.component.html',
   styleUrls: ['./password-recovery.component.css', '../commonCss/auth.styles.scss', '../../main/main.component.scss']
 })
-export class PasswordRecoveryComponent extends AuthenticationComponent implements OnInit {
+export class PasswordRecoveryComponent extends AuthenticationComponent {
   // Form fields
   emailInput: string = "";
   user!: User;
@@ -54,7 +54,6 @@ export class PasswordRecoveryComponent extends AuthenticationComponent implement
   isEmailExist: boolean = false;
   isEmailChecked: boolean = false;
   _isEmailSent: boolean = false;
-  userToken: string = "";
 
   constructor(private customerService: CustomerService,
               private businessService: BusinessService,
@@ -65,10 +64,6 @@ export class PasswordRecoveryComponent extends AuthenticationComponent implement
               private cookieService: CookieService,
               private router: Router, private route: ActivatedRoute) {
     super();
-  }
-
-  ngOnInit(): void {
-    console.log("current category: " + this.currenUserCategory.name);
   }
 
   override isFormValid(): boolean {
@@ -83,13 +78,27 @@ export class PasswordRecoveryComponent extends AuthenticationComponent implement
             this.user = user;
             if (this.user != null) {
               this.isEmailExist = true;
-              this.userToken = makeRandomToken();
-              this.emailService.sendEmail(Email.recoveryEmail(user.email, this.userToken)).subscribe({
+              let newToken = generateRandomToken();
+              this.emailService.sendEmail(Email.recoveryEmail(user.email, newToken)).subscribe({
                   next: (success: boolean) => {
                     if (success) {
-                      this.cookieService.set(StorageKeys.USER_TOKEN, this.userToken);
+                      this.fetchService().updateTokenByEmail({email: user.email, newToken: newToken}).subscribe({
+                        next: (success: number) => {
+                          if(success == 1) {
+                            this.cookieService.set(StorageKeys.USER_TOKEN, newToken);
+                            console.log('Token updated');
+                            resolve(true);
+                          } else {
+                            console.error('Token not updated');
+                            resolve(false);
+                          }
+                        },
+                        error: (error: HttpErrorResponse) => {
+                          console.error('HTTP ERROR: Token not updated');
+                          resolve(false);
+                        }
+                      })
                       console.log('Email sent');
-                      resolve(true);
                     } else {
                       console.error('Email not sent');
                       resolve(false);
@@ -105,22 +114,25 @@ export class PasswordRecoveryComponent extends AuthenticationComponent implement
               console.log('Email does not exist');
               resolve(false);
             }
+            this.isEmailChecked = true;
           },
           error: (error: HttpErrorResponse) => {
             console.error("HTTP ERROR: Email does not exist");
             resolve(false);
           }
         });
+      } else {
+        console.log('Form not valid');
+        resolve(false);
       }
     }).then(success => {
-      this.isEmailChecked = true;
       this._isEmailSent = success;
       super.onSubmit();
     });
   }
 
   fetchService(): UserService<any> {
-    switch (this.currenUserCategory.name) {
+    switch (this.getCurrentUserCategory(this.cookieService).name) {
       case(adminCategory.name):
         return this.adminService;
       case(businessCategory.name):

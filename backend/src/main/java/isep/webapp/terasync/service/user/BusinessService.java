@@ -1,6 +1,6 @@
 package isep.webapp.terasync.service.user;
 
-import isep.webapp.terasync.model.user.Admin;
+import isep.webapp.terasync.model.misc.TokenByOldToken;
 import isep.webapp.terasync.model.user.Business;
 import isep.webapp.terasync.repository.user.BusinessRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +25,20 @@ public class BusinessService extends UserService<Business, BusinessRepository> {
         return entityRepository.findByToken(token);
     }
 
+    @Transactional
     @Override
-    public Integer updatePassword(String email, String password) {
-        return entityRepository.updatePassword(email, password);
+    public Integer updatePasswordByEmail(Business business) {
+        return entityRepository.updatePasswordByEmail(business.getEmail(), business.getPassword());
     }
 
     @Transactional
     @Override
-    public Integer updateToken(String email, String token) {
-        return entityRepository.updateToken(email, token);
+    public Integer updateTokenByEmail(Business business) {
+        return entityRepository.updateTokenByEmail(business.getEmail(), business.getToken());
+    }
+
+    @Override
+    public Integer updateTokenByOldToken(TokenByOldToken tokenByOldToken) {
+        return entityRepository.updateTokenByOldToken(tokenByOldToken.getOldToken(), tokenByOldToken.getNewToken());
     }
 }

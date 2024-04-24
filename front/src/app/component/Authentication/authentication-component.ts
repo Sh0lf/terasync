@@ -1,6 +1,7 @@
-import {FormComponent} from "../form-component";
+import {FormComponent} from "../misc/form-component";
 import {customerCategory, UserCategory} from "../../service/user/userCategories";
-import {StorageKeys} from "../storage-keys";
+import {StorageKeys} from "../misc/storage-keys";
+import {CookieService} from "ngx-cookie-service";
 
 export abstract class AuthenticationComponent extends FormComponent {
   protected captcha: string | null = "";
@@ -12,7 +13,7 @@ export abstract class AuthenticationComponent extends FormComponent {
   protected notRobotMessage: string = "Please verify that you're not a robot."
 
   // Static vars
-  protected passwordSalt: number = 10;
+  protected hashSalt: number = 10;
   protected constructor() {
     super();
   }
@@ -40,10 +41,9 @@ export abstract class AuthenticationComponent extends FormComponent {
     return regex.test(password);
   }
 
-  //Easter Egg
-  get currenUserCategory(): UserCategory {
+  getCurrentUserCategory(cookieService: CookieService): UserCategory {
     try {
-      this._currentUserCategory = UserCategory.fromJson(sessionStorage.getItem(StorageKeys.USER_CATEGORY));
+      this._currentUserCategory = UserCategory.fromJson(cookieService.get(StorageKeys.USER_CATEGORY));
     } catch (e: any) {
     }
     return this._currentUserCategory;

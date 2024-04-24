@@ -1,11 +1,10 @@
 package isep.webapp.terasync.controller;
 
-import isep.webapp.terasync.model.Email;
-import isep.webapp.terasync.service.EmailService;
+import isep.webapp.terasync.model.misc.Email;
+import isep.webapp.terasync.service.misc.EmailService;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.context.Context;
 
 @RestController
 public class EmailController {

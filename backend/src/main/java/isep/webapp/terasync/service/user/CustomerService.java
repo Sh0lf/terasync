@@ -1,5 +1,6 @@
 package isep.webapp.terasync.service.user;
 
+import isep.webapp.terasync.model.misc.TokenByOldToken;
 import isep.webapp.terasync.model.user.Customer;
 import isep.webapp.terasync.repository.user.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +32,19 @@ public class CustomerService extends UserService<Customer, CustomerRepository> {
 
     @Transactional
     @Override
-    public Integer updatePassword(String email, String password) {
-        return entityRepository.updatePassword(email, password);
+    public Integer updatePasswordByEmail(Customer customer) {
+        return entityRepository.updatePasswordByEmail(customer.getEmail(), customer.getPassword());
     }
 
     @Transactional
     @Override
-    public Integer updateToken(String email, String token) {
-        return entityRepository.updateToken(email, token);
+    public Integer updateTokenByEmail(Customer customer) {
+        return entityRepository.updateTokenByEmail(customer.getEmail(), customer.getToken());
+    }
+
+    @Override
+    public Integer updateTokenByOldToken(TokenByOldToken tokenByOldToken) {
+        return entityRepository.updateTokenByOldToken(tokenByOldToken.getOldToken(), tokenByOldToken.getNewToken());
     }
 
 }

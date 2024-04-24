@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import bcrypt from "bcryptjs";
 import {NgIf} from "@angular/common";
-import {FormComponent} from "../../form-component";
+import {FormComponent} from "../../misc/form-component";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Customer} from "../../../model/user/customer";
 import {InternalObjectService} from "../../../service/internal-object.service";

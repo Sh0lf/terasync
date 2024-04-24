@@ -6,7 +6,7 @@ import {LoginComponent} from "../Authentication/login/login.component";
 import {HeaderDefaultComponent} from "../Header/header-default/header-default.component";
 import {FooterComponent} from "../footer/footer.component";
 import {RegisterComponent} from "../Authentication/register/register.component";
-import {StorageKeys} from "../storage-keys";
+import {StorageKeys} from "../misc/storage-keys";
 
 @Component({
   selector: 'main-component',

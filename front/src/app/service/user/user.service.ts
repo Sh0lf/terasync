@@ -2,7 +2,6 @@ import {HttpClient} from "@angular/common/http";
 import {EntityService} from "../entity.service";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
-import {Customer} from "../../model/user/customer";
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +16,18 @@ export abstract class UserService<T> extends EntityService<T> {
   }
 
   public findUserByToken(token: String): Observable<T> {
-    return this.http.get<T>(`${this.apiServerUrl}/${this.entityName}/find-by-token/${token}`);
+    return this.http.get<T>(`${this.apiServerUrl}/${this.entityName}/find-user-by-token/${token}`);
   }
 
-  public updatePassword(email: String, newPassword: String): Observable<number> {
-    return this.http.get<number>(`${this.apiServerUrl}/${this.entityName}/update-password/${email}/${newPassword}`);
+  public updatePasswordByEmail(user: { email: string, password: string }): Observable<number> {
+    return this.http.post<number>(`${this.apiServerUrl}/${this.entityName}/update-password`, user);
   }
 
-  public updateToken(email: String, newToken: String): Observable<number> {
-    return this.http.get<number>(`${this.apiServerUrl}/${this.entityName}/update-token/${email}/${newToken}`);
+  public updateTokenByEmail(user: {email: String, newToken: String}): Observable<number> {
+    return this.http.post<number>(`${this.apiServerUrl}/${this.entityName}/update-token-by-email`, user);
+  }
+
+  public updateTokenByOldToken(tokenByOldToken: {oldToken: String, newToken: String}): Observable<number> {
+    return this.http.post<number>(`${this.apiServerUrl}/${this.entityName}/update-token-by-old-token`, tokenByOldToken);
   }
 }

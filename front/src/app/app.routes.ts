@@ -6,7 +6,7 @@ import {RegisterComponent} from "./component/Authentication/register/register.co
 import {VerifyEmailComponent} from "./component/Authentication/verify-email/verify-email.component";
 import {PasswordRecoveryComponent} from "./component/Authentication/password-recovery/password-recovery.component";
 import {PasswordResetComponent} from "./component/Authentication/password-reset/password-reset.component";
-import {StorageKeys} from "./component/storage-keys";
+import {StorageKeys} from "./component/misc/storage-keys";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},

@@ -2,8 +2,9 @@ import {Component} from '@angular/core';
 import {customerCategory, userCategories, UserCategory} from "../../../service/user/userCategories";
 import {NgForOf, NgIf} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
-import {StorageKeys} from "../../storage-keys";
+import {StorageKeys} from "../../misc/storage-keys";
 import {LogoComponent} from "../../logo/logo.component";
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-partner-selection',
@@ -18,11 +19,13 @@ import {LogoComponent} from "../../logo/logo.component";
 export class PartnerSelectionComponent {
   protected readonly userCategories = userCategories;
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(
+    private cookieService: CookieService,
+    private router: Router, private route: ActivatedRoute) {
   }
 
   userOnSelected(userCategory: UserCategory) {
-    sessionStorage.setItem(StorageKeys.USER_CATEGORY, JSON.stringify(userCategory));
+    this.cookieService.set(StorageKeys.USER_CATEGORY, JSON.stringify(userCategory));
     this.router.navigate(['/login'], {relativeTo: this.route}).then();
   }
 

@@ -11,7 +11,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {EmailService} from "../../../service/email.service";
 import {InternalObjectService} from "../../../service/internal-object.service";
 import {LogoComponent} from "../../logo/logo.component";
-import {checkEmail, sendVerificationEmail} from "../../functions";
+import {checkEmail, sendVerificationEmail} from "../../misc/functions";
 import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
@@ -61,7 +61,7 @@ export class RegisterComponent extends AuthenticationComponent {
         this.isEmailExists = user != null;
         if (this.isFormValid()) {
           // Generating hash from password with bcrypt (one of the packages that is used for hashing passwords)
-          bcrypt.hash(this.passwordInput, this.passwordSalt, (err, hashPassword) => {
+          bcrypt.hash(this.passwordInput, this.hashSalt, (err, hashPassword) => {
             let newCustomer = new Customer(
               this.firstNameInput, this.lastNameInput, this.emailInput,
               this.usernameInput, hashPassword

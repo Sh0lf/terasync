@@ -1,6 +1,6 @@
-package isep.webapp.terasync.service;
+package isep.webapp.terasync.service.misc;
 
-import isep.webapp.terasync.model.Email;
+import isep.webapp.terasync.model.misc.Email;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSender;

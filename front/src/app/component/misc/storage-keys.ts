@@ -1,4 +1,4 @@
-import {UserCategory} from "../service/user/userCategories";
+import {UserCategory} from "../../service/user/userCategories";
 
 export enum StorageKeys {
   USER_CATEGORY = "UserCategory",

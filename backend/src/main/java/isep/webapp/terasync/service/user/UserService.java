@@ -1,6 +1,6 @@
 package isep.webapp.terasync.service.user;
 
-import isep.webapp.terasync.model.user.Admin;
+import isep.webapp.terasync.model.misc.TokenByOldToken;
 import isep.webapp.terasync.service.EntityService;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,6 +10,7 @@ public abstract class UserService<T, R extends JpaRepository<T, Integer>> extend
     }
     public abstract T findByEmail(String email);
     public abstract T findByToken(String token);
-    public abstract Integer updatePassword(String email, String password);
-    public abstract Integer updateToken(String email, String token);
+    public abstract Integer updatePasswordByEmail(T user);
+    public abstract Integer updateTokenByEmail(T user);
+    public abstract Integer updateTokenByOldToken(TokenByOldToken tokenByOldToken);
 }

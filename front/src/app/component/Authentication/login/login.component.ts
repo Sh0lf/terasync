@@ -22,12 +22,13 @@ import {UserService} from "../../../service/user/user.service";
 import {User} from "../../../model/user/user";
 import {AuthenticationComponent} from "../authentication-component";
 import bcrypt from "bcryptjs";
-import {StorageKeys} from "../../storage-keys";
-import {makeRandomToken, sendVerificationEmail} from "../../functions";
+import {StorageKeys} from "../../misc/storage-keys";
+import {generateRandomToken, sendVerificationEmail} from "../../misc/functions";
 import {Customer} from "../../../model/user/customer";
 import {LogoComponent} from "../../logo/logo.component";
 import {EmailService} from "../../../service/email.service";
 import {InternalObjectService} from "../../../service/internal-object.service";
+import {CookieService} from "ngx-cookie-service";
 
 // @ts-ignore
 @Component({
@@ -63,6 +64,7 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
               private deliveryServiceService: DeliveryServiceService,
               private deliveryPersonService: DeliveryPersonService,
               private emailService: EmailService,
+              protected cookieService: CookieService,
               private internalObjectService: InternalObjectService<{
                 verificationCodeHash: string,
                 customer: Customer
@@ -73,8 +75,8 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
 
   ngOnInit(): void {
     try {
-      if (sessionStorage.getItem(StorageKeys.USER_CATEGORY) == null) {
-        sessionStorage.setItem(StorageKeys.USER_CATEGORY, JSON.stringify(customerCategory));
+      if (this.cookieService.get(StorageKeys.USER_CATEGORY) == null) {
+        this.cookieService.set(StorageKeys.USER_CATEGORY, JSON.stringify(customerCategory));
       }
     } catch (e) {
     }
@@ -86,19 +88,18 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
         this.fetchService().findUserByEmail(this.emailInput).subscribe({
           next: (jsonUser: User) => {
             if (jsonUser != null) {
-              if (!this.checkCustomerEmailVerified(jsonUser)) {
-                resolve(true);
-              } else {
-                bcrypt.compare(this.passwordInput, jsonUser.password).then(success => {
-                  if (success) {
+              bcrypt.compare(this.passwordInput, jsonUser.password).then(success => {
+                if (success) {
+                  if (!this.checkCustomerEmailVerified(jsonUser)) {
+                    resolve(true);
+                  } else {
                     // CREATE A TOKEN AND STORE THE HASH IN SESSION STORAGE
-                    const token = makeRandomToken();
-
-                    this.fetchService().updateToken(jsonUser.email, token).subscribe({
+                    const newToken = generateRandomToken();
+                    this.fetchService().updateTokenByEmail({email: jsonUser.email, newToken: newToken}).subscribe({
                       next: (success: number) => {
                         if (success == 1) {
                           console.log('Token updated');
-                          sessionStorage.setItem(StorageKeys.USER_TOKEN, token);
+                          this.cookieService.set(StorageKeys.USER_TOKEN, newToken);
                           resolve(true);
                         } else {
                           console.error('Token not updated');
@@ -110,15 +111,16 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
                         resolve(false);
                       }
                     });
+
                     console.log('Login is valid');
-                  } else {
-                    console.log('Login is invalid');
-                    resolve(false);
                   }
-                });
-              }
+                } else {
+                  console.log('Login is invalid');
+                  resolve(false);
+                }
+              });
             } else {
-              console.log('Login is invalid');
+              console.log('Json User is null');
               resolve(false);
             }
           },
@@ -137,6 +139,10 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
 
       console.log("submitted: " + this.isSubmitted);
       console.log("isLoginValid: " + this.isLoginValid)
+
+      if(this.isLoginValid) {
+        this.routeToHome(this.router, this.route);
+      }
     });
   }
 
@@ -145,7 +151,7 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
   }
 
   fetchService(): UserService<any> {
-    switch (this.currenUserCategory.name) {
+    switch (this.getCurrentUserCategory(this.cookieService).name) {
       case(adminCategory.name):
         return this.adminService;
       case(businessCategory.name):
@@ -173,7 +179,7 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
   }
 
   isPartnerType(): boolean {
-    return this.currenUserCategory.userType === UserType.PARTNER;
+    return this.getCurrentUserCategory(this.cookieService).userType === UserType.PARTNER;
   }
 
   getOppositeUserType(): UserType {
@@ -182,14 +188,14 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
 
   switchUserType() {
     if (this.isPartnerType()) {
-      sessionStorage.setItem(StorageKeys.USER_CATEGORY, JSON.stringify(customerCategory));
+      this.cookieService.set(StorageKeys.USER_CATEGORY, JSON.stringify(customerCategory));
     } else {
       this.router.navigate(['/partner-selection'], {relativeTo: this.route}).then();
     }
   }
 
   private checkCustomerEmailVerified(jsonUser: User): boolean {
-    if (this.currenUserCategory.userType == UserType.CUSTOMER && !(jsonUser as Customer).emailVerified) {
+    if (this.getCurrentUserCategory(this.cookieService).userType == UserType.CUSTOMER && !(jsonUser as Customer).emailVerified) {
       console.log('Email not verified');
       sendVerificationEmail(jsonUser.email, this.emailService).then((verificationCodeHash) => {
         if (verificationCodeHash != null) {
