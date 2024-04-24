@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class EmailService {
-  protected apiServerUrl = environment.apiBaseUrl;
+  protected apiServerUrl = environment.apiBackendUrl;
   protected constructor(protected http: HttpClient) {}
 
   public sendEmail(email: Email): Observable<boolean> {

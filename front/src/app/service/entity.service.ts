@@ -7,7 +7,7 @@ import {Injectable} from "@angular/core";
   providedIn: 'root'
 })
 export abstract class EntityService<T> {
-  protected apiServerUrl = environment.apiBaseUrl;
+  protected apiServerUrl = environment.apiBackendUrl;
   protected readonly entityName: String;
 
   protected constructor(protected http: HttpClient, entityName: String) {

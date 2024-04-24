@@ -18,7 +18,7 @@
       </div>
       <div class="sign-form-elem">
         <re-captcha (resolved)="resolved($event)"></re-captcha>
-        <span class="validation-span centered-span" *ngIf="isCaptchaInvalid()">Please verify that you're not a robot.</span>
+        <span class="validation-span centered-span" *ngIf="isCaptchaInvalid()">{{notRobotMessage}}</span>
       </div>
       <div class="separation-line-small"></div>
       <span class="validation-span" *ngIf="isLoginInvalid()">Invalid Email / Password</span>

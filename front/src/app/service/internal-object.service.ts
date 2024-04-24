@@ -9,8 +9,8 @@ export class InternalObjectService<T> {
   protected constructor() {
   }
 
-  setObject(user: T) {
-    this.object = user;
+  setObject(object: T) {
+    this.object = object;
   }
 
   getObject(): T {

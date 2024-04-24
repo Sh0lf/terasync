@@ -22,7 +22,7 @@ import {UserService} from "../../../service/user/user.service";
 import {User} from "../../../model/user/user";
 import {AuthenticationComponent} from "../authentication-component";
 import bcrypt from "bcryptjs";
-import {SessionStorageKeys} from "../../session-storage-keys";
+import {StorageKeys} from "../../storage-keys";
 import {makeRandomToken, sendVerificationEmail} from "../../functions";
 import {Customer} from "../../../model/user/customer";
 import {LogoComponent} from "../../logo/logo.component";
@@ -73,8 +73,8 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
 
   ngOnInit(): void {
     try {
-      if (sessionStorage.getItem(SessionStorageKeys.USER_CATEGORY) == null) {
-        sessionStorage.setItem(SessionStorageKeys.USER_CATEGORY, JSON.stringify(customerCategory));
+      if (sessionStorage.getItem(StorageKeys.USER_CATEGORY) == null) {
+        sessionStorage.setItem(StorageKeys.USER_CATEGORY, JSON.stringify(customerCategory));
       }
     } catch (e) {
     }
@@ -91,14 +91,14 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
               } else {
                 bcrypt.compare(this.passwordInput, jsonUser.password).then(success => {
                   if (success) {
-                    // CREATE A TOKEN AND STORE IT IN SESSION STORAGE
+                    // CREATE A TOKEN AND STORE THE HASH IN SESSION STORAGE
                     const token = makeRandomToken();
 
                     this.fetchService().updateToken(jsonUser.email, token).subscribe({
                       next: (success: number) => {
                         if (success == 1) {
                           console.log('Token updated');
-                          sessionStorage.setItem(SessionStorageKeys.USER_TOKEN, token);
+                          sessionStorage.setItem(StorageKeys.USER_TOKEN, token);
                           resolve(true);
                         } else {
                           console.error('Token not updated');
@@ -182,7 +182,7 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
 
   switchUserType() {
     if (this.isPartnerType()) {
-      sessionStorage.setItem(SessionStorageKeys.USER_CATEGORY, JSON.stringify(customerCategory));
+      sessionStorage.setItem(StorageKeys.USER_CATEGORY, JSON.stringify(customerCategory));
     } else {
       this.router.navigate(['/partner-selection'], {relativeTo: this.route}).then();
     }

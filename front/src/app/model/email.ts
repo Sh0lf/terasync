@@ -18,7 +18,7 @@ export class Email {
     return new Email(to, "Verification Email", "Here is your verification code: " + code, false);
   }
 
-  static recoveryEmail(to: string) : Email {
-    return new Email(to, "Recovery Email", `http://${environment.apiBaseUrl}/password-reset`, true);
+  static recoveryEmail(to: string, token: string) : Email {
+    return new Email(to, "Recovery Email", `${environment.apiFrontEndUrl}/password-reset/${token}`, true);
   }
 }

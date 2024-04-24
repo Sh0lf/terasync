@@ -29,14 +29,13 @@
       <div class="sign-form-elem">
         <label for="password-input">Password:</label>
         <input type="password" id="password-input" [(ngModel)]="passwordInput" name="password-input">
-        <span class="validation-span" *ngIf="isPasswordInvalid()">
-        Password must have at least one lowercase and uppercase letter, one number, and 8 characters long.</span>
+        <span class="validation-span" *ngIf="isPasswordInvalid()">{{passwordInvalidMessage}}</span>
       </div>
       <div class="sign-form-elem">
         <label for="passwordConfirmation-input">Password Confirmation:</label>
         <input type="password" id="passwordConfirmation-input" [(ngModel)]="confirmPasswordInput"
                name="passwordConfirmation-input">
-        <span class="validation-span" *ngIf="isPasswordsNotMatch()">Passwords do not match.</span>
+        <span class="validation-span" *ngIf="isPasswordsNotMatch()">{{passwordsNotMatchMessage}}</span>
       </div>
       <div class="sign-form-elem">
         <re-captcha (resolved)="resolved($event)"></re-captcha>

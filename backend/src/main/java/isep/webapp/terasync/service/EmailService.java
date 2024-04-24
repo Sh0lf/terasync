@@ -24,11 +24,9 @@ public class EmailService {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "UTF-8");
 
-        mimeMessageHelper.setFrom("petconnecttest@gmail.com");
+        mimeMessageHelper.setFrom("terasyncbot@gmail.com");
         mimeMessageHelper.setTo(email.getTo());
         mimeMessageHelper.setSubject(email.getSubject());
-
-        System.out.println("ishtml: " + email.isHTML());
 
         if(email.isHTML()) {
             Context context = new Context();

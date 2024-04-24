@@ -1,11 +1,18 @@
 import {FormComponent} from "../form-component";
 import {customerCategory, UserCategory} from "../../service/user/userCategories";
-import {SessionStorageKeys} from "../session-storage-keys";
+import {StorageKeys} from "../storage-keys";
 
 export abstract class AuthenticationComponent extends FormComponent {
   protected captcha: string | null = "";
   protected _currentUserCategory: UserCategory = customerCategory;
 
+  // Validation messages
+  protected passwordInvalidMessage: String = "Password must have at least one lowercase and uppercase letter, one number, and 8 characters long.";
+  protected passwordsNotMatchMessage: String = "Passwords do not match.";
+  protected notRobotMessage: string = "Please verify that you're not a robot."
+
+  // Static vars
+  protected passwordSalt: number = 10;
   protected constructor() {
     super();
   }
@@ -36,7 +43,7 @@ export abstract class AuthenticationComponent extends FormComponent {
   //Easter Egg
   get currenUserCategory(): UserCategory {
     try {
-      this._currentUserCategory = UserCategory.fromJson(sessionStorage.getItem(SessionStorageKeys.USER_CATEGORY));
+      this._currentUserCategory = UserCategory.fromJson(sessionStorage.getItem(StorageKeys.USER_CATEGORY));
     } catch (e: any) {
     }
     return this._currentUserCategory;

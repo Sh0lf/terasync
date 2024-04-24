@@ -22,9 +22,10 @@ import {
 import {EmailService} from "../../../service/email.service";
 import {Email} from "../../../model/email";
 import {HttpErrorResponse} from "@angular/common/http";
-import {makeRandom, makeRandomToken} from "../../functions";
-import {SessionStorageKeys} from "../../session-storage-keys";
+import {makeRandomToken} from "../../functions";
+import {StorageKeys} from "../../storage-keys";
 import {LogoComponent} from "../../logo/logo.component";
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-password-recovery',
@@ -52,6 +53,7 @@ export class PasswordRecoveryComponent extends AuthenticationComponent implement
   // Logic Fields
   isEmailExist: boolean = false;
   isEmailChecked: boolean = false;
+  _isEmailSent: boolean = false;
   userToken: string = "";
 
   constructor(private customerService: CustomerService,
@@ -60,6 +62,7 @@ export class PasswordRecoveryComponent extends AuthenticationComponent implement
               private deliveryServiceService: DeliveryServiceService,
               private deliveryPersonService: DeliveryPersonService,
               private emailService: EmailService,
+              private cookieService: CookieService,
               private router: Router, private route: ActivatedRoute) {
     super();
   }
@@ -69,44 +72,51 @@ export class PasswordRecoveryComponent extends AuthenticationComponent implement
   }
 
   override isFormValid(): boolean {
-    return this.emailInput.length > 0 && !this.isCaptchaInvalid();
+    return this.isEmailProper(this.emailInput) && this.isCaptchaValid();
   }
 
   override onSubmit() {
-    super.onSubmit();
-
-    if (this.isFormValid()) {
-      this.fetchService().findUserByEmail(this.emailInput).subscribe({
-        next: (user: User) => {
-          this.user = user;
-          if (this.user != null) {
-            this.isEmailExist = true;
-            this.emailService.sendEmail(Email.recoveryEmail(user.email)).subscribe({
-                next: (success: boolean) => {
-                  if (success) {
-                    console.log('Email sent');
-                    this.userToken = makeRandomToken();
-                    sessionStorage.setItem(SessionStorageKeys.USER_TOKEN, this.userToken);
-                  } else {
-                    console.error('Email not sent');
+    new Promise<boolean>((resolve, reject) => {
+      if (this.isFormValid()) {
+        this.fetchService().findUserByEmail(this.emailInput).subscribe({
+          next: (user: User) => {
+            this.user = user;
+            if (this.user != null) {
+              this.isEmailExist = true;
+              this.userToken = makeRandomToken();
+              this.emailService.sendEmail(Email.recoveryEmail(user.email, this.userToken)).subscribe({
+                  next: (success: boolean) => {
+                    if (success) {
+                      this.cookieService.set(StorageKeys.USER_TOKEN, this.userToken);
+                      console.log('Email sent');
+                      resolve(true);
+                    } else {
+                      console.error('Email not sent');
+                      resolve(false);
+                    }
+                  },
+                  error: (error: HttpErrorResponse) => {
+                    console.error("HTTP ERROR: Email not sent");
+                    resolve(false);
                   }
-                },
-                error: (error: HttpErrorResponse) => {
-                  console.error("HTTP ERROR: Email not sent");
                 }
-              }
-            )
-            console.log('Email exists');
-          } else {
-            console.log('Email does not exist');
+              )
+            } else {
+              console.log('Email does not exist');
+              resolve(false);
+            }
+          },
+          error: (error: HttpErrorResponse) => {
+            console.error("HTTP ERROR: Email does not exist");
+            resolve(false);
           }
-          this.isEmailChecked = true;
-        },
-        error: (error: HttpErrorResponse) => {
-          console.error("HTTP ERROR: Email does not exist");
-        }
-      });
-    }
+        });
+      }
+    }).then(success => {
+      this.isEmailChecked = true;
+      this._isEmailSent = success;
+      super.onSubmit();
+    });
   }
 
   fetchService(): UserService<any> {
@@ -126,11 +136,17 @@ export class PasswordRecoveryComponent extends AuthenticationComponent implement
   }
 
   isEmailNotExist(): boolean {
-    return !this.isEmailExist && !this.isEmailInvalid() && this.isSubmitted && this.isEmailChecked;
+    return !this.isEmailExist &&
+      !this.isEmailInvalid() &&
+      this.isSubmitted &&
+      this.isEmailChecked;
   }
 
   isEmailInvalid(): boolean {
     return !(this.isEmailProper(this.emailInput) && this.emailInput.length > 0) && this.isSubmitted;
   }
 
+  isEmailSent() {
+    return this._isEmailSent && this.isSubmitted;
+  }
 }

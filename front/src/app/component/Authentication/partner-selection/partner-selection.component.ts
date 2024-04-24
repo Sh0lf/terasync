@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {customerCategory, userCategories, UserCategory} from "../../../service/user/userCategories";
 import {NgForOf, NgIf} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
-import {SessionStorageKeys} from "../../session-storage-keys";
+import {StorageKeys} from "../../storage-keys";
 import {LogoComponent} from "../../logo/logo.component";
 
 @Component({
@@ -22,7 +22,7 @@ export class PartnerSelectionComponent {
   }
 
   userOnSelected(userCategory: UserCategory) {
-    sessionStorage.setItem(SessionStorageKeys.USER_CATEGORY, JSON.stringify(userCategory));
+    sessionStorage.setItem(StorageKeys.USER_CATEGORY, JSON.stringify(userCategory));
     this.router.navigate(['/login'], {relativeTo: this.route}).then();
   }
 
