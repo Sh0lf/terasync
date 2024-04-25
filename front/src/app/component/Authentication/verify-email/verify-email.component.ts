@@ -32,7 +32,7 @@ export class VerifyEmailComponent extends FormComponent implements OnInit {
   // Service Fields
   inputObject!: { verificationCodeHash: string, customer: Customer };
 
-  constructor(private customerService: CustomerService,
+  constructor(protected override customerService: CustomerService,
               private internalObjectService: InternalObjectService<{
                 verificationCodeHash: string,
                 customer: Customer

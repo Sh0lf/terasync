@@ -1,21 +1,21 @@
 export abstract class User {
+  userId: number | undefined;
+  name: string | undefined;
   email: string;
   username: string;
   password: string;
-  registrationDate: string | undefined;
   token: string | undefined;
+  registrationDate: string | undefined;
 
-  protected constructor(email: string, username: string, password: string, registrationDate?: string, token?: string) {
+  protected constructor(email: string, username: string, password: string, userId?: number, registrationDate?: string, token?: string, name?: string) {
     this.email = email;
     this.username = username;
     this.password = password;
+    this.userId = userId;
     this.registrationDate = registrationDate;
     this.token = token;
+    this.name = name;
   }
-
-  abstract getName(): string;
-
-  abstract getUserId(): number | undefined;
 
   static fromJson<T extends User>(jsonUser: T, user: T): User {
     return user.createInstance(jsonUser);

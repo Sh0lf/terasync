@@ -1,7 +1,9 @@
 package isep.webapp.terasync.service.user;
 
-import isep.webapp.terasync.model.query.TokenByEmail;
-import isep.webapp.terasync.model.query.TokenByOldToken;
+import isep.webapp.terasync.model.query.select.ByToken;
+import isep.webapp.terasync.model.query.update.PasswordByEmail;
+import isep.webapp.terasync.model.query.update.TokenByEmail;
+import isep.webapp.terasync.model.query.update.TokenByOldToken;
 import isep.webapp.terasync.model.user.DeliveryPerson;
 import isep.webapp.terasync.repository.user.DeliveryPersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +18,19 @@ public class DeliveryPersonService extends UserService<DeliveryPerson, DeliveryP
     }
 
     @Override
-    public DeliveryPerson findByEmail(String email) {
+    public DeliveryPerson selectByEmail(String email) {
         return entityRepository.findByEmail(email);
     }
 
     @Override
-    public DeliveryPerson findByToken(String token) {
-        return entityRepository.findByToken(token);
+    public DeliveryPerson selectByToken(ByToken byToken) {
+        return entityRepository.findByToken(byToken.getToken());
     }
 
     @Transactional
     @Override
-    public Integer updatePasswordByEmail(DeliveryPerson deliveryPerson) {
-        return entityRepository.updatePasswordByEmail(deliveryPerson.getEmail(), deliveryPerson.getPassword());
+    public Integer updatePasswordByEmail(PasswordByEmail passwordByEmail) {
+        return entityRepository.updatePasswordByEmail(passwordByEmail.getEmail(), passwordByEmail.getNewPassword());
     }
 
     @Transactional

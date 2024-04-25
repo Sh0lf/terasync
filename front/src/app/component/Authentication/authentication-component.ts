@@ -27,13 +27,6 @@ export abstract class AuthenticationComponent extends FormComponent {
   // Static vars
   protected hashSalt: number = 10;
 
-  // Services
-  protected customerService!: CustomerService;
-  protected businessService!: BusinessService;
-  protected adminService!: AdminService;
-  protected deliveryServiceService!: DeliveryServiceService;
-  protected deliveryPersonService!: DeliveryPersonService;
-
   protected constructor() {
     super();
   }
@@ -60,21 +53,4 @@ export abstract class AuthenticationComponent extends FormComponent {
     let regex = new RegExp("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$");
     return regex.test(password);
   }
-
-  fetchService(): UserService<any> {
-    switch (this.getCurrentUserCategory().name) {
-      case(adminCategory.name):
-        return this.adminService;
-      case(businessCategory.name):
-        return this.businessService;
-      case(customerCategory.name):
-        return this.customerService;
-      case(deliveryPersonCategory.name):
-        return this.deliveryPersonService;
-      case(deliveryServiceCategory.name):
-        return this.deliveryServiceService;
-    }
-    return this.customerService;
-  }
-
 }

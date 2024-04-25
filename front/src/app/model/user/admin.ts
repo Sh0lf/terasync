@@ -9,18 +9,10 @@ export class Admin extends User{
               username: string, password: string,
               adminId?: number | undefined,
               registrationDate?: string | undefined,  token?: string | undefined) {
-    super(email, username, password, registrationDate, token);
+    super(email, username, password, adminId, registrationDate, token);
     this.adminId = adminId;
     this.firstName = firstName;
     this.lastName = lastName;
-  }
-
-  override getName(): string {
-    return this.firstName + " " + this.lastName;
-  }
-
-  override getUserId(): number | undefined {
-    return this.adminId;
   }
 
   createInstance(jsonString: Admin): Admin {

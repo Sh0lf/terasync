@@ -2,13 +2,13 @@ import {User} from "./user";
 
 export class DeliveryService extends User {
   deliveryServiceId: number | undefined
-  name: string;
+  override name: string;
 
   constructor(name: string, email: string,
               username: string, password: string,
               deliveryServiceId?: number | undefined,
               registrationDate?: string | undefined,  token?: string | undefined) {
-    super(email, username, password, registrationDate, token);
+    super(email, username, password, deliveryServiceId, registrationDate, token);
     this.deliveryServiceId = deliveryServiceId;
     this.name = name;
   }

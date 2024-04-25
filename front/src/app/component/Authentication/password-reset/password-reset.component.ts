@@ -79,19 +79,19 @@ export class PasswordResetComponent extends AuthenticationComponent implements O
     new Promise<boolean>((resolve, reject) => {
       if (this.isFormValid()) {
         if (this.token != null) {
-          this.fetchService().findUserByToken(this.token).subscribe({
+          this.fetchService().findUserByToken({token: this.token}).subscribe({
             next: (jsonUser: User) => {
               if (jsonUser != null) {
                 if (this.token == jsonUser.token) {
                   bcrypt.compare(this.newPasswordInput, jsonUser.password).then(success => {
                     if (!success) {
                       bcrypt.hash(this.newPasswordInput, this.hashSalt, (err, hashPassword) => {
-                        this.fetchService().updatePasswordByEmail({email: jsonUser.email, password: hashPassword})
+                        this.fetchService().updatePasswordByEmail({email: jsonUser.email, newPassword: hashPassword})
                           .subscribe({
                             next: (success: number) => {
                               if (success == 1) {
                                 console.log("Password updated");
-                                this.resetTokenByOldToken(this.cookieService, this.fetchService())
+                                this.resetTokenByOldToken()
                                   .then((success) => {
                                     resolve(success);
                                   });

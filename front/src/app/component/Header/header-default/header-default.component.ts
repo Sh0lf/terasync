@@ -1,16 +1,32 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {LogoComponent} from "../../logo/logo.component";
 import {NgIf, NgOptimizedImage, NgStyle} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CookieService} from "ngx-cookie-service";
 import {CookieComponent} from "../../misc/cookie-component";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
-import {faGear, faBars, faChevronDown, faChevronUp, faXmark} from '@fortawesome/free-solid-svg-icons';
+import {
+  faArrowRightFromBracket,
+  faBars,
+  faCartShopping,
+  faChevronDown,
+  faChevronUp,
+  faGear,
+  faHeart,
+  faQuestion,
+  faXmark
+} from '@fortawesome/free-solid-svg-icons';
+import {CustomerService} from "../../../service/user/customer.service";
+import {BusinessService} from "../../../service/user/business.service";
+import {AdminService} from "../../../service/user/admin.service";
+import {DeliveryServiceService} from "../../../service/user/delivery-service.service";
+import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
+import {NgxResizeObserverModule, NgxResizeObserverService} from "ngx-resize-observer";
 
 @Component({
   selector: 'app-header-default',
   standalone: true,
-  imports: [LogoComponent, NgOptimizedImage, NgIf, FontAwesomeModule, NgStyle],
+  imports: [LogoComponent, NgOptimizedImage, NgIf, FontAwesomeModule, NgStyle, NgxResizeObserverModule],
   templateUrl: './header-default.component.html',
   styleUrl: './header-default.component.scss',
   host: {
@@ -19,9 +35,8 @@ import {faGear, faBars, faChevronDown, faChevronUp, faXmark} from '@fortawesome/
 })
 export class HeaderDefaultComponent extends CookieComponent implements OnInit, AfterViewInit {
   // Logic Fields
-  @Output() isUserLoggedIn: boolean = false;
-  @Output() showMenu: boolean = false;
-  @Output() dropDownMenuTop: number = 0;
+  showMenu: boolean = false;
+  dropDownMenuTop: number = 0;
 
   // Font Awesome Icons
   faBars = faBars;
@@ -29,57 +44,47 @@ export class HeaderDefaultComponent extends CookieComponent implements OnInit, A
   faChevronUp = faChevronUp;
   faXmark = faXmark;
   faGear = faGear;
-
+  faCartShopping = faCartShopping;
+  faHeart = faHeart;
+  faQuestion = faQuestion;
+  faArrowRightFromBracket = faArrowRightFromBracket;
 
   // DOM Elements
-  @ViewChild('headerBody',) headerBody!: ElementRef;
+  @ViewChild('headerBody') headerBody!: ElementRef;
 
-  constructor(protected override cookieService: CookieService,
-              private cd: ChangeDetectorRef,
+  constructor(protected override customerService: CustomerService,
+              protected override businessService: BusinessService,
+              protected override adminService: AdminService,
+              protected override deliveryServiceService: DeliveryServiceService,
+              protected override deliveryPersonService: DeliveryPersonService,
+              protected override cookieService: CookieService,
+              private ngxResizeObserverModule: NgxResizeObserverService,
               protected router: Router, protected route: ActivatedRoute) {
     super();
   }
-
-  ngAfterViewInit(): void {
-    // setTimeout(() => {
-    //   this.headerBodyWidth = this.headerBody.nativeElement.offsetHeight + 10;
-    // }, 0);
-
-    this.setDropDownMenuTop();
-    this.cd.detectChanges();
+  ngOnInit(): void {
+    this.checkUserLoggedIn();
+    this.setUserByToken();
   }
 
-  ngOnInit(): void {
-    this.isUserLoggedIn = this.hasUserToken();
-
-    // const headerBody = document.getElementById("header-body")
-    // if (headerBody) {
-    //   let obs = new ResizeObserver(entries => {
-    //     for (let entry of entries) {
-    //       const dropDownMenu = document.getElementById("drop-down-menu");
-    //       if (dropDownMenu) {
-    //         dropDownMenu.style.top = (entry.contentRect.height + 10) + "px";
-    //       }
-    //     }
-    //   });
-    //   obs.observe(headerBody);
-    // }
+  ngAfterViewInit() {
+    // this.ngxResizeObserverModule.observe(this.headerBody.nativeElement, entry=> {
+    //   console.log(entry)
+    // }, "content-box")
   }
 
   loginOnClick() {
     this.router.navigate(['/login'], {relativeTo: this.route}).then();
   }
 
+  logoutOnClick() {
+    this.deleteUserToken();
+    this.resetUserCategoryToCustomer();
+    this.isUserLoggedIn = false;
+  }
+
   registerOnClick() {
     this.router.navigate(['/register'], {relativeTo: this.route}).then();
-  }
-
-  onResize() {
-    this.setDropDownMenuTop();
-  }
-
-  setDropDownMenuTop() {
-    this.dropDownMenuTop = this.headerBody.nativeElement.offsetHeight + 10;
   }
 
   burgerMenuOnClick() {
@@ -88,5 +93,9 @@ export class HeaderDefaultComponent extends CookieComponent implements OnInit, A
 
   xMarkOnClick() {
     this.showMenu = false;
+  }
+
+  handleResize(entry: any) {
+    this.dropDownMenuTop = entry.contentRect.height + 10;
   }
 }

@@ -1,7 +1,9 @@
 package isep.webapp.terasync.service.user;
 
-import isep.webapp.terasync.model.query.TokenByEmail;
-import isep.webapp.terasync.model.query.TokenByOldToken;
+import isep.webapp.terasync.model.query.select.ByToken;
+import isep.webapp.terasync.model.query.update.PasswordByEmail;
+import isep.webapp.terasync.model.query.update.TokenByEmail;
+import isep.webapp.terasync.model.query.update.TokenByOldToken;
 import isep.webapp.terasync.model.user.Admin;
 import isep.webapp.terasync.repository.user.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +19,19 @@ public class AdminService extends UserService<Admin, AdminRepository> {
     }
 
     @Override
-    public Admin findByEmail(String email) {
+    public Admin selectByEmail(String email) {
         return entityRepository.findByEmail(email);
     }
 
     @Override
-    public Admin findByToken(String token) {
-        return entityRepository.findByToken(token);
+    public Admin selectByToken(ByToken byToken) {
+        return entityRepository.findByToken(byToken.getToken());
     }
 
     @Transactional
     @Override
-    public Integer updatePasswordByEmail(Admin admin) {
-        return entityRepository.updatePasswordByEmail(admin.getEmail(), admin.getPassword());
+    public Integer updatePasswordByEmail(PasswordByEmail passwordByEmail) {
+        return entityRepository.updatePasswordByEmail(passwordByEmail.getEmail(), passwordByEmail.getNewPassword());
     }
 
     @Transactional

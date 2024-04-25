@@ -1,22 +1,63 @@
-<div #headerBody id="header-body" (window:resize)="onResize()">
+<div #headerBody id="header-body" (onResize)="handleResize($event)">
   <div class="header-body-div">
     <div class="header-elem">
       <div class="burger-menu-elem">
         <div class="burger-menu-icon-elem" (click)="burgerMenuOnClick()">
           <fa-icon [class]="['burger-menu-icon']" [icon]="faBars"></fa-icon>
         </div>
-        <div id="drop-down-menu" [style.top.px]="dropDownMenuTop" *ngIf="showMenu">
+        <div class="drop-down-menu" [style.top.px]="dropDownMenuTop" *ngIf="showMenu">
           <div class="dpm-title-elem">
-            <span *ngIf="isUserLoggedIn" class="main-title-span">Name Of The User</span>
+            <span *ngIf="isUserLoggedIn" class="main-title-span">Welcome, {{user?.username}}!</span>
             <span *ngIf="!isUserLoggedIn" class="main-title-span">Welcome To TeraSync!</span>
             <div class="x-mark-icon-elem" (click)="xMarkOnClick()">
               <fa-icon [icon]="faXmark" [class]="['x-mark-icon']"></fa-icon>
             </div>
           </div>
-          <div class="dpm-func-menu">
+          <div class="dpm-logged-out-elem" *ngIf="!isUserLoggedIn">
+            <div class="logged-out-button-elem" *ngIf="!isUserLoggedIn">
+              <button class="logged-out-button" type="button" (click)="loginOnClick()">Login</button>
+            </div>
+            <div class="logged-out-button-elem" *ngIf="!isUserLoggedIn">
+              <button class="logged-out-button" type="button" (click)="registerOnClick()">Register</button>
+            </div>
+            <div class="separation-line-small"></div>
+            <div class="logged-out-button-elem">
+              <a href="#">Apply as a Restaurant</a>
+            </div><div class="logged-out-button-elem">
+              <a href="#">Apply as a Delivery Service</a>
+            </div>
+          </div>
+          <div class="dpm-func-menu" *ngIf="isUserLoggedIn">
             <div class="dpm-func-elem">
-              <fa-icon [icon]="faGear" [class]="['fa-regular', 'gear-icon']"></fa-icon>
+              <div class="dpm-func-icon-elem">
+                <fa-icon [icon]="faGear" [class]="['func-icon']"></fa-icon>
+              </div>
               <span class="dpm-func-span">My Account</span>
+            </div>
+            <div class="dpm-func-elem">
+              <div class="dpm-func-icon-elem">
+                <fa-icon [icon]="faCartShopping" [class]="['func-icon']"></fa-icon>
+              </div>
+              <span class="dpm-func-span">Orders</span>
+            </div>
+            <div class="dpm-func-elem">
+              <div class="dpm-func-icon-elem">
+                <fa-icon [icon]="faHeart" [class]="['func-icon']"></fa-icon>
+              </div>
+              <span class="dpm-func-span">Favorites</span>
+            </div>
+            <div class="dpm-func-elem">
+              <div class="dpm-func-icon-elem">
+                <fa-icon [icon]="faQuestion" [class]="['func-icon']"></fa-icon>
+              </div>
+              <span class="dpm-func-span">Help</span>
+            </div>
+            <div class="separation-line-small"></div>
+            <div class="dpm-func-elem" (click)="logoutOnClick()">
+              <div class="dpm-func-icon-elem">
+                <fa-icon [icon]="faArrowRightFromBracket" [class]="['func-icon']"></fa-icon>
+              </div>
+              <span class="dpm-func-span">Logout</span>
             </div>
           </div>
         </div>

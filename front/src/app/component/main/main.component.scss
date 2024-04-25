@@ -43,6 +43,7 @@ $colorP15: #CCD5AE;
   background: radial-gradient($colorP11 30%, $colorP12, $colorP12);
   border-radius: 1px;
   margin: 10px 15px 10px 15px;
+  flex-grow: 1;
 }
 
 .separation-line-2 {

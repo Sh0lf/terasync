@@ -1,4 +1,4 @@
-package isep.webapp.terasync.model.query;
+package isep.webapp.terasync.model.query.update;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TokenByEmail {
+public class PasswordByEmail {
     private String email;
-    private String newToken;
+    private String newPassword;
 }

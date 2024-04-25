@@ -1,8 +1,10 @@
 package isep.webapp.terasync.controller.user;
 
 import isep.webapp.terasync.controller.EntityController;
-import isep.webapp.terasync.model.query.TokenByEmail;
-import isep.webapp.terasync.model.query.TokenByOldToken;
+import isep.webapp.terasync.model.query.select.ByToken;
+import isep.webapp.terasync.model.query.update.PasswordByEmail;
+import isep.webapp.terasync.model.query.update.TokenByEmail;
+import isep.webapp.terasync.model.query.update.TokenByOldToken;
 import isep.webapp.terasync.service.user.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,19 +17,19 @@ public abstract class UserController<T, S extends UserService<T, ?>> extends Ent
     protected UserController(S entityService) {
         super(entityService);
     }
-    @GetMapping("/find-by-email/{email}")
-    public ResponseEntity<T> findCustomerByEmail(@PathVariable("email") String email) {
-        return ResponseEntity.ok(entityService.findByEmail(email));
+    @GetMapping("/select-user-by-email/{email}")
+    public ResponseEntity<T> selectCustomerByEmail(@PathVariable("email") String email) {
+        return ResponseEntity.ok(entityService.selectByEmail(email));
     }
 
-    @GetMapping("/find-user-by-token/{token}")
-    public ResponseEntity<T> findCustomerByToken(@PathVariable("token") String token) {
-        return ResponseEntity.ok(entityService.findByToken(token));
+    @PostMapping("/select-user-by-token")
+    public ResponseEntity<T> selectCustomerByToken(@RequestBody ByToken byToken) {
+        return ResponseEntity.ok(entityService.selectByToken(byToken));
     }
 
     @PostMapping("/update-password-by-email")
-    public ResponseEntity<Integer> updatePasswordByEmail(@RequestBody T user) {
-        return ResponseEntity.ok(entityService.updatePasswordByEmail(user));
+    public ResponseEntity<Integer> updatePasswordByEmail(@RequestBody PasswordByEmail passwordByEmail) {
+        return ResponseEntity.ok(entityService.updatePasswordByEmail(passwordByEmail));
     }
 
     @PostMapping("/update-token-by-email")

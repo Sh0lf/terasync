@@ -2,8 +2,10 @@ import {HttpClient} from "@angular/common/http";
 import {EntityService} from "../entity.service";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
-import {TokenByEmail} from "../../model/query/token-by-email";
-import {TokenByOldToken} from "../../model/query/token-by-old-token";
+import {TokenByEmail} from "../../model/query/update/token-by-email";
+import {TokenByOldToken} from "../../model/query/update/token-by-old-token";
+import {PasswordByEmail} from "../../model/query/update/password-by-email";
+import {ByToken} from "../../model/query/select/by-token";
 
 @Injectable({
   providedIn: 'root'
@@ -14,15 +16,15 @@ export abstract class UserService<T> extends EntityService<T> {
   }
 
   public findUserByEmail(email: String): Observable<T> {
-    return this.http.get<T>(`${this.apiBackendUrl}/${this.entityName}/find-by-email/${email}`);
+    return this.http.get<T>(`${this.apiBackendUrl}/${this.entityName}/select-user-by-email/${email}`);
   }
 
-  public findUserByToken(token: String): Observable<T> {
-    return this.http.get<T>(`${this.apiBackendUrl}/${this.entityName}/find-user-by-token/${token}`);
+  public findUserByToken(byToken: ByToken): Observable<T> {
+    return this.http.post<T>(`${this.apiBackendUrl}/${this.entityName}/select-user-by-token`, byToken);
   }
 
-  public updatePasswordByEmail(user: { email: string, password: string }): Observable<number> {
-    return this.http.post<number>(`${this.apiBackendUrl}/${this.entityName}/update-password-by-email`, user);
+  public updatePasswordByEmail(passwordByEmail: PasswordByEmail): Observable<number> {
+    return this.http.post<number>(`${this.apiBackendUrl}/${this.entityName}/update-password-by-email`, passwordByEmail);
   }
 
   public updateTokenByEmail(tokenByEmail: TokenByEmail): Observable<number> {

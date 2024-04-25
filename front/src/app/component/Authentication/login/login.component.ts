@@ -83,7 +83,7 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
                   if (!this.checkCustomerEmailVerified(jsonUser)) {
                     resolve(true);
                   } else {
-                    this.resetTokenByEmail(this.cookieService, this.fetchService(), jsonUser.email).then((success) => {
+                    this.resetTokenByEmail(jsonUser.email).then((success) => {
                       resolve(success);
                     });
                     console.log('Login is valid');

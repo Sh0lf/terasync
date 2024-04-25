@@ -141,7 +141,7 @@ $font-weight: bold;
 
 //// DROP DOWN LIST STYLES
 
-#drop-down-menu {
+.drop-down-menu {
   position: absolute;
   z-index: 0;
   background: $colorP12;
@@ -150,7 +150,9 @@ $font-weight: bold;
 
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: center;
+
+  padding: 15px 0 15px 0;
 }
 
 .dpm-title-elem {
@@ -158,7 +160,8 @@ $font-weight: bold;
   flex-direction: row;
   align-items: center;
   text-align: center;
-  margin: 10px;
+
+  padding: 0 10px 0 10px;
 }
 
 .x-mark-icon-elem {
@@ -184,6 +187,10 @@ $font-weight: bold;
 
 .main-title-span {
   flex-grow: 1;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  text-wrap: wrap;
+  max-width: 250px;
 }
 
 //// FUNCTION MENU STYLES
@@ -192,17 +199,81 @@ $font-weight: bold;
   flex-direction: column;
   justify-content: center;
   align-items: start;
+
+  margin-top: 10px;
 }
 
 .dpm-func-elem {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: start;
+  align-items: center;
   cursor: pointer;
+
+  border-radius: 10px;
+  margin: 0 0 0 20px;
   min-height: 40px;
+  width: 80%;
+}
+
+.dpm-func-elem:hover {
+  background: $colorP11;
 }
 
 .dpm-func-span {
   font-size: $font-size;
+  flex-grow: 1;
+  padding: 0 0 0 10px;
 }
+
+.dpm-func-icon-elem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 50px;
+
+}
+
+.func-icon {
+  font-size: 25px;
+}
+
+// LOGIN ELEMENT STYLES
+
+.dpm-logged-out-elem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logged-out-button {
+  height: 35px;
+  width: 100%;
+  border-radius: 15px;
+  border: #d9d9d9 solid 2px;
+
+  background: $colorP13;
+  font-size: $font-size;
+  font-weight: $font-weight;
+}
+
+.logged-out-button:hover{
+  background: $colorP14;
+  border: $colorP11 solid 2px;
+}
+
+.logged-out-button-elem {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  padding: 5px 0 5px 0;
+}
+
+.logged-out-button-elem a {
+  text-decoration: none;
+  color: $colorP11;
+}
+

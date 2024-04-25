@@ -26,7 +26,7 @@ import {generateRandomToken} from "../../misc/functions";
 import {StorageKeys} from "../../misc/storage-keys";
 import {LogoComponent} from "../../logo/logo.component";
 import { CookieService } from 'ngx-cookie-service';
-import {TokenByEmail} from "../../../model/query/token-by-email";
+import {TokenByEmail} from "../../../model/query/update/token-by-email";
 
 @Component({
   selector: 'app-password-recovery',
@@ -49,7 +49,6 @@ import {TokenByEmail} from "../../../model/query/token-by-email";
 export class PasswordRecoveryComponent extends AuthenticationComponent {
   // Form fields
   emailInput: string = "";
-  user!: User;
 
   // Logic Fields
   isEmailExist: boolean = false;
@@ -83,7 +82,7 @@ export class PasswordRecoveryComponent extends AuthenticationComponent {
               this.emailService.sendEmail(Email.recoveryEmail(user.email, newToken)).subscribe({
                   next: (success: boolean) => {
                     if (success) {
-                      this.resetTokenByEmail(this.cookieService, this.fetchService(), user.email, newToken).then((success) => {
+                      this.resetTokenByEmail(user.email, newToken).then((success) => {
                         resolve(success);
                       });
                       console.log('Email sent');
