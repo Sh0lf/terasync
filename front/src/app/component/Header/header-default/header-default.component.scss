@@ -147,6 +147,10 @@ $font-weight: bold;
   background: $colorP12;
   border-radius: 5px;
   min-width: 290px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
 }
 
 .dpm-title-elem {
@@ -180,4 +184,25 @@ $font-weight: bold;
 
 .main-title-span {
   flex-grow: 1;
+}
+
+//// FUNCTION MENU STYLES
+.dpm-func-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+.dpm-func-elem {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: start;
+  cursor: pointer;
+  min-height: 40px;
+}
+
+.dpm-func-span {
+  font-size: $font-size;
 }

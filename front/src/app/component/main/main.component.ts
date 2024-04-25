@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
 import {HttpClientModule} from "@angular/common/http";
 import {NgForOf, NgIf} from "@angular/common";
@@ -6,8 +6,6 @@ import {LoginComponent} from "../Authentication/login/login.component";
 import {HeaderDefaultComponent} from "../Header/header-default/header-default.component";
 import {FooterComponent} from "../footer/footer.component";
 import {RegisterComponent} from "../Authentication/register/register.component";
-import {StorageKeys} from "../misc/storage-keys";
-import {customerCategory} from "../../service/user/userCategories";
 import {CookieComponent} from "../misc/cookie-component";
 import {CookieService} from "ngx-cookie-service";
 

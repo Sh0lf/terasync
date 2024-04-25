@@ -10,7 +10,13 @@
             <span *ngIf="isUserLoggedIn" class="main-title-span">Name Of The User</span>
             <span *ngIf="!isUserLoggedIn" class="main-title-span">Welcome To TeraSync!</span>
             <div class="x-mark-icon-elem" (click)="xMarkOnClick()">
-              <fa-icon [icon]="xMark" [class]="['x-mark-icon']"></fa-icon>
+              <fa-icon [icon]="faXmark" [class]="['x-mark-icon']"></fa-icon>
+            </div>
+          </div>
+          <div class="dpm-func-menu">
+            <div class="dpm-func-elem">
+              <fa-icon [icon]="faGear" [class]="['fa-regular', 'gear-icon']"></fa-icon>
+              <span class="dpm-func-span">My Account</span>
             </div>
           </div>
         </div>

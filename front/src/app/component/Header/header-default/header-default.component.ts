@@ -5,13 +5,12 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {CookieService} from "ngx-cookie-service";
 import {CookieComponent} from "../../misc/cookie-component";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
-import {faBars, faChevronDown, faChevronUp, faXmark} from '@fortawesome/free-solid-svg-icons';
-import {HeaderDropDownMenuComponent} from "../header-drop-down-menu/header-drop-down-menu.component";
+import {faGear, faBars, faChevronDown, faChevronUp, faXmark} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-header-default',
   standalone: true,
-  imports: [LogoComponent, NgOptimizedImage, NgIf, FontAwesomeModule, NgStyle, HeaderDropDownMenuComponent],
+  imports: [LogoComponent, NgOptimizedImage, NgIf, FontAwesomeModule, NgStyle],
   templateUrl: './header-default.component.html',
   styleUrl: './header-default.component.scss',
   host: {
@@ -28,12 +27,12 @@ export class HeaderDefaultComponent extends CookieComponent implements OnInit, A
   faBars = faBars;
   faChevronDown = faChevronDown;
   faChevronUp = faChevronUp;
+  faXmark = faXmark;
+  faGear = faGear;
+
 
   // DOM Elements
   @ViewChild('headerBody',) headerBody!: ElementRef;
-
-  // Icon Fields
-  xMark = faXmark;
 
   constructor(protected override cookieService: CookieService,
               private cd: ChangeDetectorRef,
