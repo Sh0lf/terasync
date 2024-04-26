@@ -13,6 +13,10 @@ import {InternalObjectService} from "../../../service/internal-object.service";
 import {LogoComponent} from "../../logo/logo.component";
 import {HttpErrorResponse} from "@angular/common/http";
 import {CookieService} from "ngx-cookie-service";
+import {User} from "../../../model/user/user";
+import {businessCategory, customerCategory, deliveryServiceCategory} from "../../../service/user/userCategories";
+import {Business} from "../../../model/user/business";
+import {DeliveryService} from "../../../model/user/delivery.service";
 
 @Component({
   selector: 'app-register',
@@ -35,23 +39,26 @@ import {CookieService} from "ngx-cookie-service";
 })
 export class RegisterComponent extends AuthenticationComponent {
   // Form fields
-  protected firstNameInput: string = "";
-  protected lastNameInput: string = "";
-  protected nameInput: string = "";
-  protected emailInput: string = "";
-  protected usernameInput: string = "";
-  protected passwordInput: string = "";
-  protected confirmPasswordInput: string = "";
+  firstNameInput: string = "";
+  lastNameInput: string = "";
+  nameInput: string = "";
+  emailInput: string = "";
+  usernameInput: string = "";
+  passwordInput: string = "";
+  confirmPasswordInput: string = "";
+
+  addressInput: string = "";
+  phoneInput: string = "";
 
   // Logic Fields
-  protected isEmailExists: boolean = false;
+  isEmailExists: boolean = false;
 
   constructor(protected override customerService: CustomerService,
               protected override cookieService: CookieService,
               protected override emailService: EmailService,
               private internalObjectService: InternalObjectService<{
                 verificationCodeHash: string,
-                customer: Customer
+                user: User
               }>,
               private router: Router, private route: ActivatedRoute) {
     super();
@@ -61,43 +68,46 @@ export class RegisterComponent extends AuthenticationComponent {
     new Promise<boolean>((resolve, reject) => {
       if (this.isFormValid()) {
         console.log("Form is valid")
-        // this.getUserByEmail(this.emailInput).then((user) => {
-        //   this.isEmailExists = user != null;
-        //   // Generating hash from password with bcrypt (one of the packages that is used for hashing passwords)
-        //   bcrypt.hash(this.passwordInput, this.hashSalt, (err, hashPassword) => {
-        //     let newCustomer = new Customer(
-        //       this.firstNameInput, this.lastNameInput, this.emailInput,
-        //       this.usernameInput, hashPassword
-        //     );
-        //     this.sendVerificationEmail(this.emailInput).then(verificationCodeHash => {
-        //       if (verificationCodeHash != null) {
-        //         // Adding the new customer to the database
-        //         this.customerService.addEntity(newCustomer).subscribe({
-        //           next: (newCustomer: Customer) => {
-        //             if (newCustomer != null) {
-        //               console.log("Customer added: ", newCustomer);
-        //               this.internalObjectService.setObject({
-        //                 verificationCodeHash: verificationCodeHash,
-        //                 customer: newCustomer
-        //               });
-        //               this.router.navigate(['/verify-email'], {relativeTo: this.route}).then();
-        //               resolve(true);
-        //             } else {
-        //               console.log("Error, customer is null");
-        //               resolve(false);
-        //             }
-        //           },
-        //           error: (error: HttpErrorResponse) => {
-        //             console.log("Error in adding new customer: ", error);
-        //             resolve(false);
-        //           }
-        //         });
-        //       } else {
-        //         resolve(false);
-        //       }
-        //     });
-        //   });
-        // });
+        this.getUserByEmail(this.emailInput).then((user) => {
+          this.isEmailExists = user != null;
+          // Generating hash from password with bcrypt (one of the packages that is used for hashing passwords)
+          bcrypt.hash(this.passwordInput, this.hashSalt, (err, hashPassword) => {
+            let newUser: User | undefined = this.createNewUser(hashPassword);
+            if(newUser == null) {
+              console.log("Error, user is null");
+              resolve(false);
+              return;
+            }
+
+            this.sendVerificationEmail(this.emailInput).then(verificationCodeHash => {
+              if (verificationCodeHash != null) {
+                // Adding the new user to the database
+                this.fetchUserService().addEntity(newUser).subscribe({
+                  next: (newUser: User) => {
+                    if (newUser != null) {
+                      console.log("User added: ", newUser);
+                      this.internalObjectService.setObject({
+                        verificationCodeHash: verificationCodeHash,
+                        user: newUser
+                      });
+                      this.router.navigate(['/verify-email'], {relativeTo: this.route}).then();
+                      resolve(true);
+                    } else {
+                      console.log("Error, customer is null");
+                      resolve(false);
+                    }
+                  },
+                  error: (error: HttpErrorResponse) => {
+                    console.log("Error in adding new customer: ", error);
+                    resolve(false);
+                  }
+                });
+              } else {
+                resolve(false);
+              }
+            });
+          });
+        });
       } else {
         console.log("Form is invalid")
         resolve(false)
@@ -155,6 +165,22 @@ export class RegisterComponent extends AuthenticationComponent {
     return this.usernameInput.length > 0;
   }
 
+  isAddressInvalid() {
+    return !this.isAddressValid() && this.isSubmitted;
+  }
+
+  isAddressValid() {
+    return this.addressInput.length > 0 || !this.isBusinessCategory();
+  }
+
+  isPhoneInvalid() {
+    return !this.isPhoneValid() && this.isSubmitted;
+  }
+
+  isPhoneValid() {
+    return this.phoneInput.length > 0 || !this.isBusinessCategory();
+  }
+
   isPasswordInvalid(): boolean {
     return !(this.isPasswordProper(this.passwordInput)) && this.isSubmitted;
   }
@@ -165,5 +191,25 @@ export class RegisterComponent extends AuthenticationComponent {
 
   isPasswordsMatch(): boolean {
     return this.passwordInput === this.confirmPasswordInput;
+  }
+
+
+  private createNewUser(hashPassword: string): User | undefined {
+    if(this.isCustomerCategory()) {
+      return new Customer(
+        this.firstNameInput, this.lastNameInput, this.emailInput,
+        this.usernameInput, hashPassword
+      );
+    } else if(this.isBusinessCategory()) {
+      return new Business(
+        this.nameInput, this.emailInput, this.usernameInput,
+        hashPassword, this.addressInput, this.phoneInput
+      );
+    } else if(this.isDeliveryServiceCategory()) {
+      return new DeliveryService(
+        this.nameInput, this.emailInput, this.usernameInput, hashPassword
+      );
+    }
+    return undefined;
   }
 }

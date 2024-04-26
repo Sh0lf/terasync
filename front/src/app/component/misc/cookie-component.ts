@@ -48,7 +48,7 @@ export abstract class CookieComponent {
   constructor() {
   }
 
-  fetchService(): UserService<any> {
+  fetchUserService(): UserService<any> {
     switch (this.getCurrentUserCategory().name) {
       case(adminCategory.name):
         return this.adminService;
@@ -74,6 +74,18 @@ export abstract class CookieComponent {
 
   isPartnerType(): boolean {
     return this.getCurrentUserCategory().userType === UserType.PARTNER;
+  }
+
+  isBusinessCategory() {
+    return this.getCurrentUserCategory().name === businessCategory.name;
+  }
+
+  isDeliveryServiceCategory() {
+    return this.getCurrentUserCategory().name === deliveryServiceCategory.name;
+  }
+
+  isCustomerCategory() {
+    return this.getCurrentUserCategory().name === customerCategory.name;
   }
 
   getPartnerType(): string {
@@ -124,7 +136,7 @@ export abstract class CookieComponent {
   }
 
   setUserByToken() {
-    return this.fetchService().findUserByToken({token: this.getUserToken()})
+    return this.fetchUserService().findUserByToken({token: this.getUserToken()})
       .subscribe({
       next: (user: User) => {
         if (user != null) {
@@ -138,7 +150,7 @@ export abstract class CookieComponent {
   resetTokenByOldToken(): Promise<boolean> {
     let currentToken = this.cookieService.get(StorageKeys.USER_TOKEN);
     return new Promise<boolean>((resolve, reject) => {
-      this.fetchService().updateTokenByOldToken({oldToken: currentToken, newToken: generateRandomToken()})
+      this.fetchUserService().updateTokenByOldToken({oldToken: currentToken, newToken: generateRandomToken()})
         .subscribe({
           next: (success: number) => {
             if (success == 1) {
@@ -166,7 +178,7 @@ export abstract class CookieComponent {
       thisToken = newToken;
     }
     return new Promise<boolean>((resolve, reject) => {
-      this.fetchService().updateTokenByEmail(new TokenByEmail(email, thisToken)).subscribe({
+      this.fetchUserService().updateTokenByEmail(new TokenByEmail(email, thisToken)).subscribe({
         next: (success: number) => {
           if (success == 1) {
             this.setUserToken(thisToken);
@@ -188,7 +200,7 @@ export abstract class CookieComponent {
 
   getUserByEmail(email: string): Promise<User | null> {
     return new Promise<User | null>((resolve, reject) => {
-      this.fetchService().findUserByEmail(email).subscribe({
+      this.fetchUserService().findUserByEmail(email).subscribe({
         next: (customer: Customer) => {
           resolve(customer);
         },

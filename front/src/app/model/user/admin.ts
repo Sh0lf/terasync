@@ -8,8 +8,9 @@ export class Admin extends User{
   constructor(firstName: string, lastName: string, email: string,
               username: string, password: string,
               adminId?: number | undefined,
-              registrationDate?: string | undefined,  token?: string | undefined) {
-    super(email, username, password, adminId, registrationDate, token);
+              registrationDate?: string | undefined,  token?: string | undefined,
+              emailVerified?: boolean | undefined) {
+    super(email, username, password, adminId, registrationDate, token, emailVerified);
     this.adminId = adminId;
     this.firstName = firstName;
     this.lastName = lastName;

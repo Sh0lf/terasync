@@ -42,4 +42,9 @@ public class Customer extends User {
     public String getName() {
         return firstName + " " + lastName;
     }
+
+    @Override
+    public boolean getEmailVerified() {
+        return emailVerified;
+    }
 }

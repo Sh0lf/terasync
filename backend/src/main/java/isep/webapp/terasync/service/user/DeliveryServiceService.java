@@ -28,6 +28,11 @@ public class DeliveryServiceService extends UserService<DeliveryService, Deliver
     }
 
     @Transactional
+    public Integer verifyEmail(String email) {
+        return entityRepository.verifyEmail(email);
+    }
+
+    @Transactional
     @Override
     public Integer updatePasswordByEmail(PasswordByEmail passwordByEmail) {
         return entityRepository.updatePasswordByEmail(passwordByEmail.getEmail(), passwordByEmail.getNewPassword());

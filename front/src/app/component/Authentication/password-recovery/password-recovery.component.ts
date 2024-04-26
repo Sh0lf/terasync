@@ -73,7 +73,7 @@ export class PasswordRecoveryComponent extends AuthenticationComponent {
   override onSubmit() {
     new Promise<boolean>((resolve, reject) => {
       if (this.isFormValid()) {
-        this.fetchService().findUserByEmail(this.emailInput).subscribe({
+        this.fetchUserService().findUserByEmail(this.emailInput).subscribe({
           next: (user: User) => {
             this.user = user;
             if (this.user != null) {

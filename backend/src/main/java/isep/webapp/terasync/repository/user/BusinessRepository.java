@@ -11,6 +11,9 @@ public interface BusinessRepository extends JpaRepository<Business, Integer> {
     Business findByToken(String token);
 
     @Modifying
+    @Query("UPDATE Business c SET c.emailVerified = true WHERE c.email = :email")
+    Integer verifyEmail(@Param("email") String email);
+    @Modifying
     @Query("Update Business c SET c.password = :password WHERE c.email = :email")
     Integer updatePasswordByEmail(@Param("email") String email, @Param("password") String password);
 

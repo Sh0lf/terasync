@@ -28,9 +28,18 @@ public class DeliveryService extends User {
     @CreationTimestamp
     @Column(name = "registrationDate")
     private String registrationDate;
+    @Column(name = "emailVerified")
+    private boolean emailVerified;
+    @Column(name= "approved")
+    private boolean approved;
 
     @Override
     public int getUserId() {
         return deliveryServiceId;
+    }
+
+    @Override
+    public boolean getEmailVerified() {
+        return emailVerified;
     }
 }

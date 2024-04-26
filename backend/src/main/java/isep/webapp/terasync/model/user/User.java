@@ -10,4 +10,5 @@ public abstract class User extends Entity {
     public abstract String getPassword();
     public abstract String getToken();
     public abstract String getRegistrationDate();
+    public abstract boolean getEmailVerified();
 }

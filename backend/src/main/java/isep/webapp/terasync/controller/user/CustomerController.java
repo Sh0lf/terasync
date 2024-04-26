@@ -13,9 +13,4 @@ public class CustomerController extends UserController<Customer, CustomerService
     public CustomerController(CustomerService entityService) {
         super(entityService);
     }
-
-    @GetMapping("/verify-email/{email}")
-    public ResponseEntity<Integer> verifyEmail(@PathVariable("email") String email) {
-        return ResponseEntity.ok(entityService.verifyEmail(email));
-    }
 }

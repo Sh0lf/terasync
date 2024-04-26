@@ -27,6 +27,11 @@ public abstract class UserController<T, S extends UserService<T, ?>> extends Ent
         return ResponseEntity.ok(entityService.selectByToken(byToken));
     }
 
+    @GetMapping("/verify-email/{email}")
+    public ResponseEntity<Integer> verifyEmail(@PathVariable("email") String email) {
+        return ResponseEntity.ok(entityService.verifyEmail(email));
+    }
+
     @PostMapping("/update-password-by-email")
     public ResponseEntity<Integer> updatePasswordByEmail(@RequestBody PasswordByEmail passwordByEmail) {
         return ResponseEntity.ok(entityService.updatePasswordByEmail(passwordByEmail));

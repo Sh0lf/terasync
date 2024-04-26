@@ -23,6 +23,10 @@ export abstract class UserService<T> extends EntityService<T> {
     return this.http.post<T>(`${this.apiBackendUrl}/${this.entityName}/select-user-by-token`, byToken);
   }
 
+  public verifyEmail(email: String): Observable<number> {
+    return this.http.get<number>(`${this.apiBackendUrl}/${this.entityName}/verify-email/${email}`);
+  }
+
   public updatePasswordByEmail(passwordByEmail: PasswordByEmail): Observable<number> {
     return this.http.post<number>(`${this.apiBackendUrl}/${this.entityName}/update-password-by-email`, passwordByEmail);
   }

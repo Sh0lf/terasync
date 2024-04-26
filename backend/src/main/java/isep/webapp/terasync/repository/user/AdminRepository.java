@@ -11,6 +11,10 @@ public interface AdminRepository extends JpaRepository<Admin, Integer> {
     Admin findByToken(String token);
 
     @Modifying
+    @Query("UPDATE Admin c SET c.emailVerified = true WHERE c.email = :email")
+    Integer verifyEmail(@Param("email") String email);
+
+    @Modifying
     @Query("Update Admin c SET c.password = :password WHERE c.email = :email")
     Integer updatePasswordByEmail(@Param("email") String email, @Param("password") String password);
 

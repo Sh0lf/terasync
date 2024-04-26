@@ -9,6 +9,12 @@ import {InternalObjectService} from "../../../service/internal-object.service";
 import {CustomerService} from "../../../service/user/customer.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {LogoComponent} from "../../logo/logo.component";
+import {User} from "../../../model/user/user";
+import {CookieService} from "ngx-cookie-service";
+import {AdminService} from "../../../service/user/admin.service";
+import {BusinessService} from "../../../service/user/business.service";
+import {DeliveryServiceService} from "../../../service/user/delivery-service.service";
+import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
 
 @Component({
   selector: 'app-verify-email',
@@ -30,12 +36,17 @@ export class VerifyEmailComponent extends FormComponent implements OnInit {
   isCodeValid: boolean = false;
 
   // Service Fields
-  inputObject!: { verificationCodeHash: string, customer: Customer };
+  inputObject!: { verificationCodeHash: string, user: User };
 
   constructor(protected override customerService: CustomerService,
+              protected override adminService: AdminService,
+              protected override businessService: BusinessService,
+              protected override deliveryServiceService: DeliveryServiceService,
+              protected override deliveryPersonService: DeliveryPersonService,
+              protected override cookieService: CookieService,
               private internalObjectService: InternalObjectService<{
                 verificationCodeHash: string,
-                customer: Customer
+                user: User
               }>,
               private router: Router, private route: ActivatedRoute) {
     super();
@@ -64,7 +75,7 @@ export class VerifyEmailComponent extends FormComponent implements OnInit {
         bcrypt.compare(this.verificationCodeInput, this.verificationCodeHash).then(successCompare => {
           if (successCompare) {
             console.log('Code is valid');
-            this.customerService.verifyEmail(this.inputObject.customer.email).subscribe({
+            this.fetchUserService().verifyEmail(this.inputObject.user.email).subscribe({
               next: (successEmail: number) => {
                 if (successEmail == 1) {
                   console.log('Email is verified');

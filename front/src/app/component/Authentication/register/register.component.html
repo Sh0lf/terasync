@@ -33,6 +33,16 @@
         <span class="validation-span" *ngIf="isUsernameInvalid()">Username field is required.</span>
       </div>
       <div class="sign-form-elem">
+        <label for="address-input">Address:</label>
+        <input type="text" id="address-input" [(ngModel)]="addressInput" name="address-input">
+        <span class="validation-span" *ngIf="isAddressInvalid()">Address field is required.</span>
+      </div>
+      <div class="sign-form-elem">
+        <label for="phone-input">Phone:</label>
+        <input type="text" id="phone-input" [(ngModel)]="phoneInput" name="phone-input">
+        <span class="validation-span" *ngIf="isPhoneInvalid()">Phone field is required.</span>
+      </div>
+      <div class="sign-form-elem">
         <label for="password-input">Password:</label>
         <input type="password" id="password-input" [(ngModel)]="passwordInput" name="password-input">
         <span class="validation-span" *ngIf="isPasswordInvalid()">{{passwordInvalidMessage}}</span>

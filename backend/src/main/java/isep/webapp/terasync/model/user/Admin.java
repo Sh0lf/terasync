@@ -30,6 +30,8 @@ public class Admin extends User {
     @Column(name = "registrationDate")
     @CreationTimestamp
     private String registrationDate;
+    @Column(name = "emailVerified")
+    private boolean emailVerified;
 
     @Override
     public int getUserId() {
@@ -39,5 +41,10 @@ public class Admin extends User {
     @Override
     public String getName() {
         return firstName + " " + lastName;
+    }
+
+    @Override
+    public boolean getEmailVerified() {
+        return emailVerified;
     }
 }

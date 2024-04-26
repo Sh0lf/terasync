@@ -8,7 +8,7 @@ CREATE TABLE Customer
     username         VARCHAR(255) NOT NULL,
     password         VARCHAR(255) NOT NULL,
     token            VARCHAR(255),
-    isEmailVerified  BIT          NOT NULL DEFAULT (0),
+    emailVerified    BIT          NOT NULL DEFAULT (0),
     registrationDate DATETIME     NOT NULL DEFAULT (GETDATE())
 );
 
@@ -21,6 +21,7 @@ CREATE TABLE Admin
     username         VARCHAR(255) NOT NULL,
     password         VARCHAR(255) NOT NULL,
     token            VARCHAR(255),
+    emailVerified    BIT          NOT NULL DEFAULT (0),
     registrationDate DATETIME     NOT NULL DEFAULT (GETDATE())
 );
 
@@ -34,7 +35,9 @@ CREATE TABLE Business
     username         VARCHAR(255) NOT NULL,
     password         VARCHAR(255) NOT NULL,
     token            VARCHAR(255),
-    registrationDate DATETIME     NOT NULL DEFAULT (GETDATE())
+    emailVerified    BIT          NOT NULL DEFAULT (0),
+    registrationDate DATETIME     NOT NULL DEFAULT (GETDATE()),
+    approved BIT NOT NULL DEFAULT(0)
 );
 
 CREATE TABLE DeliveryService
@@ -45,7 +48,9 @@ CREATE TABLE DeliveryService
     username          VARCHAR(255) NOT NULL,
     password          VARCHAR(255) NOT NULL,
     token             VARCHAR(255),
-    registrationDate  DATETIME     NOT NULL DEFAULT (GETDATE())
+    emailVerified     BIT          NOT NULL DEFAULT (0),
+    registrationDate  DATETIME     NOT NULL DEFAULT (GETDATE()),
+    approved BIT NOT NULL DEFAULT(0)
 );
 
 CREATE TABLE DeliveryPerson
@@ -57,6 +62,7 @@ CREATE TABLE DeliveryPerson
     username          VARCHAR(255) NOT NULL,
     password          VARCHAR(255) NOT NULL,
     token             VARCHAR(255),
+    emailVerified     BIT          NOT NULL DEFAULT (0),
     registrationDate  DATETIME     NOT NULL DEFAULT (GETDATE()),
     deliveryServiceId INT          NOT NULL,
     constraint deliveryService_deliveryPerson_fk FOREIGN KEY (deliveryServiceId) REFERENCES DeliveryService (deliveryServiceId)

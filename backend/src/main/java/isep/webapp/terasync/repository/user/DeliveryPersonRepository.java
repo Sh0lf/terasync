@@ -11,6 +11,10 @@ public interface DeliveryPersonRepository extends JpaRepository<DeliveryPerson, 
     DeliveryPerson findByToken(String token);
 
     @Modifying
+    @Query("UPDATE DeliveryPerson c SET c.emailVerified = true WHERE c.email = :email")
+    Integer verifyEmail(@Param("email") String email);
+
+    @Modifying
     @Query("Update DeliveryPerson c SET c.password = :password WHERE c.email = :email")
     Integer updatePasswordByEmail(@Param("email") String email, @Param("password") String password);
 

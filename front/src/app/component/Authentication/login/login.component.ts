@@ -58,7 +58,7 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
               protected override emailService: EmailService,
               private internalObjectService: InternalObjectService<{
                 verificationCodeHash: string,
-                customer: Customer
+                user: User
               }>,
               private router: Router, private route: ActivatedRoute) {
     super();
@@ -73,12 +73,12 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
   override onSubmit() {
     new Promise<boolean>((resolve, reject) => {
       if (this.isFormValid()) {
-        this.fetchService().findUserByEmail(this.emailInput).subscribe({
+        this.fetchUserService().findUserByEmail(this.emailInput).subscribe({
           next: (jsonUser: User) => {
             if (jsonUser != null) {
               bcrypt.compare(this.passwordInput, jsonUser.password).then(success => {
                 if (success) {
-                  if (!this.checkCustomerEmailVerified(jsonUser)) {
+                  if (!this.isUserEmailVerified(jsonUser)) {
                     resolve(true);
                   } else {
                     this.resetTokenByEmail(jsonUser.email).then((success) => {
@@ -109,9 +109,7 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
       this.isLoginValid = success;
       super.onSubmit();
 
-      console.log("submitted: " + this.isSubmitted);
       console.log("isLoginValid: " + this.isLoginValid)
-
       if (this.isLoginValid) {
         this.routeToHome(this.router, this.route);
       }
@@ -146,14 +144,14 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
     }
   }
 
-  private checkCustomerEmailVerified(jsonUser: User): boolean {
-    if (this.getCurrentUserCategory().userType == UserType.CUSTOMER && !(jsonUser as Customer).emailVerified) {
+  private isUserEmailVerified(jsonUser: User): boolean {
+    if (!jsonUser.emailVerified) {
       console.log('Email not verified');
       this.sendVerificationEmail(jsonUser.email).then((verificationCodeHash) => {
         if (verificationCodeHash != null) {
           this.internalObjectService.setObject({
             verificationCodeHash: verificationCodeHash,
-            customer: jsonUser as Customer
+            user: jsonUser
           });
           this.router.navigate(['/verify-email'], {relativeTo: this.route}).then();
         }

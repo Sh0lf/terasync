@@ -29,6 +29,11 @@ public class BusinessService extends UserService<Business, BusinessRepository> {
     }
 
     @Transactional
+    public Integer verifyEmail(String email) {
+        return entityRepository.verifyEmail(email);
+    }
+
+    @Transactional
     @Override
     public Integer updatePasswordByEmail(PasswordByEmail passwordByEmail) {
         return entityRepository.updatePasswordByEmail(passwordByEmail.getEmail(), passwordByEmail.getNewPassword());

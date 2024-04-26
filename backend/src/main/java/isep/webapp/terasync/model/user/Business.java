@@ -32,9 +32,18 @@ public class Business extends User {
     @Column(name = "registrationDate")
     @CreationTimestamp
     private String registrationDate;
+    @Column(name = "emailVerified")
+    private boolean emailVerified;
+    @Column(name= "approved")
+    private boolean approved;
 
     @Override
     public int getUserId() {
         return businessId;
+    }
+
+    @Override
+    public boolean getEmailVerified() {
+        return emailVerified;
     }
 }

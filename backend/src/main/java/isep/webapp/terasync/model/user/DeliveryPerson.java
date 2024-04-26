@@ -35,6 +35,8 @@ public class DeliveryPerson extends User {
     private String registrationDate;
     @Column(name = "deliveryServiceId")
     private int deliveryServiceId;
+    @Column(name = "emailVerified")
+    private boolean emailVerified;
 
     @Override
     public int getUserId() {
@@ -44,5 +46,10 @@ public class DeliveryPerson extends User {
     @Override
     public String getName() {
         return firstName + " " + lastName;
+    }
+
+    @Override
+    public boolean getEmailVerified() {
+        return emailVerified;
     }
 }
