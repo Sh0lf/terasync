@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {LogoComponent} from "../../logo/logo.component";
 import {NgIf, NgOptimizedImage, NgStyle} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -21,7 +21,14 @@ import {BusinessService} from "../../../service/user/business.service";
 import {AdminService} from "../../../service/user/admin.service";
 import {DeliveryServiceService} from "../../../service/user/delivery-service.service";
 import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
-import {NgxResizeObserverModule, NgxResizeObserverService} from "ngx-resize-observer";
+import {NgxResizeObserverModule} from "ngx-resize-observer";
+import 'resize-observer-polyfill/dist/ResizeObserver.global'
+import {
+  businessCategory,
+  customerCategory,
+  deliveryServiceCategory,
+  UserCategory
+} from "../../../service/user/userCategories";
 
 @Component({
   selector: 'app-header-default',
@@ -33,7 +40,7 @@ import {NgxResizeObserverModule, NgxResizeObserverService} from "ngx-resize-obse
     '[header-body]': 'true'
   },
 })
-export class HeaderDefaultComponent extends CookieComponent implements OnInit, AfterViewInit {
+export class HeaderDefaultComponent extends CookieComponent implements OnInit {
   // Logic Fields
   showMenu: boolean = false;
   dropDownMenuTop: number = 0;
@@ -52,25 +59,23 @@ export class HeaderDefaultComponent extends CookieComponent implements OnInit, A
   // DOM Elements
   @ViewChild('headerBody') headerBody!: ElementRef;
 
+  // User Categories
+  protected readonly businessCategory = businessCategory;
+  protected readonly deliveryServiceCategory = deliveryServiceCategory;
+
   constructor(protected override customerService: CustomerService,
               protected override businessService: BusinessService,
               protected override adminService: AdminService,
               protected override deliveryServiceService: DeliveryServiceService,
               protected override deliveryPersonService: DeliveryPersonService,
               protected override cookieService: CookieService,
-              private ngxResizeObserverModule: NgxResizeObserverService,
               protected router: Router, protected route: ActivatedRoute) {
     super();
   }
+
   ngOnInit(): void {
     this.checkUserLoggedIn();
     this.setUserByToken();
-  }
-
-  ngAfterViewInit() {
-    // this.ngxResizeObserverModule.observe(this.headerBody.nativeElement, entry=> {
-    //   console.log(entry)
-    // }, "content-box")
   }
 
   loginOnClick() {
@@ -79,8 +84,7 @@ export class HeaderDefaultComponent extends CookieComponent implements OnInit, A
 
   logoutOnClick() {
     this.deleteUserToken();
-    this.resetUserCategoryToCustomer();
-    this.isUserLoggedIn = false;
+    window.location.reload();
   }
 
   registerOnClick() {
@@ -97,5 +101,10 @@ export class HeaderDefaultComponent extends CookieComponent implements OnInit, A
 
   handleResize(entry: any) {
     this.dropDownMenuTop = entry.contentRect.height + 10;
+  }
+
+  registerAs(userCategory: UserCategory) {
+    this.setCurrentUserCategory(userCategory);
+    this.router.navigate(['/register'], {relativeTo: this.route}).then();
   }
 }

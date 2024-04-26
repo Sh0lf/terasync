@@ -7,7 +7,7 @@
         </div>
         <div class="drop-down-menu" [style.top.px]="dropDownMenuTop" *ngIf="showMenu">
           <div class="dpm-title-elem">
-            <span *ngIf="isUserLoggedIn" class="main-title-span">Welcome, {{user?.username}}!</span>
+            <span *ngIf="isUserLoggedIn" class="main-title-span">Welcome, {{ user?.username }}!</span>
             <span *ngIf="!isUserLoggedIn" class="main-title-span">Welcome To TeraSync!</span>
             <div class="x-mark-icon-elem" (click)="xMarkOnClick()">
               <fa-icon [icon]="faXmark" [class]="['x-mark-icon']"></fa-icon>
@@ -22,9 +22,10 @@
             </div>
             <div class="separation-line-small"></div>
             <div class="logged-out-button-elem">
-              <a href="#">Apply as a Restaurant</a>
-            </div><div class="logged-out-button-elem">
-              <a href="#">Apply as a Delivery Service</a>
+              <button type="button" class="href-button" (click)="registerAs(businessCategory)">Apply as a Restaurant</button>
+            </div>
+            <div class="logged-out-button-elem">
+              <button type="button" class="href-button" (click)="registerAs(deliveryServiceCategory)">Apply as a Delivery Service</button>
             </div>
           </div>
           <div class="dpm-func-menu" *ngIf="isUserLoggedIn">

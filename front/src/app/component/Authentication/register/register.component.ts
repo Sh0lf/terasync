@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NgIf} from "@angular/common";
 import {RECAPTCHA_SETTINGS, RecaptchaModule} from "ng-recaptcha";
 import {environment} from "../../../../environment/environment.prod";
@@ -13,6 +13,7 @@ import {InternalObjectService} from "../../../service/internal-object.service";
 import {LogoComponent} from "../../logo/logo.component";
 import {checkEmail, sendVerificationEmail} from "../../misc/functions";
 import {HttpErrorResponse} from "@angular/common/http";
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-register',
@@ -37,6 +38,7 @@ export class RegisterComponent extends AuthenticationComponent {
   // Form fields
   protected firstNameInput: string = "";
   protected lastNameInput: string = "";
+  protected nameInput: string = "";
   protected emailInput: string = "";
   protected usernameInput: string = "";
   protected passwordInput: string = "";
@@ -46,6 +48,7 @@ export class RegisterComponent extends AuthenticationComponent {
   protected isEmailExists: boolean = false;
 
   constructor(protected override customerService: CustomerService,
+              protected override cookieService: CookieService,
               private internalObjectService: InternalObjectService<{
                 verificationCodeHash: string,
                 customer: Customer
@@ -73,7 +76,10 @@ export class RegisterComponent extends AuthenticationComponent {
                   next: (newCustomer: Customer) => {
                     if (newCustomer != null) {
                       console.log("Customer added: ", newCustomer);
-                      this.internalObjectService.setObject({verificationCodeHash: verificationCodeHash, customer: newCustomer});
+                      this.internalObjectService.setObject({
+                        verificationCodeHash: verificationCodeHash,
+                        customer: newCustomer
+                      });
                       this.router.navigate(['/verify-email'], {relativeTo: this.route}).then();
                       resolve(true);
                     } else {
@@ -125,6 +131,14 @@ export class RegisterComponent extends AuthenticationComponent {
 
   isLastNameValid(): boolean {
     return this.lastNameInput.length > 0;
+  }
+
+  isNameInvalid(): boolean {
+    return !this.isNameValid() && this.isSubmitted;
+  }
+
+  isNameValid(): boolean {
+    return this.nameInput.length > 0;
   }
 
   isEmailInvalid(): boolean {

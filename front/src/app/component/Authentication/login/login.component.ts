@@ -136,10 +136,6 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
     return !(this.isLoginValid) && this.isSubmitted;
   }
 
-  isPartnerType(): boolean {
-    return this.getCurrentUserCategory().userType === UserType.PARTNER;
-  }
-
   getOppositeUserType(): UserType {
     return this.isPartnerType() ? UserType.CUSTOMER : UserType.PARTNER;
   }

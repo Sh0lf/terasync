@@ -5,15 +5,20 @@
       <div class="sign-form-elem">
         <h1>Create an Account</h1>
       </div>
-      <div class="sign-form-elem">
+      <div class="sign-form-elem" *ngIf="!isPartnerType()">
         <label for="firstName-input">First Name:</label>
         <input type="text" id="firstName-input" [(ngModel)]="firstNameInput" name="firstName-input">
         <span class="validation-span" *ngIf="isFirstNameInvalid()">First Name field is required.</span>
       </div>
-      <div class="sign-form-elem">
+      <div class="sign-form-elem" *ngIf="!isPartnerType()">
         <label for="lastName-input">Last Name:</label>
         <input type="text" id="lastName-input" [(ngModel)]="lastNameInput" name="lastName-input">
         <span class="validation-span" *ngIf="isLastNameInvalid()">Last Name field is required.</span>
+      </div>
+      <div class="sign-form-elem" *ngIf="isPartnerType()">
+        <label for="name-input">Name:</label>
+        <input type="text" id="name-input" [(ngModel)]="nameInput" name="name-input">
+        <span class="validation-span" *ngIf="isNameInvalid()">Name field is required.</span>
       </div>
       <div class="sign-form-elem">
         <label for="email-input">Email:</label>

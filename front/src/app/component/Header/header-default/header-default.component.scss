@@ -272,8 +272,12 @@ $font-weight: bold;
   padding: 5px 0 5px 0;
 }
 
-.logged-out-button-elem a {
-  text-decoration: none;
+.href-button {
   color: $colorP11;
+  border: transparent;
+  background: transparent;
+  cursor: pointer;
+  font-size: $font-size;
+  font-weight: $font-weight;
 }
 

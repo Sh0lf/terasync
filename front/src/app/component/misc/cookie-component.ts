@@ -19,6 +19,7 @@ import {DeliveryServiceService} from "../../service/user/delivery-service.servic
 import {DeliveryPersonService} from "../../service/user/delivery-person.service";
 import {User} from "../../model/user/user";
 import {Observable} from "rxjs";
+import {UserType} from "../../service/user/user.type";
 
 export abstract class CookieComponent {
   // Logic fields
@@ -68,6 +69,10 @@ export abstract class CookieComponent {
 
   routeToHome(router: Router, route: ActivatedRoute) {
     router.navigate([''], {relativeTo: route}).then();
+  }
+
+  isPartnerType(): boolean {
+    return this.getCurrentUserCategory().userType === UserType.PARTNER;
   }
 
   getCurrentUserCategory(): UserCategory {
