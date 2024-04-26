@@ -20,6 +20,7 @@ import {DeliveryPersonService} from "../../service/user/delivery-person.service"
 import {User} from "../../model/user/user";
 import {Observable} from "rxjs";
 import {UserType} from "../../service/user/user.type";
+import {Customer} from "../../model/user/customer";
 
 export abstract class CookieComponent {
   // Logic fields
@@ -73,6 +74,10 @@ export abstract class CookieComponent {
 
   isPartnerType(): boolean {
     return this.getCurrentUserCategory().userType === UserType.PARTNER;
+  }
+
+  getPartnerType(): string {
+    return this.getCurrentUserCategory().name;
   }
 
   getCurrentUserCategory(): UserCategory {
@@ -175,6 +180,20 @@ export abstract class CookieComponent {
         error: (error: HttpErrorResponse) => {
           console.error('HTTP Error: Token not updated');
           resolve(false);
+        }
+      });
+    });
+  }
+
+
+  getUserByEmail(email: string): Promise<User | null> {
+    return new Promise<User | null>((resolve, reject) => {
+      this.fetchService().findUserByEmail(email).subscribe({
+        next: (customer: Customer) => {
+          resolve(customer);
+        },
+        error: (error: HttpErrorResponse) => {
+          resolve(null);
         }
       });
     });

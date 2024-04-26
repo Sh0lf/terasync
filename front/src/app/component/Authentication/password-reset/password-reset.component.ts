@@ -53,7 +53,7 @@ export class PasswordResetComponent extends AuthenticationComponent implements O
               protected override deliveryServiceService: DeliveryServiceService,
               protected override deliveryPersonService: DeliveryPersonService,
               protected override cookieService: CookieService,
-              private emailService: EmailService,
+              protected override emailService: EmailService,
               private router: Router, private route: ActivatedRoute) {
     super();
   }

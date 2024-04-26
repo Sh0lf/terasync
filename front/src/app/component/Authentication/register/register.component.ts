@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {NgIf} from "@angular/common";
 import {RECAPTCHA_SETTINGS, RecaptchaModule} from "ng-recaptcha";
 import {environment} from "../../../../environment/environment.prod";
@@ -11,7 +11,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {EmailService} from "../../../service/misc/email.service";
 import {InternalObjectService} from "../../../service/internal-object.service";
 import {LogoComponent} from "../../logo/logo.component";
-import {checkEmail, sendVerificationEmail} from "../../misc/functions";
 import {HttpErrorResponse} from "@angular/common/http";
 import {CookieService} from "ngx-cookie-service";
 
@@ -49,58 +48,60 @@ export class RegisterComponent extends AuthenticationComponent {
 
   constructor(protected override customerService: CustomerService,
               protected override cookieService: CookieService,
+              protected override emailService: EmailService,
               private internalObjectService: InternalObjectService<{
                 verificationCodeHash: string,
                 customer: Customer
               }>,
-              private emailService: EmailService,
               private router: Router, private route: ActivatedRoute) {
     super();
   }
 
   override onSubmit() {
     new Promise<boolean>((resolve, reject) => {
-      checkEmail(this.emailInput, this.customerService).then((user) => {
-        this.isEmailExists = user != null;
-        if (this.isFormValid()) {
-          // Generating hash from password with bcrypt (one of the packages that is used for hashing passwords)
-          bcrypt.hash(this.passwordInput, this.hashSalt, (err, hashPassword) => {
-            let newCustomer = new Customer(
-              this.firstNameInput, this.lastNameInput, this.emailInput,
-              this.usernameInput, hashPassword
-            );
-            sendVerificationEmail(this.emailInput, this.emailService).then(verificationCodeHash => {
-              if (verificationCodeHash != null) {
-                // Adding the new customer to the database
-                this.customerService.addEntity(newCustomer).subscribe({
-                  next: (newCustomer: Customer) => {
-                    if (newCustomer != null) {
-                      console.log("Customer added: ", newCustomer);
-                      this.internalObjectService.setObject({
-                        verificationCodeHash: verificationCodeHash,
-                        customer: newCustomer
-                      });
-                      this.router.navigate(['/verify-email'], {relativeTo: this.route}).then();
-                      resolve(true);
-                    } else {
-                      console.log("Error, customer is null");
-                      resolve(false);
-                    }
-                  },
-                  error: (error: HttpErrorResponse) => {
-                    console.log("Error in adding new customer: ", error);
-                    resolve(false);
-                  }
-                });
-              } else {
-                resolve(false);
-              }
-            });
-          });
-        } else {
-          resolve(false)
-        }
-      });
+      if (this.isFormValid()) {
+        console.log("Form is valid")
+        // this.getUserByEmail(this.emailInput).then((user) => {
+        //   this.isEmailExists = user != null;
+        //   // Generating hash from password with bcrypt (one of the packages that is used for hashing passwords)
+        //   bcrypt.hash(this.passwordInput, this.hashSalt, (err, hashPassword) => {
+        //     let newCustomer = new Customer(
+        //       this.firstNameInput, this.lastNameInput, this.emailInput,
+        //       this.usernameInput, hashPassword
+        //     );
+        //     this.sendVerificationEmail(this.emailInput).then(verificationCodeHash => {
+        //       if (verificationCodeHash != null) {
+        //         // Adding the new customer to the database
+        //         this.customerService.addEntity(newCustomer).subscribe({
+        //           next: (newCustomer: Customer) => {
+        //             if (newCustomer != null) {
+        //               console.log("Customer added: ", newCustomer);
+        //               this.internalObjectService.setObject({
+        //                 verificationCodeHash: verificationCodeHash,
+        //                 customer: newCustomer
+        //               });
+        //               this.router.navigate(['/verify-email'], {relativeTo: this.route}).then();
+        //               resolve(true);
+        //             } else {
+        //               console.log("Error, customer is null");
+        //               resolve(false);
+        //             }
+        //           },
+        //           error: (error: HttpErrorResponse) => {
+        //             console.log("Error in adding new customer: ", error);
+        //             resolve(false);
+        //           }
+        //         });
+        //       } else {
+        //         resolve(false);
+        //       }
+        //     });
+        //   });
+        // });
+      } else {
+        console.log("Form is invalid")
+        resolve(false)
+      }
     }).then(success => {
       super.onSubmit();
     });
@@ -108,6 +109,7 @@ export class RegisterComponent extends AuthenticationComponent {
 
   override isFormValid(): boolean {
     return this.isCaptchaValid() &&
+      this.isNameValid() &&
       this.isFirstNameValid() &&
       this.isLastNameValid() &&
       this.isUsernameValid() &&
@@ -122,7 +124,7 @@ export class RegisterComponent extends AuthenticationComponent {
   }
 
   isFirstNameValid(): boolean {
-    return this.firstNameInput.length > 0;
+    return this.firstNameInput.length > 0 || this.isPartnerType();
   }
 
   isLastNameInvalid(): boolean {
@@ -130,7 +132,7 @@ export class RegisterComponent extends AuthenticationComponent {
   }
 
   isLastNameValid(): boolean {
-    return this.lastNameInput.length > 0;
+    return this.lastNameInput.length > 0 || this.isPartnerType();
   }
 
   isNameInvalid(): boolean {
@@ -138,7 +140,7 @@ export class RegisterComponent extends AuthenticationComponent {
   }
 
   isNameValid(): boolean {
-    return this.nameInput.length > 0;
+    return this.nameInput.length > 0 || !this.isPartnerType();
   }
 
   isEmailInvalid(): boolean {

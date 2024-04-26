@@ -15,6 +15,12 @@ import {DeliveryServiceService} from "../../service/user/delivery-service.servic
 import {DeliveryPersonService} from "../../service/user/delivery-person.service";
 import {EmailService} from "../../service/misc/email.service";
 import {UserService} from "../../service/user/user.service";
+import {User} from "../../model/user/user";
+import {Customer} from "../../model/user/customer";
+import {HttpErrorResponse} from "@angular/common/http";
+import bcrypt from "bcryptjs";
+import {Email} from "../../model/misc/email";
+import {makeRandomNumber} from "../misc/functions";
 
 export abstract class AuthenticationComponent extends FormComponent {
   protected captcha: string | null = "";
@@ -26,6 +32,9 @@ export abstract class AuthenticationComponent extends FormComponent {
 
   // Static vars
   protected hashSalt: number = 10;
+
+  // Services
+  protected emailService!: EmailService;
 
   protected constructor() {
     super();
@@ -52,5 +61,32 @@ export abstract class AuthenticationComponent extends FormComponent {
     // Password must contain at least one number, one uppercase letter, one lowercase letter, and at least 8 characters
     let regex = new RegExp("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$");
     return regex.test(password);
+  }
+
+  sendVerificationEmail(emailInput: string): Promise<string | null> {
+    return new Promise<string | null>((resolve, reject) => {
+      let code = makeRandomNumber(5);
+      console.log("Code: ", code);
+
+      bcrypt.hash(String(code), 5, (err, verificationCodeHash) => {
+        let email: Email = Email.verificationEmail(emailInput, code);
+        console.log("Email: ", email);
+        this.emailService.sendEmail(email).subscribe({
+          next: (success: boolean) => {
+            if (success) {
+              console.log("Email sent");
+              resolve(verificationCodeHash);
+            } else {
+              console.log("Email not sent");
+              resolve(null);
+            }
+          },
+          error: (error: HttpErrorResponse) => {
+            console.log("Error in sending email: ", error);
+            resolve(null);
+          }
+        })
+      });
+    });
   }
 }

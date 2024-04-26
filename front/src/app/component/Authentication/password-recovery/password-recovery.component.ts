@@ -61,7 +61,7 @@ export class PasswordRecoveryComponent extends AuthenticationComponent {
               protected override deliveryServiceService: DeliveryServiceService,
               protected override deliveryPersonService: DeliveryPersonService,
               protected override cookieService: CookieService,
-              private emailService: EmailService,
+              protected override emailService: EmailService,
               private router: Router, private route: ActivatedRoute) {
     super();
   }

@@ -15,8 +15,6 @@ import {DeliveryPersonService} from "../../../service/user/delivery-person.servi
 import {User} from "../../../model/user/user";
 import {AuthenticationComponent} from "../authentication-component";
 import bcrypt from "bcryptjs";
-import {StorageKeys} from "../../misc/storage-keys";
-import {sendVerificationEmail} from "../../misc/functions";
 import {Customer} from "../../../model/user/customer";
 import {LogoComponent} from "../../logo/logo.component";
 import {EmailService} from "../../../service/misc/email.service";
@@ -57,7 +55,7 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
               protected override deliveryServiceService: DeliveryServiceService,
               protected override deliveryPersonService: DeliveryPersonService,
               protected override cookieService: CookieService,
-              private emailService: EmailService,
+              protected override emailService: EmailService,
               private internalObjectService: InternalObjectService<{
                 verificationCodeHash: string,
                 customer: Customer
@@ -151,7 +149,7 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
   private checkCustomerEmailVerified(jsonUser: User): boolean {
     if (this.getCurrentUserCategory().userType == UserType.CUSTOMER && !(jsonUser as Customer).emailVerified) {
       console.log('Email not verified');
-      sendVerificationEmail(jsonUser.email, this.emailService).then((verificationCodeHash) => {
+      this.sendVerificationEmail(jsonUser.email).then((verificationCodeHash) => {
         if (verificationCodeHash != null) {
           this.internalObjectService.setObject({
             verificationCodeHash: verificationCodeHash,

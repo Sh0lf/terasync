@@ -3,7 +3,8 @@
     <div class="sign-form-body-div">
       <app-logo></app-logo>
       <div class="sign-form-elem">
-        <h1>Create an Account</h1>
+        <h1 *ngIf="!isPartnerType()">Create an Account</h1>
+        <h1 *ngIf="isPartnerType()">Apply as a {{getPartnerType()}}</h1>
       </div>
       <div class="sign-form-elem" *ngIf="!isPartnerType()">
         <label for="firstName-input">First Name:</label>
@@ -49,8 +50,8 @@
       </div>
       <div class="separation-line-small"></div>
       <div class="sign-form-elem">
-        <button class="default-button" type="submit" name="submit-button">Create an Account
-        </button>
+        <button class="default-button" type="submit" name="submit-button" *ngIf="!isPartnerType()">Create an Account</button>
+        <button class="default-button" type="submit" name="submit-button" *ngIf="isPartnerType()">Apply</button>
       </div>
       <div class="sign-form-elem">
             <span>By creating an account, you agree to Terasync's
