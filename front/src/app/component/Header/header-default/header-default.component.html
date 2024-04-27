@@ -1,4 +1,4 @@
-<div #headerBody id="header-body" (onResize)="handleResize($event)">
+<div id="header-body" (onResize)="handleResize($event)">
   <div class="header-body-div">
     <div class="header-elem">
       <div class="burger-menu-elem">
@@ -22,14 +22,14 @@
             </div>
             <div class="separation-line-small"></div>
             <div class="logged-out-button-elem">
-              <button type="button" class="href-button" (click)="registerAs(businessCategory)">Apply as a Restaurant</button>
+              <button type="button" class="href-button" (click)="applyAs(businessCategory)">Apply as a Restaurant</button>
             </div>
             <div class="logged-out-button-elem">
-              <button type="button" class="href-button" (click)="registerAs(deliveryServiceCategory)">Apply as a Delivery Service</button>
+              <button type="button" class="href-button" (click)="applyAs(deliveryServiceCategory)">Apply as a Delivery Service</button>
             </div>
           </div>
           <div class="dpm-func-menu" *ngIf="isUserLoggedIn">
-            <div class="dpm-func-elem">
+            <div class="dpm-func-elem" (click)="routeToAndCloseBurgerMenu('user-account')">
               <div class="dpm-func-icon-elem">
                 <fa-icon [icon]="faGear" [class]="['func-icon']"></fa-icon>
               </div>
@@ -64,7 +64,7 @@
         </div>
       </div>
     </div>
-    <div class="header-elem logo-title-elem" (click)="routeToHome(router, route)">
+    <div class="header-elem logo-title-elem" (click)="routeToHome()">
       <img class="logo-img" src="assets/logo.jpeg" alt="logo">
       <div class="title-elem">
         <span>terasync/ foodapp</span>

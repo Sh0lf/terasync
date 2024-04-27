@@ -32,12 +32,12 @@
         <input type="text" id="username-input" [(ngModel)]="usernameInput" name="username-input">
         <span class="validation-span" *ngIf="isUsernameInvalid()">Username field is required.</span>
       </div>
-      <div class="sign-form-elem">
+      <div class="sign-form-elem" *ngIf="isBusinessCategory()">
         <label for="address-input">Address:</label>
         <input type="text" id="address-input" [(ngModel)]="addressInput" name="address-input">
         <span class="validation-span" *ngIf="isAddressInvalid()">Address field is required.</span>
       </div>
-      <div class="sign-form-elem">
+      <div class="sign-form-elem" *ngIf="isBusinessCategory()">
         <label for="phone-input">Phone:</label>
         <input type="text" id="phone-input" [(ngModel)]="phoneInput" name="phone-input">
         <span class="validation-span" *ngIf="isPhoneInvalid()">Phone field is required.</span>

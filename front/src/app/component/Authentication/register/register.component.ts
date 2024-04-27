@@ -9,7 +9,7 @@ import {Customer} from "../../../model/user/customer";
 import bcrypt from "bcryptjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {EmailService} from "../../../service/misc/email.service";
-import {InternalObjectService} from "../../../service/internal-object.service";
+import {InternalObjectService} from "../../../service/misc/internal-object.service";
 import {LogoComponent} from "../../logo/logo.component";
 import {HttpErrorResponse} from "@angular/common/http";
 import {CookieService} from "ngx-cookie-service";
@@ -17,6 +17,10 @@ import {User} from "../../../model/user/user";
 import {businessCategory, customerCategory, deliveryServiceCategory} from "../../../service/user/userCategories";
 import {Business} from "../../../model/user/business";
 import {DeliveryService} from "../../../model/user/delivery.service";
+import {BusinessService} from "../../../service/user/business.service";
+import {AdminService} from "../../../service/user/admin.service";
+import {DeliveryServiceService} from "../../../service/user/delivery-service.service";
+import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
 
 @Component({
   selector: 'app-register',
@@ -54,13 +58,17 @@ export class RegisterComponent extends AuthenticationComponent {
   isEmailExists: boolean = false;
 
   constructor(protected override customerService: CustomerService,
+              protected override businessService: BusinessService,
+              protected override adminService: AdminService,
+              protected override deliveryServiceService: DeliveryServiceService,
+              protected override deliveryPersonService: DeliveryPersonService,
               protected override cookieService: CookieService,
               protected override emailService: EmailService,
+              protected override router: Router, protected override route: ActivatedRoute,
               private internalObjectService: InternalObjectService<{
                 verificationCodeHash: string,
                 user: User
-              }>,
-              private router: Router, private route: ActivatedRoute) {
+              }>) {
     super();
   }
 
@@ -123,6 +131,8 @@ export class RegisterComponent extends AuthenticationComponent {
       this.isFirstNameValid() &&
       this.isLastNameValid() &&
       this.isUsernameValid() &&
+      this.isAddressValid() &&
+      this.isPhoneValid() &&
       !this.isEmailExists &&
       this.isEmailProper(this.emailInput) &&
       this.isPasswordsMatch() &&

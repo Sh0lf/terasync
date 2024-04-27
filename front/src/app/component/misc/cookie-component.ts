@@ -8,7 +8,8 @@ import {
   adminCategory,
   businessCategory,
   customerCategory,
-  deliveryPersonCategory, deliveryServiceCategory,
+  deliveryPersonCategory,
+  deliveryServiceCategory,
   UserCategory
 } from "../../service/user/userCategories";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -18,22 +19,23 @@ import {AdminService} from "../../service/user/admin.service";
 import {DeliveryServiceService} from "../../service/user/delivery-service.service";
 import {DeliveryPersonService} from "../../service/user/delivery-person.service";
 import {User} from "../../model/user/user";
-import {Observable} from "rxjs";
 import {UserType} from "../../service/user/user.type";
 import {Customer} from "../../model/user/customer";
+import {Admin} from "../../model/user/admin";
+import {Business} from "../../model/user/business";
+import {DeliveryPerson} from "../../model/user/delivery.person";
+import {DeliveryService} from "../../model/user/delivery.service";
 
 export abstract class CookieComponent {
   // Logic fields
   isUserLoggedIn: boolean = false;
-  isCustomerLoggedIn: boolean = false;
-  isBusinessLoggedIn: boolean = false;
-  isAdminLoggedIn: boolean = false;
-  isDeliveryServiceLoggedIn: boolean = false;
-  isDeliveryPersonLoggedIn: boolean = false;
-
-  isPartnerLoggedIn: boolean = false;
 
   user!: User | undefined;
+  admin!: Admin | undefined;
+  customer!: Customer | undefined;
+  business!: Business | undefined;
+  deliveryPerson!: DeliveryPerson | undefined;
+  deliveryService!: DeliveryService | undefined;
 
   // Services
   protected cookieService!: CookieService;
@@ -44,6 +46,18 @@ export abstract class CookieComponent {
   protected deliveryServiceService!: DeliveryServiceService;
   protected deliveryPersonService!: DeliveryPersonService;
 
+  protected router: Router;
+  protected route: ActivatedRoute;
+
+  // User Categories
+  protected readonly businessCategory = businessCategory;
+  protected readonly deliveryServiceCategory = deliveryServiceCategory;
+  protected readonly customerCategory = customerCategory;
+  protected readonly deliveryPersonCategory = deliveryPersonCategory;
+  protected readonly adminCategory = adminCategory;
+
+  // Footer variable
+  protected footerTopMinValue: number = 0;
 
   constructor() {
   }
@@ -64,12 +78,31 @@ export abstract class CookieComponent {
     return this.customerService;
   }
 
+  private setCurrentUser(user: User) {
+    let name = this.getCurrentUserCategory().name;
+    if (name === adminCategory.name) {
+      this.admin = user as Admin;
+    } else if (name === businessCategory.name) {
+      this.business = user as Business;
+    } else if (name === customerCategory.name) {
+      this.customer = user as Customer;
+    } else if (name === deliveryPersonCategory.name) {
+      this.deliveryPerson = user as DeliveryPerson;
+    } else if (name === deliveryServiceCategory.name) {
+      this.deliveryService = user as DeliveryService;
+    }
+  }
+
   checkUserLoggedIn(): void {
     this.isUserLoggedIn = this.hasUserToken();
   }
 
-  routeToHome(router: Router, route: ActivatedRoute) {
-    router.navigate([''], {relativeTo: route}).then();
+  routeToHome() {
+    this.router.navigate([''], {relativeTo: this.route}).then();
+  }
+
+  routeTo(path: string) {
+    this.router.navigate([path], {relativeTo: this.route}).then();
   }
 
   isPartnerType(): boolean {
@@ -86,6 +119,14 @@ export abstract class CookieComponent {
 
   isCustomerCategory() {
     return this.getCurrentUserCategory().name === customerCategory.name;
+  }
+
+  isDeliveryPersonCategory() {
+    return this.getCurrentUserCategory().name === deliveryPersonCategory.name;
+  }
+
+  isAdminCategory() {
+    return this.getCurrentUserCategory().name === adminCategory.name;
   }
 
   getPartnerType(): string {
@@ -135,16 +176,22 @@ export abstract class CookieComponent {
     this.cookieService.set(StorageKeys.USER_CATEGORY, JSON.stringify(customerCategory), 1, '/');
   }
 
+  userHasFLName() {
+    return this.isCustomerCategory() || this.isDeliveryPersonCategory();
+  }
+
   setUserByToken() {
-    return this.fetchUserService().findUserByToken({token: this.getUserToken()})
-      .subscribe({
-      next: (user: User) => {
-        if (user != null) {
-          console.log(user);
-          this.user = user;
-        }
-      }
-    });
+    if (this.hasUserToken()) {
+      this.fetchUserService().findUserByToken({token: this.getUserToken()})
+        .subscribe({
+          next: (user: User) => {
+            if (user != null) {
+              this.user = user;
+              this.setCurrentUser(user);
+            }
+          }
+        });
+    }
   }
 
   resetTokenByOldToken(): Promise<boolean> {
@@ -210,4 +257,16 @@ export abstract class CookieComponent {
       });
     });
   }
+
+  applyAs(userCategory: UserCategory) {
+    this.setCurrentUserCategory(userCategory);
+    this.router.navigate(['/register'], {relativeTo: this.route}).then();
+  }
+
+  handleFooterTopMinValue(entry: ResizeObserverEntry, staticVal: number = 0) {
+    console.log(entry.contentRect.height + staticVal)
+    this.footerTopMinValue = Math.max(entry.contentRect.height + staticVal, window.innerHeight);
+  }
+
+
 }

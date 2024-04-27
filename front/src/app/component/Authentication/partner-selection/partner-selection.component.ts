@@ -22,7 +22,7 @@ export class PartnerSelectionComponent extends CookieComponent {
 
   constructor(
     protected override cookieService: CookieService,
-    private router: Router, private route: ActivatedRoute) {
+    protected override router: Router, protected override route: ActivatedRoute) {
     super();
   }
 
@@ -30,6 +30,4 @@ export class PartnerSelectionComponent extends CookieComponent {
     this.setCurrentUserCategory(userCategory);
     this.router.navigate(['/login'], {relativeTo: this.route}).then();
   }
-
-  protected readonly customerCategory = customerCategory;
 }

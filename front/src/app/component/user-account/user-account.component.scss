@@ -1,0 +1,183 @@
+@import "../main/main.component.scss";
+
+.profile-main-div {
+  display: flex;
+  flex-direction: column;
+}
+.background-image {
+  background-image: url("../../../assets/logo.jpeg");
+  top: 0;
+  left: 0;
+  width: 100%;
+  height:100%;
+  opacity: 0.6;
+  position: fixed;
+  background-repeat: repeat;
+  background-size: 10% auto;
+  padding: 0;
+  margin: 0;
+  z-index:-10;
+}
+
+.profile-top-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 60px 30px 120px;
+}
+
+.profile-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to top left, $colorP15, $colorP11);
+  border-radius: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 80vw;
+  max-width: 800px;
+  padding: 20px;
+}
+
+.profile-top-div-pfp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-top-div-pfp img {
+  display: flex;
+  width: 10vw;
+  height: 10vw;
+  min-width: 100px;
+  min-height: 100px;
+}
+
+.pfp-img-elem {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: end;
+
+  background: $colorP10;
+  border-radius: 50%;
+}
+
+.pfp-edit-elem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: $colorP10;
+  width: 2vw;
+  height: 2vw;
+  min-width: 30px;
+  min-height: 30px;
+  border-radius: 50%;
+  position: absolute;
+}
+
+//.profile-pfp-overlay {
+//  //display: none;
+//  justify-content: center;
+//  align-items: center;
+//  position: absolute;
+//  width: 10vw;
+//  height: 10vw;
+//  min-width: 100px;
+//  min-height: 100px;
+//  text-align: center;
+//  margin: 0 0 0 4vw;
+//  background-color: rgba(0, 0, 0, 0.3);
+//  border-radius: 5vw;
+//}
+//
+//.profile-pfp-overlay-div {
+//  display: flex;
+//  flex-direction: column;
+//}
+//
+//.profile-pfp-overlay label {
+//  background-color: transparent;
+//  border: transparent;
+//  font-family: 'Inter', sans-serif;
+//  font-style: normal;
+//  color: white;
+//  padding: 5px 0 5px 0;
+//}
+//
+//.profile-pfp-overlay label:hover {
+//  color: $colorP15;
+//}
+//
+//.profile-upload-pfp-input, .profile-submit-pfp-input {
+//  display: none;
+//}
+//
+//.profile-top-div-pfp img:hover + .profile-pfp-overlay, .profile-pfp-overlay:hover {
+//  display: flex;
+//}
+
+.profile-top-div-info {
+  display: flex;
+  flex-direction: column;
+  margin: 0 30px 0 30px;
+}
+
+.profile-top-div-info span {
+  padding: 5px 0 5px 0;
+  color: black;
+}
+
+.profile-bottom-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 30px 0 60px 0;
+}
+
+.profile-bottom-div a {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  height: 200px;
+  width: 500px;
+  text-decoration: none;
+  color: black;
+  background: linear-gradient(to top left, $colorP15, $colorP11);
+  margin: 20px;
+  border-radius: 20px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.profile-bottom-div a:hover {
+  background: .0356A9;
+  background: linear-gradient(to bottom right, $colorP15, $colorP11);
+}
+
+.profile-bottom-div span {
+  padding: 0 20px 0 20px;
+}
+
+.user-icon {
+  font-size: 80px;
+  color: $colorP12;
+}
+
+.edit-icon {
+  font-size: 20px;
+  color: $colorP12;
+}
+
+.edit-icon:hover {
+  color: $colorP11;
+}
+
+@media only screen and (max-width: 960px) {
+  .profile-top-div-pfp img, .profile-pfp-overlay {
+    border-radius: 50px;
+  }
+}

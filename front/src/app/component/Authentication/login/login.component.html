@@ -1,4 +1,4 @@
-<form #form="ngForm" (ngSubmit)="onSubmit()" name="loginForm">
+<form (onResize)="handleFooterTopMinValue($event, 80)" (ngSubmit)="onSubmit()" name="loginForm">
   <div class="sign-form-body">
     <div class="sign-form-body-div">
       <app-logo></app-logo>
@@ -22,6 +22,7 @@
       </div>
       <div class="separation-line-small"></div>
       <span class="validation-span" *ngIf="isLoginInvalid()">Invalid Email / Password</span>
+      <span class="validation-span" *ngIf="isUserNotApproved()">Your account hasn't been approved yet</span>
 
       <div class="sign-form-elem">
         <button class="default-button" type="submit">Login</button>
@@ -30,14 +31,21 @@
       <div class="sign-form-elem">
         <a href="/password-recovery">Forgot Password</a>
       </div>
-      <div class="sign-form-elem" *ngIf="!isPartnerType()">
-        <span class="centered-span">Don't have an account?<a href="/register"> Register</a></span>
+      <div class="sign-form-elem">
+        <span class="centered-span">Don't have an account?
+          <a href="/register" *ngIf="!isPartnerType()"> Register</a>
+          <a href="/register" *ngIf="isBusinessCategory()"> Apply as a Business</a>
+          <a href="/register" *ngIf="isDeliveryServiceCategory()"> Apply as a Delivery Service</a>
+        </span>
       </div>
       <div class="sign-form-elem">
         <span class="centered-span">Are you a {{ getOppositeUserType() }}?<button type="button" class="href-button" (click)="switchUserType()"> Login here</button></span>
       </div>
     </div>
   </div>
-
-
 </form>
+<div class="sign-form-background"></div>
+<app-footer
+  [footerTopMinValue]="footerTopMinValue"
+  [isFooterTopDynamic]="true"
+></app-footer>

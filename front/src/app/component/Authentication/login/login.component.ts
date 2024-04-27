@@ -6,7 +6,7 @@ import {RECAPTCHA_SETTINGS, RecaptchaModule} from "ng-recaptcha";
 import {FormsModule} from "@angular/forms";
 import {environment} from "../../../../environment/environment.prod";
 import {CustomerService} from "../../../service/user/customer.service";
-import {customerCategory} from "../../../service/user/userCategories";
+import {customerCategory, deliveryServiceCategory} from "../../../service/user/userCategories";
 import {UserType} from "../../../service/user/user.type";
 import {BusinessService} from "../../../service/user/business.service";
 import {AdminService} from "../../../service/user/admin.service";
@@ -18,8 +18,11 @@ import bcrypt from "bcryptjs";
 import {Customer} from "../../../model/user/customer";
 import {LogoComponent} from "../../logo/logo.component";
 import {EmailService} from "../../../service/misc/email.service";
-import {InternalObjectService} from "../../../service/internal-object.service";
+import {InternalObjectService} from "../../../service/misc/internal-object.service";
 import {CookieService} from "ngx-cookie-service";
+import {Business} from "../../../model/user/business";
+import {FooterComponent} from "../../footer/footer.component";
+import {NgxResizeObserverModule} from "ngx-resize-observer";
 
 // @ts-ignore
 @Component({
@@ -29,7 +32,7 @@ import {CookieService} from "ngx-cookie-service";
     RouterOutlet,
     NgForOf, HttpClientModule,
     FormsModule,
-    RecaptchaModule, NgIf, LogoComponent
+    RecaptchaModule, NgIf, LogoComponent, FooterComponent, NgxResizeObserverModule
   ],
   providers: [
     {
@@ -43,11 +46,14 @@ import {CookieService} from "ngx-cookie-service";
 })
 export class LoginComponent extends AuthenticationComponent implements OnInit {
   // Form fields
-  protected emailInput: string = "";
-  protected passwordInput: string = "";
+  emailInput: string = "";
+  passwordInput: string = "";
 
   // Logic Fields
-  protected isLoginValid: boolean = false;
+  isLoginValid: boolean = false;
+  isLoginChecked: boolean = false;
+  isEmailVerified: boolean = false;
+  isApproved: boolean = false;
 
   constructor(protected override customerService: CustomerService,
               protected override businessService: BusinessService,
@@ -56,11 +62,11 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
               protected override deliveryPersonService: DeliveryPersonService,
               protected override cookieService: CookieService,
               protected override emailService: EmailService,
+              protected override router: Router, protected override route: ActivatedRoute,
               private internalObjectService: InternalObjectService<{
                 verificationCodeHash: string,
                 user: User
-              }>,
-              private router: Router, private route: ActivatedRoute) {
+              }>) {
     super();
   }
 
@@ -78,18 +84,28 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
             if (jsonUser != null) {
               bcrypt.compare(this.passwordInput, jsonUser.password).then(success => {
                 if (success) {
-                  if (!this.isUserEmailVerified(jsonUser)) {
-                    resolve(true);
-                  } else {
-                    this.resetTokenByEmail(jsonUser.email).then((success) => {
-                      resolve(success);
+                  this.isUserEmailVerified(jsonUser).then((isEmailVerified) => {
+                    this.isEmailVerified = isEmailVerified;
+                    this.isUserApproved(jsonUser).then((isApproved) => {
+                      this.isApproved = isApproved;
+                      if(isApproved) {
+                        console.log('User is approved');
+                        this.resetTokenByEmail(jsonUser.email).then((success) => {
+                          resolve(success);
+                        });
+                      } else {
+                        console.log('User is not approved');
+                        resolve(false);
+                      }
                     });
-                    console.log('Login is valid');
-                  }
+                  });
+                  this.isLoginValid = true;
+                  console.log('Login is valid');
                 } else {
                   console.log('Login is invalid');
                   resolve(false);
                 }
+                this.isLoginChecked = true;
               });
             } else {
               console.log('Json User is null');
@@ -102,34 +118,46 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
           }
         });
       } else {
-        console.log('Login is invalid');
+        console.log('Form is invalid');
         resolve(false);
       }
     }).then(success => {
-      this.isLoginValid = success;
       super.onSubmit();
 
-      console.log("isLoginValid: " + this.isLoginValid)
-      if (this.isLoginValid) {
-        this.routeToHome(this.router, this.route);
+      if (this.isLoginValid && this.isEmailVerified && this.isApproved) {
+        this.routeToHome();
       }
     });
   }
 
   override isFormValid(): boolean {
-    return !this.isEmailInvalid() && !this.isPasswordInvalid() && !this.isCaptchaInvalid();
+    return this.isEmailValid() &&
+      this.isPasswordValid() &&
+      this.isCaptchaValid();
   }
 
   isEmailInvalid(): boolean {
-    return !(this.isEmailProper(this.emailInput) && this.emailInput.length > 0) && this.isSubmitted;
+    return !this.isEmailValid() && this.isSubmitted;
+  }
+
+  isEmailValid(): boolean {
+    return this.isEmailProper(this.emailInput) && this.emailInput.length > 0;
   }
 
   isPasswordInvalid(): boolean {
-    return !(this.passwordInput.length > 0) && this.isSubmitted;
+    return !this.isPasswordValid() && this.isSubmitted;
+  }
+
+  isPasswordValid(): boolean {
+    return this.passwordInput.length > 0;
   }
 
   isLoginInvalid(): boolean {
-    return !(this.isLoginValid) && this.isSubmitted;
+    return !this.isLoginValid && this.isLoginChecked && this.isSubmitted;
+  }
+
+  isUserNotApproved(): boolean {
+    return !this.isApproved && this.isLoginValid && this.isEmailVerified;
   }
 
   getOppositeUserType(): UserType {
@@ -144,21 +172,35 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
     }
   }
 
-  private isUserEmailVerified(jsonUser: User): boolean {
-    if (!jsonUser.emailVerified) {
-      console.log('Email not verified');
-      this.sendVerificationEmail(jsonUser.email).then((verificationCodeHash) => {
-        if (verificationCodeHash != null) {
-          this.internalObjectService.setObject({
-            verificationCodeHash: verificationCodeHash,
-            user: jsonUser
-          });
-          this.router.navigate(['/verify-email'], {relativeTo: this.route}).then();
-        }
-      });
-      return false;
-    } else {
-      return true;
-    }
+  private isUserEmailVerified(jsonUser: User): Promise<boolean> {
+    return new Promise<boolean> ((resolve, reject) => {
+      if (!jsonUser.emailVerified) {
+        console.log('Email not verified');
+        this.sendVerificationEmail(jsonUser.email).then((verificationCodeHash) => {
+          if (verificationCodeHash != null) {
+            this.internalObjectService.setObject({
+              verificationCodeHash: verificationCodeHash,
+              user: jsonUser
+            });
+            this.router.navigate(['/verify-email'], {relativeTo: this.route}).then();
+          }
+        });
+        resolve(false);
+      } else {
+        resolve(true);
+      }
+    });
+  }
+
+  private isUserApproved(jsonUser: User): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      if(this.isBusinessCategory()) {
+        resolve((jsonUser as Business).approved)
+      } else if(this.isDeliveryServiceCategory()) {
+        resolve((jsonUser as Business).approved)
+      } else {
+        resolve(true);
+      }
+    });
   }
 }

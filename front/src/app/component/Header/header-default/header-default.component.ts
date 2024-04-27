@@ -59,23 +59,24 @@ export class HeaderDefaultComponent extends CookieComponent implements OnInit {
   // DOM Elements
   @ViewChild('headerBody') headerBody!: ElementRef;
 
-  // User Categories
-  protected readonly businessCategory = businessCategory;
-  protected readonly deliveryServiceCategory = deliveryServiceCategory;
-
   constructor(protected override customerService: CustomerService,
               protected override businessService: BusinessService,
               protected override adminService: AdminService,
               protected override deliveryServiceService: DeliveryServiceService,
               protected override deliveryPersonService: DeliveryPersonService,
               protected override cookieService: CookieService,
-              protected router: Router, protected route: ActivatedRoute) {
+              protected override router: Router, protected override route: ActivatedRoute) {
     super();
   }
 
   ngOnInit(): void {
     this.checkUserLoggedIn();
     this.setUserByToken();
+  }
+
+  routeToAndCloseBurgerMenu(route: string) {
+    this.router.navigate([route], {relativeTo: this.route}).then();
+    this.showMenu = false;
   }
 
   loginOnClick() {
@@ -100,12 +101,7 @@ export class HeaderDefaultComponent extends CookieComponent implements OnInit {
     this.showMenu = false;
   }
 
-  handleResize(entry: any) {
+  handleResize(entry: ResizeObserverEntry) {
     this.dropDownMenuTop = entry.contentRect.height + 10;
-  }
-
-  registerAs(userCategory: UserCategory) {
-    this.setCurrentUserCategory(userCategory);
-    this.router.navigate(['/register'], {relativeTo: this.route}).then();
   }
 }

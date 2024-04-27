@@ -22,7 +22,7 @@ export class MainComponent extends CookieComponent implements OnInit {
   excludedFooterRoutes = ['/login', '/partner-selection', '/register', '/verify-email', '/password-recovery', '/password-reset'];
 
   constructor(protected override cookieService: CookieService,
-              private router: Router) {
+              protected override router: Router) {
     super();
   }
 

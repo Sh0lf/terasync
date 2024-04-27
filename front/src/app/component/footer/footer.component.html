@@ -1,4 +1,10 @@
-<div class="site-footer-main-div">
+<div class="site-footer-main-div" [ngStyle]="
+{
+'position': position,
+'top': footerTopValue +'px',
+'padding-top': footerTopPadding,
+}
+" (window:resize)="onResize($event)">
   <div class="site-footer-top-div">
     <div class="site-footer-column">
       <a href="#">GIFT CARDS</a>

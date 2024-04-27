@@ -7,6 +7,8 @@ import {VerifyEmailComponent} from "./component/Authentication/verify-email/veri
 import {PasswordRecoveryComponent} from "./component/Authentication/password-recovery/password-recovery.component";
 import {PasswordResetComponent} from "./component/Authentication/password-reset/password-reset.component";
 import {StorageKeys} from "./component/misc/storage-keys";
+import {UserAccountComponent} from "./component/user-account/user-account.component";
+import {UploadPfpComponent} from "./component/upload-pfp/upload-pfp.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -17,4 +19,6 @@ export const routes: Routes = [
   {path: 'partner-selection', component: PartnerSelectionComponent},
   {path: 'password-recovery', component: PasswordRecoveryComponent},
   {path: `password-reset/:${StorageKeys.USER_TOKEN}`, component: PasswordResetComponent},
+  {path: 'user-account', component: UserAccountComponent},
+  {path: 'upload-pfp', component: UploadPfpComponent}
 ];

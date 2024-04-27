@@ -54,7 +54,7 @@ export class PasswordResetComponent extends AuthenticationComponent implements O
               protected override deliveryPersonService: DeliveryPersonService,
               protected override cookieService: CookieService,
               protected override emailService: EmailService,
-              private router: Router, private route: ActivatedRoute) {
+              protected override router: Router, protected override route: ActivatedRoute) {
     super();
   }
 
@@ -67,10 +67,10 @@ export class PasswordResetComponent extends AuthenticationComponent implements O
       if (this.token == null ||
         !(this.token.length > 0) ||
         this.token != this.cookieService.get(StorageKeys.USER_TOKEN)) {
-        this.routeToHome(this.router, this.route);
+        this.routeToHome();
       }
     } catch (e) {
-      this.routeToHome(this.router, this.route);
+      this.routeToHome();
     }
   }
 

@@ -5,7 +5,7 @@ import {NgIf} from "@angular/common";
 import {FormComponent} from "../../misc/form-component";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Customer} from "../../../model/user/customer";
-import {InternalObjectService} from "../../../service/internal-object.service";
+import {InternalObjectService} from "../../../service/misc/internal-object.service";
 import {CustomerService} from "../../../service/user/customer.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {LogoComponent} from "../../logo/logo.component";
@@ -48,7 +48,7 @@ export class VerifyEmailComponent extends FormComponent implements OnInit {
                 verificationCodeHash: string,
                 user: User
               }>,
-              private router: Router, private route: ActivatedRoute) {
+              protected override router: Router, protected override route: ActivatedRoute) {
     super();
   }
 

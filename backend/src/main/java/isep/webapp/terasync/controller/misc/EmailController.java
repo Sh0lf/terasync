@@ -17,12 +17,15 @@ public class EmailController {
 
     @PostMapping("/send-email")
     public boolean sendEmail(@RequestBody Email email) {
-        try {
-            emailService.sendEmail(email);
-            return true;
-        } catch (MessagingException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
+//        try {
+//            emailService.sendEmail(email);
+//            return true;
+//        } catch (MessagingException e) {
+//            System.out.println(e.getMessage());
+//            return false;
+//        }
+
+        // Disabled sending emails for now to avoid spamming
+        return true;
     }
 }

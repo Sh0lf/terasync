@@ -1,0 +1,33 @@
+<div class="profile-main-div text-font-700">
+  <div class="background-image"></div>
+  <div class="profile-top-div">
+    <div class="profile-card">
+      <div class="profile-top-div-pfp">
+        <div class="pfp-img-elem">
+          <img src="assets/pfp/dedpol.png" alt="">
+          <!--          <fa-icon [class]="['user-icon']" [icon]="faUser"></fa-icon>-->
+          <div class="pfp-edit-elem" (click)="openUploadPfpModal()">
+            <fa-icon [class]="['edit-icon']" [icon]="faPenToSquare"></fa-icon>
+          </div>
+        </div>
+      </div>
+      <div class="profile-top-div-info">
+        <span>{{ user?.username }}</span>
+        <span>{{ user?.name }}</span>
+        <span>{{ user?.email }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="profile-bottom-div">
+    <a href="#"><span>Devices</span></a>
+    <a href="#"><span>Order History</span></a>
+    <a href="#"><span>Payment Method</span></a>
+    <a href="#"><span>Addresses</span></a>
+    <a href="#"><span>Manage Users</span></a>
+    <a href="#"><span>Answer Questions</span></a>
+    <a href="#"><span>Connection And Security</span></a>
+    <a href="#"><span>Message Center</span></a>
+  </div>
+</div>
+<app-upload-pfp></app-upload-pfp>
+<app-footer></app-footer>
