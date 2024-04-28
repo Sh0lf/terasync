@@ -23,6 +23,7 @@ import {CookieService} from "ngx-cookie-service";
 import {Business} from "../../../model/user/business";
 import {FooterComponent} from "../../footer/footer.component";
 import {NgxResizeObserverModule} from "ngx-resize-observer";
+import {CurrentUserService} from "../../../service/user/current-user.service";
 
 // @ts-ignore
 @Component({
@@ -62,6 +63,7 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
               protected override deliveryPersonService: DeliveryPersonService,
               protected override cookieService: CookieService,
               protected override emailService: EmailService,
+              protected override currentUserService: CurrentUserService,
               protected override router: Router, protected override route: ActivatedRoute,
               private internalObjectService: InternalObjectService<{
                 verificationCodeHash: string,
@@ -92,6 +94,9 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
                         console.log('User is approved');
                         this.resetTokenByEmail(jsonUser.email).then((success) => {
                           resolve(success);
+                          if(success) {
+                            this.initializeUser(jsonUser);
+                          }
                         });
                       } else {
                         console.log('User is not approved');
@@ -124,7 +129,7 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
     }).then(success => {
       super.onSubmit();
 
-      if (this.isLoginValid && this.isEmailVerified && this.isApproved) {
+      if (success && this.isLoginValid && this.isEmailVerified && this.isApproved) {
         this.routeToHome();
       }
     });
@@ -195,9 +200,9 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
   private isUserApproved(jsonUser: User): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       if(this.isBusinessCategory()) {
-        resolve((jsonUser as Business).approved)
+        resolve((jsonUser as Business).approved!)
       } else if(this.isDeliveryServiceCategory()) {
-        resolve((jsonUser as Business).approved)
+        resolve((jsonUser as Business).approved!)
       } else {
         resolve(true);
       }

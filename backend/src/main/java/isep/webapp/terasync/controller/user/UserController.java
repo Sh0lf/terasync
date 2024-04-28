@@ -1,21 +1,24 @@
 package isep.webapp.terasync.controller.user;
 
 import isep.webapp.terasync.controller.EntityController;
+import isep.webapp.terasync.model.Entity;
 import isep.webapp.terasync.model.query.select.ByToken;
 import isep.webapp.terasync.model.query.update.PasswordByEmail;
+import isep.webapp.terasync.model.query.update.PfpImgPathByEmail;
 import isep.webapp.terasync.model.query.update.TokenByEmail;
 import isep.webapp.terasync.model.query.update.TokenByOldToken;
 import isep.webapp.terasync.service.user.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-public abstract class UserController<T, S extends UserService<T, ?>> extends EntityController<T, S> {
+import java.io.IOException;
+import java.util.List;
 
-    protected UserController(S entityService) {
-        super(entityService);
+public abstract class UserController<T extends Entity, S extends UserService<T, ?>> extends EntityController<T, S> {
+
+    protected UserController(S entityService, Class<T> entityClass) {
+        super(entityService, entityClass);
     }
     @GetMapping("/select-user-by-email/{email}")
     public ResponseEntity<T> selectCustomerByEmail(@PathVariable("email") String email) {
@@ -45,5 +48,18 @@ public abstract class UserController<T, S extends UserService<T, ?>> extends Ent
     @PostMapping("/update-token-by-old-token")
     public ResponseEntity<Integer> updateTokenByOldToken(@RequestBody TokenByOldToken tokenByOldToken) {
         return ResponseEntity.ok(entityService.updateTokenByOldToken(tokenByOldToken));
+    }
+
+    @PostMapping("/update-pfp-img-path-by-email")
+    public ResponseEntity<Integer> updatePfpImgPathByEmail(@RequestBody PfpImgPathByEmail pfpImgPathByEmail) {
+        return ResponseEntity.ok(entityService.updatePfpImgPathByEmail(pfpImgPathByEmail));
+    }
+
+    @Override
+    public ResponseEntity<List<String>> uploadFiles(@RequestParam("files") List<MultipartFile> multipartFiles)
+            throws IOException {
+        List<String> fileNames = fileService.uploadFiles(multipartFiles, entityClass.getSimpleName().toLowerCase());
+
+        return ResponseEntity.ok(fileNames);
     }
 }

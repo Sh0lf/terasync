@@ -25,4 +25,8 @@ public interface DeliveryPersonRepository extends JpaRepository<DeliveryPerson, 
     @Modifying
     @Query("UPDATE DeliveryPerson c SET c.token = :newToken WHERE c.token = :oldToken")
     Integer updateTokenByOldToken(@Param("oldToken") String oldToken, @Param("newToken") String newToken);
+
+    @Modifying
+    @Query("UPDATE DeliveryPerson c SET c.pfpImgPath = :pfpImgPath WHERE c.email = :email")
+    Integer updatePfpImgPathByEmail(@Param("email") String email, @Param("pfpImgPath") String pfpImgPath);
 }

@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/product-image")
 public class ProductImageController extends EntityController<ProductImage, ProductImageService> {
     protected ProductImageController(ProductImageService entityService) {
-        super(entityService);
+        super(entityService, ProductImage.class);
     }
 }

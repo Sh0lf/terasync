@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/message-list")
 public class MessageListController extends EntityController<MessageList, MessageListService> {
     protected MessageListController(MessageListService entityService) {
-        super(entityService);
+        super(entityService, MessageList.class);
     }
 }

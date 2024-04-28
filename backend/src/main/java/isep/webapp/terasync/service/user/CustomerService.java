@@ -2,6 +2,7 @@ package isep.webapp.terasync.service.user;
 
 import isep.webapp.terasync.model.query.select.ByToken;
 import isep.webapp.terasync.model.query.update.PasswordByEmail;
+import isep.webapp.terasync.model.query.update.PfpImgPathByEmail;
 import isep.webapp.terasync.model.query.update.TokenByEmail;
 import isep.webapp.terasync.model.query.update.TokenByOldToken;
 import isep.webapp.terasync.model.user.Customer;
@@ -49,6 +50,12 @@ public class CustomerService extends UserService<Customer, CustomerRepository> {
     @Override
     public Integer updateTokenByOldToken(TokenByOldToken tokenByOldToken) {
         return entityRepository.updateTokenByOldToken(tokenByOldToken.getOldToken(), tokenByOldToken.getNewToken());
+    }
+
+    @Transactional
+    @Override
+    public Integer updatePfpImgPathByEmail(PfpImgPathByEmail pfpImgPathByEmail) {
+        return entityRepository.updatePfpImgPathByEmail(pfpImgPathByEmail.getEmail(), pfpImgPathByEmail.getPfpImgPath());
     }
 
 }

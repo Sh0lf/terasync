@@ -9,7 +9,8 @@ CREATE TABLE Customer
     password         VARCHAR(255) NOT NULL,
     token            VARCHAR(255),
     emailVerified    BIT          NOT NULL DEFAULT (0),
-    registrationDate DATETIME     NOT NULL DEFAULT (GETDATE())
+    registrationDate DATETIME     NOT NULL DEFAULT (GETDATE()),
+    pfpImgPath       VARCHAR(255)
 );
 
 CREATE TABLE Admin
@@ -22,7 +23,8 @@ CREATE TABLE Admin
     password         VARCHAR(255) NOT NULL,
     token            VARCHAR(255),
     emailVerified    BIT          NOT NULL DEFAULT (0),
-    registrationDate DATETIME     NOT NULL DEFAULT (GETDATE())
+    registrationDate DATETIME     NOT NULL DEFAULT (GETDATE()),
+    pfpImgPath       VARCHAR(255)
 );
 
 CREATE TABLE Business
@@ -37,7 +39,8 @@ CREATE TABLE Business
     token            VARCHAR(255),
     emailVerified    BIT          NOT NULL DEFAULT (0),
     registrationDate DATETIME     NOT NULL DEFAULT (GETDATE()),
-    approved BIT NOT NULL DEFAULT(0)
+    approved         BIT          NOT NULL DEFAULT (0),
+    pfpImgPath       VARCHAR(255)
 );
 
 CREATE TABLE DeliveryService
@@ -50,7 +53,8 @@ CREATE TABLE DeliveryService
     token             VARCHAR(255),
     emailVerified     BIT          NOT NULL DEFAULT (0),
     registrationDate  DATETIME     NOT NULL DEFAULT (GETDATE()),
-    approved BIT NOT NULL DEFAULT(0)
+    approved          BIT          NOT NULL DEFAULT (0),
+    pfpImgPath        VARCHAR(255)
 );
 
 CREATE TABLE DeliveryPerson
@@ -64,6 +68,7 @@ CREATE TABLE DeliveryPerson
     token             VARCHAR(255),
     emailVerified     BIT          NOT NULL DEFAULT (0),
     registrationDate  DATETIME     NOT NULL DEFAULT (GETDATE()),
+    pfpImgPath        VARCHAR(255),
     deliveryServiceId INT          NOT NULL,
     constraint deliveryService_deliveryPerson_fk FOREIGN KEY (deliveryServiceId) REFERENCES DeliveryService (deliveryServiceId)
         ON DELETE CASCADE ON UPDATE CASCADE

@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController extends UserController<Admin, AdminService> {
 
     protected AdminController(AdminService entityService) {
-        super(entityService);
+        super(entityService, Admin.class);
     }
 }

@@ -3,7 +3,7 @@ import {Router, RouterOutlet} from '@angular/router';
 import {HttpClientModule} from "@angular/common/http";
 import {NgForOf, NgIf} from "@angular/common";
 import {LoginComponent} from "../Authentication/login/login.component";
-import {HeaderDefaultComponent} from "../Header/header-default/header-default.component";
+import {HeaderComponent} from "../header/header.component";
 import {FooterComponent} from "../footer/footer.component";
 import {RegisterComponent} from "../Authentication/register/register.component";
 import {CookieComponent} from "../misc/cookie-component";
@@ -12,7 +12,7 @@ import {CookieService} from "ngx-cookie-service";
 @Component({
   selector: 'main-component',
   standalone: true,
-  imports: [RouterOutlet, NgForOf, HttpClientModule, LoginComponent, HeaderDefaultComponent, FooterComponent, NgIf, RegisterComponent],
+  imports: [RouterOutlet, NgForOf, HttpClientModule, LoginComponent, HeaderComponent, FooterComponent, NgIf, RegisterComponent],
   templateUrl: 'main.component.html',
   styleUrls: ['./main.component.scss']
 })

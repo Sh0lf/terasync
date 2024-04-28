@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/business")
 public class BusinessController extends UserController<Business, BusinessService>{
     protected BusinessController(BusinessService entityService) {
-        super(entityService);
+        super(entityService, Business.class);
     }
 }

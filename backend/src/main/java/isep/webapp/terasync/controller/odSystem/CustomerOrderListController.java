@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/customer-order-list")
 public class CustomerOrderListController extends EntityController<CustomerOrderList, CustomerOrderListService> {
     protected CustomerOrderListController(CustomerOrderListService entityService) {
-        super(entityService);
+        super(entityService, CustomerOrderList.class);
     }
 }

@@ -9,6 +9,7 @@ import {PasswordResetComponent} from "./component/Authentication/password-reset/
 import {StorageKeys} from "./component/misc/storage-keys";
 import {UserAccountComponent} from "./component/user-account/user-account.component";
 import {UploadPfpComponent} from "./component/upload-pfp/upload-pfp.component";
+import {ConnectionSecurityComponent} from "./component/connection-security/connection-security.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -20,5 +21,6 @@ export const routes: Routes = [
   {path: 'password-recovery', component: PasswordRecoveryComponent},
   {path: `password-reset/:${StorageKeys.USER_TOKEN}`, component: PasswordResetComponent},
   {path: 'user-account', component: UserAccountComponent},
-  {path: 'upload-pfp', component: UploadPfpComponent}
+  {path: 'upload-pfp', component: UploadPfpComponent},
+  {path: 'connection-security', component: ConnectionSecurityComponent},
 ];

@@ -25,4 +25,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     @Modifying
     @Query("UPDATE Customer c SET c.token = :newToken WHERE c.token = :oldToken")
     Integer updateTokenByOldToken(@Param("oldToken") String oldToken, @Param("newToken") String newToken);
+
+    @Modifying
+    @Query("UPDATE Customer c SET c.pfpImgPath = :pfpImgPath WHERE c.email = :email")
+    Integer updatePfpImgPathByEmail(@Param("email") String email, @Param("pfpImgPath") String pfpImgPath);
 }

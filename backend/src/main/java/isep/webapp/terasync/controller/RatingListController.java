@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/rating-list")
 public class RatingListController extends EntityController<RatingList, RatingListService>{
     protected RatingListController(RatingListService entityService) {
-        super(entityService);
+        super(entityService, RatingList.class);
     }
 }

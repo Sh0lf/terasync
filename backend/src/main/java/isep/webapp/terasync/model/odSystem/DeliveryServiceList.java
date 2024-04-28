@@ -12,7 +12,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeliveryServiceList {
+public class DeliveryServiceList extends isep.webapp.terasync.model.Entity {
     @Id
     @GeneratedValue
     @Column(name = "deliveryServiceListId")

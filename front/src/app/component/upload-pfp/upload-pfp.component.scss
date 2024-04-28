@@ -1,0 +1,16 @@
+@import "../main/main.component.scss";
+@import "../user-account/user-account.component.scss";
+
+.main-pfp-div {
+  background: linear-gradient(to top left, $colorP15, $colorP11);
+}
+
+.status-elem {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+}
+
+

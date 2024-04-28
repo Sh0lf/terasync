@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CustomerOrderController extends EntityController<CustomerOrder, CustomerOrderService> {
 
     protected CustomerOrderController(CustomerOrderService entityService) {
-        super(entityService);
+        super(entityService, CustomerOrder.class);
     }
 }

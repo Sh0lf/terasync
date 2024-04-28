@@ -7,18 +7,18 @@
         </div>
         <div class="drop-down-menu" [style.top.px]="dropDownMenuTop" *ngIf="showMenu">
           <div class="dpm-title-elem">
-            <span *ngIf="isUserLoggedIn" class="main-title-span">Welcome, {{ user?.username }}!</span>
-            <span *ngIf="!isUserLoggedIn" class="main-title-span">Welcome To TeraSync!</span>
+            <span *ngIf="currentUserService.isLoggedIn()" class="main-title-span">Welcome, {{ currentUserService.getUser()?.username }}!</span>
+            <span *ngIf="!currentUserService.isLoggedIn()" class="main-title-span">Welcome To TeraSync!</span>
             <div class="x-mark-icon-elem" (click)="xMarkOnClick()">
               <fa-icon [icon]="faXmark" [class]="['x-mark-icon']"></fa-icon>
             </div>
           </div>
-          <div class="dpm-logged-out-elem" *ngIf="!isUserLoggedIn">
-            <div class="logged-out-button-elem" *ngIf="!isUserLoggedIn">
-              <button class="logged-out-button" type="button" (click)="loginOnClick()">Login</button>
+          <div class="dpm-logged-out-elem" *ngIf="!currentUserService.isLoggedIn()">
+            <div class="logged-out-button-elem" *ngIf="!currentUserService.isLoggedIn()">
+              <button class="default-btn" type="button" (click)="loginOnClick()">Login</button>
             </div>
-            <div class="logged-out-button-elem" *ngIf="!isUserLoggedIn">
-              <button class="logged-out-button" type="button" (click)="registerOnClick()">Register</button>
+            <div class="logged-out-button-elem" *ngIf="!currentUserService.isLoggedIn()">
+              <button class="default-btn" type="button" (click)="registerOnClick()">Register</button>
             </div>
             <div class="separation-line-small"></div>
             <div class="logged-out-button-elem">
@@ -28,7 +28,7 @@
               <button type="button" class="href-button" (click)="applyAs(deliveryServiceCategory)">Apply as a Delivery Service</button>
             </div>
           </div>
-          <div class="dpm-func-menu" *ngIf="isUserLoggedIn">
+          <div class="dpm-func-menu" *ngIf="currentUserService.isLoggedIn()">
             <div class="dpm-func-elem" (click)="routeToAndCloseBurgerMenu('user-account')">
               <div class="dpm-func-icon-elem">
                 <fa-icon [icon]="faGear" [class]="['func-icon']"></fa-icon>
@@ -65,7 +65,7 @@
       </div>
     </div>
     <div class="header-elem logo-title-elem" (click)="routeToHome()">
-      <img class="logo-img" src="assets/logo.jpeg" alt="logo">
+      <img class="logo-img" src="../../../assets/logo.jpeg" alt="logo">
       <div class="title-elem">
         <span>terasync/ foodapp</span>
       </div>
@@ -82,10 +82,10 @@
         <fa-icon [class]="['chevron-icon']" [icon]="faChevronUp" *ngIf="false"></fa-icon>
       </div>
     </div>
-    <div class="header-elem login-button-elem" *ngIf="!isUserLoggedIn">
+    <div class="header-elem login-button-elem" *ngIf="!currentUserService.isLoggedIn()">
       <button class="login-button" type="button" (click)="loginOnClick()">Login</button>
     </div>
-    <div class="header-elem register-button-elem" *ngIf="!isUserLoggedIn">
+    <div class="header-elem register-button-elem" *ngIf="!currentUserService.isLoggedIn()">
       <button class="register-button" type="button" (click)="registerOnClick()">Register</button>
     </div>
   </div>

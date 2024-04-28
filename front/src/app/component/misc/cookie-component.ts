@@ -2,7 +2,7 @@ import {StorageKeys} from "./storage-keys";
 import {CookieService} from "ngx-cookie-service";
 import {UserService} from "../../service/user/user.service";
 import {generateRandomToken} from "./functions";
-import {HttpErrorResponse} from "@angular/common/http";
+import {HttpErrorResponse, HttpEvent, HttpEventType} from "@angular/common/http";
 import {TokenByEmail} from "../../model/query/update/token-by-email";
 import {
   adminCategory,
@@ -25,18 +25,10 @@ import {Admin} from "../../model/user/admin";
 import {Business} from "../../model/user/business";
 import {DeliveryPerson} from "../../model/user/delivery.person";
 import {DeliveryService} from "../../model/user/delivery.service";
+import {CurrentUserService} from "../../service/user/current-user.service";
+import {filter, interval, map, Observable, scan} from "rxjs";
 
 export abstract class CookieComponent {
-  // Logic fields
-  isUserLoggedIn: boolean = false;
-
-  user!: User | undefined;
-  admin!: Admin | undefined;
-  customer!: Customer | undefined;
-  business!: Business | undefined;
-  deliveryPerson!: DeliveryPerson | undefined;
-  deliveryService!: DeliveryService | undefined;
-
   // Services
   protected cookieService!: CookieService;
 
@@ -45,9 +37,10 @@ export abstract class CookieComponent {
   protected adminService!: AdminService;
   protected deliveryServiceService!: DeliveryServiceService;
   protected deliveryPersonService!: DeliveryPersonService;
+  protected currentUserService!: CurrentUserService;
 
-  protected router: Router;
-  protected route: ActivatedRoute;
+  protected router!: Router;
+  protected route!: ActivatedRoute;
 
   // User Categories
   protected readonly businessCategory = businessCategory;
@@ -78,23 +71,25 @@ export abstract class CookieComponent {
     return this.customerService;
   }
 
-  private setCurrentUser(user: User) {
-    let name = this.getCurrentUserCategory().name;
-    if (name === adminCategory.name) {
-      this.admin = user as Admin;
-    } else if (name === businessCategory.name) {
-      this.business = user as Business;
-    } else if (name === customerCategory.name) {
-      this.customer = user as Customer;
-    } else if (name === deliveryPersonCategory.name) {
-      this.deliveryPerson = user as DeliveryPerson;
-    } else if (name === deliveryServiceCategory.name) {
-      this.deliveryService = user as DeliveryService;
-    }
-  }
+  // private setCurrentUser(user: User) {
+  //   let name = this.getCurrentUserCategory().name;
+  //   if (name === adminCategory.name) {
+  //     this.admin = user as Admin;
+  //   } else if (name === businessCategory.name) {
+  //     this.business = user as Business;
+  //   } else if (name === customerCategory.name) {
+  //     this.customer = user as Customer;
+  //   } else if (name === deliveryPersonCategory.name) {
+  //     this.deliveryPerson = user as DeliveryPerson;
+  //   } else if (name === deliveryServiceCategory.name) {
+  //     this.deliveryService = user as DeliveryService;
+  //   }
+  // }
 
-  checkUserLoggedIn(): void {
-    this.isUserLoggedIn = this.hasUserToken();
+  loggedInPage() {
+    if(!this.currentUserService.isLoggedIn()) {
+      this.routeToHome();
+    }
   }
 
   routeToHome() {
@@ -180,18 +175,46 @@ export abstract class CookieComponent {
     return this.isCustomerCategory() || this.isDeliveryPersonCategory();
   }
 
-  setUserByToken() {
-    if (this.hasUserToken()) {
-      this.fetchUserService().findUserByToken({token: this.getUserToken()})
-        .subscribe({
-          next: (user: User) => {
-            if (user != null) {
-              this.user = user;
-              this.setCurrentUser(user);
-            }
-          }
+  initializeUserByToken(): Promise<boolean> {
+    this.currentUserService.incrementCounter();
+    return new Promise<boolean>((resolve, reject) => {
+      if (this.hasUserToken() && this.currentUserService.getCounter() == 1) {
+        this.currentUserService.setMainPromise(new Promise<boolean>((resolve_sub, reject) => {
+          this.fetchUserService().findUserByToken({token: this.getUserToken()})
+            .subscribe({
+              next: (jsonUser: User) => {
+                if (jsonUser != null) {
+                  this.initializeUser(jsonUser);
+
+                  resolve_sub(true);
+                  resolve(true);
+                } else {
+                  console.error('User not found');
+                  resolve_sub(false);
+                  resolve(false);
+                }
+              },
+              error: (error: HttpErrorResponse) => {
+                resolve_sub(false);
+                resolve(false);
+                console.error('HTTP Error: User not found');
+              }
+            });
+        }));
+      } else if(this.hasUserToken() && this.currentUserService.getCounter() > 1) {
+        this.currentUserService.getMainPromise()?.then((success) => {
+          resolve(success);
         });
-    }
+      } else {
+        resolve(false);
+      }
+    });
+  }
+
+  initializeUser(user: User) {
+    this.currentUserService.setUser(user);
+    this.initializeUserPfpImgUrl().then();
+    console.log(this.currentUserService.getUser())
   }
 
   resetTokenByOldToken(): Promise<boolean> {
@@ -244,7 +267,6 @@ export abstract class CookieComponent {
     });
   }
 
-
   getUserByEmail(email: string): Promise<User | null> {
     return new Promise<User | null>((resolve, reject) => {
       this.fetchUserService().findUserByEmail(email).subscribe({
@@ -264,9 +286,31 @@ export abstract class CookieComponent {
   }
 
   handleFooterTopMinValue(entry: ResizeObserverEntry, staticVal: number = 0) {
-    console.log(entry.contentRect.height + staticVal)
     this.footerTopMinValue = Math.max(entry.contentRect.height + staticVal, window.innerHeight);
   }
 
+  private initializeUserPfpImgUrl(): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      if (this.currentUserService.hasPfpImg()) {
+        this.fetchUserService().downloadFiles(this.currentUserService.getUser()?.pfpImgPath!).subscribe({
+          next: (httpEvent: HttpEvent<Blob>) => {
+            if (httpEvent.type === HttpEventType.Response) {
+              const file: File = new File([httpEvent.body!], httpEvent.headers.get('File-Name')!,
+                {type: `${httpEvent.headers.get('Content-Type')};charset=utf-8`});
+              this.currentUserService.setPfpImgUrl(URL.createObjectURL(file));
+              resolve(true);
+            }
+          },
+          error: (error: HttpErrorResponse) => {
+            console.log("Error downloading file");
+            resolve(false);
+          }
+        });
+      } else {
+        console.log("User does not have pfp img");
+        resolve(false);
+      }
+    });
+  }
 
 }

@@ -46,19 +46,25 @@
   align-items: center;
 }
 
-.profile-top-div-pfp img {
-  display: flex;
-  width: 10vw;
-  height: 10vw;
-  min-width: 100px;
-  min-height: 100px;
+.image-frame {
+  width: 100px;
+  height: 100px;
+  max-width: 100px;
+  max-height: 100px;
+
+  border-radius: 50%;
 }
 
 .pfp-img-elem {
   display: flex;
   flex-direction: row;
-  justify-content: right;
-  align-items: end;
+  justify-content: center;
+  align-items: center;
+
+  width: 100px;
+  height: 100px;
+  min-width: 100px;
+  min-height: 100px;
 
   background: $colorP10;
   border-radius: 50%;
@@ -69,13 +75,17 @@
   justify-content: center;
   align-items: center;
 
+  position: absolute;
+
   background: $colorP10;
-  width: 2vw;
-  height: 2vw;
+  width: 30px;
+  height: 30px;
   min-width: 30px;
   min-height: 30px;
   border-radius: 50%;
-  position: absolute;
+
+  align-content: end;
+  align-self: end;
 }
 
 //.profile-pfp-overlay {

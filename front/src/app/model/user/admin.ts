@@ -9,8 +9,8 @@ export class Admin extends User{
               username: string, password: string,
               adminId?: number | undefined,
               registrationDate?: string | undefined,  token?: string | undefined,
-              emailVerified?: boolean | undefined) {
-    super(email, username, password, adminId, registrationDate, token, emailVerified);
+              emailVerified?: boolean | undefined, pfpImgPath?: string | undefined) {
+    super(email, username, password, adminId, registrationDate, token, emailVerified, pfpImgPath);
     this.adminId = adminId;
     this.firstName = firstName;
     this.lastName = lastName;

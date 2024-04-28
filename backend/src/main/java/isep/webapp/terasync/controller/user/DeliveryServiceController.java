@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class DeliveryServiceController extends UserController<DeliveryService, DeliveryServiceService> {
 
     protected DeliveryServiceController(DeliveryServiceService entityService) {
-        super(entityService);
+        super(entityService, DeliveryService.class);
     }
 }

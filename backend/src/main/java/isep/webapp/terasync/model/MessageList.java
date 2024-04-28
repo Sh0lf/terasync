@@ -13,7 +13,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageList {
+public class MessageList extends isep.webapp.terasync.model.Entity {
     @Id
     @GeneratedValue
     @Column(name = "messageListId")

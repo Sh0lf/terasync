@@ -75,8 +75,7 @@ export class PasswordRecoveryComponent extends AuthenticationComponent {
       if (this.isFormValid()) {
         this.fetchUserService().findUserByEmail(this.emailInput).subscribe({
           next: (user: User) => {
-            this.user = user;
-            if (this.user != null) {
+            if (user != null) {
               this.isEmailExist = true;
               let newToken = generateRandomToken();
               this.emailService.sendEmail(Email.recoveryEmail(user.email, newToken)).subscribe({

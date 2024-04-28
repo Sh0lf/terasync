@@ -6,11 +6,14 @@ import {TokenByEmail} from "../../model/query/update/token-by-email";
 import {TokenByOldToken} from "../../model/query/update/token-by-old-token";
 import {PasswordByEmail} from "../../model/query/update/password-by-email";
 import {ByToken} from "../../model/query/select/by-token";
+import {User} from "../../model/user/user";
+import {PfpImgPathByEmail} from "../../model/query/update/pfp-img-path-by-email";
 
 @Injectable({
   providedIn: 'root'
 })
 export abstract class UserService<T> extends EntityService<T> {
+
   protected constructor(http: HttpClient, entity: string) {
     super(http, entity);
   }
@@ -32,11 +35,14 @@ export abstract class UserService<T> extends EntityService<T> {
   }
 
   public updateTokenByEmail(tokenByEmail: TokenByEmail): Observable<number> {
-    console.log(tokenByEmail);
     return this.http.post<number>(`${this.apiBackendUrl}/${this.entityName}/update-token-by-email`, tokenByEmail);
   }
 
   public updateTokenByOldToken(tokenByOldToken: TokenByOldToken): Observable<number> {
     return this.http.post<number>(`${this.apiBackendUrl}/${this.entityName}/update-token-by-old-token`, tokenByOldToken);
+  }
+
+  public updatePfpImgPathByEmail(pfpImgPathByEmail: PfpImgPathByEmail): Observable<number> {
+    return this.http.post<number>(`${this.apiBackendUrl}/${this.entityName}/update-pfp-img-path-by-email`, pfpImgPathByEmail);
   }
 }

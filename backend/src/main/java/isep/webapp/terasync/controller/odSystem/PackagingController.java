@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/packaging")
 public class PackagingController extends EntityController<Packaging, PackagingService> {
     protected PackagingController(PackagingService entityService) {
-        super(entityService);
+        super(entityService, Packaging.class);
     }
 }

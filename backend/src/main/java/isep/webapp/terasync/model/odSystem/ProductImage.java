@@ -12,7 +12,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductImage {
+public class ProductImage extends isep.webapp.terasync.model.Entity {
     @Id
     @GeneratedValue
     @Column(name = "productImageId")

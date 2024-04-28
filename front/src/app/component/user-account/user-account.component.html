@@ -4,17 +4,17 @@
     <div class="profile-card">
       <div class="profile-top-div-pfp">
         <div class="pfp-img-elem">
-          <img src="assets/pfp/dedpol.png" alt="">
-          <!--          <fa-icon [class]="['user-icon']" [icon]="faUser"></fa-icon>-->
+          <img class="image-frame" src="{{currentUserService.getPfpImgUrl()}}" alt="pfp" *ngIf="currentUserService.hasPfpImg()">
+          <fa-icon [class]="['user-icon']" [icon]="faUser" *ngIf="!currentUserService.hasPfpImg()"></fa-icon>
           <div class="pfp-edit-elem" (click)="openUploadPfpModal()">
             <fa-icon [class]="['edit-icon']" [icon]="faPenToSquare"></fa-icon>
           </div>
         </div>
       </div>
       <div class="profile-top-div-info">
-        <span>{{ user?.username }}</span>
-        <span>{{ user?.name }}</span>
-        <span>{{ user?.email }}</span>
+        <span>{{ currentUserService.getUser()?.username }}</span>
+        <span>{{ currentUserService.getUser()?.name }}</span>
+        <span>{{ currentUserService.getUser()?.email }}</span>
       </div>
     </div>
   </div>
@@ -25,7 +25,7 @@
     <a href="#"><span>Addresses</span></a>
     <a href="#"><span>Manage Users</span></a>
     <a href="#"><span>Answer Questions</span></a>
-    <a href="#"><span>Connection And Security</span></a>
+    <a href="/connection-security"><span>Connection And Security</span></a>
     <a href="#"><span>Message Center</span></a>
   </div>
 </div>

@@ -24,13 +24,17 @@ export class FooterComponent implements OnInit {
   ngOnInit(): void {
     if(this.isFooterTopDynamic) {
       this.position = 'absolute';
-      this.footerTopValue = Math.max(this.footerTopMinValue, window.innerHeight);
+      try {
+        this.footerTopValue = Math.max(this.footerTopMinValue, window.innerHeight);
+      } catch (e) {}
     }
   }
 
   onResize(event: any) {
     if(this.isFooterTopDynamic) {
-      this.footerTopValue = Math.max(this.footerTopMinValue, window.innerHeight);
+      try {
+        this.footerTopValue = Math.max(this.footerTopMinValue, window.innerHeight);
+      } catch (e) {}
     }
   }
 

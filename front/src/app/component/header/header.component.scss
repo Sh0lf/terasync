@@ -1,4 +1,4 @@
-@import "../../main/main.component.scss";
+@import "../main/main.component.scss";
 
 $font-size: 16px;
 $font-weight: bold;
@@ -164,29 +164,6 @@ $font-weight: bold;
   padding: 0 10px 0 10px;
 }
 
-.x-mark-icon-elem {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-
-  min-width: 40px;
-  max-width: 40px;
-  min-height: 40px;
-  max-height: 40px;
-  border-radius: 50px;
-}
-
-.x-mark-icon-elem:hover {
-  background: $colorP11;
-}
-
-.x-mark-icon {
-  font-size: 25px;
-  padding: 5px;
-}
-
 .main-title-span {
   flex-grow: 1;
   font-size: $font-size;
@@ -249,22 +226,6 @@ $font-weight: bold;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.logged-out-button {
-  height: 35px;
-  width: 100%;
-  border-radius: 15px;
-  border: #d9d9d9 solid 2px;
-
-  background: $colorP13;
-  font-size: $font-size;
-  font-weight: $font-weight;
-}
-
-.logged-out-button:hover{
-  background: $colorP14;
-  border: $colorP11 solid 2px;
 }
 
 .logged-out-button-elem {

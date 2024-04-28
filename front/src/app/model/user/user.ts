@@ -9,11 +9,12 @@ export abstract class User {
   registrationDate: string | undefined;
   token: string | undefined;
   emailVerified: boolean | undefined;
-
+  pfpImgPath: string | undefined;
 
   protected constructor(email: string, username: string, password: string,
                         userId?: number, registrationDate?: string,
-                        token?: string, emailVerified?: boolean, name?: string) {
+                        token?: string, emailVerified?: boolean,
+                        pfpImgPath?: string, name?: string) {
     this.userId = userId;
     this.name = name;
 
@@ -24,5 +25,6 @@ export abstract class User {
     this.registrationDate = registrationDate;
     this.token = token;
     this.emailVerified = emailVerified;
+    this.pfpImgPath = pfpImgPath;
   }
 }

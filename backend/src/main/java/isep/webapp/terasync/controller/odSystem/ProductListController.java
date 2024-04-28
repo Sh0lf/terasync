@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductListController extends EntityController<ProductList, ProductListService> {
 
     protected ProductListController(ProductListService entityService) {
-        super(entityService);
+        super(entityService, ProductList.class);
     }
 }

@@ -10,8 +10,8 @@ export class DeliveryPerson extends User{
               username: string, password: string, deliveryServiceId: number,
               deliveryPersonId?: number | undefined,
               registrationDate?: string | undefined,  token?: string | undefined,
-              emailVerified?: boolean | undefined) {
-    super(email, username, password, deliveryPersonId, registrationDate, token, emailVerified);
+              emailVerified?: boolean | undefined, pfpImgPath?: string | undefined) {
+    super(email, username, password, deliveryPersonId, registrationDate, token, emailVerified, pfpImgPath);
     this.deliveryPersonId = deliveryPersonId;
     this.firstName = firstName;
     this.lastName = lastName;

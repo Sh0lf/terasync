@@ -90,7 +90,57 @@ $colorP15: #CCD5AE;
   font-weight: 700;
 }
 
-span[class*="form-error-span"] {
-  color: #B81111;
-  text-align: center;
+// DEFAULT BUTTON STYLES
+
+.default-btn {
+  height: 35px;
+  width: 100%;
+  border-radius: 15px;
+  border: #d9d9d9 solid 2px;
+
+  background: $colorP13;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.default-btn:hover{
+  background: $colorP14;
+  border: $colorP11 solid 2px;
+}
+
+.x-mark-icon-elem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  min-width: 40px;
+  max-width: 40px;
+  min-height: 40px;
+  max-height: 40px;
+  border-radius: 50px;
+}
+
+.x-mark-icon-elem:hover {
+  background: $colorP11;
+}
+
+.x-mark-icon {
+  font-size: 25px;
+  padding: 5px;
+}
+
+// COMMON MODAL STUFF
+
+.my-modal-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header-title {
+  font-size: 20px;
+  font-weight: bold;
 }

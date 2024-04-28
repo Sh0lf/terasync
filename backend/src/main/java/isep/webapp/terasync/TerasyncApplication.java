@@ -26,7 +26,7 @@ public class TerasyncApplication {
                 "Accept", "Authorization", "Origin, Accept", "X-Requested-With",
                 "Access-Control-Request-Method", "Access-Control-Request-Headers"));
         corsConfiguration.setExposedHeaders(List.of("Origin", "Content-Type", "Accept", "Authorization",
-                "Access-Control-Allow-Origin", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials"));
+                "Access-Control-Allow-Origin", "Access-Control-Allow-Origin", "Access-Control-Allow-Credentials", "File-Name"));
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
         corsConfiguration.setAllowedOriginPatterns(List.of("http://localhost:4200/"));

@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/customer")
 public class CustomerController extends UserController<Customer, CustomerService> {
     public CustomerController(CustomerService entityService) {
-        super(entityService);
+        super(entityService, Customer.class);
     }
 }

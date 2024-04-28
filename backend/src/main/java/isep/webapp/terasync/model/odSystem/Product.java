@@ -10,7 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+public class Product extends isep.webapp.terasync.model.Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "productId")

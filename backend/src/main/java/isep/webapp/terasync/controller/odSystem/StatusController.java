@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class StatusController extends EntityController<Status, StatusService> {
 
     protected StatusController(StatusService entityService) {
-        super(entityService);
+        super(entityService, Status.class);
     }
 }

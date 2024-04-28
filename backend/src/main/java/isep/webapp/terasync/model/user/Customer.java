@@ -32,6 +32,8 @@ public class Customer extends User {
     private String registrationDate;
     @Column(name = "emailVerified")
     private boolean emailVerified;
+    @Column(name = "pfpImgPath")
+    private String pfpImgPath;
 
     @Override
     public int getUserId() {

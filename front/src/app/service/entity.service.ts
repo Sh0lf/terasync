@@ -1,5 +1,5 @@
 import {Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpEvent} from "@angular/common/http";
 import {environment} from "../../environment/environment.prod";
 import {Injectable} from "@angular/core";
 
@@ -32,6 +32,25 @@ export abstract class EntityService<T> {
 
   public findEntityById(entityId: number): Observable<T> {
     return this.http.get<T>(`${this.apiBackendUrl}/${this.entityName}/findById/${entityId}`);
+  }
+
+  public uploadFiles(formData: FormData): Observable<HttpEvent<string[]>> {
+    return this.http.post<string[]>(`${this.apiBackendUrl}/${this.entityName}/upload-files`, formData, {
+      reportProgress: true,
+      observe: 'events'
+    })
+  }
+
+  public downloadFiles(fileName: string): Observable<HttpEvent<Blob>> {
+    return this.http.get(`${this.apiBackendUrl}/${this.entityName}/download-file/${fileName}`, {
+      reportProgress: true,
+      observe: 'events',
+      responseType: 'blob'
+    });
+  }
+
+  public deleteFile(fileName: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiBackendUrl}/${this.entityName}/delete-file/${fileName}`);
   }
 }
 

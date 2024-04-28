@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/product-menu")
 public class ProductMenuController extends EntityController<ProductMenu, ProductMenuService> {
     protected ProductMenuController(ProductMenuService entityService) {
-        super(entityService);
+        super(entityService, ProductMenu.class);
     }
 }

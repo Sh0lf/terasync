@@ -13,7 +13,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductMenuList {
+public class ProductMenuList extends isep.webapp.terasync.model.Entity {
     @Id
     @GeneratedValue
     @Column(name = "productMenuListId")

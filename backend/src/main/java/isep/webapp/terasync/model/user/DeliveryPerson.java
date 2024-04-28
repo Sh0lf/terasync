@@ -37,6 +37,8 @@ public class DeliveryPerson extends User {
     private int deliveryServiceId;
     @Column(name = "emailVerified")
     private boolean emailVerified;
+    @Column(name = "pfpImgPath")
+    private String pfpImgPath;
 
     @Override
     public int getUserId() {

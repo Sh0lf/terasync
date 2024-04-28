@@ -1,9 +1,9 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {LogoComponent} from "../../logo/logo.component";
+import {LogoComponent} from "../logo/logo.component";
 import {NgIf, NgOptimizedImage, NgStyle} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CookieService} from "ngx-cookie-service";
-import {CookieComponent} from "../../misc/cookie-component";
+import {CookieComponent} from "../misc/cookie-component";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {
   faArrowRightFromBracket,
@@ -16,11 +16,11 @@ import {
   faQuestion,
   faXmark
 } from '@fortawesome/free-solid-svg-icons';
-import {CustomerService} from "../../../service/user/customer.service";
-import {BusinessService} from "../../../service/user/business.service";
-import {AdminService} from "../../../service/user/admin.service";
-import {DeliveryServiceService} from "../../../service/user/delivery-service.service";
-import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
+import {CustomerService} from "../../service/user/customer.service";
+import {BusinessService} from "../../service/user/business.service";
+import {AdminService} from "../../service/user/admin.service";
+import {DeliveryServiceService} from "../../service/user/delivery-service.service";
+import {DeliveryPersonService} from "../../service/user/delivery-person.service";
 import {NgxResizeObserverModule} from "ngx-resize-observer";
 import 'resize-observer-polyfill/dist/ResizeObserver.global'
 import {
@@ -28,19 +28,20 @@ import {
   customerCategory,
   deliveryServiceCategory,
   UserCategory
-} from "../../../service/user/userCategories";
+} from "../../service/user/userCategories";
+import {CurrentUserService} from "../../service/user/current-user.service";
 
 @Component({
-  selector: 'app-header-default',
+  selector: 'app-header',
   standalone: true,
   imports: [LogoComponent, NgOptimizedImage, NgIf, FontAwesomeModule, NgStyle, NgxResizeObserverModule],
-  templateUrl: './header-default.component.html',
-  styleUrl: './header-default.component.scss',
+  templateUrl: './header.component.html',
+  styleUrl: './header.component.scss',
   host: {
     '[header-body]': 'true'
   },
 })
-export class HeaderDefaultComponent extends CookieComponent implements OnInit {
+export class HeaderComponent extends CookieComponent implements OnInit {
   // Logic Fields
   showMenu: boolean = false;
   dropDownMenuTop: number = 0;
@@ -64,14 +65,14 @@ export class HeaderDefaultComponent extends CookieComponent implements OnInit {
               protected override adminService: AdminService,
               protected override deliveryServiceService: DeliveryServiceService,
               protected override deliveryPersonService: DeliveryPersonService,
+              protected override currentUserService: CurrentUserService,
               protected override cookieService: CookieService,
               protected override router: Router, protected override route: ActivatedRoute) {
     super();
   }
 
   ngOnInit(): void {
-    this.checkUserLoggedIn();
-    this.setUserByToken();
+    this.initializeUserByToken().then();
   }
 
   routeToAndCloseBurgerMenu(route: string) {

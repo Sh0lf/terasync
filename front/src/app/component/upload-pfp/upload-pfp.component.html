@@ -1,16 +1,30 @@
 <div class="modal" [style.display]="'block'" *ngIf="isModalOpen()">
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5">UPLOAD PFP MODAL</h1>
-        <button type="button" class="btn-close" (click)="closeModal()"></button>
+    <div class="modal-content main-pfp-div">
+      <div class="modal-header my-modal-header">
+        <span class="modal-header-title">Upload profile picture</span>
+        <div class="x-mark-icon-elem" (click)="closeModal()">
+          <fa-icon [icon]="faXmark" [class]="['x-mark-icon']"></fa-icon>
+        </div>
       </div>
       <div class="modal-body">
-        ...
+        <div class="d-flex justify-content-center">
+          <div class="pfp-img-elem">
+            <fa-icon [class]="['user-icon']" [icon]="faUser" *ngIf="!internalHasUserPfpImg()"></fa-icon>
+            <img src="{{getUserPfpImgUrl()}}" alt="profile" class="image-frame" *ngIf="internalHasUserPfpImg()">
+          </div>
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+          <input #imageInput type="file" accept="image/*" name="files" class="form-control" (change)="onPfpImgSelected($event)">
+        </div>
+        <div class="status-elem" *ngIf="hasStatus()">
+          <span>{{statusMsg}}</span>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="default-btn" (click)="onSaveChanges()">Save changes</button>
+        <button type="button" class="default-btn" (click)="deleteImage()">Delete Image</button>
+        <button type="button" class="default-btn" (click)="closeModal()">Close</button>
       </div>
     </div>
   </div>

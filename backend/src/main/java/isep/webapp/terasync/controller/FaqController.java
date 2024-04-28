@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/faq")
 public class FaqController extends EntityController<Faq, FaqService>{
     protected FaqController(FaqService entityService) {
-        super(entityService);
+        super(entityService, Faq.class);
     }
 }

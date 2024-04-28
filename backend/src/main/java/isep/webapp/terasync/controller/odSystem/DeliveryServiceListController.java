@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/delivery-service-list")
 public class DeliveryServiceListController extends EntityController<DeliveryServiceList, DeliveryServiceListService> {
     protected DeliveryServiceListController(DeliveryServiceListService entityService) {
-        super(entityService);
+        super(entityService, DeliveryServiceList.class);
     }
 }

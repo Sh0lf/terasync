@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/delivery-person")
 public class DeliveryPersonController extends UserController<DeliveryPerson, DeliveryPersonService> {
     protected DeliveryPersonController(DeliveryPersonService entityService) {
-        super(entityService);
+        super(entityService, DeliveryPerson.class);
     }
 }
