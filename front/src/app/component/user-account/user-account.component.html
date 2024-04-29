@@ -1,4 +1,4 @@
-<div class="profile-main-div text-font-700">
+<div (onResize)="handleFooterTopMinValue($event, 0)" class="profile-main-div text-font-700">
   <div class="background-image"></div>
   <div class="profile-top-div">
     <div class="profile-card">
@@ -12,22 +12,26 @@
         </div>
       </div>
       <div class="profile-top-div-info">
-        <span>{{ currentUserService.getUser()?.username }}</span>
-        <span>{{ currentUserService.getUser()?.name }}</span>
-        <span>{{ currentUserService.getUser()?.email }}</span>
+        <span>{{ currentUserService.user?.username }}</span>
+        <span>{{ currentUserService.user?.name }}</span>
+        <span>{{ currentUserService.user?.email }}</span>
       </div>
     </div>
   </div>
   <div class="profile-bottom-div">
-    <a href="#"><span>Devices</span></a>
-    <a href="#"><span>Order History</span></a>
-    <a href="#"><span>Payment Method</span></a>
-    <a href="#"><span>Addresses</span></a>
-    <a href="#"><span>Manage Users</span></a>
-    <a href="#"><span>Answer Questions</span></a>
-    <a href="/connection-security"><span>Connection And Security</span></a>
-    <a href="#"><span>Message Center</span></a>
+    <div class="clickable-div" (click)="routeTo('/addresses')">Addresses</div>
+    <div class="clickable-div" (click)="routeTo('/connection-security')">Connection And Security</div>
+    <div class="clickable-div" (click)="routeTo('')">Manage Users</div>
+    <div class="clickable-div" (click)="routeTo('')">Manage Delivery Persons</div>
+    <div class="clickable-div" (click)="routeTo('')">Manage Products</div>
+    <div class="clickable-div" (click)="routeTo('')">Order History</div>
+    <div class="clickable-div" (click)="routeTo('')">Payment Methods</div>
+    <div class="clickable-div" (click)="routeTo('')">Answer Questions</div>
+    <div class="clickable-div" (click)="routeTo('')">Message Center</div>
   </div>
 </div>
 <app-upload-pfp></app-upload-pfp>
-<app-footer></app-footer>
+<app-footer
+  [footerTopMinValue]="footerTopMinValue"
+  [position]="position"
+></app-footer>

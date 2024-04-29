@@ -1,20 +1,7 @@
 @import '../../main/main.component.scss';
 
-.sign-form-background {
-  background: linear-gradient(to top, $colorP15, $colorP14, $colorP13, $colorP12, $colorP11);
-
-  top: 0;
-  left: 0;
-  width: 100%;
-  height:100%;
-  position: fixed;
-  padding: 0;
-  margin: 0;
-  z-index:-10;
-}
-
 .sign-form-body {
-  margin-top: 60px;
+  margin: 60px 0 60px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -84,38 +71,21 @@
   border: $colorP11 solid 1px;
 }
 
-.default-button {
+.auth-button {
   background: $colorP13;
   border-radius: 40px;
   border: #d9d9d9 solid 2px;
   height: 50px;
-  width: 150px;
+  min-width: 150px;
+
   margin: 5px 0 5px 0;
   font-weight: 700;
-  transition: background-color 0.2s ease-in-out;
+  font-size: 16px;
 }
 
-.default-button:hover {
+.auth-button:hover {
   background: $colorP14;
   border: $colorP11 solid 2px;
-}
-
-.href-button {
-  font-weight: 500;
-  font-size: 16px;
-  border: transparent;
-  background: transparent;
-  text-decoration: none;
-  color: $colorP11;
-}
-
-.href-button:hover {
-  cursor: pointer;
-}
-
-a {
-  text-decoration: none;
-  color: $colorP11;
 }
 
 

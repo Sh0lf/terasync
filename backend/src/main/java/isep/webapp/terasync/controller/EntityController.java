@@ -44,6 +44,7 @@ public abstract class EntityController<T extends Entity, S extends EntityService
 
     @PostMapping("/add")
     public ResponseEntity<T> addEntity(@RequestBody T entity) {
+        System.out.println("EntityController.addEntity: " + entity);
         return new ResponseEntity<>(entityService.addEntity(entity), HttpStatus.CREATED);
     }
 

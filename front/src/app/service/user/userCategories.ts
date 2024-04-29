@@ -1,4 +1,6 @@
 import {UserType} from "./user.type";
+import {User} from "../../model/user/user";
+import {Admin} from "../../model/user/admin";
 
 export class UserCategory {
   name: string;

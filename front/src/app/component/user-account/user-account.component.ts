@@ -4,7 +4,7 @@ import {faPenToSquare, faUser} from "@fortawesome/free-solid-svg-icons";
 import {FooterComponent} from "../footer/footer.component";
 import {NgxResizeObserverModule} from "ngx-resize-observer";
 import {CookieComponent} from "../misc/cookie-component";
-import {UploadPfpComponent} from "../upload-pfp/upload-pfp.component";
+import {UploadPfpComponent} from "./upload-pfp/upload-pfp.component";
 import {TestModalComponent} from "../test-modal/test-modal.component";
 import {CustomerService} from "../../service/user/customer.service";
 import {BusinessService} from "../../service/user/business.service";

@@ -1,8 +1,8 @@
 import {User} from "./user";
 
 export class DeliveryService extends User {
-  deliveryServiceId: number | undefined
-  approved: boolean | undefined;
+  override deliveryServiceId: number | undefined
+  override approved: boolean | undefined;
 
   constructor(name: string, email: string, username: string,
               password: string,

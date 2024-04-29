@@ -21,16 +21,18 @@ import {BusinessService} from "../../../service/user/business.service";
 import {AdminService} from "../../../service/user/admin.service";
 import {DeliveryServiceService} from "../../../service/user/delivery-service.service";
 import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
+import {FooterComponent} from "../../footer/footer.component";
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [
-    NgIf,
-    RecaptchaModule,
-    FormsModule,
-    LogoComponent
-  ],
+    imports: [
+        NgIf,
+        RecaptchaModule,
+        FormsModule,
+        LogoComponent,
+        FooterComponent
+    ],
   providers: [
     {
       provide: RECAPTCHA_SETTINGS, useValue: {

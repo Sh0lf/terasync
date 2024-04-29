@@ -27,6 +27,8 @@ import {StorageKeys} from "../../misc/storage-keys";
 import {LogoComponent} from "../../logo/logo.component";
 import { CookieService } from 'ngx-cookie-service';
 import {TokenByEmail} from "../../../model/query/update/token-by-email";
+import {FooterComponent} from "../../footer/footer.component";
+import {NgxResizeObserverModule} from "ngx-resize-observer";
 
 @Component({
   selector: 'app-password-recovery',
@@ -34,7 +36,7 @@ import {TokenByEmail} from "../../../model/query/update/token-by-email";
   imports: [
     NgIf,
     RecaptchaModule,
-    FormsModule, LogoComponent
+    FormsModule, LogoComponent, FooterComponent, NgxResizeObserverModule
   ],
   providers: [
     {

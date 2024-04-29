@@ -6,13 +6,15 @@ import {StorageKeys} from "../../misc/storage-keys";
 import {LogoComponent} from "../../logo/logo.component";
 import {CookieService} from "ngx-cookie-service";
 import {CookieComponent} from "../../misc/cookie-component";
+import {FooterComponent} from "../../footer/footer.component";
+import {NgxResizeObserverModule} from "ngx-resize-observer";
 
 @Component({
   selector: 'app-partner-selection',
   standalone: true,
   imports: [
     NgForOf,
-    NgIf, LogoComponent
+    NgIf, LogoComponent, FooterComponent, NgxResizeObserverModule
   ],
   templateUrl: './partner-selection.component.html',
   styleUrls: ['../commonCss/auth.styles.scss', './partner-selection.component.css']

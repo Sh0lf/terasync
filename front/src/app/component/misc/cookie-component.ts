@@ -26,7 +26,6 @@ import {Business} from "../../model/user/business";
 import {DeliveryPerson} from "../../model/user/delivery.person";
 import {DeliveryService} from "../../model/user/delivery.service";
 import {CurrentUserService} from "../../service/user/current-user.service";
-import {filter, interval, map, Observable, scan} from "rxjs";
 
 export abstract class CookieComponent {
   // Services
@@ -51,6 +50,7 @@ export abstract class CookieComponent {
 
   // Footer variable
   protected footerTopMinValue: number = 0;
+  protected position: string = "static";
 
   constructor() {
   }
@@ -71,29 +71,35 @@ export abstract class CookieComponent {
     return this.customerService;
   }
 
-  // private setCurrentUser(user: User) {
-  //   let name = this.getCurrentUserCategory().name;
-  //   if (name === adminCategory.name) {
-  //     this.admin = user as Admin;
-  //   } else if (name === businessCategory.name) {
-  //     this.business = user as Business;
-  //   } else if (name === customerCategory.name) {
-  //     this.customer = user as Customer;
-  //   } else if (name === deliveryPersonCategory.name) {
-  //     this.deliveryPerson = user as DeliveryPerson;
-  //   } else if (name === deliveryServiceCategory.name) {
-  //     this.deliveryService = user as DeliveryService;
-  //   }
-  // }
-
-  loggedInPage() {
-    if(!this.currentUserService.isLoggedIn()) {
-      this.routeToHome();
+  private setCurrentUser(user: User) {
+    let name = this.getCurrentUserCategory().name;
+    if (name === adminCategory.name) {
+      this.currentUserService.admin = user as Admin;
+    } else if (name === businessCategory.name) {
+      this.currentUserService.business = user as Business;
+    } else if (name === customerCategory.name) {
+      this.currentUserService.customer = user as Customer;
+    } else if (name === deliveryPersonCategory.name) {
+      this.currentUserService.deliveryPerson = user as DeliveryPerson;
+    } else if (name === deliveryServiceCategory.name) {
+      this.currentUserService.deliveryService = user as DeliveryService;
     }
   }
 
-  routeToHome() {
-    this.router.navigate([''], {relativeTo: this.route}).then();
+  loggedInPage() {
+    if (!this.currentUserService.isLoggedIn()) {
+      this.routeToHome().then();
+    }
+  }
+
+  customerPage() {
+    if (!this.isCustomerCategory() && !this.currentUserService.isLoggedIn()) {
+      this.routeToHome().then();
+    }
+  }
+
+  routeToHome(): Promise<boolean>  {
+    return this.router.navigate([''], {relativeTo: this.route});
   }
 
   routeTo(path: string) {
@@ -201,7 +207,7 @@ export abstract class CookieComponent {
               }
             });
         }));
-      } else if(this.hasUserToken() && this.currentUserService.getCounter() > 1) {
+      } else if (this.hasUserToken() && this.currentUserService.getCounter() > 1) {
         this.currentUserService.getMainPromise()?.then((success) => {
           resolve(success);
         });
@@ -211,10 +217,12 @@ export abstract class CookieComponent {
     });
   }
 
-  initializeUser(user: User) {
-    this.currentUserService.setUser(user);
+  initializeUser(jsonUser: User) {
+    this.currentUserService.user = User.fromJson(jsonUser);
     this.initializeUserPfpImgUrl().then();
-    console.log(this.currentUserService.getUser())
+    this.setCurrentUser(jsonUser);
+
+    console.log(this.currentUserService.user!)
   }
 
   resetTokenByOldToken(): Promise<boolean> {
@@ -286,13 +294,20 @@ export abstract class CookieComponent {
   }
 
   handleFooterTopMinValue(entry: ResizeObserverEntry, staticVal: number = 0) {
-    this.footerTopMinValue = Math.max(entry.contentRect.height + staticVal, window.innerHeight);
+    let calculatedValue = entry.contentRect.height + staticVal;
+
+    if(calculatedValue > window.innerHeight) {
+      this.position = 'static';
+    } else {
+      this.position = 'absolute';
+      this.footerTopMinValue = Math.max(calculatedValue, window.innerHeight);
+    }
   }
 
   private initializeUserPfpImgUrl(): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       if (this.currentUserService.hasPfpImg()) {
-        this.fetchUserService().downloadFiles(this.currentUserService.getUser()?.pfpImgPath!).subscribe({
+        this.fetchUserService().downloadFiles(this.currentUserService.user?.pfpImgPath!).subscribe({
           next: (httpEvent: HttpEvent<Blob>) => {
             if (httpEvent.type === HttpEventType.Response) {
               const file: File = new File([httpEvent.body!], httpEvent.headers.get('File-Name')!,

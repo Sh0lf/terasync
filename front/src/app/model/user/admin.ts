@@ -1,9 +1,9 @@
 import {User} from "./user";
 
 export class Admin extends User{
-  adminId: number | undefined;
-  firstName: string;
-  lastName: string;
+  override adminId: number | undefined;
+  override firstName: string;
+  override lastName: string;
 
   constructor(firstName: string, lastName: string, email: string,
               username: string, password: string,
@@ -14,14 +14,5 @@ export class Admin extends User{
     this.adminId = adminId;
     this.firstName = firstName;
     this.lastName = lastName;
-  }
-
-  createInstance(jsonString: Admin): Admin {
-    return new Admin(
-      jsonString.firstName, jsonString.lastName, jsonString.email,
-      jsonString.username, jsonString.password,
-      jsonString.adminId,
-      jsonString.registrationDate, jsonString.token
-    )
   }
 }

@@ -88,47 +88,6 @@
   align-self: end;
 }
 
-//.profile-pfp-overlay {
-//  //display: none;
-//  justify-content: center;
-//  align-items: center;
-//  position: absolute;
-//  width: 10vw;
-//  height: 10vw;
-//  min-width: 100px;
-//  min-height: 100px;
-//  text-align: center;
-//  margin: 0 0 0 4vw;
-//  background-color: rgba(0, 0, 0, 0.3);
-//  border-radius: 5vw;
-//}
-//
-//.profile-pfp-overlay-div {
-//  display: flex;
-//  flex-direction: column;
-//}
-//
-//.profile-pfp-overlay label {
-//  background-color: transparent;
-//  border: transparent;
-//  font-family: 'Inter', sans-serif;
-//  font-style: normal;
-//  color: white;
-//  padding: 5px 0 5px 0;
-//}
-//
-//.profile-pfp-overlay label:hover {
-//  color: $colorP15;
-//}
-//
-//.profile-upload-pfp-input, .profile-submit-pfp-input {
-//  display: none;
-//}
-//
-//.profile-top-div-pfp img:hover + .profile-pfp-overlay, .profile-pfp-overlay:hover {
-//  display: flex;
-//}
-
 .profile-top-div-info {
   display: flex;
   flex-direction: column;
@@ -148,22 +107,7 @@
   margin: 30px 0 60px 0;
 }
 
-.profile-bottom-div a {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  text-align: center;
-  height: 200px;
-  width: 500px;
-  text-decoration: none;
-  color: black;
-  background: linear-gradient(to top left, $colorP15, $colorP11);
-  margin: 20px;
-  border-radius: 20px;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.profile-bottom-div a:hover {
+.profile-bottom-div div:hover {
   background: .0356A9;
   background: linear-gradient(to bottom right, $colorP15, $colorP11);
 }

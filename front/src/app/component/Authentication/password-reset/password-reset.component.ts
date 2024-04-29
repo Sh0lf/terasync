@@ -17,6 +17,8 @@ import bcrypt from "bcryptjs";
 import {HttpErrorResponse} from "@angular/common/http";
 import {CookieService} from "ngx-cookie-service";
 import {User} from "../../../model/user/user";
+import {FooterComponent} from "../../footer/footer.component";
+import {NgxResizeObserverModule} from "ngx-resize-observer";
 
 @Component({
   selector: 'app-password-reset',
@@ -25,7 +27,9 @@ import {User} from "../../../model/user/user";
     FormsModule,
     NgIf,
     RecaptchaModule,
-    LogoComponent
+    LogoComponent,
+    FooterComponent,
+    NgxResizeObserverModule
   ],
   providers: [
     {

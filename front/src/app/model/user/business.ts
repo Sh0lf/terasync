@@ -1,10 +1,10 @@
 import {User} from "./user";
 
 export class Business extends User {
-  businessId: number | undefined;
-  address: string;
-  phone: string;
-  approved: boolean | undefined;
+  override businessId: number | undefined;
+  override address: string;
+  override phone: string;
+  override approved: boolean | undefined;
 
   constructor(name: string, email: string, username: string,
               password: string, address: string, phone: string,

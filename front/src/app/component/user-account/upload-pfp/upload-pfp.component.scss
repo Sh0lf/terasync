@@ -1,5 +1,5 @@
-@import "../main/main.component.scss";
-@import "../user-account/user-account.component.scss";
+@import "../../main/main.component";
+@import "../user-account.component";
 
 .main-pfp-div {
   background: linear-gradient(to top left, $colorP15, $colorP11);

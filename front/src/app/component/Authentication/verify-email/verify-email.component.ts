@@ -15,6 +15,8 @@ import {AdminService} from "../../../service/user/admin.service";
 import {BusinessService} from "../../../service/user/business.service";
 import {DeliveryServiceService} from "../../../service/user/delivery-service.service";
 import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
+import {FooterComponent} from "../../footer/footer.component";
+import {NgxResizeObserverModule} from "ngx-resize-observer";
 
 @Component({
   selector: 'app-verify-email',
@@ -22,7 +24,9 @@ import {DeliveryPersonService} from "../../../service/user/delivery-person.servi
   imports: [
     FormsModule,
     NgIf,
-    LogoComponent
+    LogoComponent,
+    FooterComponent,
+    NgxResizeObserverModule
   ],
   templateUrl: './verify-email.component.html',
   styleUrls: ['./verify-email.component.css', '../commonCss/auth.styles.scss', '../../main/main.component.scss']

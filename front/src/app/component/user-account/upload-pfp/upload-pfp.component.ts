@@ -1,22 +1,22 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {NgIf} from "@angular/common";
-import {ModalComponent} from "../misc/modal-component";
-import {UploadPfpModalService} from "../../service/misc/upload-pfp-modal.service";
+import {ModalComponent} from "../../misc/modal-component";
+import {UploadPfpModalService} from "../../../service/misc/upload-pfp-modal.service";
 import {HttpErrorResponse, HttpEvent, HttpEventType} from "@angular/common/http";
 import {Subscription} from "rxjs";
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatIconModule} from "@angular/material/icon";
-import {FileService} from "../../service/misc/file.service";
+import {FileService} from "../../../service/misc/file.service";
 import {faUser, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {DomSanitizer} from "@angular/platform-browser";
-import {CustomerService} from "../../service/user/customer.service";
-import {BusinessService} from "../../service/user/business.service";
-import {AdminService} from "../../service/user/admin.service";
-import {DeliveryServiceService} from "../../service/user/delivery-service.service";
-import {DeliveryPersonService} from "../../service/user/delivery-person.service";
+import {CustomerService} from "../../../service/user/customer.service";
+import {BusinessService} from "../../../service/user/business.service";
+import {AdminService} from "../../../service/user/admin.service";
+import {DeliveryServiceService} from "../../../service/user/delivery-service.service";
+import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
 import {CookieService} from "ngx-cookie-service";
-import {CurrentUserService} from "../../service/user/current-user.service";
+import {CurrentUserService} from "../../../service/user/current-user.service";
 
 @Component({
   selector: 'app-upload-pfp',
@@ -30,7 +30,7 @@ import {CurrentUserService} from "../../service/user/current-user.service";
   templateUrl: './upload-pfp.component.html',
   styleUrl: './upload-pfp.component.scss'
 })
-export class UploadPfpComponent extends ModalComponent<UploadPfpModalService> implements OnInit {
+export class UploadPfpComponent extends ModalComponent<UploadPfpModalService> {
   file!: File | null;
   imgUrl: string = '';
   statusMsg: string = '';
@@ -53,10 +53,6 @@ export class UploadPfpComponent extends ModalComponent<UploadPfpModalService> im
     super();
   }
 
-  ngOnInit(): void {
-    this.initializeUserByToken().then();
-  }
-
   onPfpImgSelected(event: any) {
     this.file = event.target.files[0];
     if(this.file != null) this.imgUrl = URL.createObjectURL(this.file);
@@ -70,7 +66,7 @@ export class UploadPfpComponent extends ModalComponent<UploadPfpModalService> im
     const newFileName = this.currentUserService.getPfpImgPrefix() + this.file.name;
     const formData = new FormData();
     formData.append('files', this.file, newFileName);
-    formData.append('miscData', this.currentUserService.getUser()?.email!);
+    formData.append('miscData', this.currentUserService.user?.email!);
 
     this.fetchUserService().uploadFiles(formData).subscribe({
       next: (event: HttpEvent<string[]>) => {
@@ -95,7 +91,7 @@ export class UploadPfpComponent extends ModalComponent<UploadPfpModalService> im
 
   private updatePfpImgPath(newFileName: string) {
     this.fetchUserService()
-      .updatePfpImgPathByEmail({email: this.currentUserService.getUser()?.email!, pfpImgPath: newFileName}).subscribe({
+      .updatePfpImgPathByEmail({email: this.currentUserService.user?.email!, pfpImgPath: newFileName}).subscribe({
       next: (response: number) => {
         console.log('Pfp img path updated: ', response);
       },
@@ -106,8 +102,8 @@ export class UploadPfpComponent extends ModalComponent<UploadPfpModalService> im
   }
 
   private deleteOldPfpImg() {
-    if(this.currentUserService.getUser()?.pfpImgPath!.length == 0) return;
-    this.fetchUserService().deleteFile(this.currentUserService.getUser()?.pfpImgPath!).subscribe({
+    if(this.currentUserService.user?.pfpImgPath!.length == 0) return;
+    this.fetchUserService().deleteFile(this.currentUserService.user?.pfpImgPath!).subscribe({
       next: (response: boolean) => {
         console.log('Old profile picture deleted: ', response);
       },

@@ -1,9 +1,7 @@
 package isep.webapp.terasync.model;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -15,7 +13,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @NoArgsConstructor
 public class MessageList extends isep.webapp.terasync.model.Entity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "messageListId")
     private int messageListId;
     @Column(name = "message")

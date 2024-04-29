@@ -1,9 +1,13 @@
 import {User} from "./user";
+import {Address} from "../odSystem/address";
 
 export class Customer extends User {
-  customerId: number | undefined;
-  firstName: string;
-  lastName: string;
+  override customerId: number | undefined;
+  override firstName: string;
+  override lastName: string;
+
+  // CHILD TABLES
+  override addresses: Address[] = [];
 
   constructor(firstName: string, lastName: string, email: string,
               username: string, password: string,

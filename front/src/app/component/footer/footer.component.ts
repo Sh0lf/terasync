@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {NgStyle} from "@angular/common";
 
 @Component({
@@ -12,30 +12,24 @@ import {NgStyle} from "@angular/common";
 })
 export class FooterComponent implements OnInit {
   footerTopValue!: number;
-  position: string = 'static';
+  // position: string = 'static';
 
   @Input() footerTopPadding: number = 0;
   @Input() footerTopMinValue: number = 0;
-  @Input() isFooterTopDynamic: boolean = false;
+  @Input() position: string = "";
 
   constructor() {
   }
 
   ngOnInit(): void {
-    if(this.isFooterTopDynamic) {
-      this.position = 'absolute';
-      try {
-        this.footerTopValue = Math.max(this.footerTopMinValue, window.innerHeight);
-      } catch (e) {}
+    try {
+      this.footerTopValue = Math.max(this.footerTopMinValue, window.innerHeight);
+    } catch (e) {
     }
   }
 
   onResize(event: any) {
-    if(this.isFooterTopDynamic) {
-      try {
-        this.footerTopValue = Math.max(this.footerTopMinValue, window.innerHeight);
-      } catch (e) {}
-    }
+    this.footerTopValue = Math.max(this.footerTopMinValue, window.innerHeight);
   }
 
 }

@@ -1,9 +1,6 @@
 package isep.webapp.terasync.model.odSystem;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -15,7 +12,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @NoArgsConstructor
 public class CustomerOrderList extends isep.webapp.terasync.model.Entity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customerOrderListId")
     private int customerOrderListId;
     @CreationTimestamp

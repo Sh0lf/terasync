@@ -7,7 +7,7 @@
         </div>
         <div class="drop-down-menu" [style.top.px]="dropDownMenuTop" *ngIf="showMenu">
           <div class="dpm-title-elem">
-            <span *ngIf="currentUserService.isLoggedIn()" class="main-title-span">Welcome, {{ currentUserService.getUser()?.username }}!</span>
+            <span *ngIf="currentUserService.isLoggedIn()" class="main-title-span">Welcome, {{ currentUserService.user?.username }}!</span>
             <span *ngIf="!currentUserService.isLoggedIn()" class="main-title-span">Welcome To TeraSync!</span>
             <div class="x-mark-icon-elem" (click)="xMarkOnClick()">
               <fa-icon [icon]="faXmark" [class]="['x-mark-icon']"></fa-icon>
@@ -71,7 +71,7 @@
       </div>
     </div>
     <div class="header-elem search-elem">
-      <input type="text" class="search-input" placeholder="Search Restaurants">
+      <input type="text" class="default-input" placeholder="Search Restaurants">
     </div>
     <div class="header-elem address-elem">
       <div class="address-elem-text">

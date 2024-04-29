@@ -6,7 +6,7 @@ import {RECAPTCHA_SETTINGS, RecaptchaModule} from "ng-recaptcha";
 import {FormsModule} from "@angular/forms";
 import {environment} from "../../../../environment/environment.prod";
 import {CustomerService} from "../../../service/user/customer.service";
-import {customerCategory, deliveryServiceCategory} from "../../../service/user/userCategories";
+import {customerCategory} from "../../../service/user/userCategories";
 import {UserType} from "../../../service/user/user.type";
 import {BusinessService} from "../../../service/user/business.service";
 import {AdminService} from "../../../service/user/admin.service";
@@ -15,7 +15,6 @@ import {DeliveryPersonService} from "../../../service/user/delivery-person.servi
 import {User} from "../../../model/user/user";
 import {AuthenticationComponent} from "../authentication-component";
 import bcrypt from "bcryptjs";
-import {Customer} from "../../../model/user/customer";
 import {LogoComponent} from "../../logo/logo.component";
 import {EmailService} from "../../../service/misc/email.service";
 import {InternalObjectService} from "../../../service/misc/internal-object.service";
@@ -73,7 +72,7 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.hasUserToken()) {
+    if (this.hasUserToken()) {
       this.deleteUserToken();
     }
   }
@@ -90,11 +89,11 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
                     this.isEmailVerified = isEmailVerified;
                     this.isUserApproved(jsonUser).then((isApproved) => {
                       this.isApproved = isApproved;
-                      if(isApproved) {
+                      if (isApproved) {
                         console.log('User is approved');
                         this.resetTokenByEmail(jsonUser.email).then((success) => {
                           resolve(success);
-                          if(success) {
+                          if (success) {
                             this.initializeUser(jsonUser);
                           }
                         });
@@ -178,7 +177,7 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
   }
 
   private isUserEmailVerified(jsonUser: User): Promise<boolean> {
-    return new Promise<boolean> ((resolve, reject) => {
+    return new Promise<boolean>((resolve, reject) => {
       if (!jsonUser.emailVerified) {
         console.log('Email not verified');
         this.sendVerificationEmail(jsonUser.email).then((verificationCodeHash) => {
@@ -199,9 +198,9 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
 
   private isUserApproved(jsonUser: User): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
-      if(this.isBusinessCategory()) {
+      if (this.isBusinessCategory()) {
         resolve((jsonUser as Business).approved!)
-      } else if(this.isDeliveryServiceCategory()) {
+      } else if (this.isDeliveryServiceCategory()) {
         resolve((jsonUser as Business).approved!)
       } else {
         resolve(true);

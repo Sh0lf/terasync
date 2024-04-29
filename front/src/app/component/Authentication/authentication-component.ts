@@ -27,7 +27,9 @@ export abstract class AuthenticationComponent extends FormComponent {
 
   // Validation messages
   protected passwordInvalidMessage: String = "Password must have at least one lowercase and uppercase letter, one number, and 8 characters long.";
+  protected oldPasswordInvalidMessage: String = "Old Password is incorrect.";
   protected passwordsNotMatchMessage: String = "Passwords do not match.";
+  protected fieldInvalidMessage: String = "Field is invalid.";
   protected notRobotMessage: string = "Please verify that you're not a robot."
 
   // Static vars
@@ -61,6 +63,10 @@ export abstract class AuthenticationComponent extends FormComponent {
     // Password must contain at least one number, one uppercase letter, one lowercase letter, and at least 8 characters
     let regex = new RegExp("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$");
     return regex.test(password);
+  }
+
+  isFieldProper(field: string): boolean {
+    return field.length > 0;
   }
 
   sendVerificationEmail(emailInput: string): Promise<string | null> {

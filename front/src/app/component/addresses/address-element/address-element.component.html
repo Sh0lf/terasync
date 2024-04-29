@@ -1,0 +1,33 @@
+<div class="ad-address-div">
+  <div class="ad-info-div">
+    <div class="span-div" *ngIf="address?.defaultAddress">
+      <span class="text-font-700">Default Address</span>
+      <div class="separation-line-small"></div>
+    </div>
+    <div class="span-div">
+      <span class="text-font-700">{{ address?.country }}</span>
+    </div>
+    <div class="span-div">
+      <span class="text-font-500">{{ address?.street }}</span>
+    </div>
+    <div class="span-div">
+      <span class="text-font-500">{{ address?.postalCode }}</span>
+    </div>
+    <div class="span-div">
+      <span class="text-font-500">{{ address?.city }}</span>
+    </div>
+    <div class="span-div">
+      <span class="text-font-500">{{ address?.info }}</span>
+    </div>
+  </div>
+
+  <div class="ad-button-div">
+    <div class="separation-line-small"></div>
+    <button class="default-btn" href=>Modify</button>
+    <button class="default-btn" type="button">Delete</button>
+    <button class="default-btn" type="button">Set as default</button>
+  </div>
+</div>
+
+
+

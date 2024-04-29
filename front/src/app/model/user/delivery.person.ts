@@ -1,10 +1,10 @@
 import {User} from "./user";
 
 export class DeliveryPerson extends User{
-  deliveryPersonId: number | undefined;
-  firstName: string;
-  lastName: string;
-  deliveryServiceId: number;
+  override deliveryPersonId: number | undefined;
+  override firstName: string;
+  override lastName: string;
+  override deliveryServiceId: number;
 
   constructor(firstName: string, lastName: string, email: string,
               username: string, password: string, deliveryServiceId: number,

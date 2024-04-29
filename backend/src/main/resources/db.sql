@@ -74,6 +74,21 @@ CREATE TABLE DeliveryPerson
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- CUSTOM ADDRESS
+CREATE TABLE Address
+(
+    addressId      INT IDENTITY (1, 1) PRIMARY KEY,
+    country        VARCHAR(255) NOT NULL,
+    street         VARCHAR(255) NOT NULL,
+    postalCode     VARCHAR(255) NOT NULL,
+    city           VARCHAR(255) NOT NULL,
+    defaultAddress BIT          NOT NULL DEFAULT (0),
+    info           VARCHAR(255),
+    customerId     INT          NOT NULL,
+    constraint customer_address_fk FOREIGN KEY (customerId) REFERENCES Customer (customerId)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 -- RATING / RECOMMENDATION SYSTEM
 CREATE TABLE RatingList
 (

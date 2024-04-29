@@ -1,0 +1,59 @@
+<div (onResize)="handleFooterTopMinValue($event, 80)" class="main-page-body-div">
+  <div>
+    <h1 class="main-page-h1">Addresses</h1>
+  </div>
+  <div class="separation-line-2"></div>
+  <div class="ad-main-div">
+    <div class="ad-address-body-div" id="ad-static-address-div" (click)="addAddressOnClick()">
+      <div class="ad-new-address-div">
+        <div class="ad-plus-div">
+          <fa-icon [icon]="faPlus" [class]="['plus-icon']"></fa-icon>
+        </div>
+        <span class="title-span">Add an address</span>
+      </div>
+    </div>
+
+    <div class="ad-address-body-div" *ngFor="let address of this.currentUserService.user?.addresses">
+      <app-address-element [style.height.%]="100" [address]="address"></app-address-element>
+    </div>
+
+    <div class="ad-address-body-div" *ngIf="isAddingAddress">
+      <div class="ad-address-div">
+        <div class="ad-address-header-div">
+          <span class="title-span">New Address</span>
+          <div class="x-mark-icon-elem">
+            <fa-icon [icon]="faXmark" [class]="['x-mark-icon']" (click)="addAddressOnClick()"></fa-icon>
+          </div>
+        </div>
+        <div class="add-form-elem">
+          <label for="country-input">Country:</label>
+          <input class="default-input" type="text" [(ngModel)]="countryInput" id="country-input">
+        </div>
+        <div class="add-form-elem">
+          <label for="street-input">Street:</label>
+          <input class="default-input" type="text" [(ngModel)]="streetInput" id="street-input">
+        </div>
+        <div class="add-form-elem">
+          <label for="postal-code-input">Postal Code:</label>
+          <input class="default-input" type="text" [(ngModel)]="postalCodeInput" id="postal-code-input">
+        </div>
+        <div class="add-form-elem">
+          <label for="city-input">City:</label>
+          <input class="default-input" type="text" [(ngModel)]="cityInput" id="city-input">
+        </div>
+        <div class="add-form-elem">
+          <label for="info-input">Info (Optional):</label>
+          <input class="default-input" type="text" [(ngModel)]="infoInput" id="info-input">
+        </div>
+        <div class="separation-line-small"></div>
+        <button class="default-btn" type="button" (click)="saveOnClick()">Save New Address</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="our-light-background-1"></div>
+<app-footer
+  [footerTopMinValue]="footerTopMinValue"
+  [position]="position"
+></app-footer>

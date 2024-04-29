@@ -1,4 +1,4 @@
-<form (onResize)="handleFooterTopMinValue($event, 80)" (ngSubmit)="onSubmit()" name="loginForm">
+<form (onResize)="handleFooterTopMinValue($event, 0)" (ngSubmit)="onSubmit()">
   <div class="sign-form-body">
     <div class="sign-form-body-div">
       <app-logo></app-logo>
@@ -8,13 +8,13 @@
       <div class="sign-form-elem">
         <label for="email-input">Email:</label>
         <input type="email" id="email-input" [(ngModel)]="emailInput" name="lgEmail">
-        <span class="validation-span" *ngIf="isEmailInvalid()">Email field is required.</span>
+        <span class="validation-span" *ngIf="isEmailInvalid()">{{ fieldInvalidMessage }}</span>
       </div>
 
       <div class="sign-form-elem">
         <label for="password-input">Password:</label>
         <input type="password" id="password-input" [(ngModel)]="passwordInput" name="lgPassword">
-        <span class="validation-span" *ngIf="isPasswordInvalid()">Password field is required.</span>
+        <span class="validation-span" *ngIf="isPasswordInvalid()">{{ fieldInvalidMessage }}</span>
       </div>
       <div class="sign-form-elem">
         <re-captcha (resolved)="resolved($event)"></re-captcha>
@@ -25,27 +25,27 @@
       <span class="validation-span" *ngIf="isUserNotApproved()">Your account hasn't been approved yet</span>
 
       <div class="sign-form-elem">
-        <button class="default-button" type="submit">Login</button>
+        <button class="auth-button" type="submit">Login</button>
       </div>
 
       <div class="sign-form-elem">
-        <a href="/password-recovery">Forgot Password</a>
+        <button class="href-button" (click)="routeTo('/password-recovery')">Forgot Password</button>
       </div>
       <div class="sign-form-elem">
         <span class="centered-span">Don't have an account?
-          <a href="/register" *ngIf="!isPartnerType()"> Register</a>
-          <a href="/register" *ngIf="isBusinessCategory()"> Apply as a Business</a>
-          <a href="/register" *ngIf="isDeliveryServiceCategory()"> Apply as a Delivery Service</a>
+          <button class="href-button" (click)="routeTo('/register')" *ngIf="!isPartnerType()"> Register</button>
+          <button class="href-button" (click)="routeTo('/register')" *ngIf="isBusinessCategory()"> Apply as a Business</button>
+          <button class="href-button" (click)="routeTo('/register')" *ngIf="isDeliveryServiceCategory()"> Apply as a Delivery Service</button>
         </span>
       </div>
       <div class="sign-form-elem">
-        <span class="centered-span">Are you a {{ getOppositeUserType() }}?<button type="button" class="href-button" (click)="switchUserType()"> Login here</button></span>
+        <span class="centered-span">Are you a {{ getOppositeUserType() }}? <button type="button" class="href-button" (click)="switchUserType()">Login here</button></span>
       </div>
     </div>
   </div>
 </form>
-<div class="sign-form-background"></div>
+<div class="our-linear-background-1"></div>
 <app-footer
   [footerTopMinValue]="footerTopMinValue"
-  [isFooterTopDynamic]="true"
+  [position]="position"
 ></app-footer>
