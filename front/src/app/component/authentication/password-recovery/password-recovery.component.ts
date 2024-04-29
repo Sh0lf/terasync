@@ -46,7 +46,7 @@ import {NgxResizeObserverModule} from "ngx-resize-observer";
     }
   ],
   templateUrl: './password-recovery.component.html',
-  styleUrls: ['./password-recovery.component.css', '../commonCss/auth.styles.scss', '../../main/main.component.scss']
+  styleUrls: ['./password-recovery.component.css', '../auth.styles.scss', '../../main/main.component.scss']
 })
 export class PasswordRecoveryComponent extends AuthenticationComponent {
   // Form fields

@@ -4,7 +4,7 @@ import {CookieService} from "ngx-cookie-service";
 import {NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {EditableElementType} from "./editable-element-type";
-import {AuthenticationComponent} from "../../Authentication/authentication-component";
+import {AuthenticationComponent} from "../../authentication/authentication-component";
 import bcrypt from "bcryptjs";
 import {CurrentUserService} from "../../../service/user/current-user.service";
 

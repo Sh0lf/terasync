@@ -39,7 +39,7 @@ import {NgxResizeObserverModule} from "ngx-resize-observer";
     }
   ],
   templateUrl: './password-reset.component.html',
-  styleUrls: ['./password-reset.component.css', '../commonCss/auth.styles.scss', '../../main/main.component.scss']
+  styleUrls: ['./password-reset.component.css', '../auth.styles.scss', '../../main/main.component.scss']
 })
 export class PasswordResetComponent extends AuthenticationComponent implements OnInit {
   // Input Fields

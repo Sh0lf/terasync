@@ -2,10 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
 import {HttpClientModule} from "@angular/common/http";
 import {NgForOf, NgIf} from "@angular/common";
-import {LoginComponent} from "../Authentication/login/login.component";
+import {LoginComponent} from "../authentication/login/login.component";
 import {HeaderComponent} from "../header/header.component";
 import {FooterComponent} from "../footer/footer.component";
-import {RegisterComponent} from "../Authentication/register/register.component";
+import {RegisterComponent} from "../authentication/register/register.component";
 import {CookieComponent} from "../misc/cookie-component";
 import {CookieService} from "ngx-cookie-service";
 

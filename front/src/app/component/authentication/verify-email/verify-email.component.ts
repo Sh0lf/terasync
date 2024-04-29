@@ -29,7 +29,7 @@ import {NgxResizeObserverModule} from "ngx-resize-observer";
     NgxResizeObserverModule
   ],
   templateUrl: './verify-email.component.html',
-  styleUrls: ['./verify-email.component.css', '../commonCss/auth.styles.scss', '../../main/main.component.scss']
+  styleUrls: ['./verify-email.component.css', '../auth.styles.scss', '../../main/main.component.scss']
 })
 export class VerifyEmailComponent extends FormComponent implements OnInit {
   // Form Fields

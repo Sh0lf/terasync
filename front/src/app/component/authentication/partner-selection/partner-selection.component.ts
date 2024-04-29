@@ -17,7 +17,7 @@ import {NgxResizeObserverModule} from "ngx-resize-observer";
     NgIf, LogoComponent, FooterComponent, NgxResizeObserverModule
   ],
   templateUrl: './partner-selection.component.html',
-  styleUrls: ['../commonCss/auth.styles.scss', './partner-selection.component.css']
+  styleUrls: ['../auth.styles.scss', './partner-selection.component.css']
 })
 export class PartnerSelectionComponent extends CookieComponent {
   protected readonly userCategories = userCategories;

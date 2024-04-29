@@ -41,7 +41,7 @@ import {FooterComponent} from "../../footer/footer.component";
     }
   ],
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css', '../commonCss/auth.styles.scss', '../../main/main.component.scss']
+  styleUrls: ['./register.component.css', '../auth.styles.scss', '../../main/main.component.scss']
 })
 export class RegisterComponent extends AuthenticationComponent {
   // Form fields

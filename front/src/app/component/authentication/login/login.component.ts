@@ -42,7 +42,7 @@ import {CurrentUserService} from "../../../service/user/current-user.service";
     }
   ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css', '../commonCss/auth.styles.scss', '../../main/main.component.scss']
+  styleUrls: ['./login.component.css', '../auth.styles.scss', '../../main/main.component.scss']
 })
 export class LoginComponent extends AuthenticationComponent implements OnInit {
   // Form fields
