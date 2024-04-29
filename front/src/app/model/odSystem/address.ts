@@ -22,4 +22,14 @@ export class Address {
     this.addressId = addressId;
     this.defaultAddress = defaultAddress;
   }
+
+  public static fromJson(json: any): Address {
+    return new Address(json.customerId, json.country,
+      json.street, json.postalCode, json.city, json.info,
+      json.defaultAddress, json.addressId);
+  }
+
+  setDefaultAddress(defaultAddress: boolean) {
+    this.defaultAddress = defaultAddress;
+  }
 }

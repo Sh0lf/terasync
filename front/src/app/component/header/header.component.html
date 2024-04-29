@@ -9,8 +9,8 @@
           <div class="dpm-title-elem">
             <span *ngIf="currentUserService.isLoggedIn()" class="main-title-span">Welcome, {{ currentUserService.user?.username }}!</span>
             <span *ngIf="!currentUserService.isLoggedIn()" class="main-title-span">Welcome To TeraSync!</span>
-            <div class="x-mark-icon-elem" (click)="xMarkOnClick()">
-              <fa-icon [icon]="faXmark" [class]="['x-mark-icon']"></fa-icon>
+            <div class="clickable-icon-elem-1" (click)="xMarkOnClick()">
+              <fa-icon [icon]="faXmark" [class]="['clickable-icon-1']"></fa-icon>
             </div>
           </div>
           <div class="dpm-logged-out-elem" *ngIf="!currentUserService.isLoggedIn()">

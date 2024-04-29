@@ -20,12 +20,23 @@
       <span class="text-font-500">{{ address?.info }}</span>
     </div>
   </div>
-
+  <div class="separation-line-small"></div>
   <div class="ad-button-div">
-    <div class="separation-line-small"></div>
-    <button class="default-btn" href=>Modify</button>
-    <button class="default-btn" type="button">Delete</button>
-    <button class="default-btn" type="button">Set as default</button>
+    <div class="ad-button-sub-div">
+      <div class="clickable-icon-elem-2" (click)="modifyOnClick()">
+        <fa-icon [icon]="faPen" [class]="['clickable-icon-2']"></fa-icon>
+      </div>
+      <div class="clickable-icon-elem-2" (click)="onDelete()">
+        <fa-icon [icon]="faTrash" [class]="['clickable-icon-2']"></fa-icon>
+      </div>
+    </div>
+    <div class="clickable-icon-elem-2" (click)="onDefaultOnClick()">
+      <fa-icon [icon]="faStar" [class]="['clickable-icon-2']"></fa-icon>
+    </div>
+
+    <!--    <button class="default-btn" type="button" (click)="modifyOnClick()">Modify</button>-->
+    <!--    <button class="default-btn" type="button" (click)="onDelete()">Delete</button>-->
+    <!--    <button class="default-btn" type="button" (click)="onDefaultOnClick()">Set as default</button>-->
   </div>
 </div>
 

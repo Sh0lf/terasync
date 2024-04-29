@@ -5,6 +5,7 @@ import {Customer} from "../../model/user/customer";
 import {DeliveryService} from "../../model/user/delivery.service";
 import {DeliveryPerson} from "../../model/user/delivery.person";
 import {Business} from "../../model/user/business";
+import {Address} from "../../model/odSystem/address";
 
 @Injectable({
   providedIn: 'root'
@@ -112,4 +113,14 @@ export class CurrentUserService {
     this._deliveryService = value;
   }
 
+  getDefaultAddress(): Address | undefined {
+    if(this.user != undefined) {
+      for (let address of this.user?.addresses) {
+        if (address.defaultAddress) {
+          return address;
+        }
+      }
+    }
+    return undefined;
+  }
 }

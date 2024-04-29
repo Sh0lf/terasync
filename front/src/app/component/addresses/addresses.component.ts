@@ -35,7 +35,7 @@ import {AddressElementComponent} from "./address-element/address-element.compone
 })
 export class AddressesComponent extends CookieComponent implements OnInit {
   faPlus = faPlus;
-  faTimes = faTimes;
+  faXmark = faXmark;
 
   // Input Fields
   countryInput: string = '';
@@ -46,6 +46,8 @@ export class AddressesComponent extends CookieComponent implements OnInit {
 
   // Logic Fields
   isAddingAddress: boolean = false;
+  isEditingAddress: boolean = false;
+  editingAddress!: Address | undefined;
 
   constructor(protected override customerService: CustomerService,
               protected override businessService: BusinessService,
@@ -65,40 +67,60 @@ export class AddressesComponent extends CookieComponent implements OnInit {
     });
   }
 
-  addAddressOnClick() {
+  toggleOnClick() {
     this.isAddingAddress = !this.isAddingAddress;
+    this.isEditingAddress = !this.isEditingAddress;
   }
 
   saveOnClick() {
-    console.log(this.currentUserService.user?.userId!)
     let defaultAddress = false;
-
     if(this.currentUserService.user?.addresses.length == 0) {
       defaultAddress = true;
     }
 
-    let newAddress = new Address(this.currentUserService.user?.userId!,
-      this.countryInput,
-      this.streetInput,
-      this.postalCodeInput,
-      this.cityInput,
-      this.infoInput,
-      defaultAddress)
+    if(this.isAddingAddress) {
+      let newAddress = new Address(this.currentUserService.user?.userId!,
+        this.countryInput,
+        this.streetInput,
+        this.postalCodeInput,
+        this.cityInput,
+        this.infoInput,
+        defaultAddress)
 
-    this.addressService.addEntity(newAddress).subscribe({
-      next: (address: Address) => {
-        this.currentUserService.user?.addresses.push(address);
-        this.resetValues();
-        console.log("New Address Added!");
-      },
-      error: (error: any) => {
-        console.error(error);
-      }
-    })
+      this.addressService.addEntity(newAddress).subscribe({
+        next: (address: Address) => {
+          this.currentUserService.user?.addresses.push(Address.fromJson(address));
+          this.resetValues();
+          console.log("New Address Added!");
+        },
+        error: (error: any) => {
+          console.log("Error in adding new address")
+        }
+      })
+    } else if(this.isEditingAddress && this.editingAddress != undefined) {
+      this.editingAddress.country = this.countryInput;
+      this.editingAddress.street = this.streetInput;
+      this.editingAddress.postalCode = this.postalCodeInput;
+      this.editingAddress.city = this.cityInput;
+      this.editingAddress.info = this.infoInput;
+
+      this.addressService.updateEntity(this.editingAddress).subscribe({
+        next: (address: Address) => {
+          this.resetValues();
+          console.log("Address Updated Added!");
+        },
+        error: (error: any) => {
+          console.error("Error in updating address");
+        }
+      });
+    }
   }
 
   private resetValues() {
     this.isAddingAddress = false;
+    this.isEditingAddress = false;
+    this.editingAddress = undefined;
+
     this.countryInput = '';
     this.streetInput = '';
     this.postalCodeInput = '';
@@ -106,5 +128,18 @@ export class AddressesComponent extends CookieComponent implements OnInit {
     this.infoInput = '';
   }
 
-  protected readonly faXmark = faXmark;
+  editAddress(address: Address) {
+    this.countryInput = address.country;
+    this.streetInput = address.street;
+    this.postalCodeInput = address.postalCode;
+    this.cityInput = address.city;
+    this.infoInput = address.info;
+
+    this.isEditingAddress = true;
+    this.editingAddress = address;
+  }
+
+  isEnabled() {
+    return this.isAddingAddress || this.isEditingAddress;
+  }
 }

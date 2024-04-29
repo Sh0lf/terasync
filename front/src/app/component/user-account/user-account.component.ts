@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faPenToSquare, faUser} from "@fortawesome/free-solid-svg-icons";
 import {FooterComponent} from "../footer/footer.component";
@@ -15,7 +15,6 @@ import {CookieService} from "ngx-cookie-service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NgIf} from "@angular/common";
 import {CurrentUserService} from "../../service/user/current-user.service";
-import {filter, interval, map, scan} from "rxjs";
 
 @Component({
   selector: 'app-user-account',

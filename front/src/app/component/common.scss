@@ -15,12 +15,15 @@ $colorP25: #4D4861;
 
 // Actual Color Palette
 $colorP10: #915c35;
+$colorP11_2: #e0bb95;
 $colorP11: #D4A373;
 $colorP12: #FAEDCD;
 $colorP13: #FEFAE0;
 $colorP14: #E9EDC9;
 $colorP15: #CCD5AE;
 $colorP16: #f6f3ea;
+$colorP17: #f3f0f0;
+$colorP18: #d9d9d9;
 
 
 // For non scss files
@@ -32,6 +35,8 @@ $colorP16: #f6f3ea;
   --colorP14: #E9EDC9;
   --colorP15: #CCD5AE;
   --colorP16: #f6f3ea;
+  --colorP17: #f3f0f0;
+  --colorP18: #d9d9d9;
 }
 
 .our-linear-background-1 {
@@ -133,9 +138,10 @@ $colorP16: #f6f3ea;
 // DEFAULT BUTTON STYLES
 
 .default-btn {
-  background: $colorP13;
+  background: $colorP11;
   border-radius: 15px;
-  border: #d9d9d9 solid 2px;
+  //border: #d9d9d9 solid 2px;
+  border: transparent;
   height: 35px;
   width: 100%;
 
@@ -145,8 +151,8 @@ $colorP16: #f6f3ea;
 }
 
 .default-btn:hover{
-  background: $colorP14;
-  border: $colorP11 solid 2px;
+  background: $colorP11_2;
+  //border: $colorP11 solid 2px;
 }
 
 .href-button {
@@ -175,6 +181,16 @@ $colorP16: #f6f3ea;
   width: 100%;
 }
 
+.default-input-2 {
+  border-radius: 15px;
+  border: grey solid 1px;
+  height: 35px;
+  margin: 5px 0 5px 0;
+  white-space:pre;
+  text-indent: 10px;
+  width: 100%;
+}
+
 .clickable-div {
   display: flex;
   justify-content: space-around;
@@ -194,7 +210,7 @@ $colorP16: #f6f3ea;
   border: $colorP11 solid 1px;
 }
 
-.x-mark-icon-elem {
+.clickable-icon-elem-1 {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -205,15 +221,38 @@ $colorP16: #f6f3ea;
   max-width: 40px;
   min-height: 40px;
   max-height: 40px;
-  border-radius: 50px;
+  border-radius: 50%;
 }
 
-.x-mark-icon-elem:hover {
+.clickable-icon-elem-1:hover {
   background: $colorP11;
 }
 
-.x-mark-icon {
+.clickable-icon-1 {
   font-size: 25px;
+  padding: 5px;
+}
+
+.clickable-icon-elem-2 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  min-width: 25px;
+  max-width: 25px;
+  min-height: 25px;
+  max-height: 25px;
+  border-radius: 50%;
+}
+
+.clickable-icon-elem-2:hover {
+  background: $colorP11;
+}
+
+.clickable-icon-2 {
+  font-size: 15px;
   padding: 5px;
 }
 

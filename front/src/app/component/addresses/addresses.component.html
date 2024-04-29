@@ -4,7 +4,7 @@
   </div>
   <div class="separation-line-2"></div>
   <div class="ad-main-div">
-    <div class="ad-address-body-div" id="ad-static-address-div" (click)="addAddressOnClick()">
+    <div class="ad-address-body-div" id="ad-static-address-div" (click)="toggleOnClick()">
       <div class="ad-new-address-div">
         <div class="ad-plus-div">
           <fa-icon [icon]="faPlus" [class]="['plus-icon']"></fa-icon>
@@ -14,36 +14,40 @@
     </div>
 
     <div class="ad-address-body-div" *ngFor="let address of this.currentUserService.user?.addresses">
-      <app-address-element [style.height.%]="100" [address]="address"></app-address-element>
+      <app-address-element [style.height.%]="100"
+                           [address]="address"
+                           [addresses]="this.currentUserService.user?.addresses"
+                           (newAddressEvent)="editAddress($event)">
+      </app-address-element>
     </div>
 
-    <div class="ad-address-body-div" *ngIf="isAddingAddress">
+    <div class="ad-address-body-div" *ngIf="isEnabled()">
       <div class="ad-address-div">
         <div class="ad-address-header-div">
           <span class="title-span">New Address</span>
-          <div class="x-mark-icon-elem">
-            <fa-icon [icon]="faXmark" [class]="['x-mark-icon']" (click)="addAddressOnClick()"></fa-icon>
+          <div class="clickable-icon-elem-1">
+            <fa-icon [icon]="faXmark" [class]="['clickable-icon-1']" (click)="toggleOnClick()"></fa-icon>
           </div>
         </div>
         <div class="add-form-elem">
           <label for="country-input">Country:</label>
-          <input class="default-input" type="text" [(ngModel)]="countryInput" id="country-input">
+          <input class="default-input-2" type="text" [(ngModel)]="countryInput" id="country-input">
         </div>
         <div class="add-form-elem">
           <label for="street-input">Street:</label>
-          <input class="default-input" type="text" [(ngModel)]="streetInput" id="street-input">
+          <input class="default-input-2" type="text" [(ngModel)]="streetInput" id="street-input">
         </div>
         <div class="add-form-elem">
           <label for="postal-code-input">Postal Code:</label>
-          <input class="default-input" type="text" [(ngModel)]="postalCodeInput" id="postal-code-input">
+          <input class="default-input-2" type="text" [(ngModel)]="postalCodeInput" id="postal-code-input">
         </div>
         <div class="add-form-elem">
           <label for="city-input">City:</label>
-          <input class="default-input" type="text" [(ngModel)]="cityInput" id="city-input">
+          <input class="default-input-2" type="text" [(ngModel)]="cityInput" id="city-input">
         </div>
         <div class="add-form-elem">
           <label for="info-input">Info (Optional):</label>
-          <input class="default-input" type="text" [(ngModel)]="infoInput" id="info-input">
+          <input class="default-input-2" type="text" [(ngModel)]="infoInput" id="info-input">
         </div>
         <div class="separation-line-small"></div>
         <button class="default-btn" type="button" (click)="saveOnClick()">Save New Address</button>
@@ -52,7 +56,6 @@
   </div>
 
 </div>
-<div class="our-light-background-1"></div>
 <app-footer
   [footerTopMinValue]="footerTopMinValue"
   [position]="position"

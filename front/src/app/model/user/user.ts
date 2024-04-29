@@ -1,4 +1,5 @@
 import {Address} from "../odSystem/address";
+import {jsonHelpUsage} from "@angular/cli/src/command-builder/utilities/json-help";
 
 export class User {
   userId: number | undefined;
@@ -48,27 +49,35 @@ export class User {
   }
 
 
-  public static fromJson(json: any): User {
-    let user: User = new User(json.email, json.username, json.password,
-      json.userId, json.registrationDate,
-      json.token, json.emailVerified,
-      json.pfpImgPath, json.name)
+  public static fromJson(jsonUser: User): User {
+    let user: User = new User(jsonUser.email, jsonUser.username, jsonUser.password,
+      jsonUser.userId, jsonUser.registrationDate,
+      jsonUser.token, jsonUser.emailVerified,
+      jsonUser.pfpImgPath, jsonUser.name)
 
-    user.firstName = json.firstName;
-    user.lastName = json.lastName;
-    user.phone = json.phone;
-    user.address = json.address;
-    user.approved = json.approved;
+    user.firstName = jsonUser.firstName;
+    user.lastName = jsonUser.lastName;
+    user.phone = jsonUser.phone;
+    user.address = jsonUser.address;
+    user.approved = jsonUser.approved;
 
-    user.customerId = json.customerId;
-    user.adminId = json.adminId;
-    user.businessId = json.businessId;
-    user.deliveryPersonId = json.deliveryPersonId;
-    user.deliveryServiceId = json.deliveryServiceId;
+    user.customerId = jsonUser.customerId;
+    user.adminId = jsonUser.adminId;
+    user.businessId = jsonUser.businessId;
+    user.deliveryPersonId = jsonUser.deliveryPersonId;
+    user.deliveryServiceId = jsonUser.deliveryServiceId;
 
-    if(json.addresses != undefined) user.addresses = json.addresses;
+    this.initializeAddresses(user, jsonUser);
 
     return user;
+  }
+
+  private static initializeAddresses(user: User, jsonUser: User) {
+    if(jsonUser.addresses != undefined) {
+      for(let address of jsonUser.addresses) {
+        user.addresses.push(Address.fromJson(address));
+      }
+    }
   }
 
   setName(name: string) {
