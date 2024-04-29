@@ -102,7 +102,7 @@ export class UploadPfpComponent extends ModalComponent<UploadPfpModalService> {
   }
 
   private deleteOldPfpImg() {
-    if(this.currentUserService.user?.pfpImgPath!.length == 0) return;
+    if(this.currentUserService.user?.pfpImgPath == null || this.currentUserService.user?.pfpImgPath!.length == 0) return;
     this.fetchUserService().deleteFile(this.currentUserService.user?.pfpImgPath!).subscribe({
       next: (response: boolean) => {
         console.log('Old profile picture deleted: ', response);
