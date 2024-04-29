@@ -9,7 +9,7 @@
       </div>
       <div class="modal-body">
         <div class="d-flex justify-content-center">
-          <div class="pfp-img-elem">
+          <div class="pfp-image-elem-main">
             <fa-icon [class]="['user-icon']" [icon]="faUser" *ngIf="!internalHasUserPfpImg()"></fa-icon>
             <img src="{{getUserPfpImgUrl()}}" alt="profile" class="image-frame" *ngIf="internalHasUserPfpImg()">
           </div>

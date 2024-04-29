@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {faPenToSquare, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faCamera, faUser} from "@fortawesome/free-solid-svg-icons";
 import {FooterComponent} from "../footer/footer.component";
 import {NgxResizeObserverModule} from "ngx-resize-observer";
 import {CookieComponent} from "../misc/cookie-component";
@@ -37,7 +37,8 @@ import {CurrentUserService} from "../../service/user/current-user.service";
 export class UserAccountComponent extends CookieComponent implements OnInit {
   // Font Awesome Icons
   faUser = faUser;
-  faPenToSquare = faPenToSquare;
+  faCamera = faCamera;
+  isHovering: boolean = false;
 
 
   constructor(protected override customerService: CustomerService,

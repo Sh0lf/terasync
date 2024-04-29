@@ -9,7 +9,6 @@
         <div class="ad-plus-div">
           <fa-icon [icon]="faPlus" [class]="['plus-icon']"></fa-icon>
         </div>
-        <span class="title-span">Add an address</span>
       </div>
     </div>
 
@@ -30,27 +29,31 @@
           </div>
         </div>
         <div class="add-form-elem">
-          <label for="country-input">Country:</label>
+          <label for="country-input">Country:*</label>
           <input class="default-input-2" type="text" [(ngModel)]="countryInput" id="country-input">
         </div>
         <div class="add-form-elem">
-          <label for="street-input">Street:</label>
+          <label for="street-input">Street:*</label>
           <input class="default-input-2" type="text" [(ngModel)]="streetInput" id="street-input">
         </div>
         <div class="add-form-elem">
-          <label for="postal-code-input">Postal Code:</label>
+          <label for="postal-code-input">Postal Code:*</label>
           <input class="default-input-2" type="text" [(ngModel)]="postalCodeInput" id="postal-code-input">
         </div>
         <div class="add-form-elem">
-          <label for="city-input">City:</label>
+          <label for="city-input">City:*</label>
           <input class="default-input-2" type="text" [(ngModel)]="cityInput" id="city-input">
         </div>
         <div class="add-form-elem">
-          <label for="info-input">Info (Optional):</label>
+          <label for="info-input">Info:</label>
           <input class="default-input-2" type="text" [(ngModel)]="infoInput" id="info-input">
         </div>
+        <span class="validation-span" *ngIf="isFormInvalid()">*Required Fields</span>
         <div class="separation-line-small"></div>
-        <button class="default-btn" type="button" (click)="saveOnClick()">Save New Address</button>
+        <div class="clickable-icon-elem-2" (click)="onSubmit()">
+          <fa-icon [icon]="faCheck"></fa-icon>
+        </div>
+<!--        <button class="default-btn" type="button" >Save New Address</button>-->
       </div>
     </div>
   </div>

@@ -24,6 +24,8 @@ $colorP15: #CCD5AE;
 $colorP16: #f6f3ea;
 $colorP17: #f3f0f0;
 $colorP18: #d9d9d9;
+$colorP19: #3f3f3f;
+$colorP20: #737373;
 
 
 // For non scss files
@@ -120,6 +122,16 @@ $colorP18: #d9d9d9;
 .text-font-700{
   font-style: normal;
   font-weight: 700;
+}
+
+// COMMON SPANS
+.validation-span {
+  color: #B81111;
+  font-size: 13px;
+}
+
+.colorP11-span {
+  color: $colorP11;
 }
 
 // DEFAULT MAIN PAGE DIV

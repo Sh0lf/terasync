@@ -1,34 +1,43 @@
-<div (onResize)="handleFooterTopMinValue($event, 0)" class="profile-main-div text-font-700">
-  <div class="our-light-background-1"></div>
-  <div class="profile-top-div">
+<div (onResize)="handleFooterTopMinValue($event, 0)" class="profile-main-div">
+  <div class="profile-menu-body">
+
+  </div>
+
+  <div class="profile-info-body">
+    <div class="h1-div">
+      <h1 class="main-page-h1">Your account settings</h1>
+    </div>
+
     <div class="profile-card">
-      <div class="profile-top-div-pfp">
-        <div class="pfp-img-elem">
+      <div class="pfp-image-elem-main">
+        <div class="pfp-image-elem">
           <img class="image-frame" src="{{currentUserService.getPfpImgUrl()}}" alt="pfp" *ngIf="currentUserService.hasPfpImg()">
           <fa-icon [class]="['user-icon']" [icon]="faUser" *ngIf="!currentUserService.hasPfpImg()"></fa-icon>
-          <div class="pfp-edit-elem" (click)="openUploadPfpModal()">
-            <fa-icon [class]="['edit-icon']" [icon]="faPenToSquare"></fa-icon>
-          </div>
+        </div>
+
+        <div class="pfp-edit-elem" (click)="openUploadPfpModal()">
+          <fa-icon [class]="['edit-icon']" [icon]="faCamera"></fa-icon>
         </div>
       </div>
       <div class="profile-top-div-info">
-        <span>{{ currentUserService.user?.username }}</span>
+        <span class="text-font-700">{{ currentUserService.user?.username }}</span>
         <span>{{ currentUserService.user?.name }}</span>
         <span>{{ currentUserService.user?.email }}</span>
       </div>
     </div>
   </div>
-  <div class="profile-bottom-div">
-    <div class="clickable-div" (click)="routeTo('/addresses')">Addresses</div>
-    <div class="clickable-div" (click)="routeTo('/connection-security')">Connection And Security</div>
-    <div class="clickable-div" (click)="routeTo('')">Manage Users</div>
-    <div class="clickable-div" (click)="routeTo('')">Manage Delivery Persons</div>
-    <div class="clickable-div" (click)="routeTo('')">Manage Products</div>
-    <div class="clickable-div" (click)="routeTo('')">Order History</div>
-    <div class="clickable-div" (click)="routeTo('')">Payment Methods</div>
-    <div class="clickable-div" (click)="routeTo('')">Answer Questions</div>
-    <div class="clickable-div" (click)="routeTo('')">Message Center</div>
-  </div>
+
+  <!--  <div class="profile-bottom-div">-->
+  <!--    <div class="clickable-div" (click)="routeTo('/addresses')">Addresses</div>-->
+  <!--    <div class="clickable-div" (click)="routeTo('/connection-security')">Connection And Security</div>-->
+  <!--    <div class="clickable-div" (click)="routeTo('')">Manage Users</div>-->
+  <!--    <div class="clickable-div" (click)="routeTo('')">Manage Delivery Persons</div>-->
+  <!--    <div class="clickable-div" (click)="routeTo('')">Manage Products</div>-->
+  <!--    <div class="clickable-div" (click)="routeTo('')">Order History</div>-->
+  <!--    <div class="clickable-div" (click)="routeTo('')">Payment Methods</div>-->
+  <!--    <div class="clickable-div" (click)="routeTo('')">Answer Questions</div>-->
+  <!--    <div class="clickable-div" (click)="routeTo('')">Message Center</div>-->
+  <!--  </div>-->
 </div>
 <app-upload-pfp></app-upload-pfp>
 <app-footer

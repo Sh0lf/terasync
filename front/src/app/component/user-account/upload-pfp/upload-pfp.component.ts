@@ -146,7 +146,6 @@ export class UploadPfpComponent extends ModalComponent<UploadPfpModalService> {
   resetValues() {
     this.fileInput.nativeElement.value = "";
     this.file = null;
-    this.statusMsg = "";
   }
 
   hasStatus() {
@@ -155,6 +154,7 @@ export class UploadPfpComponent extends ModalComponent<UploadPfpModalService> {
 
   override closeModal() {
     this.imgUrl = "";
+    this.statusMsg = "";
     this.resetValues();
     super.closeModal();
     this.reloadPage();

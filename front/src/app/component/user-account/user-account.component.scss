@@ -2,15 +2,26 @@
 
 .profile-main-div {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
 }
 
-.profile-top-div {
+.profile-info-body {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 30px 60px 30px 120px;
+  padding: 20px;
+  width: 80vw;
+}
+
+.h1-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0 40px 0;
+  width: 100%;
 }
 
 .profile-card {
@@ -18,19 +29,14 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(to top left, $colorP15, $colorP11);
+  background: $colorP17;
   border-radius: 20px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  width: 80vw;
-  max-width: 800px;
+  width: 40%;
+  min-width: 400px;
   padding: 20px;
 }
 
-.profile-top-div-pfp {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 .image-frame {
   width: 100px;
@@ -41,9 +47,8 @@
   border-radius: 50%;
 }
 
-.pfp-img-elem {
+.pfp-image-elem-main {
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
 
@@ -51,27 +56,32 @@
   height: 100px;
   min-width: 100px;
   min-height: 100px;
-
-  background: $colorP10;
   border-radius: 50%;
+
+  background: $colorP18;
+}
+
+.pfp-image-elem:hover + .pfp-edit-elem, .pfp-edit-elem:hover {
+  display: flex;
 }
 
 .pfp-edit-elem {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
-
   position: absolute;
+  background: rgba(0, 0, 0, 0.3);
 
-  background: $colorP10;
-  width: 30px;
-  height: 30px;
-  min-width: 30px;
-  min-height: 30px;
+  width: 100px;
+  height: 100px;
+  min-width: 100px;
+  min-height: 100px;
   border-radius: 50%;
+}
 
-  align-content: end;
-  align-self: end;
+.edit-icon {
+  font-size: 30px;
+  color: $colorP17;
 }
 
 .profile-top-div-info {
@@ -85,35 +95,26 @@
   color: black;
 }
 
-.profile-bottom-div {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: 30px 0 60px 0;
-}
-
-.profile-bottom-div div:hover {
-  background: .0356A9;
-  background: linear-gradient(to bottom right, $colorP15, $colorP11);
-}
-
-.profile-bottom-div span {
-  padding: 0 20px 0 20px;
-}
+//.profile-bottom-div {
+//  display: flex;
+//  flex-direction: row;
+//  justify-content: center;
+//  flex-wrap: wrap;
+//  margin: 30px 0 60px 0;
+//}
+//
+//.profile-bottom-div div:hover {
+//  background: .0356A9;
+//  background: linear-gradient(to bottom right, $colorP15, $colorP11);
+//}
+//
+//.profile-bottom-div span {
+//  padding: 0 20px 0 20px;
+//}
 
 .user-icon {
-  font-size: 80px;
-  color: $colorP12;
-}
-
-.edit-icon {
-  font-size: 20px;
-  color: $colorP12;
-}
-
-.edit-icon:hover {
-  color: $colorP11;
+  font-size: 65px;
+  color: $colorP19;
 }
 
 @media only screen and (max-width: 960px) {

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {faPlus, faTimes, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faCheck, faPlus, faTimes, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FooterComponent} from "../footer/footer.component";
 import {CookieComponent} from "../misc/cookie-component";
 import {NgxResizeObserverModule} from "ngx-resize-observer";
@@ -17,6 +17,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import {AddressService} from "../../service/odSystem/address.service";
 import {Address} from "../../model/odSystem/address";
 import {AddressElementComponent} from "./address-element/address-element.component";
+import {FormComponent} from "../misc/form-component";
 
 @Component({
   selector: 'app-addresses',
@@ -33,9 +34,10 @@ import {AddressElementComponent} from "./address-element/address-element.compone
   templateUrl: './addresses.component.html',
   styleUrl: './addresses.component.scss'
 })
-export class AddressesComponent extends CookieComponent implements OnInit {
+export class AddressesComponent extends FormComponent implements OnInit {
   faPlus = faPlus;
   faXmark = faXmark;
+  faCheck = faCheck;
 
   // Input Fields
   countryInput: string = '';
@@ -72,7 +74,13 @@ export class AddressesComponent extends CookieComponent implements OnInit {
     this.isEditingAddress = !this.isEditingAddress;
   }
 
-  saveOnClick() {
+  override onSubmit() {
+    super.onSubmit();
+
+    if(!this.isFormValid()) {
+      return;
+    }
+
     let defaultAddress = false;
     if(this.currentUserService.user?.addresses.length == 0) {
       defaultAddress = true;
@@ -141,5 +149,16 @@ export class AddressesComponent extends CookieComponent implements OnInit {
 
   isEnabled() {
     return this.isAddingAddress || this.isEditingAddress;
+  }
+
+  isFormValid(): boolean {
+    return this.countryInput.length > 0 &&
+      this.streetInput.length > 0 &&
+      this.postalCodeInput.length > 0 &&
+      this.cityInput.length > 0;
+  }
+
+  isFormInvalid(): boolean {
+    return !this.isFormValid() && this.isSubmitted;
   }
 }
