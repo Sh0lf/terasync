@@ -15,6 +15,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {CustomerOrderService} from "../../service/odSystem/customer-order.service";
 import { Observable} from "rxjs";
 import {CustomerOrder} from "../../model/odSystem/customer.order";
+import {CookieComponent} from "../misc/cookie-component";
 
 
 @Component({
@@ -30,22 +31,23 @@ import {CustomerOrder} from "../../model/odSystem/customer.order";
   templateUrl: './order-history.component.html',
   styleUrl: './order-history.component.scss'
 })
-export class OrderHistoryComponent implements OnInit {
+export class OrderHistoryComponent extends CookieComponent implements OnInit{
 
-  constructor(protected customerService: CustomerService,
-              protected businessService: BusinessService,
-              protected adminService: AdminService,
-              protected deliveryServiceService: DeliveryServiceService,
-              protected deliveryPersonService: DeliveryPersonService,
-              protected cookieService: CookieService,
-              protected currentUserService: CurrentUserService,
+  constructor(protected override customerService: CustomerService,
+              protected override businessService: BusinessService,
+              protected override adminService: AdminService,
+              protected override deliveryServiceService: DeliveryServiceService,
+              protected override deliveryPersonService: DeliveryPersonService,
+              protected override cookieService: CookieService,
+              protected override currentUserService: CurrentUserService,
               private customerOrder: CustomerOrderService,
-              protected router: Router, protected route: ActivatedRoute) {
+              protected override router: Router, protected override route: ActivatedRoute) {
     super();
   }
 
   ngOnInit(): void {
-    this.getOrdersFromUser()
+    this.initializeUserByToken().then(() => {
+      this.customerPage();
+    });
   }
-
 }

@@ -3,12 +3,16 @@
     <h1 class="order-timestamp">{{ order!.creationTime }}</h1>
   </div>
   <div class="business-img-div"> <!-- add white gradient -->
-    <img class="business-thumbnail" src="favicon.ico" alt="thumbnail">
+    <img class="business-thumbnail" src="{{business!.pfpImgPath}}" alt="thumbnail">
   </div>
   <div class="order-summary-detail">
-    <h1 class="business-name">Le méditérannée</h1>
+    <h1 class="business-name">{{ business?.name }}</h1>
     <div class="order-list-container">
-      <p class="order-list"> </p>
+      <span class="order-list" *ngFor="let orderList of orderLists">
+        {{orderList.quantity}}
+        {{orderList.productId}}
+        <!-- We need to fetch the product's name in a way, i'm too tired-->
+      </span>
     </div>
   </div>
   <div class="order-misc">
