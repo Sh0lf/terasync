@@ -9,6 +9,6 @@ import { UserService } from './user.service';
 export class DeliveryServiceService extends UserService<DeliveryService> {
 
   constructor(http: HttpClient) {
-    super(http, "deliveryService");
+    super(http, "delivery-service");
   }
 }

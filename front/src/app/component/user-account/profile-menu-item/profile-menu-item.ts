@@ -9,7 +9,7 @@ import {
 import {
   adminCategory,
   businessCategory,
-  customerCategory, deliveryPersonCategory,
+  customerCategory, deliveryPersonCategory, deliveryServiceCategory,
   userCategories,
   UserCategory
 } from "../../../service/user/userCategories";
@@ -36,7 +36,7 @@ export class ProfileMenuItem {
 export const activities = new ProfileMenuItem(faChartSimple, 'Activities', '', userCategories,true, false);
 export const connectionAndSecurity = new ProfileMenuItem(faLock, 'Connection / Security', '/connection-security', userCategories);
 export const manageUsers = new ProfileMenuItem(faPeopleRoof, 'Manage Users', '', [adminCategory]);
-export const manageDeliveryPersons = new ProfileMenuItem(faUserGroup, 'Manage Delivery Persons', '', [businessCategory]);
+export const manageDeliveryPersons = new ProfileMenuItem(faUserGroup, 'Manage Delivery Persons', '', [deliveryServiceCategory]);
 export const manageProducts = new ProfileMenuItem(faBurger, 'Manage Products', '', [businessCategory]);
 export const orderHistory = new ProfileMenuItem(faTableList, 'Order History', '', [customerCategory]);
 export const paymentMethods = new ProfileMenuItem(faCreditCard, 'Payment Methods', '', [customerCategory]);

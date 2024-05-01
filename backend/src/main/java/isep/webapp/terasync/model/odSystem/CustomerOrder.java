@@ -1,5 +1,6 @@
 package isep.webapp.terasync.model.odSystem;
 
+import isep.webapp.terasync.model.MessageList;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -78,4 +79,12 @@ public class CustomerOrder extends isep.webapp.terasync.model.Entity {
     )
     @JoinColumn(name = "customerOrderId")
     private List<ProductMenuList> productMenuLists;
+
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            targetEntity = MessageList.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "customerOrderId")
+    private List<MessageList> messageLists;
 }

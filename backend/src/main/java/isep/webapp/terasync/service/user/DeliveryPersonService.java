@@ -20,6 +20,7 @@ public class DeliveryPersonService extends UserService<DeliveryPerson, DeliveryP
 
     @Override
     public DeliveryPerson selectByEmail(String email) {
+        System.out.println(email);
         return entityRepository.findByEmail(email);
     }
 

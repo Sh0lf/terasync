@@ -1,6 +1,9 @@
 import {CustomerOrderList} from "./customer.order.list";
 import {CustomerOrderService} from "../../service/odSystem/customer-order.service";
 import {ProductMenuList} from "./product.menu.list";
+import {MessageList} from "../message.list";
+import {Status} from "./status";
+import {Packaging} from "./packaging";
 
 export class CustomerOrder {
   customerOrderId: number;
@@ -17,7 +20,10 @@ export class CustomerOrder {
 
   customerOrderLists: CustomerOrderList[] = [];
   productMenuLists: ProductMenuList[] = [];
+  messageLists: MessageList[] = [];
 
+  status!: Status | undefined
+  packaging!: Packaging | undefined;
 
   constructor(customerOrderId: number, creationTime: string, minTemp: number, maxTemp: number,
               deliveryTime: string, statusId: string, packagingId: number, customerId: number,
@@ -41,25 +47,22 @@ export class CustomerOrder {
       jsonCustomerOrder.statusId, jsonCustomerOrder.packagingId, jsonCustomerOrder.customerId,
       jsonCustomerOrder.businessId, jsonCustomerOrder.deliveryServiceId, jsonCustomerOrder.deliveryPersonId)
 
-    this.initializeCustomerOrderLists(jsonCustomerOrder, customerOrder);
-    this.initializeProductMenuLists(jsonCustomerOrder, customerOrder);
+    customerOrder.customerOrderLists = CustomerOrderList.initializeCustomerOrderLists(jsonCustomerOrder);
+    customerOrder.productMenuLists = ProductMenuList.initializeProductMenuLists(jsonCustomerOrder);
+    customerOrder.messageLists = MessageList.initializeMessageLists(jsonCustomerOrder);
+    customerOrder.status = Status.initializeStatus(jsonCustomerOrder);
+    customerOrder.packaging = Packaging.initializePackaging(jsonCustomerOrder);
 
     return customerOrder;
   }
 
-  private static initializeCustomerOrderLists(jsonCustomerOrder: CustomerOrder, customerOrder: CustomerOrder) {
-    if(jsonCustomerOrder.customerOrderLists != undefined) {
-      for(let customerOrderList of jsonCustomerOrder.customerOrderLists) {
-        customerOrder.customerOrderLists.push(CustomerOrderList.fromJson(customerOrderList));
+  static initializeCustomerOrders(jsonUser: {customerOrders: CustomerOrder[]}): CustomerOrder[] {
+    let customerOrders: CustomerOrder[] = [];
+    if(jsonUser.customerOrders != undefined) {
+      for(let jsonCustomerOrder of jsonUser.customerOrders) {
+        customerOrders.push(CustomerOrder.fromJson(jsonCustomerOrder));
       }
     }
-  }
-
-  private static initializeProductMenuLists(jsonCustomerOrder: CustomerOrder, customerOrder: CustomerOrder) {
-    if(jsonCustomerOrder.productMenuLists != undefined) {
-      for(let productMenuList of jsonCustomerOrder.productMenuLists) {
-        customerOrder.productMenuLists.push(ProductMenuList.fromJson(productMenuList));
-      }
-    }
+    return customerOrders;
   }
 }

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.util.List;
+
 @Entity
 @Setter
 @Getter
@@ -28,4 +30,30 @@ public class Product extends isep.webapp.terasync.model.Entity {
     private String creationTime;
     @Column(name = "businessId")
     private int businessId;
+
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            targetEntity = CustomerOrderList.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "productId")
+    private List<CustomerOrderList> customerOrderLists;
+
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            targetEntity = ProductList.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "productId")
+    private List<ProductList> productLists;
+
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            targetEntity = ProductImage.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "productId")
+    private List<ProductImage> productImages;
+
+
 }

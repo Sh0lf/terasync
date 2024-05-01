@@ -1,5 +1,6 @@
 package isep.webapp.terasync.model.user;
 
+import isep.webapp.terasync.model.RatingList;
 import isep.webapp.terasync.model.odSystem.CustomerOrder;
 import isep.webapp.terasync.model.odSystem.DeliveryServiceList;
 import isep.webapp.terasync.model.odSystem.Product;
@@ -76,6 +77,14 @@ public class Business extends User {
     )
     @JoinColumn(name = "businessId")
     private List<Product> products;
+
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            targetEntity = RatingList.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "businessId")
+    private List<RatingList> ratingLists;
 
     @Override
     public int getUserId() {

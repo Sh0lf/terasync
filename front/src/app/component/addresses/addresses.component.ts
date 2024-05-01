@@ -18,6 +18,7 @@ import {AddressService} from "../../service/odSystem/address.service";
 import {Address} from "../../model/odSystem/address";
 import {AddressElementComponent} from "./address-element/address-element.component";
 import {FormComponent} from "../misc/form-component";
+import {customerCategory} from "../../service/user/userCategories";
 
 @Component({
   selector: 'app-addresses',
@@ -66,7 +67,7 @@ export class AddressesComponent extends FormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeUserByToken().then(() => {
-      this.customerPage();
+      this.specificUserPage(customerCategory)
     });
   }
 

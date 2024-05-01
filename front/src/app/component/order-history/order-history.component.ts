@@ -13,8 +13,6 @@ import {CookieService} from "ngx-cookie-service";
 import {CurrentUserService} from "../../service/user/current-user.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CustomerOrderService} from "../../service/odSystem/customer-order.service";
-import { Observable} from "rxjs";
-import {CustomerOrder} from "../../model/odSystem/customer.order";
 import {CookieComponent} from "../misc/cookie-component";
 
 
@@ -31,7 +29,7 @@ import {CookieComponent} from "../misc/cookie-component";
   templateUrl: './order-history.component.html',
   styleUrl: './order-history.component.scss'
 })
-export class OrderHistoryComponent extends CookieComponent implements OnInit{
+export class OrderHistoryComponent extends CookieComponent implements OnInit {
 
   constructor(protected override customerService: CustomerService,
               protected override businessService: BusinessService,
@@ -47,7 +45,7 @@ export class OrderHistoryComponent extends CookieComponent implements OnInit{
 
   ngOnInit(): void {
     this.initializeUserByToken().then(() => {
-      this.customerPage();
+      this.specificUserPage()
     });
   }
 }

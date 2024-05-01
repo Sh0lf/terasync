@@ -72,17 +72,22 @@ export abstract class CookieComponent {
   }
 
   private setCurrentUser(user: User) {
-    let name = this.getCurrentUserCategory().name;
-    if (name === adminCategory.name) {
-      this.currentUserService.admin = user as Admin;
-    } else if (name === businessCategory.name) {
-      this.currentUserService.business = user as Business;
-    } else if (name === customerCategory.name) {
-      this.currentUserService.customer = user as Customer;
-    } else if (name === deliveryPersonCategory.name) {
-      this.currentUserService.deliveryPerson = user as DeliveryPerson;
-    } else if (name === deliveryServiceCategory.name) {
-      this.currentUserService.deliveryService = user as DeliveryService;
+    switch (this.getCurrentUserCategory().name) {
+      case(adminCategory.name):
+        this.currentUserService.admin = user as Admin;
+        break;
+      case(businessCategory.name):
+        this.currentUserService.business = user as Business;
+        break;
+      case(customerCategory.name):
+        this.currentUserService.customer = user as Customer;
+        break;
+      case(deliveryPersonCategory.name):
+        this.currentUserService.deliveryPerson = user as DeliveryPerson;
+        break;
+      case(deliveryServiceCategory.name):
+        this.currentUserService.deliveryService = user as DeliveryService;
+        break;
     }
   }
 
@@ -92,10 +97,14 @@ export abstract class CookieComponent {
     }
   }
 
-  customerPage() {
-    if (!this.isCustomerCategory() && !this.currentUserService.isLoggedIn()) {
+  specificUserPage(...userCategories: UserCategory[]) {
+    if (!this.includesCurrentCategory(...userCategories) && !this.currentUserService.isLoggedIn()) {
       this.routeToHome().then();
     }
+  }
+
+  includesCurrentCategory(...userCategories: UserCategory[]): boolean {
+    return userCategories.includes(this.getCurrentUserCategory());
   }
 
   routeToHome(): Promise<boolean>  {
@@ -177,10 +186,6 @@ export abstract class CookieComponent {
     this.cookieService.set(StorageKeys.USER_CATEGORY, JSON.stringify(customerCategory), 1, '/');
   }
 
-  userHasFLName() {
-    return this.isCustomerCategory() || this.isDeliveryPersonCategory();
-  }
-
   initializeUserByToken(): Promise<boolean> {
     this.currentUserService.incrementCounter();
     return new Promise<boolean>((resolve, reject) => {
@@ -219,10 +224,21 @@ export abstract class CookieComponent {
 
   initializeUser(jsonUser: User) {
     this.currentUserService.user = User.fromJson(jsonUser);
+    this.currentUserService.user.deliveryPeople = this.initializeDeliveryPeople(jsonUser);
     this.initializeUserPfpImgUrl().then();
     this.setCurrentUser(jsonUser);
 
     console.log(this.currentUserService.user!)
+  }
+
+  initializeDeliveryPeople(jsonUser: { deliveryPeople: DeliveryPerson[] }): DeliveryPerson[] {
+    let deliveryPeople: DeliveryPerson[] = [];
+    if (jsonUser.deliveryPeople) {
+      for (let deliveryPerson of jsonUser.deliveryPeople) {
+        deliveryPeople.push(DeliveryPerson.fromJson(deliveryPerson));
+      }
+    }
+    return deliveryPeople
   }
 
   resetTokenByOldToken(): Promise<boolean> {

@@ -1,5 +1,7 @@
 import {User} from "./user";
 import {Address} from "../odSystem/address";
+import {RatingList} from "../rating.list";
+import {CustomerOrder} from "../odSystem/customer.order";
 
 export class Customer extends User {
   override customerId: number | undefined;
@@ -8,6 +10,8 @@ export class Customer extends User {
 
   // CHILD TABLES
   override addresses: Address[] = [];
+  override ratingLists: RatingList[] = [];
+  override customerOrders: CustomerOrder[] = [];
 
   constructor(firstName: string, lastName: string, email: string,
               username: string, password: string,

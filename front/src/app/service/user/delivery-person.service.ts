@@ -9,6 +9,6 @@ import {DeliveryPerson} from "../../model/user/delivery.person";
 export class DeliveryPersonService extends UserService<DeliveryPerson> {
 
   constructor(http: HttpClient) {
-    super(http, "deliveryPerson");
+    super(http, "delivery-person");
   }
 }

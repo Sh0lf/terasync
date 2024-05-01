@@ -1,6 +1,10 @@
 import {Address} from "../odSystem/address";
-import {jsonHelpUsage} from "@angular/cli/src/command-builder/utilities/json-help";
 import {CustomerOrder} from "../odSystem/customer.order";
+import {DeliveryServiceList} from "../odSystem/delivery.service.list";
+import {ProductMenu} from "../odSystem/product.menu";
+import {Product} from "../odSystem/product";
+import {RatingList} from "../rating.list";
+import {DeliveryPerson} from "./delivery.person";
 
 export class User {
   userId: number | undefined;
@@ -30,8 +34,22 @@ export class User {
   deliveryServiceId: number | undefined;
 
   // CHILD TABLES
+  // CUSTOMER
   addresses: Address[] = [];
+
+  // CUSTOMER - BUSINESS - DELIVERY PERSON - DELIVERY SERVICE
   customerOrders: CustomerOrder[] = [];
+
+  // BUSINESS - DELIVERY SERVICE
+  deliveryServiceLists: DeliveryServiceList[] = [];
+
+  // DELIVERY SERVICE
+  deliveryPeople: DeliveryPerson[] = [];
+
+  // BUSINESS
+  productMenus: ProductMenu[] = [];
+  products: Product[] = [];
+  ratingLists: RatingList[] = [];
 
   protected constructor(email: string, username: string, password: string,
                         userId?: number, registrationDate?: string,
@@ -69,26 +87,16 @@ export class User {
     user.deliveryPersonId = jsonUser.deliveryPersonId;
     user.deliveryServiceId = jsonUser.deliveryServiceId;
 
-    this.initializeAddresses(user, jsonUser);
-    this.initializeCustomerOrders(user, jsonUser);
+    user.addresses = Address.initializeAddresses(jsonUser);
+    user.customerOrders = CustomerOrder.initializeCustomerOrders(jsonUser);
+    user.deliveryServiceLists = DeliveryServiceList.initializeDeliveryServiceLists(jsonUser);
+    user.productMenus = ProductMenu.initializeProductMenus(jsonUser);
+    user.products = Product.initializeProducts(jsonUser);
+    user.ratingLists = RatingList.initializeRatingLists(jsonUser);
+
+    // user.deliveryPeople = DeliveryPerson.initializeDeliveryPeople(jsonUser);
 
     return user;
-  }
-
-  private static initializeAddresses(user: User, jsonUser: User) {
-    if(jsonUser.addresses != undefined) {
-      for(let address of jsonUser.addresses) {
-        user.addresses.push(Address.fromJson(address));
-      }
-    }
-  }
-
-  private static initializeCustomerOrders(user: User, jsonUser: User) {
-    if(jsonUser.customerOrders != undefined) {
-      for(let customerOrder of jsonUser.customerOrders) {
-        user.customerOrders.push(CustomerOrder.fromJson(customerOrder));
-      }
-    }
   }
 
   setName(name: string) {

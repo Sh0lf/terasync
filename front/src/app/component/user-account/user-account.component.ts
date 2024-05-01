@@ -17,6 +17,7 @@ import {CurrentUserService} from "../../service/user/current-user.service";
 import {ProfileMenuItemComponent} from "./profile-menu-item/profile-menu-item.component";
 import {profileMenuItems} from "./profile-menu-item/profile-menu-item";
 import {AddressesComponent} from "../addresses/addresses.component";
+import {customerCategory} from "../../service/user/userCategories";
 
 @Component({
   selector: 'app-user-account',
@@ -43,6 +44,7 @@ export class UserAccountComponent extends CookieComponent implements OnInit {
   faCamera = faCamera;
   faPenToSquare = faPenToSquare;
   isModalOpen: boolean = false;
+  hasAddresses: boolean = false;
 
   constructor(protected override customerService: CustomerService,
               protected override businessService: BusinessService,
@@ -60,6 +62,7 @@ export class UserAccountComponent extends CookieComponent implements OnInit {
     this.initializeUserByToken().then(() => {
       this.loggedInPage();
     });
+    this.hasAddresses = this.includesCurrentCategory(customerCategory);
   }
 
   openUploadPfpModal() {

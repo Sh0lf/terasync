@@ -23,7 +23,7 @@ export class Address {
     this.defaultAddress = defaultAddress;
   }
 
-  public static fromJson(json: any): Address {
+  public static fromJson(json: Address): Address {
     return new Address(json.customerId, json.country,
       json.street, json.postalCode, json.city, json.info,
       json.defaultAddress, json.addressId);
@@ -31,5 +31,15 @@ export class Address {
 
   setDefaultAddress(defaultAddress: boolean) {
     this.defaultAddress = defaultAddress;
+  }
+
+  static initializeAddresses(json: {addresses: Address[]}): Address[] {
+    let addresses: Address[] = [];
+    if (json.addresses) {
+      for (let address of json.addresses) {
+        addresses.push(Address.fromJson(address));
+      }
+    }
+    return addresses;
   }
 }

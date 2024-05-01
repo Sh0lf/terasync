@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.util.List;
+
 @Entity
 @Setter
 @Getter
@@ -26,4 +28,21 @@ public class ProductMenu extends isep.webapp.terasync.model.Entity {
     private boolean isVegan;
     @Column(name = "businessId")
     private int businessId;
+
+
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            targetEntity = ProductList.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "productMenuId")
+    private List<ProductList> productLists;
+
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            targetEntity = ProductMenuList.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "productMenuId")
+    private List<ProductMenuList> productMenuLists;
 }
