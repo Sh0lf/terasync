@@ -1,9 +1,7 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {NgIf} from "@angular/common";
 import {ModalComponent} from "../../misc/modal-component";
-import {UploadPfpModalService} from "../../../service/misc/upload-pfp-modal.service";
 import {HttpErrorResponse, HttpEvent, HttpEventType} from "@angular/common/http";
-import {Subscription} from "rxjs";
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatIconModule} from "@angular/material/icon";
 import {FileService} from "../../../service/misc/file.service";
@@ -30,7 +28,7 @@ import {CurrentUserService} from "../../../service/user/current-user.service";
   templateUrl: './upload-pfp.component.html',
   styleUrl: './upload-pfp.component.scss'
 })
-export class UploadPfpComponent extends ModalComponent<UploadPfpModalService> {
+export class UploadPfpComponent extends ModalComponent {
   file!: File | null;
   imgUrl: string = '';
   statusMsg: string = '';
@@ -38,6 +36,9 @@ export class UploadPfpComponent extends ModalComponent<UploadPfpModalService> {
 
   faXmark = faXmark;
   faUser = faUser;
+
+  @Input() override isModalOpen = false
+  @Output() override onChangeEmitter = new EventEmitter<boolean>()
 
   @ViewChild('imageInput') fileInput!: ElementRef;
 
@@ -48,14 +49,13 @@ export class UploadPfpComponent extends ModalComponent<UploadPfpModalService> {
               protected override deliveryPersonService: DeliveryPersonService,
               protected override currentUserService: CurrentUserService,
               protected override cookieService: CookieService,
-              protected override modalService: UploadPfpModalService,
               private fileService: FileService, private sanitizer: DomSanitizer) {
     super();
   }
 
   onPfpImgSelected(event: any) {
     this.file = event.target.files[0];
-    if(this.file != null) this.imgUrl = URL.createObjectURL(this.file);
+    if (this.file != null) this.imgUrl = URL.createObjectURL(this.file);
   }
 
   onSaveChanges(): void {
@@ -77,6 +77,7 @@ export class UploadPfpComponent extends ModalComponent<UploadPfpModalService> {
       }
     });
   }
+
   // onDownloadFiles(filename: string): void {
   //   this.fileService.downloadFiles(filename).subscribe({
   //     next: (event: HttpEvent<Blob>) => {
@@ -102,7 +103,7 @@ export class UploadPfpComponent extends ModalComponent<UploadPfpModalService> {
   }
 
   private deleteOldPfpImg() {
-    if(this.currentUserService.user?.pfpImgPath == null || this.currentUserService.user?.pfpImgPath!.length == 0) return;
+    if (this.currentUserService.user?.pfpImgPath == null || this.currentUserService.user?.pfpImgPath!.length == 0) return;
     this.fetchUserService().deleteFile(this.currentUserService.user?.pfpImgPath!).subscribe({
       next: (response: boolean) => {
         console.log('Old profile picture deleted: ', response);
@@ -161,14 +162,14 @@ export class UploadPfpComponent extends ModalComponent<UploadPfpModalService> {
   }
 
   reloadPage() {
-    if(this.pfpImgChanged) window.location.reload();
+    if (this.pfpImgChanged) window.location.reload();
     this.pfpImgChanged = false;
   }
 
   getUserPfpImgUrl() {
-    if(this.imgUrl.length > 0) {
+    if (this.imgUrl.length > 0) {
       return this.imgUrl;
-    } else if(this.currentUserService.hasPfpImg()) {
+    } else if (this.currentUserService.hasPfpImg()) {
       return this.currentUserService.getPfpImgUrl();
     } else {
       return "";

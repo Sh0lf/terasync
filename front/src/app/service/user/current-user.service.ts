@@ -77,7 +77,7 @@ export class CurrentUserService {
     return this._admin;
   }
 
-  set admin(value: Admin) {
+  set admin(value: Admin| undefined) {
     this._admin = value;
   }
 
@@ -85,7 +85,7 @@ export class CurrentUserService {
     return this._customer;
   }
 
-  set customer(value: Customer) {
+  set customer(value: Customer| undefined) {
     this._customer = value;
   }
 
@@ -93,7 +93,7 @@ export class CurrentUserService {
     return this._business;
   }
 
-  set business(value: Business) {
+  set business(value: Business| undefined) {
     this._business = value;
   }
 
@@ -101,7 +101,7 @@ export class CurrentUserService {
     return this._deliveryPerson;
   }
 
-  set deliveryPerson(value: DeliveryPerson) {
+  set deliveryPerson(value: DeliveryPerson| undefined) {
     this._deliveryPerson = value;
   }
 
@@ -109,7 +109,7 @@ export class CurrentUserService {
     return this._deliveryService;
   }
 
-  set deliveryService(value: DeliveryService) {
+  set deliveryService(value: DeliveryService| undefined) {
     this._deliveryService = value;
   }
 
@@ -122,5 +122,14 @@ export class CurrentUserService {
       }
     }
     return undefined;
+  }
+
+  setUsersToNull() {
+    this.user = undefined;
+    this.admin = undefined;
+    this.customer = undefined;
+    this.business = undefined;
+    this.deliveryPerson = undefined;
+    this.deliveryService = undefined;
   }
 }

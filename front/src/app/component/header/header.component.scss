@@ -60,14 +60,14 @@ $font-weight: bold;
 }
 
 .login-button-elem {
-  min-width: 70px;
+  min-width: 90px;
 }
 
 .login-button {
   height: 35px;
   width: 100%;
   border-radius: 15px;
-  border: transparent;
+  border: transparent solid 2px;
   background: transparent;
 
   font-size: $font-size;

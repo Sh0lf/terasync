@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {faCheck, faPlus, faTimes, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faCheck, faLocationDot, faPlus, faTimes, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FooterComponent} from "../footer/footer.component";
 import {CookieComponent} from "../misc/cookie-component";
 import {NgxResizeObserverModule} from "ngx-resize-observer";
@@ -38,6 +38,7 @@ export class AddressesComponent extends FormComponent implements OnInit {
   faPlus = faPlus;
   faXmark = faXmark;
   faCheck = faCheck;
+  faLocationDot = faLocationDot;
 
   // Input Fields
   countryInput: string = '';
@@ -72,6 +73,7 @@ export class AddressesComponent extends FormComponent implements OnInit {
   toggleOnClick() {
     this.isAddingAddress = !this.isAddingAddress;
     this.isEditingAddress = !this.isEditingAddress;
+    this.resetValues();
   }
 
   override onSubmit() {
@@ -98,7 +100,7 @@ export class AddressesComponent extends FormComponent implements OnInit {
       this.addressService.addEntity(newAddress).subscribe({
         next: (address: Address) => {
           this.currentUserService.user?.addresses.push(Address.fromJson(address));
-          this.resetValues();
+          this.resetAll();
           console.log("New Address Added!");
         },
         error: (error: any) => {
@@ -114,7 +116,7 @@ export class AddressesComponent extends FormComponent implements OnInit {
 
       this.addressService.updateEntity(this.editingAddress).subscribe({
         next: (address: Address) => {
-          this.resetValues();
+          this.resetAll();
           console.log("Address Updated Added!");
         },
         error: (error: any) => {
@@ -124,16 +126,21 @@ export class AddressesComponent extends FormComponent implements OnInit {
     }
   }
 
-  private resetValues() {
+  private resetAll() {
     this.isAddingAddress = false;
     this.isEditingAddress = false;
     this.editingAddress = undefined;
 
+    this.resetValues();
+  }
+
+  private resetValues() {
     this.countryInput = '';
     this.streetInput = '';
     this.postalCodeInput = '';
     this.cityInput = '';
     this.infoInput = '';
+    this.isSubmitted = false;
   }
 
   editAddress(address: Address) {
@@ -161,4 +168,5 @@ export class AddressesComponent extends FormComponent implements OnInit {
   isFormInvalid(): boolean {
     return !this.isFormValid() && this.isSubmitted;
   }
+
 }

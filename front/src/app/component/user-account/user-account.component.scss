@@ -1,9 +1,11 @@
 @import "../common";
 
+$pfpImageSize: 150px;
+
 .profile-main-div {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
   flex-direction: row;
 }
 
@@ -12,8 +14,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  width: 80vw;
+
+  width: 70vw;
 }
 
 .h1-div {
@@ -24,25 +26,49 @@
   width: 100%;
 }
 
+.profile-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: $colorP17;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 70%;
+  min-width: 500px;
+  height: 250px;
+}
+
 .profile-card {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  background: $colorP17;
-  border-radius: 20px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  width: 40%;
-  min-width: 400px;
+  margin-top: 30px;
+  //background: $colorP17;
+  //border-radius: 20px;
+  //box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  //width: 40%;
+  //min-width: 400px;
+  //height: 250px;
+}
+
+.profile-edit-elem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
   padding: 20px;
+
+  width: 100%;
 }
 
 
 .image-frame {
-  width: 100px;
-  height: 100px;
-  max-width: 100px;
-  max-height: 100px;
+  width: $pfpImageSize;
+  height: $pfpImageSize;
+  max-width: $pfpImageSize;
+  max-height: $pfpImageSize;
 
   border-radius: 50%;
 }
@@ -52,10 +78,10 @@
   justify-content: center;
   align-items: center;
 
-  width: 100px;
-  height: 100px;
-  min-width: 100px;
-  min-height: 100px;
+  width: $pfpImageSize;
+  height: $pfpImageSize;
+  min-width: $pfpImageSize;
+  min-height: $pfpImageSize;
   border-radius: 50%;
 
   background: $colorP18;
@@ -72,14 +98,14 @@
   position: absolute;
   background: rgba(0, 0, 0, 0.3);
 
-  width: 100px;
-  height: 100px;
-  min-width: 100px;
-  min-height: 100px;
+  width: $pfpImageSize;
+  height: $pfpImageSize;
+  min-width: $pfpImageSize;
+  min-height: $pfpImageSize;
   border-radius: 50%;
 }
 
-.edit-icon {
+.camera-icon {
   font-size: 30px;
   color: $colorP17;
 }
@@ -93,24 +119,74 @@
 .profile-top-div-info span {
   padding: 5px 0 5px 0;
   color: black;
+  font-size: 20px;
 }
 
-//.profile-bottom-div {
-//  display: flex;
-//  flex-direction: row;
-//  justify-content: center;
-//  flex-wrap: wrap;
-//  margin: 30px 0 60px 0;
-//}
-//
-//.profile-bottom-div div:hover {
-//  background: .0356A9;
-//  background: linear-gradient(to bottom right, $colorP15, $colorP11);
-//}
-//
-//.profile-bottom-div span {
-//  padding: 0 20px 0 20px;
-//}
+.profile-menu-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 30vw;
+  height: 90vh;
+}
+
+.profile-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+  margin: 40px;
+
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.profile-menu-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+
+  cursor: pointer;
+
+  width: 280px;
+  max-width: 280px;
+  height: 70px;
+  padding: 20px;
+}
+
+.profile-menu-item:hover {
+  background: $colorP11;
+}
+
+.profile-menu-item:hover > span {
+  color: white;
+}
+
+.profile-menu-item:hover > .profile-menu-item-icon-elem > .profile-menu-item-icon {
+  color: white;
+}
+
+.profile-menu-item span {
+  font-size: 20px;
+  text-wrap: wrap;
+  word-wrap: break-word;
+}
+
+.profile-menu-item-icon-elem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding-right: 20px;
+}
+
+.profile-menu-item-icon {
+  font-size: 20px;
+}
 
 .user-icon {
   font-size: 65px;

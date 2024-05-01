@@ -23,5 +23,4 @@ export const routes: Routes = [
   {path: `password-reset/:${StorageKeys.USER_TOKEN}`, component: PasswordResetComponent},
   {path: 'user-account', component: UserAccountComponent},
   {path: 'connection-security', component: ConnectionSecurityComponent},
-  {path: 'addresses', component: AddressesComponent},
 ];

@@ -20,16 +20,17 @@
   margin: 20px;
 }
 
-#ad-static-address-div {
-  border: dashed 2px $colorP11;
+.ad-static-address-div {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  cursor: pointer;
-}
+  border-radius: 20px;
 
-#ad-static-address-div:hover {
-  border: solid 2px $colorP11;
+  margin: 10px;
+  min-width: 250px;
+  max-width: 250px;
 }
 
 .title-span {
@@ -76,8 +77,20 @@
   justify-content: center;
   align-items: center;
 
-  height: 100%;
-  padding: 15px;
+  border: dashed 2px $colorP11;
+  background-color: $colorP17;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  cursor: pointer;
+
+  min-height: 150px;
+  max-height: 150px;
+  min-width: 200px;
+  max-width: 200px;
+}
+
+.ad-new-address-div:hover {
+  border: solid 2px $colorP11;
 }
 
 .ad-plus-div {

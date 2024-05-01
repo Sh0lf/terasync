@@ -1,17 +1,12 @@
-<div (onResize)="handleFooterTopMinValue($event, 80)" class="main-page-body-div">
-  <div>
-    <h1 class="main-page-h1">Addresses</h1>
+<div class="main-page-body-div">
+  <div class="header-elem">
+    <div class="location-dot-elem">
+      <fa-icon [class]="['location-dot-icon']" [icon]="faLocationDot"></fa-icon>
+    </div>
+    <h1 class="main-page-h1">My Addresses</h1>
   </div>
   <div class="separation-line-2"></div>
   <div class="ad-main-div">
-    <div class="ad-address-body-div" id="ad-static-address-div" (click)="toggleOnClick()">
-      <div class="ad-new-address-div">
-        <div class="ad-plus-div">
-          <fa-icon [icon]="faPlus" [class]="['plus-icon']"></fa-icon>
-        </div>
-      </div>
-    </div>
-
     <div class="ad-address-body-div" *ngFor="let address of this.currentUserService.user?.addresses">
       <app-address-element [style.height.%]="100"
                            [address]="address"
@@ -19,7 +14,13 @@
                            (newAddressEvent)="editAddress($event)">
       </app-address-element>
     </div>
-
+    <div class="ad-static-address-div" (click)="toggleOnClick()" *ngIf="!isEnabled()">
+      <div class="ad-new-address-div">
+        <div class="ad-plus-div">
+          <fa-icon [icon]="faPlus" [class]="['plus-icon']"></fa-icon>
+        </div>
+      </div>
+    </div>
     <div class="ad-address-body-div" *ngIf="isEnabled()">
       <div class="ad-address-div">
         <div class="ad-address-header-div">
@@ -53,13 +54,7 @@
         <div class="clickable-icon-elem-2" (click)="onSubmit()">
           <fa-icon [icon]="faCheck"></fa-icon>
         </div>
-<!--        <button class="default-btn" type="button" >Save New Address</button>-->
       </div>
     </div>
   </div>
-
 </div>
-<app-footer
-  [footerTopMinValue]="footerTopMinValue"
-  [position]="position"
-></app-footer>

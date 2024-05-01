@@ -84,15 +84,6 @@ export class HeaderComponent extends CookieComponent implements OnInit {
     this.router.navigate(['/login'], {relativeTo: this.route}).then();
   }
 
-  logoutOnClick() {
-    this.deleteUserToken();
-    this.resetUserCategoryToCustomer();
-    this.currentUserService.user = undefined;
-    this.routeToHome().then(() => {
-      window.location.reload();
-    });
-  }
-
   registerOnClick() {
     this.router.navigate(['/register'], {relativeTo: this.route}).then();
   }

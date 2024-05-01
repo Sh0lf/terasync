@@ -39,6 +39,8 @@ $colorP20: #737373;
   --colorP16: #f6f3ea;
   --colorP17: #f3f0f0;
   --colorP18: #d9d9d9;
+  --colorP19: #3f3f3f;
+  --colorP20: #737373;
 }
 
 .our-linear-background-1 {
@@ -139,6 +141,21 @@ $colorP20: #737373;
   display: flex;
   flex-direction: column;
   padding: 50px;
+}
+
+.header-elem {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+}
+
+.location-dot-elem {
+  padding-right: 10px;
+}
+
+.location-dot-icon {
+  font-size: 30px;
 }
 
 .main-page-h1 {

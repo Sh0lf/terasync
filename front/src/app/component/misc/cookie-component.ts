@@ -328,4 +328,12 @@ export abstract class CookieComponent {
     });
   }
 
+  logoutOnClick() {
+    this.deleteUserToken();
+    this.resetUserCategoryToCustomer();
+    this.currentUserService.setUsersToNull();
+    this.routeToHome().then(() => {
+      window.location.reload();
+    });
+  }
 }

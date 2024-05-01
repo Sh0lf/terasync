@@ -1,22 +1,16 @@
-import {ModalService} from "../../service/misc/modal.service";
 import {CookieComponent} from "./cookie-component";
+import {EventEmitter, Input, Output} from "@angular/core";
 
-export class ModalComponent<T extends ModalService> extends CookieComponent {
-    protected modalService!: T;
+export class ModalComponent extends CookieComponent {
+  isModalOpen: boolean = false;
+  onChangeEmitter = new EventEmitter<boolean>();
 
-    constructor() {
-        super();
-    }
+  constructor() {
+    super();
+  }
 
-    openModal() {
-        this.modalService.openModal();
-    }
-
-    closeModal() {
-        this.modalService.closeModal();
-    }
-
-    isModalOpen(): boolean {
-        return this.modalService.getObject().isModalOpen;
-    }
+  closeModal() {
+    this.isModalOpen = false;
+    this.onChangeEmitter.emit(this.isModalOpen);
+  }
 }
