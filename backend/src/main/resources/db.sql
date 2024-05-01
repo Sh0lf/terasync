@@ -253,3 +253,30 @@ CREATE TABLE Faq
     question VARCHAR(255) NOT NULL,
     answer   VARCHAR(255) NOT NULL
 );
+
+INSERT INTO CustomerOrder (creationTime, minTemp, maxTemp, deliveryTime, statusId, packagingId, customerId, businessId, deliveryServiceId, deliveryPersonId)
+VALUES ('2024-05-01 08:00:00', 4.50, 8.20, '2024-05-03 10:00:00', 1, 1, 49, 1, 1, 1);
+
+INSERT INTO CustomerOrder (creationTime, minTemp, maxTemp, deliveryTime, statusId, packagingId, customerId, businessId, deliveryServiceId, deliveryPersonId)
+VALUES ('2024-05-01 09:30:00', 2.80, 6.70, '2024-05-03 11:30:00', 1, 1, 49, 1, 1, 1);
+
+INSERT INTO CustomerOrder (creationTime, minTemp, maxTemp, deliveryTime, statusId, packagingId, customerId, businessId, deliveryServiceId, deliveryPersonId)
+VALUES ('2024-05-01 10:45:00', 3.20, 7.50, '2024-05-03 09:00:00', 1, 1, 49, 1, 1, 1);
+
+INSERT INTO CustomerOrder (creationTime, minTemp, maxTemp, deliveryTime, statusId, packagingId, customerId, businessId, deliveryServiceId, deliveryPersonId)
+VALUES ('2024-05-01 11:15:00', 5.10, 9.00, '2024-05-03 12:45:00', 1, 1, 49, 1, 1, 1);
+
+INSERT INTO CustomerOrder (creationTime, minTemp, maxTemp, deliveryTime, statusId, packagingId, customerId, businessId, deliveryServiceId, deliveryPersonId)
+VALUES ('2024-05-01 12:30:00', 1.80, 6.20, '2024-05-03 08:30:00', 1, 1, 49, 1, 1, 1);
+
+INSERT INTO CustomerOrder (creationTime, minTemp, maxTemp, deliveryTime, statusId, packagingId, customerId, businessId, deliveryServiceId, deliveryPersonId)
+VALUES ('2024-05-01 13:45:00', 4.00, 8.80, '2024-05-03 14:15:00', 1, 1, 49, 1, 1, 1);
+
+INSERT INTO CustomerOrder (creationTime, minTemp, maxTemp, deliveryTime, statusId, packagingId, customerId, businessId, deliveryServiceId, deliveryPersonId)
+VALUES ('2024-05-01 14:20:00', 3.70, 7.90, '2024-05-03 13:00:00', 1, 1, 49, 1, 1, 1);
+
+INSERT INTO CustomerOrder (creationTime, minTemp, maxTemp, deliveryTime, statusId, packagingId, customerId, businessId, deliveryServiceId, deliveryPersonId)
+VALUES ('2024-05-01 15:00:00', 2.50, 6.00, '2024-05-03 15:30:00', 1, 1, 49, 1, 1, 1);
+
+INSERT INTO CustomerOrder (creationTime, minTemp, maxTemp, deliveryTime, statusId, packagingId, customerId, businessId, deliveryServiceId, deliveryPersonId)
+VALUES ('2024-05-01 16:10:00', 4.20, 8.50, '2024-05-03 16:45:00', 1, 1, 49, 1, 1, 1);

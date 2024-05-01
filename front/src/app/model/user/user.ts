@@ -1,5 +1,6 @@
 import {Address} from "../odSystem/address";
 import {jsonHelpUsage} from "@angular/cli/src/command-builder/utilities/json-help";
+import {CustomerOrder} from "../odSystem/customer.order";
 
 export class User {
   userId: number | undefined;
@@ -30,6 +31,7 @@ export class User {
 
   // CHILD TABLES
   addresses: Address[] = [];
+  customerOrders: CustomerOrder[] = [];
 
   protected constructor(email: string, username: string, password: string,
                         userId?: number, registrationDate?: string,
@@ -68,6 +70,7 @@ export class User {
     user.deliveryServiceId = jsonUser.deliveryServiceId;
 
     this.initializeAddresses(user, jsonUser);
+    this.initializeCustomerOrders(user, jsonUser);
 
     return user;
   }
@@ -76,6 +79,14 @@ export class User {
     if(jsonUser.addresses != undefined) {
       for(let address of jsonUser.addresses) {
         user.addresses.push(Address.fromJson(address));
+      }
+    }
+  }
+
+  private static initializeCustomerOrders(user: User, jsonUser: User) {
+    if(jsonUser.customerOrders != undefined) {
+      for(let customerOrder of jsonUser.customerOrders) {
+        user.customerOrders.push(CustomerOrder.fromJson(customerOrder));
       }
     }
   }

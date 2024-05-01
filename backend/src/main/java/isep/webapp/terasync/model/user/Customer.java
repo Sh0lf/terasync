@@ -1,6 +1,7 @@
 package isep.webapp.terasync.model.user;
 
 import isep.webapp.terasync.model.odSystem.Address;
+import isep.webapp.terasync.model.odSystem.CustomerOrder;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -45,6 +46,14 @@ public class Customer extends User {
     )
     @JoinColumn(name = "customerId")
     private List<Address> addresses;
+
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            targetEntity = CustomerOrder.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "customerId")
+    private List<CustomerOrder> customerOrders;
 
     @Override
     public int getUserId() {
