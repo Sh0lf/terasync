@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.util.List;
+
 @Entity
 @Setter
 @Getter
@@ -40,8 +42,7 @@ public class CustomerOrder extends isep.webapp.terasync.model.Entity {
 
     @ManyToOne(
             fetch = FetchType.EAGER,
-            targetEntity = Status.class,
-            cascade = CascadeType.ALL
+            targetEntity = Status.class
     )
     @JoinColumn(
             name = "statusId",
@@ -52,8 +53,7 @@ public class CustomerOrder extends isep.webapp.terasync.model.Entity {
 
     @ManyToOne(
             fetch = FetchType.EAGER,
-            targetEntity = Packaging.class,
-            cascade = CascadeType.ALL
+            targetEntity = Packaging.class
     )
     @JoinColumn(
             name = "packagingId",
@@ -61,4 +61,21 @@ public class CustomerOrder extends isep.webapp.terasync.model.Entity {
             updatable = false
     )
     private Packaging packaging;
+
+
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            targetEntity = CustomerOrderList.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "customerOrderId")
+    private List<CustomerOrderList> customerOrderLists;
+
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            targetEntity = ProductMenuList.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "customerOrderId")
+    private List<ProductMenuList> productMenuLists;
 }

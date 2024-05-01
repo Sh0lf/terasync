@@ -1,6 +1,9 @@
 package isep.webapp.terasync.model.user;
 
 import isep.webapp.terasync.model.odSystem.CustomerOrder;
+import isep.webapp.terasync.model.odSystem.DeliveryServiceList;
+import isep.webapp.terasync.model.odSystem.Product;
+import isep.webapp.terasync.model.odSystem.ProductMenu;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -49,6 +52,30 @@ public class Business extends User {
     )
     @JoinColumn(name = "businessId")
     private List<CustomerOrder> customerOrders;
+
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            targetEntity = DeliveryServiceList.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "businessId")
+    private List<DeliveryServiceList> deliveryServiceLists;
+
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            targetEntity = ProductMenu.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "businessId")
+    private List<ProductMenu> productMenus;
+
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            targetEntity = Product.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "businessId")
+    private List<Product> products;
 
     @Override
     public int getUserId() {

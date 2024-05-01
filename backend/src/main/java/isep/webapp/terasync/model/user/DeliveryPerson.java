@@ -1,8 +1,11 @@
 package isep.webapp.terasync.model.user;
 
+import isep.webapp.terasync.model.odSystem.CustomerOrder;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+
+import java.util.List;
 
 @Entity
 @Setter
@@ -36,6 +39,14 @@ public class DeliveryPerson extends User {
     private boolean emailVerified;
     @Column(name = "pfpImgPath")
     private String pfpImgPath;
+
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            targetEntity = CustomerOrder.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "deliveryPersonId")
+    private List<CustomerOrder> customerOrders;
 
     @Override
     public int getUserId() {
