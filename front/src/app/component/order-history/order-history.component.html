@@ -1,0 +1,17 @@
+<div (onResize)="handleFooterTopMinValue($event, 80)" class="main-page-body-div">
+  <div>
+    <h1 class="main-page-h1">Previous orders</h1>
+  </div>
+  <div class="separation-line-2"></div>
+
+  <div class="ad-address-body-div" *ngFor="let order of this.currentUserService.user?.customerOrders">
+    <app-order-history-element [style.height.%]="100"
+                         [order]="order"
+                         [orders]="this.currentUserService.user?.customerOrders">
+    </app-order-history-element>
+  </div>
+
+
+</div>
+<app-footer
+></app-footer>

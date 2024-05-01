@@ -1,0 +1,12 @@
+@import "../../common";
+
+.order-cell {
+  border-radius: 15px;
+  background: rgba(247, 196, 165, 0.45);
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: min(75%);
+  height: min(30%);
+}
