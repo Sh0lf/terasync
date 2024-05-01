@@ -36,4 +36,29 @@ public class CustomerOrder extends isep.webapp.terasync.model.Entity {
     private int deliveryServiceId;
     @Column(name = "deliveryPersonId")
     private int deliveryPersonId;
+
+
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            targetEntity = Status.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(
+            name = "statusId",
+            insertable = false,
+            updatable = false
+    )
+    private Status status;
+
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            targetEntity = Packaging.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(
+            name = "packagingId",
+            insertable = false,
+            updatable = false
+    )
+    private Packaging packaging;
 }

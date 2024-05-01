@@ -31,7 +31,7 @@ export abstract class EntityService<T> {
   }
 
   public findEntityById(entityId: number): Observable<T> {
-    return this.http.get<T>(`${this.apiBackendUrl}/${this.entityName}/findById/${entityId}`);
+    return this.http.get<T>(`${this.apiBackendUrl}/${this.entityName}/find-by-id/${entityId}`);
   }
 
   public uploadFiles(formData: FormData): Observable<HttpEvent<string[]>> {

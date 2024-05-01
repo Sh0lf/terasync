@@ -29,8 +29,4 @@ public class Address extends isep.webapp.terasync.model.Entity {
     private boolean defaultAddress;
     @Column(name = "customerId")
     private int customerId;
-
-//    @ManyToOne
-//    @JoinColumn(name = "customerId", insertable=false, updatable=false)
-//    private Customer customer;
 }
