@@ -24,7 +24,6 @@ import {BusinessService} from "../../service/user/business.service";
 import {AdminService} from "../../service/user/admin.service";
 import {DeliveryServiceService} from "../../service/user/delivery-service.service";
 import {DeliveryPersonService} from "../../service/user/delivery-person.service";
-import {Customer} from "../../model/user/customer";
 import {NgxResizeObserverModule} from "ngx-resize-observer";
 
 @Component({

@@ -189,7 +189,9 @@ export abstract class CookieComponent {
   initializeUserByToken(): Promise<boolean> {
     this.currentUserService.incrementCounter();
     return new Promise<boolean>((resolve, reject) => {
-      if (this.hasUserToken() && this.currentUserService.getCounter() == 1) {
+      if (this.currentUserService.user != undefined) {
+        resolve(true)
+      } else if (this.hasUserToken() && this.currentUserService.getCounter() == 1) {
         this.currentUserService.setMainPromise(new Promise<boolean>((resolve_sub, reject) => {
           this.fetchUserService().findUserByToken({token: this.getUserToken()})
             .subscribe({

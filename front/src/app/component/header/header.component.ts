@@ -76,7 +76,7 @@ export class HeaderComponent extends CookieComponent implements OnInit {
   }
 
   routeToAndCloseBurgerMenu(route: string) {
-    this.router.navigate([route], {relativeTo: this.route}).then();
+    this.routeTo(route)
     this.showMenu = false;
   }
 
