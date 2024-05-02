@@ -1,1 +1,15 @@
 @import "../common";
+
+.main-container-div{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+}
+
+app-order-history-element{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}

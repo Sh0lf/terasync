@@ -13,7 +13,7 @@ import {ProductService} from "../../../../service/odSystem/product.service";
   standalone: true,
   imports: [],
   templateUrl: './order-history-element-list.component.html',
-  styleUrl: './order-history-element-list.component.css'
+  styleUrl: './order-history-element-list.component.scss'
 })
 export class OrderHistoryElementListComponent extends CookieComponent implements OnInit{
   @Input() orderList!: CustomerOrderList;
