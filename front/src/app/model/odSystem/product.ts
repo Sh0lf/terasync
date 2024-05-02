@@ -5,30 +5,30 @@ import {CustomerOrderList} from "./customer.order.list";
 export class Product {
   productId: number | undefined;
   name: string;
-  description: string;
-  isVegan: boolean;
+  vegan: boolean;
   price: number;
-  creationTime: string;
   businessId: number;
+  creationTime: string | undefined;
+  description: string | undefined
 
   productLists: ProductList[] = [];
   productImages: ProductImage[] = [];
   customerOrderLists: CustomerOrderList[] = [];
 
-  constructor(name: string, description: string, isVegan: boolean, price: number,
-              creationTime: string, businessId: number, productId?: number) {
+  constructor(name: string, isVegan: boolean, price: number, businessId: number,
+              description?: string, creationTime?: string, productId?: number) {
     this.productId = productId;
     this.name = name;
     this.description = description;
-    this.isVegan = isVegan;
+    this.vegan = isVegan;
     this.price = price;
     this.creationTime = creationTime;
     this.businessId = businessId;
   }
 
   public static fromJson(json: Product): Product {
-    let product= new Product(json.name, json.description, json.isVegan, json.price,
-      json.creationTime, json.businessId, json.productId);
+    let product= new Product(json.name, json.vegan, json.price, json.businessId,
+      json.description, json.creationTime, json.productId);
 
     product.productLists = ProductList.initializeProductLists(json);
     product.productImages = ProductImage.initializeProductImages(json);

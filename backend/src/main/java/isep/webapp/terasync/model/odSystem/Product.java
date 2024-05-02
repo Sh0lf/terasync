@@ -21,8 +21,8 @@ public class Product extends isep.webapp.terasync.model.Entity {
     private String name;
     @Column(name = "description")
     private String description;
-    @Column(name = "isVegan")
-    private boolean isVegan;
+    @Column(name = "vegan")
+    private boolean vegan;
     @Column(name = "price")
     private float price;
     @CreationTimestamp

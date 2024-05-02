@@ -1,6 +1,5 @@
 package isep.webapp.terasync.service.misc;
 
-import isep.webapp.terasync.model.misc.FileHandle;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -27,11 +26,11 @@ public class FileService {
         List<String> fileNames = new ArrayList<>();
 
         Path path = get(DIRECTORY + directory);
-        if(!Files.exists(path)) {
+        if (!Files.exists(path)) {
             Files.createDirectories(path);
         }
 
-        for(MultipartFile file: multipartFiles) {
+        for (MultipartFile file : multipartFiles) {
             String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
             Path fileStorage = get(DIRECTORY + directory + "/" + fileName).toAbsolutePath().normalize();
             copy(file.getInputStream(), fileStorage, StandardCopyOption.REPLACE_EXISTING);
@@ -44,7 +43,7 @@ public class FileService {
 
     public Resource downloadFile(String fileName, String directory) throws IOException {
         Path filePath = get(DIRECTORY + directory).toAbsolutePath().normalize().resolve(fileName);
-        if(!Files.exists(filePath)) {
+        if (!Files.exists(filePath)) {
             throw new IOException(fileName + " was not found");
         }
         return new UrlResource(filePath.toUri());
