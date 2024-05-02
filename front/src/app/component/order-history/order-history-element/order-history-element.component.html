@@ -1,17 +1,18 @@
 <div class="order-cell">
   <div class="order-timestamp-container">
-    <h1 class="order-timestamp">{{ order!.creationTime }}</h1>
+    <h2 class="order-timestamp">{{ order!.creationTime }}</h2>
   </div>
   <div class="business-img-div"> <!-- add white gradient -->
     <img class="business-thumbnail" src="{{business!.pfpImgPath}}" alt="thumbnail">
   </div>
   <div class="order-summary-detail">
-    <h1 class="business-name">{{ business?.name }}</h1>
+    <h2 class="business-name">{{ business?.name }}</h2>
     <div class="order-list-container">
       <span class="order-list" *ngFor="let orderList of orderLists">
-        {{orderList.quantity}}
-        {{orderList.productId}}
-        <!-- We need to fetch the product's name in a way, i'm too tired-->
+        <app-order-history-element-list [style.height.%]="100"
+                                        [orderList]="orderList">
+        </app-order-history-element-list>
+        <!-- We need to fetch the product's name in a way, i'm too tired -->
       </span>
     </div>
   </div>

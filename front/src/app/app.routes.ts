@@ -10,6 +10,8 @@ import {StorageKeys} from "./component/misc/storage-keys";
 import {UserAccountComponent} from "./component/user-account/user-account.component";
 import {ConnectionSecurityComponent} from "./component/connection-security/connection-security.component";
 import {ManageProductsComponent} from "./component/manage-products/manage-products.component";
+import {CustomerOrder} from "./model/odSystem/customer.order";
+import {OrderHistoryComponent} from "./component/order-history/order-history.component";
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -23,4 +25,5 @@ export const routes: Routes = [
   {path: 'user-account', component: UserAccountComponent},
   {path: 'connection-security', component: ConnectionSecurityComponent},
   {path: 'manage-products', component: ManageProductsComponent},
+  {path: 'order-history', component: OrderHistoryComponent},
 ];

@@ -11,15 +11,15 @@ import {DeliveryServiceService} from "../../service/user/delivery-service.servic
 import {DeliveryPersonService} from "../../service/user/delivery-person.service";
 import {CookieService} from "ngx-cookie-service";
 import {CurrentUserService} from "../../service/user/current-user.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterOutlet} from "@angular/router";
 import {CustomerOrderService} from "../../service/odSystem/customer-order.service";
 import {CookieComponent} from "../misc/cookie-component";
-
 
 @Component({
   selector: 'app-order-history',
   standalone: true,
   imports: [
+    RouterOutlet,
     HeaderComponent,
     FooterComponent,
     NgxResizeObserverModule,
