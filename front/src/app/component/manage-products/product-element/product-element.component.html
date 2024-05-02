@@ -1,0 +1,23 @@
+<div class="manage-product-elem">
+  <div class="mpe-content-elem">
+    <div class="mpe-info-elem">
+      <span class="text-font-700">{{ product?.name }}</span>
+      <span>{{ product?.description }}</span>
+      <span>Vegan: {{ product?.vegan ? "Yes" : "No" }}</span>
+      <span>Price: {{ product?.price }} €</span>
+    </div>
+    <div class="mpe-image-elem" >
+      <div class="image-frame">
+
+      </div>
+    </div>
+  </div>
+  <div class="mpe-icons-elem">
+    <div class="clickable-icon-elem-1" (click)="openModal(ModalOpenType.EDIT)">
+      <fa-icon [class]="['clickable-icon-1']" [icon]="faPen"></fa-icon>
+    </div>
+    <div class="clickable-icon-elem-1">
+      <fa-icon [class]="['clickable-icon-1']" [icon]="faTrash"></fa-icon>
+    </div>
+  </div>
+</div>

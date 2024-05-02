@@ -27,6 +27,9 @@ $colorP18: #d9d9d9;
 $colorP19: #3f3f3f;
 $colorP20: #737373;
 
+$boxShadowDefault: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+$hoverBackground: rgba(0, 0, 0, 0.3);
+
 
 // For non scss files
 :root {
@@ -199,7 +202,21 @@ $colorP20: #737373;
   cursor: pointer;
 }
 
-.default-input {
+.add-form-elem-1 {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  width: 100%;
+}
+
+.add-form-elem-2 {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+}
+
+.default-input-1 {
   background: $colorP13;
   border-radius: 15px;
   border: grey solid 1px;
@@ -210,6 +227,10 @@ $colorP20: #737373;
   width: 100%;
 }
 
+.default-input-1:hover{
+  border: $colorP11 solid 1px;
+}
+
 .default-input-2 {
   border-radius: 15px;
   border: grey solid 1px;
@@ -218,6 +239,60 @@ $colorP20: #737373;
   white-space:pre;
   text-indent: 10px;
   width: 100%;
+}
+
+.default-input-3 {
+  background: $colorP17;
+  border-radius: 15px;
+  border: grey solid 1px;
+  height: 35px;
+  margin: 5px 0 5px 0;
+  white-space:pre;
+  text-indent: 10px;
+  width: 100%;
+}
+
+.default-check-box-1 {
+  background-color: $colorP17;
+  border-radius: 15px;
+  border: grey solid 1px;
+  margin: 5px;
+}
+
+.default-file-input-1 {
+  background: $colorP17;
+  margin: 5px 0 5px 0;
+}
+
+.drag-and-drop-input {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.drag-and-drop-elem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  background: $colorP17;
+  margin: 5px 0 5px 0;
+
+  height: 80px;
+  width: 100%;
+  border-radius: 15px;
+  border: 2px dashed $colorP18;
+}
+
+.drag-and-drop-elem:hover {
+  border: 2px solid $colorP18;
+}
+
+.drag-and-drop-elem span {
+  cursor: pointer;
+  position: absolute;
 }
 
 .clickable-div {
@@ -235,9 +310,7 @@ $colorP20: #737373;
   transition: background-color 0.2s ease-in-out;
 }
 
-.default-input:hover{
-  border: $colorP11 solid 1px;
-}
+
 
 .clickable-icon-elem-1 {
   display: flex;
@@ -285,6 +358,44 @@ $colorP20: #737373;
   padding: 5px;
 }
 
+// COMMON DIV ELEMENTS
+
+.add-new-elem-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border: dashed 2px $colorP11;
+  background-color: $colorP17;
+  box-shadow: $boxShadowDefault;
+  border-radius: 20px;
+  cursor: pointer;
+
+  min-height: 150px;
+  max-height: 150px;
+  min-width: 200px;
+  max-width: 200px;
+}
+
+.add-new-elem-div:hover {
+  border: solid 2px $colorP11;
+}
+
+.add-plus-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 60px;
+  width: 60px;
+}
+
+.plus-icon {
+  font-size: 50px;
+  color: $colorP11;
+}
+
 // COMMON MODAL STUFF
 
 .my-modal-header {
@@ -297,4 +408,30 @@ $colorP20: #737373;
 .modal-header-title {
   font-size: 20px;
   font-weight: bold;
+}
+
+.my-modal {
+  display: block;
+}
+
+.my-modal-element {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 10px;
+}
+
+// HIDE NUMBER INPUT ARROWS
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

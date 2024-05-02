@@ -1,11 +1,11 @@
-import {CookieComponent} from "./cookie-component";
-import {EventEmitter, Input, Output} from "@angular/core";
+import {EventEmitter} from "@angular/core";
+import {FormComponent} from "./form-component";
 
-export class ModalComponent extends CookieComponent {
+export abstract class ModalComponent extends FormComponent {
   isModalOpen: boolean = false;
   onChangeEmitter = new EventEmitter<boolean>();
 
-  constructor() {
+  protected constructor() {
     super();
   }
 

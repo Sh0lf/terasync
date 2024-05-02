@@ -113,6 +113,7 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
               });
             } else {
               console.log('Json User is null');
+              this.isLoginChecked = true;
               resolve(false);
             }
           },
@@ -129,7 +130,7 @@ export class LoginComponent extends AuthenticationComponent implements OnInit {
       super.onSubmit();
 
       if (success && this.isLoginValid && this.isEmailVerified && this.isApproved) {
-        this.routeToHome();
+        this.routeToHome().then();
       }
     });
   }

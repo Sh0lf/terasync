@@ -1,4 +1,4 @@
-<div class="modal" [style.display]="'block'" *ngIf="isModalOpen">
+<div class="modal my-modal" *ngIf="isModalOpen">
   <div class="modal-dialog">
     <div class="modal-content main-pfp-div">
       <div class="modal-header my-modal-header">
@@ -8,23 +8,26 @@
         </div>
       </div>
       <div class="modal-body">
-        <div class="d-flex justify-content-center">
+        <div class="my-modal-element">
           <div class="pfp-image-elem-main">
             <fa-icon [class]="['user-icon']" [icon]="faUser" *ngIf="!internalHasUserPfpImg()"></fa-icon>
             <img src="{{getUserPfpImgUrl()}}" alt="profile" class="image-frame" *ngIf="internalHasUserPfpImg()">
           </div>
         </div>
-        <div class="d-flex justify-content-center mt-3">
-          <input #imageInput type="file" accept="image/*" name="files" class="form-control" (change)="onPfpImgSelected($event)">
-        </div>
-        <div class="status-elem" *ngIf="hasStatus()">
-          <span>{{statusMsg}}</span>
+        <div class="my-modal-element">
+          <div class="add-form-elem-1">
+            <input #imageInput type="file" accept="image/*" name="files" class="form-control" (change)="onPfpImgSelected($event)">
+            <span class="validation-span">{{statusMsg}}</span>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="default-btn" (click)="onSaveChanges()">Save changes</button>
-        <button type="button" class="default-btn" (click)="deleteImage()">Delete Image</button>
-        <button type="button" class="default-btn" (click)="closeModal()">Close</button>
+        <div class="clickable-icon-elem-1">
+          <fa-icon [icon]="faCheck" [class]="['clickable-icon-1']" (click)="onSaveChanges()"></fa-icon>
+        </div>
+        <div class="clickable-icon-elem-1">
+          <fa-icon [icon]="faTrash" [class]="['clickable-icon-1']" (click)="deleteImage()"></fa-icon>
+        </div>
       </div>
     </div>
   </div>

@@ -5,7 +5,7 @@ import {HttpErrorResponse, HttpEvent, HttpEventType} from "@angular/common/http"
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatIconModule} from "@angular/material/icon";
 import {FileService} from "../../../service/misc/file.service";
-import {faUser, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faCheck, faTrash, faUser, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {DomSanitizer} from "@angular/platform-browser";
 import {CustomerService} from "../../../service/user/customer.service";
@@ -15,6 +15,7 @@ import {DeliveryServiceService} from "../../../service/user/delivery-service.ser
 import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
 import {CookieService} from "ngx-cookie-service";
 import {CurrentUserService} from "../../../service/user/current-user.service";
+import {UploadStatus} from "../../misc/form-component";
 
 @Component({
   selector: 'app-upload-pfp',
@@ -25,10 +26,10 @@ import {CurrentUserService} from "../../../service/user/current-user.service";
     MatProgressBarModule,
     FaIconComponent
   ],
-  templateUrl: './upload-pfp.component.html',
-  styleUrl: './upload-pfp.component.scss'
+  templateUrl: './upload-pfp-modal.component.html',
+  styleUrl: './upload-pfp-modal.component.scss'
 })
-export class UploadPfpComponent extends ModalComponent {
+export class UploadPfpModalComponent extends ModalComponent {
   file!: File | null;
   imgUrl: string = '';
   statusMsg: string = '';
@@ -36,6 +37,8 @@ export class UploadPfpComponent extends ModalComponent {
 
   faXmark = faXmark;
   faUser = faUser;
+  faCheck = faCheck;
+  faTrash = faTrash;
 
   @Input() override isModalOpen = false
   @Output() override onChangeEmitter = new EventEmitter<boolean>()
@@ -59,25 +62,34 @@ export class UploadPfpComponent extends ModalComponent {
   }
 
   onSaveChanges(): void {
-    if (this.file == null || (this.file?.type != 'image/png' && this.file?.type != 'image/jpeg')) {
+    if (!this.isFormValid()) {
       this.statusMsg = 'Invalid file type!';
       return;
     }
-    const newFileName = this.currentUserService.getPfpImgPrefix() + this.file.name;
+    const newFileName = this.currentUserService.getPfpImgPrefix() + this.file?.name;
     const formData = new FormData();
-    formData.append('files', this.file, newFileName);
-    formData.append('miscData', this.currentUserService.user?.email!);
+    formData.append('files', this.file!, newFileName);
 
-    this.fetchUserService().uploadFiles(formData).subscribe({
-      next: (event: HttpEvent<string[]>) => {
-        this.reportProgress(event, newFileName);
+    this.uploadFiles(this.fetchUserService(), formData).subscribe({
+      next: (uploadStatus: UploadStatus) => {
+        this.statusMsg = uploadStatus.statusMsg;
+        if(uploadStatus.isSuccessful) {
+          this.deleteOldPfpImg();
+          this.updatePfpImgPath(newFileName);
+          this.currentUserService.setPfpImgUrl(this.imgUrl);
+          this.resetValues();
+          this.pfpImgChanged = true;
+        }
       },
       error: (error: HttpErrorResponse) => {
         console.error(error);
       }
-    });
+    })
   }
 
+  override isFormValid(): boolean {
+    return this.file != null && (this.file?.type == 'image/png' || this.file?.type == 'image/jpeg');
+  }
   // onDownloadFiles(filename: string): void {
   //   this.fileService.downloadFiles(filename).subscribe({
   //     next: (event: HttpEvent<Blob>) => {
@@ -86,6 +98,7 @@ export class UploadPfpComponent extends ModalComponent {
   //     error: (error: HttpErrorResponse) => {
   //       console.error(error);
   //     }
+
   //   });
 
   // }
@@ -114,28 +127,6 @@ export class UploadPfpComponent extends ModalComponent {
     });
   }
 
-  private reportProgress(httpEvent: HttpEvent<string[]>, newFileName: string) {
-    switch (httpEvent.type) {
-      case HttpEventType.ResponseHeader:
-        console.log('Response header has been received: ', httpEvent);
-        break;
-      case HttpEventType.Response:
-        this.statusMsg = 'Your profile picture has been uploaded!';
-        this.deleteOldPfpImg();
-        this.updatePfpImgPath(newFileName);
-        this.currentUserService.setPfpImgUrl(this.imgUrl);
-        this.resetValues();
-        this.pfpImgChanged = true;
-        break;
-      case HttpEventType.Sent:
-        console.log('Request has been made!');
-        this.statusMsg = 'Uploading...';
-        break;
-      default:
-        console.log('Event: ', httpEvent);
-    }
-  }
-
   deleteImage() {
     this.imgUrl = "";
     this.currentUserService.setPfpImgUrl("");
@@ -147,10 +138,6 @@ export class UploadPfpComponent extends ModalComponent {
   resetValues() {
     this.fileInput.nativeElement.value = "";
     this.file = null;
-  }
-
-  hasStatus() {
-    return this.statusMsg.length > 0;
   }
 
   override closeModal() {

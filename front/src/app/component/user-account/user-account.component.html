@@ -21,7 +21,7 @@
             <fa-icon [class]="['user-icon']" [icon]="faUser" *ngIf="!currentUserService.hasPfpImg()"></fa-icon>
           </div>
 
-          <div class="pfp-edit-elem" (click)="openUploadPfpModal()">
+          <div class="pfp-edit-elem" (click)="openModal()">
             <fa-icon [class]="['camera-icon']" [icon]="faCamera"></fa-icon>
           </div>
         </div>

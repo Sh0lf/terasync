@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UploadPfpComponent } from './upload-pfp.component';
+import { ProductElementComponent } from './product-element.component';
 
-describe('UploadPfpComponent', () => {
-  let component: UploadPfpComponent;
-  let fixture: ComponentFixture<UploadPfpComponent>;
+describe('ProductElementComponent', () => {
+  let component: ProductElementComponent;
+  let fixture: ComponentFixture<ProductElementComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UploadPfpComponent]
+      imports: [ProductElementComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(UploadPfpComponent);
+    fixture = TestBed.createComponent(ProductElementComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

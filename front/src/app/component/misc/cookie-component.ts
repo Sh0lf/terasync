@@ -202,7 +202,7 @@ export abstract class CookieComponent {
                   resolve_sub(true);
                   resolve(true);
                 } else {
-                  console.error('User not found');
+                  console.log('User not found');
                   resolve_sub(false);
                   resolve(false);
                 }
@@ -210,7 +210,7 @@ export abstract class CookieComponent {
               error: (error: HttpErrorResponse) => {
                 resolve_sub(false);
                 resolve(false);
-                console.error('HTTP Error: User not found');
+                console.log('HTTP Error: User not found');
               }
             });
         }));

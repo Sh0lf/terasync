@@ -7,8 +7,27 @@
   </div>
   <div class="separation-line-2"></div>
 
-  <div class="manage-product-elem">
+  <div class="manage-product-elem-container">
+    <div class="mpe-static-add-div">
+      <div class="add-new-elem-div" (click)="openModal(ModalOpenType.ADD)">
+        <div class="add-plus-div">
+          <fa-icon [icon]="faPlus" [class]="['plus-icon']"></fa-icon>
+        </div>
+      </div>
+    </div>
+
+    <div class="manage-product-elem-container" *ngFor="let product of currentUserService.user?.products">
+      <app-product-element
+        class="manage-product-elem-body"
+        [product]="product"
+      ></app-product-element>
+    </div>
+
 
   </div>
-
 </div>
+<app-add-edit-product-modal
+  [isModalOpen]="isModalOpen"
+  [modalOpenType]="modalOpenType"
+  (onChangeEmitter)="onChangeEmitter($event)"
+></app-add-edit-product-modal>

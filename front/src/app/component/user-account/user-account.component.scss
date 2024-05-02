@@ -33,7 +33,7 @@ $pfpImageSize: 150px;
   justify-content: space-between;
   background: $colorP17;
   border-radius: 20px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: $boxShadowDefault;
   width: 70%;
   min-width: 500px;
   height: 250px;
@@ -45,12 +45,6 @@ $pfpImageSize: 150px;
   align-items: center;
   justify-content: center;
   margin-top: 30px;
-  //background: $colorP17;
-  //border-radius: 20px;
-  //box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  //width: 40%;
-  //min-width: 400px;
-  //height: 250px;
 }
 
 .profile-edit-elem {
@@ -96,7 +90,7 @@ $pfpImageSize: 150px;
   justify-content: center;
   align-items: center;
   position: absolute;
-  background: rgba(0, 0, 0, 0.3);
+  background: $hoverBackground;
 
   width: $pfpImageSize;
   height: $pfpImageSize;
@@ -140,7 +134,7 @@ $pfpImageSize: 150px;
 
   margin: 40px;
 
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: $boxShadowDefault;
   border-radius: 10px;
 }
 

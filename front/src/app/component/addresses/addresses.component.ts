@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {faCheck, faLocationDot, faPlus, faTimes, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faCheck, faLocationDot, faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FooterComponent} from "../footer/footer.component";
-import {CookieComponent} from "../misc/cookie-component";
 import {NgxResizeObserverModule} from "ngx-resize-observer";
 import {CustomerService} from "../../service/user/customer.service";
 import {BusinessService} from "../../service/user/business.service";
@@ -18,7 +17,8 @@ import {AddressService} from "../../service/odSystem/address.service";
 import {Address} from "../../model/odSystem/address";
 import {AddressElementComponent} from "./address-element/address-element.component";
 import {FormComponent} from "../misc/form-component";
-import {customerCategory} from "../../service/user/userCategories";
+import {businessCategory, customerCategory, deliveryServiceCategory} from "../../service/user/userCategories";
+import {ModalOpenType} from "../misc/modal-open-type";
 
 @Component({
   selector: 'app-addresses',
@@ -49,8 +49,8 @@ export class AddressesComponent extends FormComponent implements OnInit {
   infoInput: string = '';
 
   // Logic Fields
-  isAddingAddress: boolean = false;
-  isEditingAddress: boolean = false;
+  ModalOpenType = ModalOpenType;
+  modalOpenType: ModalOpenType = ModalOpenType.NONE;
   editingAddress!: Address | undefined;
 
   constructor(protected override customerService: CustomerService,
@@ -71,9 +71,8 @@ export class AddressesComponent extends FormComponent implements OnInit {
     });
   }
 
-  toggleOnClick() {
-    this.isAddingAddress = !this.isAddingAddress;
-    this.isEditingAddress = !this.isEditingAddress;
+  toggleOnClick(modalOpenType: ModalOpenType) {
+    this.modalOpenType = modalOpenType;
     this.resetValues();
   }
 
@@ -89,7 +88,7 @@ export class AddressesComponent extends FormComponent implements OnInit {
       defaultAddress = true;
     }
 
-    if(this.isAddingAddress) {
+    if(this.modalOpenType == ModalOpenType.ADD) {
       let newAddress = new Address(this.currentUserService.user?.userId!,
         this.countryInput,
         this.streetInput,
@@ -108,7 +107,7 @@ export class AddressesComponent extends FormComponent implements OnInit {
           console.log("Error in adding new address")
         }
       })
-    } else if(this.isEditingAddress && this.editingAddress != undefined) {
+    } else if(this.modalOpenType == ModalOpenType.EDIT && this.editingAddress != undefined) {
       this.editingAddress.country = this.countryInput;
       this.editingAddress.street = this.streetInput;
       this.editingAddress.postalCode = this.postalCodeInput;
@@ -128,8 +127,7 @@ export class AddressesComponent extends FormComponent implements OnInit {
   }
 
   private resetAll() {
-    this.isAddingAddress = false;
-    this.isEditingAddress = false;
+    this.modalOpenType = ModalOpenType.NONE;
     this.editingAddress = undefined;
 
     this.resetValues();
@@ -145,18 +143,19 @@ export class AddressesComponent extends FormComponent implements OnInit {
   }
 
   editAddress(address: Address) {
+    this.modalOpenType = ModalOpenType.EDIT;
+
     this.countryInput = address.country;
     this.streetInput = address.street;
     this.postalCodeInput = address.postalCode;
     this.cityInput = address.city;
     this.infoInput = address.info;
 
-    this.isEditingAddress = true;
     this.editingAddress = address;
   }
 
   isEnabled() {
-    return this.isAddingAddress || this.isEditingAddress;
+    return this.modalOpenType != ModalOpenType.NONE;
   }
 
   isFormValid(): boolean {
@@ -169,5 +168,4 @@ export class AddressesComponent extends FormComponent implements OnInit {
   isFormInvalid(): boolean {
     return !this.isFormValid() && this.isSubmitted;
   }
-
 }
