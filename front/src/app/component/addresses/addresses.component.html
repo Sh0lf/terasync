@@ -49,7 +49,7 @@
           <label for="info-input">Info:</label>
           <input class="default-input-2" type="text" [(ngModel)]="infoInput" id="info-input">
         </div>
-        <span class="validation-span" *ngIf="isFormInvalid()">*Required Fields</span>
+        <span class="validation-error-span" *ngIf="isFormInvalid()">*Required Fields</span>
         <div class="separation-line-small"></div>
         <div class="clickable-icon-elem-2" (click)="onSubmit()">
           <fa-icon [icon]="faCheck"></fa-icon>

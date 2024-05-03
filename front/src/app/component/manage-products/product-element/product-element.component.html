@@ -7,16 +7,16 @@
       <span>Price: {{ product?.price }} €</span>
     </div>
     <div class="mpe-image-elem" >
-      <div class="image-frame">
-
+      <div class="image-frame" *ngFor="let productImage of product?.productImages">
+        <img src="{{productImage.imageUrl}}" alt="product image" class="image-elem">
       </div>
     </div>
   </div>
   <div class="mpe-icons-elem">
-    <div class="clickable-icon-elem-1" (click)="openModal(ModalOpenType.EDIT)">
+    <div class="clickable-icon-elem-1" (click)="openModal()">
       <fa-icon [class]="['clickable-icon-1']" [icon]="faPen"></fa-icon>
     </div>
-    <div class="clickable-icon-elem-1">
+    <div class="clickable-icon-elem-1" (click)="deleteProduct()">
       <fa-icon [class]="['clickable-icon-1']" [icon]="faTrash"></fa-icon>
     </div>
   </div>

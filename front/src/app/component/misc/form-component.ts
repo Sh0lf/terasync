@@ -28,7 +28,7 @@ export abstract class FormComponent extends CookieComponent {
               subscriber.next(new UploadStatus('Uploading...', false));
               break;
             default:
-              console.log('Event: ', httpEvent);
+              // console.log('Event: ', httpEvent);
           }
         },
         error: (error: HttpErrorResponse) => {

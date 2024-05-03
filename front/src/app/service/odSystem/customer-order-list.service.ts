@@ -11,6 +11,6 @@ import {CustomerOrder} from "../../model/odSystem/customer.order";
 export class CustomerOrderListService extends EntityService<CustomerOrderList> {
 
   constructor(http: HttpClient) {
-    super(http, "customerOrderList");
+    super(http, "customer-order-list");
   }
 }

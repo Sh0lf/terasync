@@ -36,6 +36,27 @@ $margin: 5px;
   margin: $margin;
 }
 
+.icon-might-delete-elem {
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  background-color: $hoverBackground;
+
+  width: $imageSize;
+  min-width: $imageSize;
+  height: $imageSize;
+  min-height: $imageSize;
+  border-radius: $borderRadius;
+  margin: $margin;
+}
+
+.might-delete-icon {
+  color: red;
+}
+
 .image-preview-elem:hover + .image-preview-edit-elem , .image-preview-edit-elem:hover {
   display: flex;
 }

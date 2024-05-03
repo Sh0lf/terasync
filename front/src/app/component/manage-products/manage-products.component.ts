@@ -2,20 +2,19 @@ import {Component, OnInit} from '@angular/core';
 import {CookieComponent} from "../misc/cookie-component";
 import {CookieService} from "ngx-cookie-service";
 import {businessCategory} from "../../service/user/userCategories";
-import {faBurger, faLocationDot, faPen, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faBurger, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {CurrentUserService} from "../../service/user/current-user.service";
 import {BusinessService} from "../../service/user/business.service";
-import {CustomerService} from "../../service/user/customer.service";
-import {AdminService} from "../../service/user/admin.service";
-import {DeliveryServiceService} from "../../service/user/delivery-service.service";
-import {DeliveryPersonService} from "../../service/user/delivery-person.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UploadPfpModalComponent} from "../user-account/upload-pfp-modal/upload-pfp-modal.component";
 import {AddEditProductModalComponent} from "./add-edit-product-modal/add-edit-product-modal.component";
 import {ModalOpenType} from "../misc/modal-open-type";
 import {NgForOf} from "@angular/common";
 import {ProductElementComponent} from "./product-element/product-element.component";
+import {HttpErrorResponse, HttpEvent, HttpEventType} from "@angular/common/http";
+import {Product} from "../../model/odSystem/product";
+import {ProductImageService} from "../../service/odSystem/product-image.service";
 
 @Component({
   selector: 'app-manage-products',
@@ -32,20 +31,15 @@ import {ProductElementComponent} from "./product-element/product-element.compone
 })
 export class ManageProductsComponent extends CookieComponent implements OnInit {
   faBurger = faBurger;
-  faPen = faPen;
-  faTrash = faTrash;
   faPlus = faPlus;
 
   isModalOpen: boolean = false;
   modalOpenType: ModalOpenType = ModalOpenType.NONE;
-  ModalOpenType = ModalOpenType;
 
+  editingProduct!: Product;
 
-  constructor(protected override customerService: CustomerService,
+  constructor(private productImageService: ProductImageService,
               protected override businessService: BusinessService,
-              protected override adminService: AdminService,
-              protected override deliveryServiceService: DeliveryServiceService,
-              protected override deliveryPersonService: DeliveryPersonService,
               protected override currentUserService: CurrentUserService,
               protected override cookieService: CookieService,
               protected override router: Router, protected override route: ActivatedRoute) {
@@ -55,7 +49,8 @@ export class ManageProductsComponent extends CookieComponent implements OnInit {
   ngOnInit(): void {
     this.initializeUserByToken().then(() => {
       this.specificUserPage(businessCategory)
-    })
+      this.initializeProductImages();
+    });
   }
 
   openModal(modalOpenType: ModalOpenType) {
@@ -63,8 +58,37 @@ export class ManageProductsComponent extends CookieComponent implements OnInit {
     this.modalOpenType = modalOpenType;
   }
 
+  addProduct() {
+    this.editingProduct = new Product("", false, 0, this.currentUserService.user?.userId!, "");
+    this.openModal(ModalOpenType.ADD);
+  }
+
+  editProduct(product: Product) {
+    this.editingProduct = product;
+    this.openModal(ModalOpenType.EDIT);
+  }
+
   onChangeEmitter(isModalOpen: boolean) {
     this.isModalOpen = isModalOpen;
   }
 
+  initializeProductImages() {
+    this.currentUserService.user?.products.forEach((product: Product) => {
+      product.productImages.forEach((productImage) => {
+        this.productImageService.downloadFiles(productImage.path).subscribe({
+          next: (httpEvent: HttpEvent<Blob>) => {
+            if (httpEvent.type === HttpEventType.Response) {
+              const file: File = new File([httpEvent.body!], httpEvent.headers.get('File-Name')!,
+                {type: `${httpEvent.headers.get('Content-Type')};charset=utf-8`});
+
+              productImage.imageUrl = URL.createObjectURL(file);
+            }
+          },
+          error: (error: HttpErrorResponse) => {
+            console.log("Error downloading file");
+          }
+        });
+      });
+    });
+  }
 }

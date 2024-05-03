@@ -11,25 +11,25 @@
         <div class="my-modal-element">
           <div class="add-form-elem-1">
             <label for="name-input">Name:*</label>
-            <input class="default-input-3" type="text" [(ngModel)]="nameInput" id="name-input">
+            <input class="default-input-3" type="text" [(ngModel)]="editingProduct.name" id="name-input">
           </div>
         </div>
         <div class="my-modal-element">
           <div class="add-form-elem-1">
             <label for="price-input">Price:*</label>
-            <input class="default-input-3" type="number" [(ngModel)]="priceInput" id="price-input">
+            <input class="default-input-3" type="number" [(ngModel)]="editingProduct.price" id="price-input">
           </div>
         </div>
         <div class="my-modal-element">
           <div class="add-form-elem-2">
             <label for="is-vegan-input">Vegan:*</label>
-            <input class="default-check-box-1" type="checkbox" [(ngModel)]="isVeganInput" id="is-vegan-input">
+            <input class="default-check-box-1" type="checkbox" [(ngModel)]="editingProduct.vegan" id="is-vegan-input">
           </div>
         </div>
         <div class="my-modal-element">
           <div class="add-form-elem-1">
             <label for="description-input">Description:</label>
-            <input class="default-input-3" type="text" [(ngModel)]="descriptionInput" id="description-input">
+            <input class="default-input-3" type="text" [(ngModel)]="editingProduct.description" id="description-input">
           </div>
         </div>
         <div class="my-modal-element">
@@ -40,24 +40,32 @@
               <input #imageInput id="images-input" type="file" multiple="multiple" accept="image/*" name="files"
                      class="drag-and-drop-input" (change)="onImageSelected($event)">
             </div>
-            <span class="validation-span">{{ statusMsg }}</span>
+            <span class="validation-error-span">{{ statusMsg }}</span>
           </div>
-          <div class="add-form-elem-1" *ngIf="imgUrls.length > 0">
+          <div class="add-form-elem-1" *ngIf="editingProduct?.productImages!.length > 0">
             <span>Product Images:</span>
           </div>
           <div class="image-preview-container">
-            <div *ngFor="let imgUrl of imgUrls">
+            <div *ngFor="let productImage of editingProduct?.productImages">
               <div class="image-preview-elem-main">
                 <div class="image-preview-elem">
-                  <img class="image-preview" src="{{imgUrl}}" alt="img">
+                  <img class="image-preview" src="{{productImage.imageUrl}}" alt="img">
                 </div>
 
                 <div class="image-preview-edit-elem">
                   <fa-icon [icon]="faTrash" [class]="['clickable-icon-1', 'trash-icon']"
-                           (click)="onDeleteImage(imgUrl)"></fa-icon>
+                           (click)="onDeleteImage(productImage)"></fa-icon>
+                </div>
+
+                <div class="icon-might-delete-elem" *ngIf="productImage.mightDelete">
+                  <fa-icon [icon]="faXmark" [class]="['clickable-icon-1', 'might-delete-icon']"
+                           (click)="onDeleteImage(productImage)"></fa-icon>
                 </div>
               </div>
             </div>
+          </div>
+          <div class="add-form-elem-1" *ngIf="isSuccess">
+            <span class="validation-success-span">Product {{modalOpenType}}ed successfully</span>
           </div>
         </div>
       </div>

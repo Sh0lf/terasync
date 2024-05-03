@@ -9,6 +9,6 @@ import {RatingList} from "../model/rating.list";
 export class RatingListService extends EntityService<RatingList> {
 
   constructor(http: HttpClient) {
-    super(http, "ratingList");
+    super(http, "rating-list");
   }
 }

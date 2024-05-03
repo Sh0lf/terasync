@@ -130,8 +130,13 @@ $hoverBackground: rgba(0, 0, 0, 0.3);
 }
 
 // COMMON SPANS
-.validation-span {
+.validation-error-span {
   color: #B81111;
+  font-size: 13px;
+}
+
+.validation-success-span {
+  color: #0B6623;
   font-size: 13px;
 }
 

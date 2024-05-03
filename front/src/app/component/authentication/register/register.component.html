@@ -9,53 +9,53 @@
       <div class="sign-form-elem" *ngIf="!isPartnerType()">
         <label for="firstName-input">First Name:</label>
         <input type="text" id="firstName-input" [(ngModel)]="firstNameInput" name="firstName-input">
-        <span class="validation-span" *ngIf="isFirstNameInvalid()">{{ fieldInvalidMessage }}</span>
+        <span class="validation-error-span" *ngIf="isFirstNameInvalid()">{{ fieldInvalidMessage }}</span>
       </div>
       <div class="sign-form-elem" *ngIf="!isPartnerType()">
         <label for="lastName-input">Last Name:</label>
         <input type="text" id="lastName-input" [(ngModel)]="lastNameInput" name="lastName-input">
-        <span class="validation-span" *ngIf="isLastNameInvalid()">{{ fieldInvalidMessage }}</span>
+        <span class="validation-error-span" *ngIf="isLastNameInvalid()">{{ fieldInvalidMessage }}</span>
       </div>
       <div class="sign-form-elem" *ngIf="isPartnerType()">
         <label for="name-input">Name:</label>
         <input type="text" id="name-input" [(ngModel)]="nameInput" name="name-input">
-        <span class="validation-span" *ngIf="isNameInvalid()">{{ fieldInvalidMessage }}</span>
+        <span class="validation-error-span" *ngIf="isNameInvalid()">{{ fieldInvalidMessage }}</span>
       </div>
       <div class="sign-form-elem">
         <label for="email-input">Email:</label>
         <input type="email" id="email-input" [(ngModel)]="emailInput" name="email-input">
-        <span class="validation-span" *ngIf="isEmailInvalid()">{{ fieldInvalidMessage }}</span>
-        <span class="validation-span" *ngIf="isEmailExists">Email already exists.</span>
+        <span class="validation-error-span" *ngIf="isEmailInvalid()">{{ fieldInvalidMessage }}</span>
+        <span class="validation-error-span" *ngIf="isEmailExists">Email already exists.</span>
       </div>
       <div class="sign-form-elem">
         <label for="username-input">Username:</label>
         <input type="text" id="username-input" [(ngModel)]="usernameInput" name="username-input">
-        <span class="validation-span" *ngIf="isUsernameInvalid()">{{ fieldInvalidMessage }}</span>
+        <span class="validation-error-span" *ngIf="isUsernameInvalid()">{{ fieldInvalidMessage }}</span>
       </div>
       <div class="sign-form-elem" *ngIf="isBusinessCategory()">
         <label for="address-input">Address:</label>
         <input type="text" id="address-input" [(ngModel)]="addressInput" name="address-input">
-        <span class="validation-span" *ngIf="isAddressInvalid()">{{ fieldInvalidMessage }}</span>
+        <span class="validation-error-span" *ngIf="isAddressInvalid()">{{ fieldInvalidMessage }}</span>
       </div>
       <div class="sign-form-elem" *ngIf="isBusinessCategory()">
         <label for="phone-input">Phone:</label>
         <input type="text" id="phone-input" [(ngModel)]="phoneInput" name="phone-input">
-        <span class="validation-span" *ngIf="isPhoneInvalid()">{{ fieldInvalidMessage }}</span>
+        <span class="validation-error-span" *ngIf="isPhoneInvalid()">{{ fieldInvalidMessage }}</span>
       </div>
       <div class="sign-form-elem">
         <label for="password-input">Password:</label>
         <input type="password" id="password-input" [(ngModel)]="passwordInput" name="password-input">
-        <span class="validation-span" *ngIf="isPasswordInvalid()">{{passwordInvalidMessage}}</span>
+        <span class="validation-error-span" *ngIf="isPasswordInvalid()">{{passwordInvalidMessage}}</span>
       </div>
       <div class="sign-form-elem">
         <label for="passwordConfirmation-input">Password Confirmation:</label>
         <input type="password" id="passwordConfirmation-input" [(ngModel)]="confirmPasswordInput"
                name="passwordConfirmation-input">
-        <span class="validation-span" *ngIf="isPasswordsNotMatch()">{{passwordsNotMatchMessage}}</span>
+        <span class="validation-error-span" *ngIf="isPasswordsNotMatch()">{{passwordsNotMatchMessage}}</span>
       </div>
       <div class="sign-form-elem">
         <re-captcha (resolved)="resolved($event)"></re-captcha>
-        <label class="validation-span centered-span" *ngIf="isCaptchaInvalid()">Please verify that you're not a
+        <label class="validation-error-span centered-span" *ngIf="isCaptchaInvalid()">Please verify that you're not a
           robot.</label>
       </div>
       <div class="separation-line-small"></div>

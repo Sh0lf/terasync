@@ -9,6 +9,6 @@ import { EntityService } from '../entity.service';
 export class ProductImageService extends EntityService<ProductImage> {
 
   constructor(http: HttpClient) {
-    super(http, "productImage");
+    super(http, "product-image");
   }
 }

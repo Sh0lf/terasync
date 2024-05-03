@@ -94,6 +94,12 @@ $margin: 5px;
   margin: $margin;
 }
 
+.image-frame img {
+  width: $imageSize;
+  height: $imageSize;
+  border-radius: $borderRadius;
+}
+
 .mpe-icons-elem {
   display: flex;
   flex-direction: row;

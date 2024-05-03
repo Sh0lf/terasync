@@ -9,6 +9,6 @@ import { EntityService } from '../entity.service';
 export class DeliveryServiceListService extends EntityService<DeliveryServiceList> {
 
   constructor(http: HttpClient) {
-    super(http, "deliveryServiceList");
+    super(http, "delivery-service-list");
   }
 }

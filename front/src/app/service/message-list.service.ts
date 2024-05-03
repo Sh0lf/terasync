@@ -9,7 +9,7 @@ import {MessageList} from "../model/message.list";
 export class MessageListService extends EntityService<MessageList> {
 
   constructor(http: HttpClient) {
-    super(http, "messageList");
+    super(http, "message-list");
   }
 
 }

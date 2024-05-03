@@ -15,6 +15,8 @@ export class Product {
   productImages: ProductImage[] = [];
   customerOrderLists: CustomerOrderList[] = [];
 
+  // productImgUrls: string[] = [];
+
   constructor(name: string, isVegan: boolean, price: number, businessId: number,
               description?: string, creationTime?: string, productId?: number) {
     this.productId = productId;

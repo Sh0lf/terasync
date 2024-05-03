@@ -1,12 +1,14 @@
 export class ProductImage {
   productImageId: number | undefined;
   name: string;
-  description: string;
   path: string;
   productId: number;
+  description: string | undefined;
 
+  imageUrl: string | undefined;
+  mightDelete: boolean = false;
 
-  constructor(name: string, description: string, path: string, productId: number, productImageId?: number) {
+  constructor(name: string, path: string, productId: number, description?: string, productImageId?: number) {
     this.productImageId = productImageId;
     this.name = name;
     this.description = description;
@@ -15,7 +17,8 @@ export class ProductImage {
   }
 
   public static fromJson(json: ProductImage): ProductImage {
-    return new ProductImage(json.name, json.description, json.path, json.productId, json.productImageId);
+    return new ProductImage(json.name, json.path, json.productId,
+      json.description, json.productImageId);
   }
 
   static initializeProductImages(json: {productImages: ProductImage[]}) {
