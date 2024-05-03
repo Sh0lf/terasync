@@ -37,7 +37,8 @@
         </div>
       </div>
     </div>
-    <app-addresses *ngIf="hasAddresses"></app-addresses>
+    <app-addresses [style.width.%]="100" *ngIf="hasAddresses"></app-addresses>
+<!--    <app-manage-products [style.width.%]="100" *ngIf="hasProducts"></app-manage-products>-->
   </div>
 </div>
 <app-upload-pfp

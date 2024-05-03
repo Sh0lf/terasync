@@ -29,4 +29,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     @Modifying
     @Query("UPDATE Customer c SET c.pfpImgPath = :pfpImgPath WHERE c.email = :email")
     Integer updatePfpImgPathByEmail(@Param("email") String email, @Param("pfpImgPath") String pfpImgPath);
+
+    @Modifying
+    @Query("DELETE FROM Customer p WHERE p.customerId = :id")
+    Integer deleteEntityById(Integer id);
 }

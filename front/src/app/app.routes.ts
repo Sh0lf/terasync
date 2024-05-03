@@ -11,6 +11,7 @@ import {UserAccountComponent} from "./component/user-account/user-account.compon
 import {ConnectionSecurityComponent} from "./component/connection-security/connection-security.component";
 import {ManageProductsComponent} from "./component/manage-products/manage-products.component";
 import {OrderHistoryComponent} from "./component/order-history/order-history.component";
+import {ManageMenusComponent} from "./component/manage-menus/manage-menus.component";
 
 
 export const routes: Routes = [
@@ -25,5 +26,6 @@ export const routes: Routes = [
   {path: 'user-account', component: UserAccountComponent},
   {path: 'connection-security', component: ConnectionSecurityComponent},
   {path: 'manage-products', component: ManageProductsComponent},
+  {path: 'manage-menus', component: ManageMenusComponent},
   {path: 'order-history', component: OrderHistoryComponent},
 ];

@@ -18,7 +18,7 @@ export abstract class FormComponent extends CookieComponent {
         next: (httpEvent: HttpEvent<string[]>) => {
           switch (httpEvent.type) {
             case HttpEventType.ResponseHeader:
-              console.log('Response header has been received: ', httpEvent);
+              console.log('Response header has been received');
               break;
             case HttpEventType.Response:
               subscriber.next(new UploadStatus('Your file(s) have been uploaded successfully!', true));

@@ -1,6 +1,6 @@
 import {IconDefinition} from "@fortawesome/fontawesome-svg-core";
 import {
-  faArrowRightFromBracket, faBurger,
+  faArrowRightFromBracket, faBowlFood, faBurger,
   faChartSimple, faCreditCard,
   faLock, faMessage,
   faPeopleRoof, faQuestion, faTableList,
@@ -38,6 +38,7 @@ export const connectionAndSecurity = new ProfileMenuItem(faLock, 'Connection / S
 export const manageUsers = new ProfileMenuItem(faPeopleRoof, 'Manage Users', '', [adminCategory]);
 export const manageDeliveryPersons = new ProfileMenuItem(faUserGroup, 'Manage Delivery Persons', '', [deliveryServiceCategory]);
 export const manageProducts = new ProfileMenuItem(faBurger, 'Manage Products', '/manage-products', [businessCategory]);
+export const manageMenus = new ProfileMenuItem(faBowlFood, 'Manage Menus', '/manage-menus', [businessCategory]);
 export const orderHistory = new ProfileMenuItem(faTableList, 'Order History', '/order-history', [customerCategory]);
 export const paymentMethods = new ProfileMenuItem(faCreditCard, 'Payment Methods', '', [customerCategory]);
 export const faq = new ProfileMenuItem(faQuestion, 'FAQ', '', userCategories);
@@ -50,6 +51,7 @@ export const profileMenuItems: ProfileMenuItem[] = [
   manageUsers,
   manageDeliveryPersons,
   manageProducts,
+  manageMenus,
   orderHistory,
   paymentMethods,
   messageCenter,

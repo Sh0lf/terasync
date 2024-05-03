@@ -7,6 +7,8 @@
   </div>
   <div class="separation-line-2"></div>
 
+  <input type="text" class="default-input-2" placeholder="Search Products" [(ngModel)]="searchProduct">
+
   <div class="manage-product-elem-container">
     <div class="mpe-static-add-div">
       <div class="add-new-elem-div" (click)="addProduct()">
@@ -15,7 +17,7 @@
         </div>
       </div>
     </div>
-    <app-product-element *ngFor="let product of currentUserService.user?.products"
+    <app-product-element *ngFor="let product of getCurrentProducts()"
       class="manage-product-elem-body"
       [product]="product"
       (onEditEmitter)="editProduct(product)"

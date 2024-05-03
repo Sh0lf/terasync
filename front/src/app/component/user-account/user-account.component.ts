@@ -18,6 +18,7 @@ import {ProfileMenuItemComponent} from "./profile-menu-item/profile-menu-item.co
 import {profileMenuItems} from "./profile-menu-item/profile-menu-item";
 import {AddressesComponent} from "../addresses/addresses.component";
 import {businessCategory, customerCategory} from "../../service/user/userCategories";
+import {ManageProductsComponent} from "../manage-products/manage-products.component";
 
 @Component({
   selector: 'app-user-account',
@@ -30,7 +31,8 @@ import {businessCategory, customerCategory} from "../../service/user/userCategor
     NgIf,
     ProfileMenuItemComponent,
     NgForOf,
-    AddressesComponent
+    AddressesComponent,
+    ManageProductsComponent
   ],
   providers: [
     UploadPfpModalComponent,
@@ -45,6 +47,7 @@ export class UserAccountComponent extends CookieComponent implements OnInit {
   faPenToSquare = faPenToSquare;
   isModalOpen: boolean = false;
   hasAddresses: boolean = false;
+  hasProducts: boolean = false;
 
   profileMenuItems = profileMenuItems;
 
@@ -65,6 +68,7 @@ export class UserAccountComponent extends CookieComponent implements OnInit {
       this.loggedInPage();
     });
     this.hasAddresses = this.includesCurrentCategory(customerCategory);
+    this.hasProducts = this.includesCurrentCategory(businessCategory);
   }
 
   openModal() {

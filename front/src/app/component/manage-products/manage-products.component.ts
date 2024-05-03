@@ -15,6 +15,7 @@ import {ProductElementComponent} from "./product-element/product-element.compone
 import {HttpErrorResponse, HttpEvent, HttpEventType} from "@angular/common/http";
 import {Product} from "../../model/odSystem/product";
 import {ProductImageService} from "../../service/odSystem/product-image.service";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-manage-products',
@@ -24,7 +25,8 @@ import {ProductImageService} from "../../service/odSystem/product-image.service"
     UploadPfpModalComponent,
     AddEditProductModalComponent,
     NgForOf,
-    ProductElementComponent
+    ProductElementComponent,
+    FormsModule
   ],
   templateUrl: './manage-products.component.html',
   styleUrl: './manage-products.component.scss'
@@ -37,6 +39,7 @@ export class ManageProductsComponent extends CookieComponent implements OnInit {
   modalOpenType: ModalOpenType = ModalOpenType.NONE;
 
   editingProduct!: Product;
+  searchProduct: string = "";
 
   constructor(private productImageService: ProductImageService,
               protected override businessService: BusinessService,
@@ -90,5 +93,11 @@ export class ManageProductsComponent extends CookieComponent implements OnInit {
         });
       });
     });
+  }
+
+  getCurrentProducts(): Product[] {
+    return this.currentUserService.user?.products.filter((product) => {
+      return product.name.toLowerCase().includes(this.searchProduct.toLowerCase());
+    })!;
   }
 }

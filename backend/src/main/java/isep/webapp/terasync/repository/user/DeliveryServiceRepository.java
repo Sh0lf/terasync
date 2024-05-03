@@ -28,4 +28,8 @@ public interface DeliveryServiceRepository extends JpaRepository<DeliveryService
     @Modifying
     @Query("UPDATE DeliveryService c SET c.pfpImgPath = :pfpImgPath WHERE c.email = :email")
     Integer updatePfpImgPathByEmail(@Param("email") String email, @Param("pfpImgPath") String pfpImgPath);
+
+    @Modifying
+    @Query("DELETE FROM DeliveryService p WHERE p.deliveryServiceId = :id")
+    Integer deleteEntityById(Integer id);
 }

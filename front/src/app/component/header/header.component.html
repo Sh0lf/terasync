@@ -30,7 +30,7 @@
             </button>
           </div>
         </div>
-        <div class="dpm-func-menu" >
+        <div class="dpm-func-menu" *ngIf="currentUserService.isLoggedIn()">
           <div class="dpm-func-elem" (click)="routeToAndCloseBurgerMenu('user-account')">
             <div class="dpm-func-icon-elem">
               <fa-icon [icon]="faGear" [class]="['func-icon']"></fa-icon>

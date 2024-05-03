@@ -10,6 +10,8 @@ import {CurrentUserService} from "../../../service/user/current-user.service";
 import {BusinessService} from "../../../service/user/business.service";
 import {ProductService} from "../../../service/odSystem/product.service";
 import {AddEditProductModalComponent} from "../add-edit-product-modal/add-edit-product-modal.component";
+import {HttpErrorResponse} from "@angular/common/http";
+import {ProductImageService} from "../../../service/odSystem/product-image.service";
 
 @Component({
   selector: 'app-product-element',
@@ -40,9 +42,9 @@ export class ProductElementComponent extends CookieComponent {
 
   @Input() product!: Product | undefined;
   @Output() onEditEmitter = new EventEmitter<void>();
-  modalOpenType: ModalOpenType = ModalOpenType.NONE;
 
   constructor(private productService: ProductService,
+              private productImageService: ProductImageService,
               protected override businessService: BusinessService,
               protected override currentUserService: CurrentUserService,
               protected override cookieService: CookieService) {
@@ -54,6 +56,28 @@ export class ProductElementComponent extends CookieComponent {
   }
 
   deleteProduct() {
-    // this.productService.deleteEntity()
+    if(this.product != undefined) {
+      this.product.productImages.forEach((productImage) => {
+        this.productImageService.deleteFile(productImage.path!).subscribe({
+          next: () => {
+            console.log("Product image deleted with id: " + productImage.productImageId);
+          },
+          error: (error: HttpErrorResponse) => {
+            console.error(error);
+          }
+        });
+      })
+
+      this.productService.deleteEntity(this.product.productId!).subscribe({
+        next: () => {
+          this.currentUserService.user?.products.
+          splice(this.currentUserService.user?.products.indexOf(this.product!), 1);
+          console.log("Product deleted with id: " + this.product?.productId);
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error(error);
+        }
+      });
+    }
   }
 }

@@ -54,8 +54,8 @@ public abstract class EntityController<T extends Entity, S extends EntityService
     }
 
     @GetMapping("/delete/{id}")
-    public ResponseEntity<Boolean> deleteEntity(@PathVariable("id") Integer id) {
-        entityService.deleteEntity(id);
+    public ResponseEntity<Integer> deleteEntity(@PathVariable("id") Integer id) {
+        entityService.deleteEntityById(id);
         return ResponseEntity.ok().build();
     }
 

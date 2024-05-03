@@ -2,6 +2,8 @@ package isep.webapp.terasync.model.odSystem;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Setter

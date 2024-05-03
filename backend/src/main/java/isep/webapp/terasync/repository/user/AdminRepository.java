@@ -29,4 +29,8 @@ public interface AdminRepository extends JpaRepository<Admin, Integer> {
     @Modifying
     @Query("UPDATE Admin c SET c.pfpImgPath = :pfpImgPath WHERE c.email = :email")
     Integer updatePfpImgPathByEmail(@Param("email") String email, @Param("pfpImgPath") String pfpImgPath);
+
+    @Modifying
+    @Query("DELETE FROM Admin p WHERE p.adminId = :id")
+    Integer deleteEntityById(Integer id);
 }

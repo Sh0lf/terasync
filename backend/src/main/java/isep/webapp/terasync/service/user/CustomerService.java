@@ -19,6 +19,12 @@ public class CustomerService extends UserService<Customer, CustomerRepository> {
         super(customerRepository);
     }
 
+    @Transactional
+    @Override
+    public Integer deleteEntityById(Integer id) {
+        return entityRepository.deleteEntityById(id);
+    }
+
     @Override
     public Customer selectByEmail(String email) {
         return entityRepository.findByEmail(email);

@@ -30,7 +30,5 @@ public abstract class EntityService<T extends Entity, R extends JpaRepository<T,
         return entityRepository.save(entity);
     }
 
-    public void deleteEntity(int id) {
-        entityRepository.deleteById(id);
-    }
+    public abstract Integer deleteEntityById(Integer id);
 }

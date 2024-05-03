@@ -19,6 +19,12 @@ public class AdminService extends UserService<Admin, AdminRepository> {
         super(adminRepository);
     }
 
+    @Transactional
+    @Override
+    public Integer deleteEntityById(Integer id) {
+        return entityRepository.deleteEntityById(id);
+    }
+
     @Override
     public Admin selectByEmail(String email) {
         return entityRepository.findByEmail(email);

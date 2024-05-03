@@ -16,6 +16,7 @@ import {Product} from "../../../model/odSystem/product";
 import {ProductImage} from "../../../model/odSystem/product.image";
 import {ProductImageService} from "../../../service/odSystem/product-image.service";
 import {generateRandomString} from "../../misc/functions";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-add-edit-product-modal',
@@ -66,7 +67,6 @@ export class AddEditProductModalComponent extends ModalComponent {
     }
 
     return this.editingProduct.name.length > 0 &&
-      this.editingProduct.description!.length > 0 &&
       this.editingProduct.price > 0 &&
       checkedFileTypes
   }
@@ -93,9 +93,46 @@ export class AddEditProductModalComponent extends ModalComponent {
     }
 
     if (this.modalOpenType == ModalOpenType.ADD) {
+      let productImagesToAdd = this.editingProduct.productImages
+      this.editingProduct.productImages = [];
+
       this.productService.addEntity(this.editingProduct).subscribe({
-        next: (product: Product) => {
-          this.uploadProductImages(Product.fromJson(product));
+        next: (jsonProduct: Product) => {
+          let product = Product.fromJson(jsonProduct);
+          this.editingProduct.productId = product.productId;
+
+          new Observable<number>((observer) => {
+            let count = 1;
+            if(productImagesToAdd.length == 0) observer.next(0);
+
+            productImagesToAdd.forEach((productImage: ProductImage) => {
+              productImage.productId = product.productId!;
+              this.productImageService.addEntity(productImage).subscribe({
+                next: (jsonProductImage: ProductImage) => {
+                  let productImage = ProductImage.fromJson(jsonProductImage);
+                  console.log("Added product image with id: " + productImage.productImageId);
+                  product.productImages.push(productImage);
+                  observer.next(count++);
+                },
+                error: (error: HttpErrorResponse) => {
+                  observer.error(error);
+                  console.error(error);
+                }
+              });
+            });
+          }).subscribe({
+            next: (count: number) => {
+              if (count === productImagesToAdd.length) {
+                console.log("done adding product images")
+                this.editingProduct.productImages = productImagesToAdd;
+                this.uploadProductImages(product);
+              }
+            },
+            error: (error: HttpErrorResponse) => {
+              console.error(error);
+            }
+
+          });
         },
         error: (error: HttpErrorResponse) => {
           console.error(error);
@@ -140,7 +177,6 @@ export class AddEditProductModalComponent extends ModalComponent {
   }
 
   uploadProductImages(product: Product) {
-    console.log(product)
     let formData = new FormData();
 
     for (let i = 0; i < this.files.length; i++) {
@@ -170,11 +206,11 @@ export class AddEditProductModalComponent extends ModalComponent {
       });
     } else {
       this.isSuccess = true;
-      this.resetValues();
     }
 
-    if(this.modalOpenType == ModalOpenType.ADD) {
-      this.currentUserService.user?.products.push(product);
+    if (this.modalOpenType == ModalOpenType.ADD) {
+      this.currentUserService.user?.products.push(this.editingProduct);
+      this.resetValues();
     }
   }
 
@@ -184,9 +220,9 @@ export class AddEditProductModalComponent extends ModalComponent {
     }
 
     for (let i = this.editingProduct.productImages.length - 1; i >= 0; i--) {
-      if(this.editingProduct.productImages[i].productImageId == undefined) {
+      if (this.editingProduct.productImages[i].productImageId == undefined) {
         this.editingProduct.productImages.splice(i, 1);
-      } else if(this.editingProduct.productImages[i].mightDelete) {
+      } else if (this.editingProduct.productImages[i].mightDelete) {
         this.editingProduct.productImages[i].mightDelete = false;
       }
     }
@@ -202,7 +238,7 @@ export class AddEditProductModalComponent extends ModalComponent {
       this.productImagesIdsToDelete.includes(productImage.productImageId);
 
     // IF NOT IN PRODUCT IMAGES TO DELETE AND NOT ORIGINAL PRODUCT IMAGE
-    if(!isInDeletingList && productImage.productImageId == undefined) {
+    if (!isInDeletingList && productImage.productImageId == undefined) {
       console.log("removed from potential list")
       // REMOVE FROM PRODUCT IMAGES
       this.editingProduct?.productImages.splice(this.editingProduct?.productImages
@@ -213,13 +249,13 @@ export class AddEditProductModalComponent extends ModalComponent {
       this.files.splice(indexFiles, 1);
     }
     // IF NOT IN DELETING BUT ORIGINAL PRODUCT IMAGE
-    else if(!isInDeletingList && productImage.productImageId != undefined) {
+    else if (!isInDeletingList && productImage.productImageId != undefined) {
       // ADD TO PRODUCT IMAGES TO DELETE
       productImage.mightDelete = true;
       this.productImagesIdsToDelete.push(productImage.productImageId);
     }
     // IF ALREADY IN DELETING AND ORIGINAL PRODUCT IMAGE
-    else if(isInDeletingList && productImage.productImageId != undefined) {
+    else if (isInDeletingList && productImage.productImageId != undefined) {
       // REMOVE FROM PRODUCT IMAGES TO DELETE
       productImage.mightDelete = false;
       this.productImagesIdsToDelete.splice(this.productImagesIdsToDelete

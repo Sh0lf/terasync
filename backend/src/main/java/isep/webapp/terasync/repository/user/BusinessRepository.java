@@ -28,4 +28,8 @@ public interface BusinessRepository extends JpaRepository<Business, Integer> {
     @Modifying
     @Query("UPDATE Business c SET c.pfpImgPath = :pfpImgPath WHERE c.email = :email")
     Integer updatePfpImgPathByEmail(@Param("email") String email, @Param("pfpImgPath") String pfpImgPath);
+
+    @Modifying
+    @Query("DELETE FROM Business p WHERE p.businessId = :id")
+    Integer deleteEntityById(Integer id);
 }

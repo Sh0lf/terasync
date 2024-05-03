@@ -19,6 +19,12 @@ public class BusinessService extends UserService<Business, BusinessRepository> {
         super(entityRepository);
     }
 
+    @Transactional
+    @Override
+    public Integer deleteEntityById(Integer id) {
+        return entityRepository.deleteEntityById(id);
+    }
+
     @Override
     public Business selectByEmail(String email) {
         return entityRepository.findByEmail(email);

@@ -18,6 +18,12 @@ public class DeliveryServiceService extends UserService<DeliveryService, Deliver
         super(entityRepository);
     }
 
+    @Transactional
+    @Override
+    public Integer deleteEntityById(Integer id) {
+        return entityRepository.deleteEntityById(id);
+    }
+
     @Override
     public DeliveryService selectByEmail(String email) {
         return entityRepository.findByEmail(email);
