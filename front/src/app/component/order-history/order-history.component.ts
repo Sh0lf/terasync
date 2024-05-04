@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HeaderComponent} from "../header/header.component";
 import {FooterComponent} from "../footer/footer.component";
 import {NgxResizeObserverModule} from "ngx-resize-observer";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {OrderHistoryElementComponent} from "./order-history-element/order-history-element.component";
 import {CustomerService} from "../../service/user/customer.service";
 import {BusinessService} from "../../service/user/business.service";
@@ -24,7 +24,8 @@ import {CookieComponent} from "../misc/cookie-component";
     FooterComponent,
     NgxResizeObserverModule,
     NgForOf,
-    OrderHistoryElementComponent
+    OrderHistoryElementComponent,
+    NgIf
   ],
   templateUrl: './order-history.component.html',
   styleUrl: './order-history.component.scss'

@@ -1,0 +1,7 @@
+@import "../../../common";
+
+.item{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

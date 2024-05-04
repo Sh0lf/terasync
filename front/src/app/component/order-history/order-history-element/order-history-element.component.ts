@@ -68,7 +68,7 @@ export class OrderHistoryElementComponent extends CookieComponent implements OnI
       for (let orderList of orderLists) {
         this.productService.findEntityById(orderList.productId).subscribe({
           next: (product: Product) => {
-            this.total = this.total + product.price;
+            this.total = this.total + (product.price * orderList.quantity);
           },
           error: (error: HttpErrorResponse) => {
             console.error('Error fetching product:', error);
@@ -78,4 +78,6 @@ export class OrderHistoryElementComponent extends CookieComponent implements OnI
       }
     }
   }
+
+  protected readonly length = length;
 }

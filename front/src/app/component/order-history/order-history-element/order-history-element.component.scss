@@ -28,3 +28,9 @@ app-order-history-element-list {
   display: flex;
   justify-content: space-between;
 }
+
+.order-misc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
