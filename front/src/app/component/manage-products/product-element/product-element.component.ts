@@ -12,6 +12,8 @@ import {ProductService} from "../../../service/odSystem/product.service";
 import {AddEditProductModalComponent} from "../add-edit-product-modal/add-edit-product-modal.component";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ProductImageService} from "../../../service/odSystem/product-image.service";
+import {CustomerOrderListService} from "../../../service/odSystem/customer-order-list.service";
+import {ProductListService} from "../../../service/odSystem/product-list.service";
 
 @Component({
   selector: 'app-product-element',
@@ -45,6 +47,8 @@ export class ProductElementComponent extends CookieComponent {
 
   constructor(private productService: ProductService,
               private productImageService: ProductImageService,
+              private customerOrderListService: CustomerOrderListService,
+              private productListService: ProductListService,
               protected override businessService: BusinessService,
               protected override currentUserService: CurrentUserService,
               protected override cookieService: CookieService) {
@@ -57,6 +61,7 @@ export class ProductElementComponent extends CookieComponent {
 
   deleteProduct() {
     if(this.product != undefined) {
+      // DELETE THE IMAGES
       this.product.productImages.forEach((productImage) => {
         this.productImageService.deleteFile(productImage.path!).subscribe({
           next: () => {
@@ -68,11 +73,32 @@ export class ProductElementComponent extends CookieComponent {
         });
       })
 
+      // DELETE THE PRODUCT -> TAKES CARE OF ASSOCIATED PRODUCT IMAGES
       this.productService.deleteEntity(this.product.productId!).subscribe({
         next: () => {
           this.currentUserService.user?.products.
           splice(this.currentUserService.user?.products.indexOf(this.product!), 1);
           console.log("Product deleted with id: " + this.product?.productId);
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error(error);
+        }
+      });
+
+      // DELETE ASSOCIATED CUSTOMER ORDER LISTS
+      this.customerOrderListService.deleteByProductId(this.product.productId!).subscribe({
+        next: () => {
+          console.log("Customer order lists deleted for product with id: " + this.product?.productId);
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error(error);
+        }
+      });
+
+      // DELETE ASSOCIATED PRODUCT LISTS
+      this.productListService.deleteByProductId(this.product.productId!).subscribe({
+        next: () => {
+          console.log("Product lists deleted for product with id: " + this.product?.productId);
         },
         error: (error: HttpErrorResponse) => {
           console.error(error);

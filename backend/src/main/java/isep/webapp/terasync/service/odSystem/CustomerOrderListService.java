@@ -19,4 +19,9 @@ public class CustomerOrderListService extends EntityService<CustomerOrderList, C
     public Integer deleteEntityById(Integer id) {
         return entityRepository.deleteEntityById(id);
     }
+
+    @Transactional
+    public Integer deleteByProductId(Integer id) {
+        return entityRepository.deleteByProductId(id);
+    }
 }

@@ -9,4 +9,6 @@ public interface ProductListRepository extends JpaRepository<ProductList, Intege
     @Modifying
     @Query("DELETE FROM ProductList p WHERE p.productListId = :id")
     Integer deleteEntityById(Integer id);
+
+    Integer deleteByProductId(Integer id);
 }

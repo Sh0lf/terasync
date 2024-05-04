@@ -10,4 +10,6 @@ public interface CustomerOrderListRepository extends JpaRepository<CustomerOrder
     @Modifying
     @Query("DELETE FROM CustomerOrderList p WHERE p.customerOrderListId = :id")
     Integer deleteEntityById(Integer id);
+
+    Integer deleteByProductId(Integer id);
 }

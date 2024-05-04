@@ -11,4 +11,8 @@ export class ProductListService extends EntityService<ProductList> {
   constructor(http: HttpClient) {
     super(http, "product-list");
   }
+
+  deleteByProductId(productId: number) {
+    return this.http.get<void>(`${this.apiBackendUrl}/${this.entityName}/delete-by-product-id/${productId}`);
+  }
 }

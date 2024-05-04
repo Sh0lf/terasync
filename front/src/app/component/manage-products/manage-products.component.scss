@@ -1,6 +1,6 @@
 @import "../common";
 
-$imageSize: 150px;
+$imageSize: 100px;
 $borderRadius: 10px;
 $margin: 5px;
 
@@ -44,7 +44,7 @@ $margin: 5px;
   justify-content: space-between;
   align-items: center;
 
-  padding: 20px;
+  padding: 10px 20px 5px 20px;
   width: 100%;
   height: 100%;
 }
@@ -68,7 +68,7 @@ $margin: 5px;
 }
 
 .mpe-info-elem span {
-  padding: 10px 0 10px 0;
+  padding: 3px 0 3px;
   text-wrap: wrap;
   word-break: break-word;
 }

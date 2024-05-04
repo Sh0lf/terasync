@@ -19,4 +19,9 @@ public class ProductListService extends EntityService<ProductList, ProductListRe
     public Integer deleteEntityById(Integer id) {
         return entityRepository.deleteEntityById(id);
     }
+
+    @Transactional
+    public Integer deleteByProductId(Integer id) {
+        return entityRepository.deleteByProductId(id);
+    }
 }
