@@ -14,7 +14,7 @@ export class CustomerOrderListService extends EntityService<CustomerOrderList> {
     super(http, "customer-order-list");
   }
 
-  deleteByProductId(productId: number) {
+  public deleteByProductId(productId: number) {
     return this.http.get<void>(`${this.apiBackendUrl}/${this.entityName}/delete-by-product-id/${productId}`);
   }
 }

@@ -20,6 +20,7 @@
 .order-list-container {
   display: flex;
   flex-direction: column;
+  flex-wrap: nowrap;
 }
 
 app-order-history-element-list {

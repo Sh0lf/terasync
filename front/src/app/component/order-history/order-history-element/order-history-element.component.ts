@@ -7,16 +7,19 @@ import {BusinessService} from "../../../service/user/business.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {CookieComponent} from "../../misc/cookie-component";
 import {CustomerOrderList} from "../../../model/odSystem/customer.order.list";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {Product} from "../../../model/odSystem/product";
 import {OrderHistoryElementListComponent} from "./order-history-element-list/order-history-element-list.component";
+import {ProductService} from "../../../service/odSystem/product.service";
 
 @Component({
   selector: 'app-order-history-element',
   standalone: true,
   imports: [
     NgForOf,
-    OrderHistoryElementListComponent
+    OrderHistoryElementListComponent,
+    NgIf,
+    NgOptimizedImage
   ],
   templateUrl: './order-history-element.component.html',
   styleUrl: './order-history-element.component.scss'
@@ -27,22 +30,25 @@ export class OrderHistoryElementComponent extends CookieComponent implements OnI
 
   business : Business | undefined;
   creationTime: string | undefined;
-  orderLists: CustomerOrderList[] | undefined
-  product: Product | undefined
+  product: Product | undefined;
+  total: number = 0;
+  orderLists: CustomerOrderList[] | undefined;
 
   constructor(
     protected override currentUserService: CurrentUserService,
     protected override cookieService: CookieService,
-    protected override businessService: BusinessService,) {
+    protected override businessService: BusinessService,
+    protected productService: ProductService,) {
     super();
   }
 
   ngOnInit(): void{
     let businessId = this.order!.businessId;
+    this.fetchBusinessById(businessId);
     let timeArray = this.order!.creationTime.split(" ")
     this.creationTime = timeArray[0] + " at " + timeArray[1];
-    this.fetchBusinessById(businessId);
-    this.orderLists = this.order!.customerOrderLists;
+    this.orderLists = this.order?.customerOrderLists;
+    this.sumTotal(this.orderLists);
   }
 
   fetchBusinessById(id: number): void {
@@ -57,6 +63,19 @@ export class OrderHistoryElementComponent extends CookieComponent implements OnI
     });
   }
 
-  // don't even know if this is a solution
-
+  sumTotal(orderLists: CustomerOrderList[] | undefined): void{
+    if (orderLists != undefined) {
+      for (let orderList of orderLists) {
+        this.productService.findEntityById(orderList.productId).subscribe({
+          next: (product: Product) => {
+            this.total = this.total + product.price;
+          },
+          error: (error: HttpErrorResponse) => {
+            console.error('Error fetching product:', error);
+            console.log("HTTP ERROR / NA : No product found");
+          }
+        })
+      }
+    }
+  }
 }

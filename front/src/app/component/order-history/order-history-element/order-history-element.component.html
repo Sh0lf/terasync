@@ -3,21 +3,20 @@
     <span class="order-timestamp">{{ creationTime }}</span>
   </div>
   <div class="business-img-div"> <!-- add white gradient -->
-    <img class="business-thumbnail" src="{{business!.pfpImgPath}}" alt="thumbnail">
+    <img class="business-thumbnail" ngSrc="{{business!.pfpImgPath}}" alt="thumbnail">
   </div>
   <div class="order-summary-detail">
     <h4 class="business-name">{{ business?.name }}</h4>
-    <div class="order-list-container" *ngFor="let orderList of orderLists">
+    <div class="order-list-container" *ngFor="let orderList of orderLists?.slice(0, 4); let i = index">
         <app-order-history-element-list [style.height.%]="100"
                                         [orderList]="orderList">
         </app-order-history-element-list>
-        <!-- We need to fetch the product's name in a way, i'm too tired -->
     </div>
   </div>
   <div class="order-misc">
     <div class="order-misc-total-container">
       <h4 class="order-misc-total-text">Total</h4>
-      <p class="order-misc-total-num"></p>
+      <p class="order-misc-total-num">{{total}}</p>
     </div>
     <p class="order-misc-order-details">More Infos >></p>
   </div>

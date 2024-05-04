@@ -123,3 +123,71 @@ INSERT INTO DeliveryPerson (firstName, lastName, email, username, password, deli
 VALUES
     ('Christopher', 'Hernandez', 'christopher.hernandez5@example.com', 'christopherh5', 'password9', 5),
     ('Ashley', 'Moore', 'ashley.moore5@example.com', 'ashleym5', 'password10', 5);
+
+-- Product for businessId = 10
+INSERT INTO Product (name, description, vegan, price, businessId)
+VALUES
+    ('Organic Quinoa Salad', 'A delicious and nutritious salad made with organic quinoa, mixed vegetables, and a tangy vinaigrette dressing.', 1, 9.99, 10),
+    ('Grass-fed Angus Burger', 'A juicy Angus beef patty served on a toasted brioche bun with fresh lettuce, tomato, and your choice of toppings.', 0, 12.49, 10),
+    ('Vegan Black Bean Chili', 'A hearty and flavorful chili made with black beans, tomatoes, peppers, onions, and spices, all vegan-friendly and gluten-free.', 1, 8.75, 10),
+    ('Wild-caught Alaskan Salmon', 'Fresh Alaskan salmon fillet grilled to perfection, served with roasted vegetables and lemon herb sauce.', 0, 17.99, 10),
+    ('Organic Avocado Toast', 'A classic brunch favorite featuring mashed organic avocado on toasted artisan bread, topped with cherry tomatoes, red pepper flakes, and a drizzle of extra virgin olive oil.', 1, 10.99, 10),
+    ('Mediterranean Veggie Wrap', 'A tasty wrap filled with roasted vegetables, hummus, feta cheese, and a sprinkle of fresh herbs, served with a side of tzatziki sauce.', 1, 8.49, 10),
+    ('Free-range Chicken Caesar Salad', 'Crisp romaine lettuce tossed with grilled free-range chicken, Parmesan cheese, croutons, and Caesar dressing, a classic favorite.', 0, 11.99, 10),
+    ('Gluten-free Quinoa Pasta', 'Gluten-free pasta made from nutritious quinoa flour, paired with your choice of marinara sauce or creamy Alfredo sauce.', 1, 9.25, 10),
+    ('Thai Coconut Curry Bowl', 'A fragrant and spicy coconut curry served with jasmine rice, tofu, mixed vegetables, and fresh cilantro, a satisfying vegan option.', 1, 12.99, 10),
+    ('Homemade Chocolate Chip Cookies', 'Warm and gooey chocolate chip cookies made from scratch, with the perfect balance of sweet and salty flavors, a delightful treat for any occasion.', 1, 5.49, 10),
+    ('Grass-fed Beef Bolognese Pasta', 'Slow-cooked grass-fed beef simmered in a rich tomato sauce, served over al dente pasta and garnished with Parmesan cheese and fresh basil.', 0, 14.75, 10),
+    ('Acai Berry Smoothie Bowl', 'A refreshing blend of acai berries, bananas, and almond milk, topped with granola, sliced fruits, coconut flakes, and a drizzle of honey, a nutritious and colorful breakfast option.', 1, 7.99, 10),
+    ('Sushi Platter', 'An assortment of freshly prepared sushi rolls including California rolls, spicy tuna rolls, and salmon avocado rolls, served with soy sauce, pickled ginger, and wasabi.', 0, 19.99, 10);
+
+
+INSERT INTO Status (status)
+VALUES
+    ('Pending'),
+    ('Completed'),
+    ('Accepted'),
+    ('Cancelled'),
+    ('Rejected');
+
+INSERT INTO Packaging (packaging)
+VALUES
+    ('Plastic'),
+    ('Cardboard'),
+    ('Paper'),
+    ('Seaweed'),
+    ('Polystyrene');
+
+
+INSERT INTO CustomerOrder (creationTime, minTemp, maxTemp, deliveryTime, statusId, packagingId, customerId, businessId, deliveryServiceId, deliveryPersonId)
+VALUES
+    ('2024-04-28 10:00:00', 0, 3, DATEADD(MINUTE, 30, '2024-04-28 10:00:00'), 3, 1, 23, 10, 1, 1),
+    ('2024-04-27 11:15:00', -1, 5, DATEADD(MINUTE, 45, '2024-04-27 11:15:00'), 3, 2, 23, 10, 2, 2),
+    ('2024-04-26 12:30:00', 2, 6, DATEADD(MINUTE, 30, '2024-04-26 12:30:00'), 3, 3, 23, 10, 3, 3),
+    ('2024-04-25 13:45:00', 5, 7, DATEADD(MINUTE, 45, '2024-04-25 13:45:00'), 3, 4, 23, 10, 4, 4),
+    ('2024-04-24 14:00:00', 3, 4, DATEADD(MINUTE, 30, '2024-04-24 14:00:00'), 3, 5, 23, 10, 5, 5);
+
+
+INSERT INTO CustomerOrderList (selectionTime, quantity, customerOrderId, productId)
+VALUES
+    -- Since modified populate CustomerOrder a lot, Id go from 11-15. CustomerId = 23
+    ('2024-04-28 10:00:00', 1, 11, 6),
+    ('2024-04-28 10:00:00', 2, 11, 7),
+    ('2024-04-28 10:00:00', 3, 11, 8),
+    ('2024-04-28 10:00:00', 3, 11, 9),
+    ('2024-04-28 10:00:00', 2, 11, 10),
+    ('2024-04-28 10:00:00', 1, 11, 11),
+    ('2024-04-27 11:15:00', 1, 12, 9),
+    ('2024-04-27 11:15:00', 2, 12, 10),
+    ('2024-04-27 11:15:00', 3, 12, 11),
+    ('2024-04-27 11:15:00', 3, 12, 12),
+    ('2024-04-27 11:15:00', 2, 12, 13),
+    ('2024-04-26 12:30:00', 1, 13, 12),
+    ('2024-04-26 12:30:00', 2, 13, 13),
+    ('2024-04-26 12:30:00', 3, 13, 14),
+    ('2024-04-25 13:45:00', 1, 14, 15),
+    ('2024-04-25 13:45:00', 2, 14, 16),
+    ('2024-04-25 13:45:00', 3, 14, 17),
+    ('2024-04-24 14:00:00', 1, 15, 18),
+    ('2024-04-24 14:00:00', 2, 15, 6),
+    ('2024-04-24 14:00:00', 3, 15, 7);
