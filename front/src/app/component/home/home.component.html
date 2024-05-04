@@ -1,1 +1,7 @@
-<app-footer></app-footer>
+<div (onResize)="handleFooterTopMinValue($event, 0)" class="main-page-body-div">
+<p>need to do this eventually</p>
+</div>
+<app-footer
+  [footerTopMinValue]="footerTopMinValue"
+  [position]="position"
+></app-footer>

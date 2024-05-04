@@ -1,24 +1,23 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, OnInit} from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {faCamera, faPenToSquare, faUser} from "@fortawesome/free-solid-svg-icons";
 import {FooterComponent} from "../footer/footer.component";
 import {NgxResizeObserverModule} from "ngx-resize-observer";
 import {CookieComponent} from "../misc/cookie-component";
-import {UploadPfpModalComponent} from "./upload-pfp-modal/upload-pfp-modal.component";
+import {UploadPfpModalComponent} from "./user-settings/upload-pfp-modal/upload-pfp-modal.component";
 import {CustomerService} from "../../service/user/customer.service";
 import {BusinessService} from "../../service/user/business.service";
 import {AdminService} from "../../service/user/admin.service";
 import {DeliveryServiceService} from "../../service/user/delivery-service.service";
 import {DeliveryPersonService} from "../../service/user/delivery-person.service";
 import {CookieService} from "ngx-cookie-service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterOutlet} from "@angular/router";
 import {NgForOf, NgIf} from "@angular/common";
 import {CurrentUserService} from "../../service/user/current-user.service";
 import {ProfileMenuItemComponent} from "./profile-menu-item/profile-menu-item.component";
-import {profileMenuItems} from "./profile-menu-item/profile-menu-item";
-import {AddressesComponent} from "../addresses/addresses.component";
-import {businessCategory, customerCategory} from "../../service/user/userCategories";
-import {ManageProductsComponent} from "../manage-products/manage-products.component";
+import {ProfileMenuItem, profileMenuItems, settings} from "./profile-menu-item/profile-menu-item";
+import {AddressesComponent} from "./user-settings/addresses/addresses.component";
+import {ManageProductsComponent} from "./manage-products/manage-products.component";
+import {UserSettingsComponent} from "./user-settings/user-settings.component";
 
 @Component({
   selector: 'app-user-account',
@@ -32,7 +31,9 @@ import {ManageProductsComponent} from "../manage-products/manage-products.compon
     ProfileMenuItemComponent,
     NgForOf,
     AddressesComponent,
-    ManageProductsComponent
+    ManageProductsComponent,
+    RouterOutlet,
+    UserSettingsComponent
   ],
   providers: [
     UploadPfpModalComponent,
@@ -41,14 +42,6 @@ import {ManageProductsComponent} from "../manage-products/manage-products.compon
   styleUrl: './user-account.component.scss'
 })
 export class UserAccountComponent extends CookieComponent implements OnInit {
-  // Font Awesome Icons
-  faUser = faUser;
-  faCamera = faCamera;
-  faPenToSquare = faPenToSquare;
-  isModalOpen: boolean = false;
-  hasAddresses: boolean = false;
-  hasProducts: boolean = false;
-
   profileMenuItems = profileMenuItems;
 
   constructor(protected override customerService: CustomerService,
@@ -58,8 +51,7 @@ export class UserAccountComponent extends CookieComponent implements OnInit {
               protected override deliveryPersonService: DeliveryPersonService,
               protected override currentUserService: CurrentUserService,
               protected override cookieService: CookieService,
-              protected override router: Router, protected override route: ActivatedRoute,
-              private uploadPfpComponent: UploadPfpModalComponent) {
+              protected override router: Router, protected override route: ActivatedRoute) {
     super();
   }
 
@@ -67,15 +59,13 @@ export class UserAccountComponent extends CookieComponent implements OnInit {
     this.initializeUserByToken().then(() => {
       this.loggedInPage();
     });
-    this.hasAddresses = this.includesCurrentCategory(customerCategory);
-    this.hasProducts = this.includesCurrentCategory(businessCategory);
+    this.routeTo('/user-account/user-settings');
+    settings.class = "profile-menu-item-clicked";
   }
 
-  openModal() {
-    this.isModalOpen = true;
-  }
-
-  onChangeEmitter(newVal: boolean) {
-    this.isModalOpen = newVal;
+  handleClickedOnEmitter(exceptProfileMenuItem: ProfileMenuItem) {
+    profileMenuItems.forEach((profileMenuItem) => {
+      if(profileMenuItem != exceptProfileMenuItem) profileMenuItem.class = "profile-menu-item";
+    });
   }
 }

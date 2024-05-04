@@ -98,7 +98,7 @@ export abstract class CookieComponent {
   }
 
   specificUserPage(...userCategories: UserCategory[]) {
-    if (!this.includesCurrentCategory(...userCategories) && !this.currentUserService.isLoggedIn()) {
+    if (!this.includesCurrentCategory(...userCategories) || !this.currentUserService.isLoggedIn()) {
       this.routeToHome().then();
     }
   }

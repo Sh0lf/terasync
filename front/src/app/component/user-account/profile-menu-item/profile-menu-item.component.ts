@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {CookieComponent} from "../../misc/cookie-component";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -19,6 +19,7 @@ import {CurrentUserService} from "../../../service/user/current-user.service";
 })
 export class ProfileMenuItemComponent extends CookieComponent implements OnInit {
   @Input() profileMenuItem!: ProfileMenuItem;
+  @Output() clickedOnEmitter = new EventEmitter<ProfileMenuItem>();
 
   borderRadius: string = '0';
   isShown: boolean = false;
@@ -43,6 +44,9 @@ export class ProfileMenuItemComponent extends CookieComponent implements OnInit 
   }
 
   onClick() {
+    this.clickedOnEmitter.emit();
+    this.profileMenuItem.class = "profile-menu-item-clicked";
+
     if (this.profileMenuItem == logout) {
       this.logoutOnClick();
     } else {

@@ -187,7 +187,7 @@ CREATE TABLE Product
     productId    INT IDENTITY (1, 1) PRIMARY KEY,
     name         VARCHAR(255)   NOT NULL,
     description  VARCHAR(255),
-    isVegan      BIT            NOT NULL DEFAULT (0),
+    vegan        BIT            NOT NULL DEFAULT (0),
     price        DECIMAL(10, 2) NOT NULL,
     creationTime DATETIME       NOT NULL DEFAULT (GETDATE()),
     businessId   INT            NOT NULL,

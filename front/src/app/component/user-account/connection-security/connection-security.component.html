@@ -1,0 +1,26 @@
+<div class="main-page-body-div">
+  <div class="cs-body text-font-500">
+    <div class="cs-body-div">
+      <div class="cs-main-div">
+        <div class="cs-elem"><h1>Connection and Security</h1></div>
+        <div class="editable-elements-main" *ngFor="let editableElement of editableElements">
+          <app-cs-elem
+            [editableElement]="editableElement">
+          </app-cs-elem>
+        </div>
+        <div class="separation-line-small"></div>
+        <span class="validation-error-span" *ngIf="isNotSuccess()">Could not update information</span>
+        <span class="validation-success-span" *ngIf="isSuccess()">Changes Applied Successfully</span>
+        <div class="cs-elem-last">
+          <div class="cs-button-elem">
+            <button class="default-btn" type="button" (click)="onApplyChanges()">Apply Changes</button>
+          </div>
+          <div class="cs-button-elem">
+            <button class="default-btn" type="button" (click)="onCancel()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

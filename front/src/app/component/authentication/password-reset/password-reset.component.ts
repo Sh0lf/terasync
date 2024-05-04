@@ -71,10 +71,10 @@ export class PasswordResetComponent extends AuthenticationComponent implements O
       if (this.token == null ||
         !(this.token.length > 0) ||
         this.token != this.cookieService.get(StorageKeys.USER_TOKEN)) {
-        this.routeToHome();
+        this.routeToHome().then();
       }
     } catch (e) {
-      this.routeToHome();
+      this.routeToHome().then();
     }
   }
 

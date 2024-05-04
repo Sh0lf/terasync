@@ -1,0 +1,125 @@
+@import "../../common.scss";
+
+$pfpImageSize: 150px;
+
+.user-settings-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.h1-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0 40px 0;
+  width: 100%;
+}
+
+.profile-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: $colorP17;
+  border-radius: 20px;
+  box-shadow: $boxShadowDefault;
+  width: 70%;
+  min-width: 500px;
+  height: 250px;
+}
+
+.profile-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.profile-edit-elem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+  padding: 20px;
+
+  width: 100%;
+}
+
+.image-frame {
+  width: $pfpImageSize;
+  height: $pfpImageSize;
+  max-width: $pfpImageSize;
+  max-height: $pfpImageSize;
+
+  border-radius: 50%;
+}
+
+.user-icon {
+  font-size: 65px;
+  color: $colorP19;
+}
+
+.pfp-image-elem-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: $pfpImageSize;
+  height: $pfpImageSize;
+  min-width: $pfpImageSize;
+  min-height: $pfpImageSize;
+  border-radius: 50%;
+
+  background: $colorP18;
+}
+
+.pfp-image-elem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: $pfpImageSize;
+  height: $pfpImageSize;
+  min-width: $pfpImageSize;
+  min-height: $pfpImageSize;
+  border-radius: 50%;
+}
+
+.pfp-image-elem:hover + .pfp-edit-elem, .pfp-edit-elem:hover {
+  display: flex;
+}
+
+.pfp-edit-elem {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background: $hoverBackground;
+
+  width: $pfpImageSize;
+  height: $pfpImageSize;
+  min-width: $pfpImageSize;
+  min-height: $pfpImageSize;
+  border-radius: 50%;
+}
+
+.camera-icon {
+  font-size: 30px;
+  color: $colorP17;
+}
+
+.profile-top-div-info {
+  display: flex;
+  flex-direction: column;
+  margin: 0 30px 0 30px;
+}
+
+.profile-top-div-info span {
+  padding: 5px 0 5px 0;
+  color: black;
+  font-size: 20px;
+}

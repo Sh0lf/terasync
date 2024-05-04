@@ -8,10 +8,17 @@ import {PasswordRecoveryComponent} from "./component/authentication/password-rec
 import {PasswordResetComponent} from "./component/authentication/password-reset/password-reset.component";
 import {StorageKeys} from "./component/misc/storage-keys";
 import {UserAccountComponent} from "./component/user-account/user-account.component";
-import {ConnectionSecurityComponent} from "./component/connection-security/connection-security.component";
-import {ManageProductsComponent} from "./component/manage-products/manage-products.component";
-import {OrderHistoryComponent} from "./component/order-history/order-history.component";
-import {ManageMenusComponent} from "./component/manage-menus/manage-menus.component";
+import {UserSettingsComponent} from "./component/user-account/user-settings/user-settings.component";
+import {FaqComponent} from "./component/faq/faq.component";
+import {PaymentMethodsComponent} from "./component/user-account/payment-methods/payment-methods.component";
+import {ManageProductsComponent} from "./component/user-account/manage-products/manage-products.component";
+import {ManageMenusComponent} from "./component/user-account/manage-menus/manage-menus.component";
+import {
+  ManageDeliveryPersonsComponent
+} from "./component/user-account/manage-delivery-persons/manage-delivery-persons.component";
+import {ConnectionSecurityComponent} from "./component/user-account/connection-security/connection-security.component";
+import {OrderHistoryComponent} from "./component/user-account/order-history/order-history.component";
+import {MessageCenterComponent} from "./component/user-account/message-center/message-center.component";
 
 
 export const routes: Routes = [
@@ -23,9 +30,18 @@ export const routes: Routes = [
   {path: 'partner-selection', component: PartnerSelectionComponent},
   {path: 'password-recovery', component: PasswordRecoveryComponent},
   {path: `password-reset/:${StorageKeys.USER_TOKEN}`, component: PasswordResetComponent},
-  {path: 'user-account', component: UserAccountComponent},
-  {path: 'connection-security', component: ConnectionSecurityComponent},
-  {path: 'manage-products', component: ManageProductsComponent},
-  {path: 'manage-menus', component: ManageMenusComponent},
-  {path: 'order-history', component: OrderHistoryComponent},
+  {path: 'faq', component: FaqComponent},
+  {
+    path: 'user-account', component: UserAccountComponent, children: [
+      {path: 'manage-products', component: ManageProductsComponent},
+      {path: 'manage-menus', component: ManageMenusComponent},
+      {path: 'message-center', component: MessageCenterComponent},
+      {path: 'manage-delivery-persons', component: ManageDeliveryPersonsComponent},
+      {path: 'connection-security', component: ConnectionSecurityComponent},
+      {path: 'user-settings', component: UserSettingsComponent},
+      {path: 'order-history', component: OrderHistoryComponent},
+      {path: 'payment-methods', component: PaymentMethodsComponent},
+      {path: 'faq', component: FaqComponent},
+    ],
+  },
 ];

@@ -19,6 +19,7 @@ export class Email {
   }
 
   static recoveryEmail(to: string, token: string) : Email {
+    console.log("recovery link: " + `${environment.apiFrontEndUrl}/password-reset/${token}`)
     return new Email(to, "Recovery Email", `${environment.apiFrontEndUrl}/password-reset/${token}`, true);
   }
 }

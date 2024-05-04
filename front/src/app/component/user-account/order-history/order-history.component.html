@@ -1,0 +1,19 @@
+<div (onResize)="handleFooterTopMinValue($event, 80)" class="main-page-body-div">
+  <div class="header-elem">
+    <div class="header-icon-elem">
+      <fa-icon [class]="['header-icon']" [icon]="faTableList"></fa-icon>
+    </div>
+    <h1 class="main-page-h1">Order History</h1>
+  </div>
+  <div class="separation-line-2"></div>
+  <div class="main-container-div">
+    <div class="main-container-div" *ngFor="let order of this.currentUserService.user?.customerOrders">
+      <ng-container *ngIf="order.statusId === '2'">
+        <app-order-history-element [style.height.%]="100"
+                                   [order]="order"
+                                   [orders]="this.currentUserService.user?.customerOrders">
+        </app-order-history-element>
+      </ng-container>
+    </div>
+  </div>
+</div>

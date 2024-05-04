@@ -21,12 +21,12 @@ public abstract class UserController<T extends Entity, S extends UserService<T, 
         super(entityService, entityClass);
     }
     @GetMapping("/select-user-by-email/{email}")
-    public ResponseEntity<T> selectCustomerByEmail(@PathVariable("email") String email) {
+    public ResponseEntity<T> selectUserByEmail(@PathVariable("email") String email) {
         return ResponseEntity.ok(entityService.selectByEmail(email));
     }
 
     @PostMapping("/select-user-by-token")
-    public ResponseEntity<T> selectCustomerByToken(@RequestBody ByToken byToken) {
+    public ResponseEntity<T> selectUserByToken(@RequestBody ByToken byToken) {
         return ResponseEntity.ok(entityService.selectByToken(byToken));
     }
 

@@ -1,6 +1,6 @@
 @import "../common";
 
-$pfpImageSize: 150px;
+//$pfpImageSize: 150px;
 
 .profile-main-div {
   display: flex;
@@ -16,104 +16,6 @@ $pfpImageSize: 150px;
   justify-content: center;
 
   width: 70vw;
-}
-
-.h1-div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px 0 40px 0;
-  width: 100%;
-}
-
-.profile-card-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  background: $colorP17;
-  border-radius: 20px;
-  box-shadow: $boxShadowDefault;
-  width: 70%;
-  min-width: 500px;
-  height: 250px;
-}
-
-.profile-card {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-top: 30px;
-}
-
-.profile-edit-elem {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: end;
-  padding: 20px;
-
-  width: 100%;
-}
-
-
-.image-frame {
-  width: $pfpImageSize;
-  height: $pfpImageSize;
-  max-width: $pfpImageSize;
-  max-height: $pfpImageSize;
-
-  border-radius: 50%;
-}
-
-.pfp-image-elem-main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: $pfpImageSize;
-  height: $pfpImageSize;
-  min-width: $pfpImageSize;
-  min-height: $pfpImageSize;
-  border-radius: 50%;
-
-  background: $colorP18;
-}
-
-.pfp-image-elem:hover + .pfp-edit-elem, .pfp-edit-elem:hover {
-  display: flex;
-}
-
-.pfp-edit-elem {
-  display: none;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  background: $hoverBackground;
-
-  width: $pfpImageSize;
-  height: $pfpImageSize;
-  min-width: $pfpImageSize;
-  min-height: $pfpImageSize;
-  border-radius: 50%;
-}
-
-.camera-icon {
-  font-size: 30px;
-  color: $colorP17;
-}
-
-.profile-top-div-info {
-  display: flex;
-  flex-direction: column;
-  margin: 0 30px 0 30px;
-}
-
-.profile-top-div-info span {
-  padding: 5px 0 5px 0;
-  color: black;
-  font-size: 20px;
 }
 
 .profile-menu-body {
@@ -150,6 +52,8 @@ $pfpImageSize: 150px;
   max-width: 280px;
   height: 70px;
   padding: 20px;
+
+  background: white;
 }
 
 .profile-menu-item:hover {
@@ -170,6 +74,36 @@ $pfpImageSize: 150px;
   word-wrap: break-word;
 }
 
+.profile-menu-item-clicked {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+
+  cursor: pointer;
+
+  width: 280px;
+  max-width: 280px;
+  height: 70px;
+  padding: 20px;
+
+  background: $colorP11;
+}
+
+.profile-menu-item-clicked > span {
+  color: white;
+}
+
+.profile-menu-item-clicked > .profile-menu-item-icon-elem > .profile-menu-item-icon {
+  color: white;
+}
+
+.profile-menu-item-clicked span {
+  font-size: 20px;
+  text-wrap: wrap;
+  word-wrap: break-word;
+}
+
 .profile-menu-item-icon-elem {
   display: flex;
   justify-content: center;
@@ -180,11 +114,6 @@ $pfpImageSize: 150px;
 
 .profile-menu-item-icon {
   font-size: 20px;
-}
-
-.user-icon {
-  font-size: 65px;
-  color: $colorP19;
 }
 
 @media only screen and (max-width: 960px) {
