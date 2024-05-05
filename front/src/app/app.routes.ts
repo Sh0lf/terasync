@@ -19,6 +19,9 @@ import {
 import {ConnectionSecurityComponent} from "./component/user-account/connection-security/connection-security.component";
 import {OrderHistoryComponent} from "./component/user-account/order-history/order-history.component";
 import {MessageCenterComponent} from "./component/user-account/message-center/message-center.component";
+import {
+  OrderHistoryDetailedComponent
+} from "./component/user-account/order-history/order-history-detailed/order-history-detailed.component";
 
 
 export const routes: Routes = [
@@ -40,6 +43,7 @@ export const routes: Routes = [
       {path: 'connection-security', component: ConnectionSecurityComponent},
       {path: 'user-settings', component: UserSettingsComponent},
       {path: 'order-history', component: OrderHistoryComponent},
+      {path: 'order-history-detailed/:id', component: OrderHistoryDetailedComponent},
       {path: 'payment-methods', component: PaymentMethodsComponent},
       {path: 'faq', component: FaqComponent},
     ],

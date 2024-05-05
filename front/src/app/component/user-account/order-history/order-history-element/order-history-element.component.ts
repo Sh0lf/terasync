@@ -11,6 +11,7 @@ import {CustomerOrderList} from "../../../../model/odSystem/customer.order.list"
 import {CurrentUserService} from "../../../../service/user/current-user.service";
 import {BusinessService} from "../../../../service/user/business.service";
 import {ProductService} from "../../../../service/odSystem/product.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-order-history-element',
@@ -38,7 +39,8 @@ export class OrderHistoryElementComponent extends CookieComponent implements OnI
     protected override currentUserService: CurrentUserService,
     protected override cookieService: CookieService,
     protected override businessService: BusinessService,
-    protected productService: ProductService,) {
+    protected productService: ProductService,
+    override router: Router,) {
     super();
   }
 
@@ -79,5 +81,7 @@ export class OrderHistoryElementComponent extends CookieComponent implements OnI
     }
   }
 
-  protected readonly length = length;
+  onClickRedirect() {
+    this.router.navigate(['/user-account/order-history-detailed', this.order!.customerOrderId]);
+  }
 }

@@ -141,7 +141,6 @@ VALUES
     ('Acai Berry Smoothie Bowl', 'A refreshing blend of acai berries, bananas, and almond milk, topped with granola, sliced fruits, coconut flakes, and a drizzle of honey, a nutritious and colorful breakfast option.', 1, 7.99, 10),
     ('Sushi Platter', 'An assortment of freshly prepared sushi rolls including California rolls, spicy tuna rolls, and salmon avocado rolls, served with soy sauce, pickled ginger, and wasabi.', 0, 19.99, 10);
 
-
 INSERT INTO Status (status)
 VALUES
     ('Pending'),
@@ -158,7 +157,6 @@ VALUES
     ('Seaweed'),
     ('Polystyrene');
 
-
 INSERT INTO CustomerOrder (creationTime, minTemp, maxTemp, deliveryTime, statusId, packagingId, customerId, businessId, deliveryServiceId, deliveryPersonId)
 VALUES
     ('2024-04-28 10:00:00', 0, 3, DATEADD(MINUTE, 30, '2024-04-28 10:00:00'), 3, 1, 23, 10, 1, 1),
@@ -166,7 +164,6 @@ VALUES
     ('2024-04-26 12:30:00', 2, 6, DATEADD(MINUTE, 30, '2024-04-26 12:30:00'), 3, 3, 23, 10, 3, 3),
     ('2024-04-25 13:45:00', 5, 7, DATEADD(MINUTE, 45, '2024-04-25 13:45:00'), 3, 4, 23, 10, 4, 4),
     ('2024-04-24 14:00:00', 3, 4, DATEADD(MINUTE, 30, '2024-04-24 14:00:00'), 3, 5, 23, 10, 5, 5);
-
 
 INSERT INTO CustomerOrderList (selectionTime, quantity, customerOrderId, productId)
 VALUES
