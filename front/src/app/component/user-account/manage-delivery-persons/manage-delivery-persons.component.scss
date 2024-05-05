@@ -1,1 +1,37 @@
 @import "../../common.scss";
+
+.delivery-person-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  width: 100%;
+}
+
+.mdp-delivery-person-body-div {
+  background-color: $colorP17;
+  box-shadow: $boxShadowDefault;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  border-radius: 15px;
+
+  margin: 20px;
+  width: 500px;
+}
+
+.dpc-static-add-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  border-radius: 15px;
+
+  margin: 20px;
+  width: 500px;
+}

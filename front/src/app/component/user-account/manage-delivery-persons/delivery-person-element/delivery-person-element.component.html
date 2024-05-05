@@ -1,0 +1,27 @@
+<div class="delivery-person-elem">
+  <div class="pfp-elem-main">
+    <div class="pfp-elem">
+      <img class="image-frame" src="{{deliveryPerson?.pfpImgUrl}}" alt="pfp-image" *ngIf="deliveryPerson?.hasPfpImg()">
+      <div class="image-frame" *ngIf="!deliveryPerson?.hasPfpImg()">
+        <fa-icon [class]="['user-icon']" [icon]="faUser"></fa-icon>
+      </div>
+    </div>
+    <div class="pfp-elem-edit" (click)="onEditImgPfp()">
+      <fa-icon [class]="['camera-icon']" [icon]="faCamera"></fa-icon>
+    </div>
+  </div>
+  <div class="info-elem">
+    <span class="text-font-700">{{deliveryPerson?.name}}</span>
+    <span>{{deliveryPerson?.username}}</span>
+    <span>{{deliveryPerson?.email}}</span>
+    <span>Member since: {{memberSince}}</span>
+    <div class="edit-elem">
+      <div class="clickable-icon-elem-3" (click)="onEditDeliveryPerson()">
+        <fa-icon [class]="['clickable-icon-3']" [icon]="faPen"></fa-icon>
+      </div>
+      <div class="clickable-icon-elem-3" (click)="onDeleteDeliveryPerson()">
+        <fa-icon [class]="['clickable-icon-3']" [icon]="faTrash"></fa-icon>
+      </div>
+    </div>
+  </div>
+</div>

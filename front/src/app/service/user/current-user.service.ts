@@ -12,7 +12,6 @@ import {Address} from "../../model/odSystem/address";
 })
 export class CurrentUserService {
   private counter: number = 0;
-  private pfpImgUrl: string | undefined;
 
   private _user!: User | undefined;
   private _admin!: Admin | undefined;
@@ -34,27 +33,8 @@ export class CurrentUserService {
     this.counter++;
   }
 
-  setPfpImgUrl(pfpImgUrl: string) {
-    this.pfpImgUrl = pfpImgUrl;
-  }
-
-  getPfpImgUrl(): string | undefined {
-    return this.pfpImgUrl;
-  }
-
-  getPfpImgPrefix(): string {
-    return this._user?.userId + "-";
-  }
-
   isLoggedIn(): boolean {
     return this._user !== undefined && this._user !== null;
-  }
-
-  hasPfpImg(): boolean {
-    return this.isLoggedIn() &&
-      this._user?.pfpImgPath !== null &&
-      this._user?.pfpImgPath !== undefined &&
-      this._user?.pfpImgPath.length > 0;
   }
 
   getMainPromise(): Promise<boolean> {
@@ -115,7 +95,7 @@ export class CurrentUserService {
 
   getDefaultAddress(): Address | undefined {
     if(this.user != undefined) {
-      for (let address of this.user?.addresses) {
+      for (let address of this.user?.addresses!) {
         if (address.defaultAddress) {
           return address;
         }

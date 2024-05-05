@@ -26,6 +26,7 @@ import {Business} from "../../model/user/business";
 import {DeliveryPerson} from "../../model/user/delivery.person";
 import {DeliveryService} from "../../model/user/delivery.service";
 import {CurrentUserService} from "../../service/user/current-user.service";
+import {Observable} from "rxjs";
 
 export abstract class CookieComponent {
   // Services
@@ -97,10 +98,15 @@ export abstract class CookieComponent {
     }
   }
 
-  specificUserPage(...userCategories: UserCategory[]) {
-    if (!this.includesCurrentCategory(...userCategories) || !this.currentUserService.isLoggedIn()) {
-      this.routeToHome().then();
-    }
+  specificUserPage(...userCategories: UserCategory[]): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      if (!this.includesCurrentCategory(...userCategories) || !this.currentUserService.isLoggedIn()) {
+        this.routeToHome().then();
+        resolve(false);
+      } else {
+        resolve(true);
+      }
+    });
   }
 
   includesCurrentCategory(...userCategories: UserCategory[]): boolean {
@@ -233,9 +239,9 @@ export abstract class CookieComponent {
     console.log(this.currentUserService.user!)
   }
 
-  initializeDeliveryPeople(jsonUser: { deliveryPeople: DeliveryPerson[] }): DeliveryPerson[] {
+  initializeDeliveryPeople(jsonUser: { deliveryPeople: DeliveryPerson[] | undefined }): DeliveryPerson[] {
     let deliveryPeople: DeliveryPerson[] = [];
-    if (jsonUser.deliveryPeople) {
+    if (jsonUser.deliveryPeople != undefined) {
       for (let deliveryPerson of jsonUser.deliveryPeople) {
         deliveryPeople.push(DeliveryPerson.fromJson(deliveryPerson));
       }
@@ -324,13 +330,13 @@ export abstract class CookieComponent {
 
   private initializeUserPfpImgUrl(): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
-      if (this.currentUserService.hasPfpImg()) {
+      if (this.currentUserService.user?.hasPfpImg()) {
         this.fetchUserService().downloadFiles(this.currentUserService.user?.pfpImgPath!).subscribe({
           next: (httpEvent: HttpEvent<Blob>) => {
             if (httpEvent.type === HttpEventType.Response) {
               const file: File = new File([httpEvent.body!], httpEvent.headers.get('File-Name')!,
                 {type: `${httpEvent.headers.get('Content-Type')};charset=utf-8`});
-              this.currentUserService.setPfpImgUrl(URL.createObjectURL(file));
+              this.currentUserService.user?.setPfpImgUrl(URL.createObjectURL(file));
               resolve(true);
             }
           },
@@ -343,6 +349,45 @@ export abstract class CookieComponent {
         console.log("User does not have pfp img");
         resolve(false);
       }
+    });
+  }
+
+  initializeDeliveryPeoplePfpImgUrl(): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      new Observable<number>((observer) => {
+        let count = 0;
+        let deliveryPeople = this.currentUserService.user?.deliveryPeople!;
+
+        if(deliveryPeople == undefined || deliveryPeople.length == 0) observer.next(count)
+
+        for (let deliveryPerson of deliveryPeople) {
+          if (deliveryPerson.pfpImgPath != undefined && deliveryPerson.pfpImgPath.length > 0) {
+            this.deliveryPersonService.downloadFiles(deliveryPerson.pfpImgPath).subscribe({
+              next: (httpEvent: HttpEvent<Blob>) => {
+                if (httpEvent.type === HttpEventType.Response) {
+                  const file: File = new File([httpEvent.body!], httpEvent.headers.get('File-Name')!,
+                    {type: `${httpEvent.headers.get('Content-Type')};charset=utf-8`});
+                  deliveryPerson.setPfpImgUrl(URL.createObjectURL(file));
+                  observer.next(count++);
+                }
+              },
+              error: (error: HttpErrorResponse) => {
+                console.log("Error downloading file");
+                observer.next(count++);
+              }
+            });
+          } else {
+            console.log("User does not have pfp img");
+            observer.next(count++);
+          }
+        }
+      }).subscribe({
+        next: (count: number) => {
+          if (count == this.currentUserService.user?.deliveryPeople?.length) {
+            resolve(true);
+          }
+        }
+      });
     });
   }
 

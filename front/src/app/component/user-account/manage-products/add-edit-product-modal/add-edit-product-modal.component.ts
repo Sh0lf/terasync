@@ -209,7 +209,7 @@ export class AddEditProductModalComponent extends ModalComponent {
     }
 
     if (this.modalOpenType == ModalOpenType.ADD) {
-      this.currentUserService.user?.products.push(this.editingProduct);
+      this.currentUserService.user?.products!.push(this.editingProduct);
       this.resetValues();
     }
   }

@@ -56,7 +56,7 @@ export class CustomerOrder {
     return customerOrder;
   }
 
-  static initializeCustomerOrders(jsonUser: {customerOrders: CustomerOrder[]}): CustomerOrder[] {
+  static initializeCustomerOrders(jsonUser: {customerOrders: CustomerOrder[] | undefined}): CustomerOrder[] {
     let customerOrders: CustomerOrder[] = [];
     if(jsonUser.customerOrders != undefined) {
       for(let jsonCustomerOrder of jsonUser.customerOrders) {

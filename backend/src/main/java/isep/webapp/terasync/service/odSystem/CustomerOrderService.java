@@ -1,6 +1,7 @@
 package isep.webapp.terasync.service.odSystem;
 
 import isep.webapp.terasync.model.odSystem.CustomerOrder;
+import isep.webapp.terasync.model.query.update.ValueByField;
 import isep.webapp.terasync.repository.odSystem.CustomerOrderRepository;
 import isep.webapp.terasync.service.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;

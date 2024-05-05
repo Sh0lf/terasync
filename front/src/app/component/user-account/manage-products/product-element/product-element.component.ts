@@ -76,7 +76,7 @@ export class ProductElementComponent extends CookieComponent {
       // DELETE THE PRODUCT -> TAKES CARE OF ASSOCIATED PRODUCT IMAGES
       this.productService.deleteEntity(this.product.productId!).subscribe({
         next: () => {
-          this.currentUserService.user?.products.splice(this.currentUserService.user?.products.indexOf(this.product!), 1);
+          this.currentUserService.user?.products!.splice(this.currentUserService.user?.products!.indexOf(this.product!), 1);
           console.log("Product deleted with id: " + this.product?.productId);
         },
         error: (error: HttpErrorResponse) => {

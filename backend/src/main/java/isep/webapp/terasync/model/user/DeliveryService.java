@@ -44,7 +44,7 @@ public class DeliveryService extends User {
             targetEntity = CustomerOrder.class,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = "deliveryServiceId")
+    @JoinColumn(name = "deliveryServiceId", updatable = false)
     private List<CustomerOrder> customerOrders;
 
     @OneToMany(
@@ -52,7 +52,7 @@ public class DeliveryService extends User {
             targetEntity = DeliveryServiceList.class,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = "deliveryServiceId")
+    @JoinColumn(name = "deliveryServiceId", updatable = false)
     private List<DeliveryServiceList> deliveryServiceLists;
 
     @OneToMany(
@@ -60,7 +60,7 @@ public class DeliveryService extends User {
             targetEntity = DeliveryPerson.class,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = "deliveryServiceId")
+    @JoinColumn(name = "deliveryServiceId", updatable = false)
     private List<DeliveryPerson> deliveryPeople;
 
     @Override

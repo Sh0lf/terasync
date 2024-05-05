@@ -35,21 +35,24 @@ export class User {
 
   // CHILD TABLES
   // CUSTOMER
-  addresses: Address[] = [];
+  addresses: Address[] | undefined = [];
 
   // CUSTOMER - BUSINESS - DELIVERY PERSON - DELIVERY SERVICE
-  customerOrders: CustomerOrder[] = [];
+  customerOrders: CustomerOrder[] | undefined = [];
 
   // BUSINESS - DELIVERY SERVICE
-  deliveryServiceLists: DeliveryServiceList[] = [];
+  deliveryServiceLists: DeliveryServiceList[] | undefined = [];
 
   // DELIVERY SERVICE
-  deliveryPeople: DeliveryPerson[] = [];
+  deliveryPeople: DeliveryPerson[] | undefined= [];
 
   // BUSINESS
-  productMenus: ProductMenu[] = [];
-  products: Product[] = [];
-  ratingLists: RatingList[] = [];
+  productMenus: ProductMenu[] | undefined = [];
+  products: Product[] | undefined = [];
+  ratingLists: RatingList[] | undefined = [];
+
+  // PFP IMAGE URL (COMPUTED WHEN NEEDED)
+  pfpImgUrl: string | undefined;
 
   protected constructor(email: string, username: string, password: string,
                         userId?: number, registrationDate?: string,
@@ -157,5 +160,38 @@ export class User {
 
   setEmail(email: string) {
     this.email = email;
+  }
+
+  setPfpImgUrl(pfpImgUrl: string) {
+    this.pfpImgUrl = pfpImgUrl;
+  }
+
+  hasPfpImg(): boolean {
+    return this.pfpImgPath !== null &&
+      this.pfpImgPath !== undefined &&
+      this.pfpImgPath.length > 0;
+  }
+
+  getPfpImgPrefix(): string {
+    return this.userId + "-";
+  }
+
+  clearLists() {
+    // CUSTOMER
+    this.addresses = undefined;
+
+    // CUSTOMER - BUSINESS - DELIVERY PERSON - DELIVERY SERVICE
+    this.customerOrders = undefined;
+
+    // BUSINESS - DELIVERY SERVICE
+    this.deliveryServiceLists = undefined;
+
+    // DELIVERY SERVICE
+    this.deliveryPeople = undefined;
+
+    // BUSINESS
+    this.productMenus = undefined;
+    this.products = undefined;
+    this.ratingLists = undefined;
   }
 }

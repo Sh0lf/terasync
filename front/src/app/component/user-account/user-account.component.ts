@@ -3,7 +3,7 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {FooterComponent} from "../footer/footer.component";
 import {NgxResizeObserverModule} from "ngx-resize-observer";
 import {CookieComponent} from "../misc/cookie-component";
-import {UploadPfpModalComponent} from "./user-settings/upload-pfp-modal/upload-pfp-modal.component";
+import {UploadPfpModalComponent} from "./upload-pfp-modal/upload-pfp-modal.component";
 import {CustomerService} from "../../service/user/customer.service";
 import {BusinessService} from "../../service/user/business.service";
 import {AdminService} from "../../service/user/admin.service";
@@ -58,6 +58,9 @@ export class UserAccountComponent extends CookieComponent implements OnInit {
   ngOnInit(): void {
     this.initializeUserByToken().then(() => {
       this.loggedInPage();
+      if(this.isDeliveryServiceCategory()) {
+        this.initializeDeliveryPeoplePfpImgUrl().then();
+      }
     });
     this.routeTo('/user-account/user-settings');
     settings.class = "profile-menu-item-clicked";

@@ -1,6 +1,7 @@
 @import "../common";
 
 //$pfpImageSize: 150px;
+$profileMenuItemWidth: 350px;
 
 .profile-main-div {
   display: flex;
@@ -48,8 +49,8 @@
 
   cursor: pointer;
 
-  width: 280px;
-  max-width: 280px;
+  width: $profileMenuItemWidth;
+  max-width: $profileMenuItemWidth;
   height: 70px;
   padding: 20px;
 
@@ -82,8 +83,8 @@
 
   cursor: pointer;
 
-  width: 280px;
-  max-width: 280px;
+  width: $profileMenuItemWidth;
+  max-width: $profileMenuItemWidth;
   height: 70px;
   padding: 20px;
 

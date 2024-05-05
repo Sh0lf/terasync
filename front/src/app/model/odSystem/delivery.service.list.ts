@@ -14,9 +14,9 @@ export class DeliveryServiceList {
     return new DeliveryServiceList(json.deliveryServiceId, json.businessId, json.deliveryServiceListId);
   }
 
-  static initializeDeliveryServiceLists(jsonUser: {deliveryServiceLists: DeliveryServiceList[]}): DeliveryServiceList[] {
+  static initializeDeliveryServiceLists(jsonUser: {deliveryServiceLists: DeliveryServiceList[] | undefined}): DeliveryServiceList[] {
     let deliveryServiceLists: DeliveryServiceList[] = [];
-    if (jsonUser.deliveryServiceLists) {
+    if (jsonUser.deliveryServiceLists != undefined) {
       for (let deliveryServiceList of jsonUser.deliveryServiceLists) {
         deliveryServiceLists.push(DeliveryServiceList.fromJson(deliveryServiceList));
       }

@@ -6,7 +6,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {NgForOf} from "@angular/common";
 import {HttpErrorResponse, HttpEvent, HttpEventType} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
-import {UploadPfpModalComponent} from "../user-settings/upload-pfp-modal/upload-pfp-modal.component";
+import {UploadPfpModalComponent} from "../upload-pfp-modal/upload-pfp-modal.component";
 import {CookieComponent} from "../../misc/cookie-component";
 import {ModalOpenType} from "../../misc/modal-open-type";
 import {Product} from "../../../model/odSystem/product";
@@ -79,7 +79,7 @@ export class ManageProductsComponent extends CookieComponent implements OnInit {
   }
 
   initializeProductImages() {
-    this.currentUserService.user?.products.forEach((product: Product) => {
+    this.currentUserService.user?.products!.forEach((product: Product) => {
       product.productImages.forEach((productImage) => {
         this.productImageService.downloadFiles(productImage.path).subscribe({
           next: (httpEvent: HttpEvent<Blob>) => {
@@ -99,7 +99,7 @@ export class ManageProductsComponent extends CookieComponent implements OnInit {
   }
 
   getCurrentProducts(): Product[] {
-    return this.currentUserService.user?.products.filter((product) => {
+    return this.currentUserService.user?.products!.filter((product) => {
       return product.name.toLowerCase().includes(this.searchProduct.toLowerCase());
     })!;
   }

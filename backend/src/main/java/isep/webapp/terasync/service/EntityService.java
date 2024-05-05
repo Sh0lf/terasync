@@ -16,7 +16,7 @@ public abstract class EntityService<T extends Entity, R extends JpaRepository<T,
     public T addEntity(T entity) {
         return entityRepository.save(entity);
     }
-    
+
     public List<T> findAllEntities() {
         return entityRepository.findAll();
     }

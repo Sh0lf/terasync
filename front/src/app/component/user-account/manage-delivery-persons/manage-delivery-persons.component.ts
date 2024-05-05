@@ -1,5 +1,5 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
-import {faBowlFood, faUserAlt, faUserGroup} from "@fortawesome/free-solid-svg-icons";
+import {faBowlFood, faPlus, faUserAlt, faUserGroup} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {CookieComponent} from "../../misc/cookie-component";
 import {CustomerService} from "../../../service/user/customer.service";
@@ -10,13 +10,34 @@ import {DeliveryPersonService} from "../../../service/user/delivery-person.servi
 import {CurrentUserService} from "../../../service/user/current-user.service";
 import {CookieService} from "ngx-cookie-service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {businessCategory, deliveryPersonCategory, deliveryServiceCategory} from "../../../service/user/userCategories";
+import {
+  businessCategory,
+  deliveryPersonCategory,
+  deliveryServiceCategory,
+  UserCategory
+} from "../../../service/user/userCategories";
+import {AddressElementComponent} from "../user-settings/addresses/address-element/address-element.component";
+import {NgForOf} from "@angular/common";
+import {DeliveryPersonElementComponent} from "./delivery-person-element/delivery-person-element.component";
+import {
+  ConnectionSecurityModalComponent
+} from "../connection-security/connection-security-modal/connection-security-modal.component";
+import {DeliveryPerson} from "../../../model/user/delivery.person";
+import {User} from "../../../model/user/user";
+import {UserService} from "../../../service/user/user.service";
+import {EditingUserType} from "../connection-security/connection-security-field/editable-element";
+import {UploadPfpModalComponent} from "../upload-pfp-modal/upload-pfp-modal.component";
 
 @Component({
   selector: 'app-manage-delivery-persons',
   standalone: true,
   imports: [
-    FaIconComponent
+    FaIconComponent,
+    AddressElementComponent,
+    NgForOf,
+    DeliveryPersonElementComponent,
+    ConnectionSecurityModalComponent,
+    UploadPfpModalComponent
   ],
   templateUrl: './manage-delivery-persons.component.html',
   styleUrl: './manage-delivery-persons.component.scss'
@@ -24,6 +45,15 @@ import {businessCategory, deliveryPersonCategory, deliveryServiceCategory} from 
 export class ManageDeliveryPersonsComponent extends CookieComponent implements OnInit {
 
   faUserGroup = faUserGroup;
+  faPlus = faPlus;
+
+  isConnectionSecurityModalOpen: boolean = false;
+  isUploadPfpImgModalOpen: boolean = false;
+
+  editingUser!: User;
+  editingUserService: UserService<any>;
+  editingUserCategory: UserCategory;
+  editingUserType: EditingUserType = EditingUserType.ADMIN;
 
   constructor(private el: ElementRef,
               protected override customerService: CustomerService,
@@ -35,13 +65,42 @@ export class ManageDeliveryPersonsComponent extends CookieComponent implements O
               protected override cookieService: CookieService,
               protected override router: Router, protected override route: ActivatedRoute) {
     super();
-  }
 
+    this.editingUserService = deliveryPersonService;
+    this.editingUserCategory = deliveryPersonCategory;
+  }
   ngOnInit(): void {
     this.initializeUserByToken().then(() => {
-      this.specificUserPage(deliveryServiceCategory)
+      this.specificUserPage(deliveryServiceCategory).then();
     })
 
     this.el.nativeElement.style.width = `100%`;
+  }
+
+  onConnectionSecurityModal(newVal: boolean) {
+    this.isConnectionSecurityModalOpen = newVal;
+  }
+
+  onUploadPfpImgModal(newVal: boolean) {
+    this.isUploadPfpImgModalOpen = newVal;
+  }
+
+  onEditDeliveryPersonEmitter(deliveryPerson: DeliveryPerson) {
+    this.editingUser = deliveryPerson;
+    this.onConnectionSecurityModal(true);
+  }
+
+  onEditImgPfpEmitter(deliveryPerson: DeliveryPerson) {
+    this.editingUser = deliveryPerson;
+    this.onUploadPfpImgModal(true);
+  }
+
+  onDeleteDeliveryPersonEmitter(deliveryPerson: DeliveryPerson) {
+    this.deliveryPersonService.deleteUserAndPfpImg(deliveryPerson).then(success => {
+      if (success) {
+        this.currentUserService.user?.deliveryPeople?.
+        splice(this.currentUserService.user?.deliveryPeople?.indexOf(deliveryPerson), 1);
+      }
+    });
   }
 }

@@ -12,7 +12,7 @@ import {PfpImgPathByEmail} from "../../model/query/update/pfp-img-path-by-email"
 @Injectable({
   providedIn: 'root'
 })
-export abstract class UserService<T> extends EntityService<T> {
+export abstract class UserService<T extends User> extends EntityService<T> {
 
   protected constructor(http: HttpClient, entity: string) {
     super(http, entity);
@@ -44,5 +44,30 @@ export abstract class UserService<T> extends EntityService<T> {
 
   public updatePfpImgPathByEmail(pfpImgPathByEmail: PfpImgPathByEmail): Observable<number> {
     return this.http.post<number>(`${this.apiBackendUrl}/${this.entityName}/update-pfp-img-path-by-email`, pfpImgPathByEmail);
+  }
+
+  public deleteUserAndPfpImg(user: T): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      this.deleteEntity(user.userId!).subscribe({
+        next: () => {
+          console.log(`User deleted: ${user.userId!}`);
+          if(user.pfpImgPath != undefined && user.pfpImgPath.length > 0) {
+            this.deleteFile(user.pfpImgPath).subscribe({
+              next: (response: boolean) => {
+                console.log(`Pfp img deleted: ${response} for user: ${user.userId!}` );
+              },
+              error: (error: any) => {
+                console.error(error);
+              }
+            });
+          }
+          resolve(true);
+        },
+        error: (error: any) => {
+          console.log(`User with id ${user.userId!} can't be deleted`)
+          resolve(false);
+        }
+      })
+    });
   }
 }

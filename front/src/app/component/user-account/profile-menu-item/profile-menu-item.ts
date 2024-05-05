@@ -38,10 +38,10 @@ export class ProfileMenuItem {
 export const settings = new ProfileMenuItem(faGear, 'Settings', '/user-account/user-settings', userCategories, true);
 export const connectionAndSecurity = new ProfileMenuItem(faLock, 'Connection / Security', '/user-account/connection-security', userCategories);
 export const manageUsers = new ProfileMenuItem(faPeopleRoof, 'Manage Users', '/user-account/manage-users', [adminCategory]);
-export const manageDeliveryPersons = new ProfileMenuItem(faUserGroup, 'Manage Delivery Persons', '/user-account/manage-delivery-persons', [deliveryServiceCategory]);
+export const manageDeliveryPersons = new ProfileMenuItem(faUserGroup, 'Manage Deliverymen', '/user-account/manage-delivery-persons', [deliveryServiceCategory]);
 export const manageProducts = new ProfileMenuItem(faBurger, 'Manage Products', '/user-account/manage-products', [businessCategory]);
 export const manageMenus = new ProfileMenuItem(faBowlFood, 'Manage Menus', '/user-account/manage-menus', [businessCategory]);
-export const orderHistory = new ProfileMenuItem(faTableList, 'Order History', '/user-account/order-history', [customerCategory]);
+export const orderHistory = new ProfileMenuItem(faTableList, 'Order History', '/user-account/order-history', [customerCategory, deliveryPersonCategory, deliveryServiceCategory, businessCategory]);
 export const paymentMethods = new ProfileMenuItem(faCreditCard, 'Payment Methods', '/user-account/payment-methods', [customerCategory]);
 export const faq = new ProfileMenuItem(faQuestion, 'FAQ', '/user-account/faq', userCategories);
 export const messageCenter = new ProfileMenuItem(faMessage, 'Message Center', '/user-account/message-center', [adminCategory, customerCategory, deliveryPersonCategory]);

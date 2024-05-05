@@ -57,3 +57,8 @@ export const editableElements: EditableElement[] = [
   emailElement,
   passwordElement,
 ];
+
+export enum EditingUserType {
+  ADMIN,
+  USER
+}

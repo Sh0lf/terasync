@@ -1,10 +1,10 @@
 package isep.webapp.terasync.controller;
 
 import isep.webapp.terasync.model.Entity;
+import isep.webapp.terasync.model.query.update.ValueByField;
 import isep.webapp.terasync.service.EntityService;
 import isep.webapp.terasync.service.misc.FileService;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import static isep.webapp.terasync.service.misc.FileService.DIRECTORY;
 import static java.nio.file.Paths.get;
 
 public abstract class EntityController<T extends Entity, S extends EntityService<T, ?>> {

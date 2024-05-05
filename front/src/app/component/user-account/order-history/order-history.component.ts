@@ -12,7 +12,12 @@ import {DeliveryServiceService} from "../../../service/user/delivery-service.ser
 import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
 import {CurrentUserService} from "../../../service/user/current-user.service";
 import {CustomerOrderService} from "../../../service/odSystem/customer-order.service";
-import {customerCategory} from "../../../service/user/userCategories";
+import {
+  businessCategory,
+  customerCategory,
+  deliveryPersonCategory,
+  deliveryServiceCategory
+} from "../../../service/user/userCategories";
 import {faCreditCard, faTableList} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 
@@ -49,7 +54,7 @@ export class OrderHistoryComponent extends CookieComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeUserByToken().then(() => {
-      this.specificUserPage(customerCategory)
+      this.specificUserPage(customerCategory, deliveryPersonCategory, deliveryServiceCategory, businessCategory).then();
     });
 
     this.el.nativeElement.style.width = `100%`;

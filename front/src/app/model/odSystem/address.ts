@@ -33,9 +33,9 @@ export class Address {
     this.defaultAddress = defaultAddress;
   }
 
-  static initializeAddresses(json: {addresses: Address[]}): Address[] {
+  static initializeAddresses(json: {addresses: Address[] | undefined}): Address[] {
     let addresses: Address[] = [];
-    if (json.addresses) {
+    if (json.addresses != undefined) {
       for (let address of json.addresses) {
         addresses.push(Address.fromJson(address));
       }

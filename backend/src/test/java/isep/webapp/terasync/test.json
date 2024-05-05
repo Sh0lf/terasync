@@ -1,0 +1,94 @@
+{
+  "deliveryServiceId": 1,
+  "name": "FastDelivery",
+  "email": "delivery@delivery.com",
+  "username": "fastdelivery",
+  "password": "$2a$10$BmcMCDQomX1CcxNh891qc.gqJWvi9C72csoM4pOgS2UiqQnYaCP6e",
+  "token": "No6a16fkSSu3fRgzK924EfayPjHVtLgRoJJxMqS5PJQ2vT4ZNjJFM2lMg4FrNVg5xfsmz3IOWF0kjS5U9aaFKrSVcSGUXH8Yx1CLEIyfwzgrImR4BSu5l3En4OYEiZKBwtezs5vkvscKsSYWPPRxag",
+  "registrationDate": "2024-05-04 13:59:15.97",
+  "emailVerified": true,
+  "approved": true,
+  "pfpImgPath": null,
+  "customerOrders": [
+    {
+      "customerOrderId": 11,
+      "creationTime": "2024-04-28 10:00:00.0",
+      "minTemp": 0.0,
+      "maxTemp": 3.0,
+      "deliveryTime": "2024-04-28 10:30:00.0",
+      "statusId": "2",
+      "packagingId": 1,
+      "customerId": 23,
+      "businessId": 10,
+      "deliveryServiceId": 1,
+      "deliveryPersonId": 1,
+      "status": {
+        "statusId": 2,
+        "status": "Completed",
+        "entityName": "Status"
+      },
+      "packaging": {
+        "packagingId": 1,
+        "packaging": "Plastic",
+        "entityName": "Packaging"
+      },
+      "customerOrderLists": [
+        {
+          "customerOrderListId": 1,
+          "selectionTime": "2024-04-28 10:00:00.0",
+          "quantity": 1,
+          "customerOrderId": 11,
+          "productId": 6,
+          "entityName": "CustomerOrderList"
+        },
+        {
+          "customerOrderListId": 2,
+          "selectionTime": "2024-04-28 10:00:00.0",
+          "quantity": 2,
+          "customerOrderId": 11,
+          "productId": 7,
+          "entityName": "CustomerOrderList"
+        },
+        {
+          "customerOrderListId": 3,
+          "selectionTime": "2024-04-28 10:00:00.0",
+          "quantity": 3,
+          "customerOrderId": 11,
+          "productId": 8,
+          "entityName": "CustomerOrderList"
+        },
+        {
+          "customerOrderListId": 4,
+          "selectionTime": "2024-04-28 10:00:00.0",
+          "quantity": 3,
+          "customerOrderId": 11,
+          "productId": 9,
+          "entityName": "CustomerOrderList"
+        },
+        {
+          "customerOrderListId": 5,
+          "selectionTime": "2024-04-28 10:00:00.0",
+          "quantity": 2,
+          "customerOrderId": 11,
+          "productId": 10,
+          "entityName": "CustomerOrderList"
+        },
+        {
+          "customerOrderListId": 6,
+          "selectionTime": "2024-04-28 10:00:00.0",
+          "quantity": 1,
+          "customerOrderId": 11,
+          "productId": 11,
+          "entityName": "CustomerOrderList"
+        }
+      ],
+      "productMenuLists": [],
+      "messageLists": [],
+      "entityName": "CustomerOrder"
+    }
+  ],
+  "deliveryServiceLists": [],
+
+  "userId": 1,
+  "entityName": "DeliveryService"
+}

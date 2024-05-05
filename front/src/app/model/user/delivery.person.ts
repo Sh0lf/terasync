@@ -13,8 +13,8 @@ export class DeliveryPerson extends User {
               username: string, password: string, deliveryServiceId: number,
               deliveryPersonId?: number | undefined,
               registrationDate?: string | undefined, token?: string | undefined,
-              emailVerified?: boolean | undefined, pfpImgPath?: string | undefined) {
-    super(email, username, password, deliveryPersonId, registrationDate, token, emailVerified, pfpImgPath);
+              emailVerified?: boolean | undefined, pfpImgPath?: string | undefined, name?: string | undefined) {
+    super(email, username, password, deliveryPersonId, registrationDate, token, emailVerified, pfpImgPath, name);
     this.deliveryPersonId = deliveryPersonId;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -22,23 +22,13 @@ export class DeliveryPerson extends User {
   }
 
   static override fromJson(jsonDeliveryPerson: DeliveryPerson) {
-    return new DeliveryPerson(jsonDeliveryPerson.firstName, jsonDeliveryPerson.lastName, jsonDeliveryPerson.email,
+    let deliveryPerson = new DeliveryPerson(jsonDeliveryPerson.firstName, jsonDeliveryPerson.lastName, jsonDeliveryPerson.email,
       jsonDeliveryPerson.username, jsonDeliveryPerson.password, jsonDeliveryPerson.deliveryServiceId,
       jsonDeliveryPerson.deliveryPersonId, jsonDeliveryPerson.registrationDate, jsonDeliveryPerson.token,
-      jsonDeliveryPerson.emailVerified, jsonDeliveryPerson.pfpImgPath);
-  }
+      jsonDeliveryPerson.emailVerified, jsonDeliveryPerson.pfpImgPath, jsonDeliveryPerson.name)
 
-  // static override initializeDeliveryPeople(jsonUser: { deliveryPeople: DeliveryPerson[] }): DeliveryPerson[] {
-  //   let deliveryPeople: DeliveryPerson[] = [];
-  //   if (jsonUser.deliveryPeople) {
-  //     for (let deliveryPerson of jsonUser.deliveryPeople) {
-  //       deliveryPeople.push(DeliveryPerson.fromJson(deliveryPerson));
-  //     }
-  //   }
-  //   return deliveryPeople
-  // }
+    deliveryPerson.customerOrders = CustomerOrder.initializeCustomerOrders(jsonDeliveryPerson);
 
-  static test() {
-    console.log("DeliveryPerson.test() called")
+    return deliveryPerson;
   }
 }

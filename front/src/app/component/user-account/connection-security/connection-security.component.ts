@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit} from '@angular/core';
 import {
   addressElement,
   EditableElement,
@@ -10,9 +10,9 @@ import {
   passwordElement,
   phoneElement,
   usernameElement
-} from "./cs-elem/editable-element";
+} from "./connection-security-field/editable-element";
 import {NgForOf, NgIf} from "@angular/common";
-import {CsElemComponent} from "./cs-elem/cs-elem.component";
+import {CsElemComponent} from "./connection-security-field/cs-elem.component";
 import {FooterComponent} from "../../footer/footer.component";
 import {CookieService} from "ngx-cookie-service";
 import {CurrentUserService} from "../../../service/user/current-user.service";
@@ -25,6 +25,10 @@ import {DeliveryServiceService} from "../../../service/user/delivery-service.ser
 import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
 import {NgxResizeObserverModule} from "ngx-resize-observer";
 import {FormComponent} from "../../misc/form-component";
+import {ConnectionSecurityElementComponent} from "./connection-security-element/connection-security-element.component";
+import {CookieComponent} from "../../misc/cookie-component";
+import {UserService} from "../../../service/user/user.service";
+import {UserCategory} from "../../../service/user/userCategories";
 
 @Component({
   selector: 'app-connection-security',
@@ -34,14 +38,17 @@ import {FormComponent} from "../../misc/form-component";
     CsElemComponent,
     FooterComponent,
     NgIf,
-    NgxResizeObserverModule
+    NgxResizeObserverModule,
+    ConnectionSecurityElementComponent
   ],
   templateUrl: './connection-security.component.html',
   styleUrl: './connection-security.component.scss'
 })
-export class ConnectionSecurityComponent extends FormComponent implements OnInit {
-  protected readonly editableElements = editableElements;
-  changesSuccess: boolean = false;
+export class ConnectionSecurityComponent extends CookieComponent implements OnInit {
+
+  user!: User;
+  userService!: UserService<any>
+  userCategory!: UserCategory;
 
   constructor(private el: ElementRef,
               protected override customerService: CustomerService,
@@ -51,123 +58,19 @@ export class ConnectionSecurityComponent extends FormComponent implements OnInit
               protected override deliveryPersonService: DeliveryPersonService,
               protected override currentUserService: CurrentUserService,
               protected override cookieService: CookieService,
-              protected override router: Router, protected override route: ActivatedRoute,) {
+              protected override router: Router, protected override route: ActivatedRoute) {
     super();
   }
 
   ngOnInit(): void {
+    this.el.nativeElement.style.width = `100%`;
+
     this.initializeUserByToken().then(() => {
       this.loggedInPage();
-      this.setEditableElementValues();
     });
 
-    this.el.nativeElement.style.width = `100%`;
+    this.user = this.currentUserService.user!;
+    this.userService = this.fetchUserService();
+    this.userCategory = this.getCurrentUserCategory();
   }
-
-  override isFormValid(): boolean {
-    throw new Error('Method not implemented.');
-  }
-
-  private setEditableElementValues() {
-    this.editableElements.forEach((editableElement) => {
-      if (this.isEditableElementRelevant(editableElement)) {
-        switch (editableElement.name) {
-          case nameElement.name:
-            editableElement.value = this.currentUserService.user?.name!;
-            break;
-          case firstNameElement.name:
-            editableElement.value = this.currentUserService.user?.firstName!;
-            break;
-          case lastNameElement.name:
-            editableElement.value = this.currentUserService.user?.lastName!;
-            break;
-          case usernameElement.name:
-            editableElement.value = this.currentUserService.user?.username!;
-            break;
-          case phoneElement.name:
-            editableElement.value = this.currentUserService.user?.phone!;
-            break;
-          case addressElement.name:
-            editableElement.value = this.currentUserService.user?.address!;
-            break;
-          case emailElement.name:
-            editableElement.value = this.currentUserService.user?.email!;
-            break;
-          case passwordElement.name:
-            editableElement.value = this.currentUserService.user?.password!;
-            break;
-        }
-      }
-    });
-  }
-
-  private setUserFields() {
-    this.editableElements.forEach((editableElement) => {
-      if (this.isEditableElementRelevant(editableElement)) {
-        switch (editableElement.name) {
-          case nameElement.name:
-            this.currentUserService.user?.setName(editableElement.value);
-            break;
-          case firstNameElement.name:
-            this.currentUserService.user?.setFirstName(editableElement.value);
-            break;
-          case lastNameElement.name:
-            this.currentUserService.user?.setLastName(editableElement.value);
-            break;
-          case usernameElement.name:
-            this.currentUserService.user?.setUsername(editableElement.value);
-            break;
-          case phoneElement.name:
-            this.currentUserService.user?.setPhone(editableElement.value);
-            break;
-          case addressElement.name:
-            this.currentUserService.user?.setAddress(editableElement.value);
-            break;
-          case emailElement.name:
-            this.currentUserService.user?.setEmail(editableElement.value);
-            break;
-          case passwordElement.name:
-            this.currentUserService.user?.setPassword(editableElement.value);
-            break;
-        }
-      }
-    });
-  }
-
-  onApplyChanges() {
-    this.setUserFields();
-    this.fetchUserService().updateEntity(this.currentUserService.user).subscribe({
-      next: (jsonUser: User) => {
-        console.log("Updated user.")
-        this.changesSuccess = true;
-        this.initializeUser(jsonUser);
-      },
-      error: (error) => {
-        this.changesSuccess = false;
-        console.log("HTTP ERROR: Failed to update user.");
-      },
-      complete: () => {
-        super.onSubmit();
-      }
-    });
-  }
-
-  onCancel() {
-    this.setEditableElementValues();
-    this.isSubmitted = false;
-  }
-
-  isEditableElementRelevant(editableElement: EditableElement): boolean {
-    return editableElement.userCategories.includes(this.getCurrentUserCategory());
-  }
-
-  isNotSuccess() {
-    return !this.changesSuccess && this.isSubmitted;
-  }
-
-  isSuccess() {
-    return this.changesSuccess && this.isSubmitted;
-  }
-
-  protected readonly oncancel = oncancel;
 }

@@ -50,6 +50,7 @@ export abstract class EntityService<T> {
   }
 
   public deleteFile(fileName: string): Observable<boolean> {
+    console.log("fileName: " + fileName)
     return this.http.get<boolean>(`${this.apiBackendUrl}/${this.entityName}/delete-file/${fileName}`);
   }
 }

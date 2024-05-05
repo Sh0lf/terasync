@@ -21,9 +21,9 @@ export class RatingList {
     return new RatingList(json.rating, json.comment, json.ratingDate, json.customerId, json.businessId, json.ratingListId);
   }
 
-  static initializeRatingLists(jsonUser: {ratingLists: RatingList[]}): RatingList[] {
+  static initializeRatingLists(jsonUser: {ratingLists: RatingList[] | undefined}): RatingList[] {
     let ratingLists: RatingList[] = [];
-    if (jsonUser.ratingLists) {
+    if (jsonUser.ratingLists != undefined) {
       for (let ratingList of jsonUser.ratingLists) {
         ratingLists.push(RatingList.fromJson(ratingList));
       }

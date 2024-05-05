@@ -39,9 +39,9 @@ export class Product {
     return product;
   }
 
-  static initializeProducts(jsonUser: {products: Product[]}): Product[] {
+  static initializeProducts(jsonUser: {products: Product[] | undefined}): Product[] {
     let products: Product[] = [];
-    if (jsonUser.products) {
+    if (jsonUser.products != undefined) {
       for (let product of jsonUser.products) {
         products.push(Product.fromJson(product));
       }

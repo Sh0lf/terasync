@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {EditableElement} from "./editable-element";
-import {CookieService} from "ngx-cookie-service";
+import {EditableElement, EditingUserType} from "./editable-element";
 import {NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {EditableElementType} from "./editable-element-type";
 import {AuthenticationComponent} from "../../../authentication/authentication-component";
 import bcrypt from "bcryptjs";
 import {CurrentUserService} from "../../../../service/user/current-user.service";
+import {UserCategory} from "../../../../service/user/userCategories";
 
 @Component({
   selector: 'app-cs-elem',
@@ -18,8 +18,11 @@ import {CurrentUserService} from "../../../../service/user/current-user.service"
   templateUrl: './cs-elem.component.html',
   styleUrl: './cs-elem.component.scss'
 })
-export class CsElemComponent extends AuthenticationComponent {
+export class CsElemComponent extends AuthenticationComponent implements OnInit {
   @Input() editableElement!: EditableElement;
+  @Input() userCategory!: UserCategory;
+  @Input() editingUserType!: EditingUserType;
+
   newValue: string = "";
   passwordConfirmation: string = "";
   oldPassword: string = "";
@@ -29,14 +32,22 @@ export class CsElemComponent extends AuthenticationComponent {
 
   isOldPasswordValid = false;
   isOldPasswordChecked = false;
+  isEditable: boolean = true;
 
-  constructor(protected override currentUserService: CurrentUserService,
-              protected override cookieService: CookieService) {
+  constructor(protected override currentUserService: CurrentUserService) {
     super();
   }
 
+  ngOnInit(): void {
+    this.isEditable = this.editableElement.isEditable || this.isEditingUserTypeAdmin();
+  }
+
+  isEditingUserTypeAdmin() {
+    return this.editingUserType === EditingUserType.ADMIN
+  }
+
   showElement(): boolean {
-    return this.editableElement.userCategories.includes(this.getCurrentUserCategory())
+    return this.editableElement.userCategories.includes(this.userCategory);
   }
 
   setEditing(isEditing: boolean) {
@@ -44,10 +55,10 @@ export class CsElemComponent extends AuthenticationComponent {
   }
 
   onConfirm() {
-    if (this.isPasswordElement()) {
+    if (this.isPasswordElement() && !this.isEditingUserTypeAdmin()) {
       this.isEditingPassword = true;
       if (this.isPasswordProper(this.newValue)) {
-        if(!(this.newValue === this.passwordConfirmation)) {
+        if (!(this.newValue === this.passwordConfirmation)) {
           console.log("Passwords do not match.")
           return;
         }
@@ -57,10 +68,6 @@ export class CsElemComponent extends AuthenticationComponent {
           if (success) {
             // HASH NEW PASSWORD
             bcrypt.hash(this.newValue, this.hashSalt, (err, hash) => {
-              if (err) {
-                console.error(err);
-                return;
-              }
               console.log("Password changed.")
               this.editableElement.value = hash;
             });
@@ -75,8 +82,20 @@ export class CsElemComponent extends AuthenticationComponent {
         console.log("Password is not proper.")
         return;
       }
-    }
-    else {
+    } else if(this.isPasswordElement() && this.isEditingUserTypeAdmin()) {
+      this.isEditingPassword = true;
+      if (this.isPasswordProper(this.newValue)) {
+        // HASH NEW PASSWORD
+        bcrypt.hash(this.newValue, this.hashSalt, (err, hash) => {
+          console.log("Password changed.")
+          this.editableElement.value = hash;
+        });
+      } else {
+        console.log("Password is not proper.")
+        return;
+      }
+
+    } else {
       if (this.isFieldProper(this.newValue)) {
         this.editableElement.value = this.newValue;
       } else {
@@ -128,7 +147,7 @@ export class CsElemComponent extends AuthenticationComponent {
   }
 
   isEditingPasswordElement() {
-    return this.isPasswordElement() && this.isEditingField;
+    return this.isPasswordElement() && this.isEditingField && !this.isEditingUserTypeAdmin();
   }
 
   isFormValid(): boolean {

@@ -84,7 +84,7 @@ export class AddressesComponent extends FormComponent implements OnInit {
     }
 
     let defaultAddress = false;
-    if(this.currentUserService.user?.addresses.length == 0) {
+    if(this.currentUserService.user?.addresses!.length == 0) {
       defaultAddress = true;
     }
 
@@ -99,7 +99,7 @@ export class AddressesComponent extends FormComponent implements OnInit {
 
       this.addressService.addEntity(newAddress).subscribe({
         next: (address: Address) => {
-          this.currentUserService.user?.addresses.push(Address.fromJson(address));
+          this.currentUserService.user?.addresses!.push(Address.fromJson(address));
           this.resetAll();
           console.log("New Address Added!");
         },

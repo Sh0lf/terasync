@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {faCamera, faPenToSquare, faUser} from "@fortawesome/free-solid-svg-icons";
-import {UploadPfpModalComponent} from "./upload-pfp-modal/upload-pfp-modal.component";
+import {UploadPfpModalComponent} from "../upload-pfp-modal/upload-pfp-modal.component";
 import {CustomerService} from "../../../service/user/customer.service";
 import {BusinessService} from "../../../service/user/business.service";
 import {AdminService} from "../../../service/user/admin.service";
@@ -14,6 +14,8 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {NgIf} from "@angular/common";
 import {AddressesComponent} from "./addresses/addresses.component";
 import {customerCategory} from "../../../service/user/userCategories";
+import {User} from "../../../model/user/user";
+import {UserService} from "../../../service/user/user.service";
 
 @Component({
   selector: 'app-user-settings',
@@ -32,6 +34,9 @@ export class UserSettingsComponent extends CookieComponent implements OnInit {
   hasAddresses: boolean = false;
   isModalOpen: boolean = false;
 
+  user!: User;
+  userService!: UserService<any>
+
   faUser = faUser;
   faCamera = faCamera;
   faPenToSquare = faPenToSquare;
@@ -49,12 +54,16 @@ export class UserSettingsComponent extends CookieComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.el.nativeElement.style.width = `100%`;
+
     this.initializeUserByToken().then(() => {
       this.loggedInPage();
+
+      this.user = this.currentUserService.user!;
+      this.userService = this.fetchUserService();
     });
 
     this.hasAddresses = this.includesCurrentCategory(customerCategory);
-    this.el.nativeElement.style.width = `100%`;
   }
 
   openModal() {

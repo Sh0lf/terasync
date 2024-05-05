@@ -1,10 +1,7 @@
 package isep.webapp.terasync.service.user;
 
 import isep.webapp.terasync.model.query.select.ByToken;
-import isep.webapp.terasync.model.query.update.PasswordByEmail;
-import isep.webapp.terasync.model.query.update.PfpImgPathByEmail;
-import isep.webapp.terasync.model.query.update.TokenByEmail;
-import isep.webapp.terasync.model.query.update.TokenByOldToken;
+import isep.webapp.terasync.model.query.update.*;
 import isep.webapp.terasync.model.user.Admin;
 import isep.webapp.terasync.repository.user.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;

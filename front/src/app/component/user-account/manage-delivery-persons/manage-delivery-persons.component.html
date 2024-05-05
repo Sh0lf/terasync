@@ -7,5 +7,39 @@
   </div>
   <div class="separation-line-2"></div>
 
+  <div class="delivery-person-container">
+    <div class="dpc-static-add-div">
+      <div class="add-new-elem-div">
+        <div class="add-plus-div">
+          <fa-icon [icon]="faPlus" [class]="['plus-icon']"></fa-icon>
+        </div>
+      </div>
+    </div>
 
+    <div class="mdp-delivery-person-body-div" *ngFor="let deliveryPerson of this.currentUserService.user?.deliveryPeople">
+        <app-delivery-person
+          [style.width.%]="100"
+          [deliveryPerson]="deliveryPerson"
+          (onEditDeliveryPersonEmitter)="onEditDeliveryPersonEmitter($event)"
+          (onDeleteDeliveryPersonEmitter)="onDeleteDeliveryPersonEmitter($event)"
+          (onEditImgPfpEmitter)="onEditImgPfpEmitter($event)"
+        ></app-delivery-person>
+    </div>
+  </div>
 </div>
+
+<app-connection-security-modal
+[isModalOpen]="isConnectionSecurityModalOpen"
+[editingUser]="editingUser"
+[editingUserService]="editingUserService"
+[editingUserCategory]="editingUserCategory"
+[editingUserType]="editingUserType"
+(onChangeEmitter)="onConnectionSecurityModal($event)">
+</app-connection-security-modal>
+
+<app-upload-pfp-modal
+  [isModalOpen]="isUploadPfpImgModalOpen"
+  [user]="editingUser"
+  [userService]="editingUserService"
+  (onChangeEmitter)="onUploadPfpImgModal($event)"
+></app-upload-pfp-modal>

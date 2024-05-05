@@ -58,11 +58,6 @@ $pfpImageSize: 150px;
   border-radius: 50%;
 }
 
-.user-icon {
-  font-size: 65px;
-  color: $colorP19;
-}
-
 .pfp-image-elem-main {
   display: flex;
   justify-content: center;
@@ -105,11 +100,6 @@ $pfpImageSize: 150px;
   min-width: $pfpImageSize;
   min-height: $pfpImageSize;
   border-radius: 50%;
-}
-
-.camera-icon {
-  font-size: 30px;
-  color: $colorP17;
 }
 
 .profile-top-div-info {

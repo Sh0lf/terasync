@@ -434,8 +434,24 @@ $hoverBackground: rgba(0, 0, 0, 0.3);
   align-items: center;
 }
 
+.my-modal-header-2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  padding: 20px 0 20px 0;
+}
+
 .modal-header-title {
   font-size: 20px;
+  font-weight: bold;
+}
+
+.modal-header-title-2 {
+  font-size: 30px;
+  text-align: center;
   font-weight: bold;
 }
 
@@ -450,6 +466,22 @@ $hoverBackground: rgba(0, 0, 0, 0.3);
   align-items: center;
 
   padding: 10px;
+}
+
+.my-modal-content {
+  border: none;
+  width: 100%;
+}
+
+// DEFAULT ICONS
+.user-icon {
+  font-size: 65px;
+  color: $colorP19;
+}
+
+.camera-icon {
+  font-size: 30px;
+  color: $colorP17;
 }
 
 // HIDE NUMBER INPUT ARROWS

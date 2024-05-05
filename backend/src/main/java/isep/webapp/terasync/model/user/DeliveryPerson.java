@@ -45,7 +45,7 @@ public class DeliveryPerson extends User {
             targetEntity = CustomerOrder.class,
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = "deliveryPersonId")
+    @JoinColumn(name = "deliveryPersonId", updatable = false)
     private List<CustomerOrder> customerOrders;
 
     @Override

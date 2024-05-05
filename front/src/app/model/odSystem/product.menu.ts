@@ -34,9 +34,9 @@ export class ProductMenu {
     return productMenu;
   }
 
-  static initializeProductMenus(jsonUser: {productMenus: ProductMenu[]}): ProductMenu[] {
+  static initializeProductMenus(jsonUser: {productMenus: ProductMenu[] | undefined}): ProductMenu[] {
     let productMenus: ProductMenu[] = [];
-    if (jsonUser.productMenus) {
+    if (jsonUser.productMenus != undefined) {
       for (let productMenu of jsonUser.productMenus) {
         productMenus.push(ProductMenu.fromJson(productMenu));
       }
