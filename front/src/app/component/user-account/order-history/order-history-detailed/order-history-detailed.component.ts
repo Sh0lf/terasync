@@ -11,11 +11,16 @@ import {CurrentUserService} from "../../../../service/user/current-user.service"
 import {CustomerOrderService} from "../../../../service/odSystem/customer-order.service";
 import {CustomerOrder} from "../../../../model/odSystem/customer.order";
 import {HttpErrorResponse} from "@angular/common/http";
+import {NgForOf} from "@angular/common";
+import {
+  OrderHistoryElementListComponent
+} from "../order-history-element/order-history-element-list/order-history-element-list.component";
+import {Business} from "../../../../model/user/business";
 
 @Component({
   selector: 'app-order-history-detailed',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NgForOf, OrderHistoryElementListComponent],
   templateUrl: './order-history-detailed.component.html',
   styleUrl: './order-history-detailed.component.scss'
 })
@@ -23,6 +28,7 @@ export class OrderHistoryDetailedComponent extends CookieComponent implements On
 
   orderId: number | undefined;
   order: CustomerOrder | undefined;
+  business: Business | undefined
 
   constructor(
     protected override customerService: CustomerService,
@@ -51,6 +57,7 @@ export class OrderHistoryDetailedComponent extends CookieComponent implements On
             this.customerOrderService.findEntityById(this.orderId).subscribe({
               next: (customerOrder: CustomerOrder) => {
                 this.order = customerOrder;
+                this.fetchBusinessById(customerOrder.businessId)
               },
               error: (error: HttpErrorResponse) => {
                 console.error('Error fetching order:', error);
@@ -64,6 +71,18 @@ export class OrderHistoryDetailedComponent extends CookieComponent implements On
           // Handle case where userOrders is undefined
           this.router.navigate(['/user-account/order-history']);
         }
+      }
+    });
+  }
+
+  fetchBusinessById(id: number): void {
+    this.businessService.findEntityById(id).subscribe({
+      next: (business: Business) => {
+        this.business = business;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error('Error fetching business:', error);
+        console.log("HTTP ERROR / NA : No business found");
       }
     });
   }
