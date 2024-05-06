@@ -28,7 +28,9 @@ export class OrderHistoryDetailedComponent extends CookieComponent implements On
 
   orderId: number | undefined;
   order: CustomerOrder | undefined;
-  business: Business | undefined
+  business: Business | undefined;
+  creationTime: String | undefined;
+  deliveryTime: String | undefined;
 
   constructor(
     protected override customerService: CustomerService,
@@ -58,6 +60,7 @@ export class OrderHistoryDetailedComponent extends CookieComponent implements On
               next: (customerOrder: CustomerOrder) => {
                 this.order = customerOrder;
                 this.fetchBusinessById(customerOrder.businessId)
+                this.transformTime(this.order.creationTime, this.order.deliveryTime)
               },
               error: (error: HttpErrorResponse) => {
                 console.error('Error fetching order:', error);
@@ -85,5 +88,17 @@ export class OrderHistoryDetailedComponent extends CookieComponent implements On
         console.log("HTTP ERROR / NA : No business found");
       }
     });
+  }
+
+  transformTime(timeCreation: String, timeDelivery: String): void {
+    let splitted = timeCreation.split(" ")
+    let date = splitted[0].split("-")
+    let times=splitted[1].split(":")
+    this.creationTime = date[0] + "/" + date[1] + "/" + date[2] + " at " + times[0] + ":" + times[1];
+
+    splitted = timeDelivery.split(" ")
+    date = splitted[0].split("-")
+    times=splitted[1].split(":")
+    this.deliveryTime = date[0] + "/" + date[1] + "/" + date[2] + " at " + times[0] + ":" + times[1];
   }
 }

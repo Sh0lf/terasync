@@ -1,9 +1,5 @@
 @import '../../../common';
 
-div {
-  padding: 20px;
-}
-
 .column-container{
   display: flex;
   flex-direction: column;
@@ -13,6 +9,8 @@ div {
 .row-container {
   display: flex;
   flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .order-information-list {
@@ -22,7 +20,22 @@ div {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  margin-right: 5%;
   height: min(30%);
+}
+.order-delivery-information {
+  align-self: center;
+  border-radius: 15px;
+  background: rgba(247, 196, 165, 0.45);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: min(30%);
+  border-spacing: 10px;
+}
+
+.order-summary-container{
+  padding: 20px
 }
 
 .order-summary-detail {
@@ -31,30 +44,12 @@ div {
   background: rgba(247, 196, 165, 0.45);
   display: flex;
   flex-direction: column;
+  width: 100%;
   justify-content: space-evenly;
-  width: min(80%);
   height: min(30%);
 }
 
-.row-cell {
-  align-self: center;
-  border-radius: 15px;
-  background: rgba(247, 196, 165, 0.45);
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  width: min(75%);
-  height: min(30%);
-}
-
-.order-list-container {
+.order-list-container{
   display: flex;
   flex-direction: column;
-  flex-wrap: nowrap;
-}
-
-.order-summary-detail{
-  display: flex;
-  flex-direction: row;
 }

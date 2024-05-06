@@ -47,8 +47,7 @@ export class OrderHistoryElementComponent extends CookieComponent implements OnI
   ngOnInit(): void{
     let businessId = this.order!.businessId;
     this.fetchBusinessById(businessId);
-    let timeArray = this.order!.creationTime.split(" ")
-    this.creationTime = timeArray[0] + " at " + timeArray[1];
+    this.transformCreationTime(this.order!.creationTime)
     this.orderLists = this.order?.customerOrderLists;
     this.sumTotal(this.orderLists);
   }
@@ -79,6 +78,14 @@ export class OrderHistoryElementComponent extends CookieComponent implements OnI
         })
       }
     }
+  }
+
+  transformCreationTime(time: String): void {
+    let splitted = time.split(" ")
+    let date = splitted[0].split("-")
+    let times=splitted[1].split(":")
+
+    this.creationTime = date[0] + "/" + date[1] + "/" + date[2] + " at " + times[0] + ":" + times[1];
   }
 
   onClickRedirect() {

@@ -1,28 +1,32 @@
 <div class="main-page-body-div">
   <div class="column-container">
-    <h1>{{order?.creationTime}}</h1>
+    <h1>{{creationTime}}</h1>
     <h2>Order {{orderId}}</h2>
     <div class="row-container">
       <div class="order-information-list">
         <h4>Informations - Order {{orderId}}</h4>
         <div>{{business?.name}}</div>
-        <div>{{order?.creationTime}}</div>
+        <div>{{creationTime}}</div>
         <div>{{currentUserService.user?.name}}</div>
         <div>{{currentUserService.user?.address}}</div>
       </div>
       <div class="order-delivery-information">
-
+        <h4>Delivery - Order {{orderId}}</h4>
+        <div>{{deliveryTime}}</div>
       </div>
     </div>
-    <div class="order-summary-detail">
-      <div class="order-list-container" *ngFor="let orderList of order?.customerOrderLists">
-        <app-order-history-element-list [style.height.%]="100"
-                                        [orderList]="orderList">
-        </app-order-history-element-list>
-      </div>
-      <div class="order-payment-info">
+    <div class="order-summary-container">
+      <div class="order-summary-detail">
+        <div class="order-list-container" *ngFor="let orderList of order?.customerOrderLists">
+          <app-order-history-element-list [style.height.%]="100"
+                                          [orderList]="orderList">
+          </app-order-history-element-list>
+        </div>
+        <div class="order-payment-info">
 
+        </div>
       </div>
     </div>
+
   </div>
 </div>

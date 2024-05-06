@@ -1,5 +1,13 @@
 @import "../../../common";
 
+.list-container {
+  display: flex;
+  width: 1000px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .order-cell {
   align-self: center;
   border-radius: 15px;
@@ -8,19 +16,48 @@
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
-  width: min(75%);
-  height: min(30%);
+}
+
+.business-img-container {
+  height: 100%;
+  width: 33%;
+  border-radius: 15px;
+  background-image: url(https://img.freepik.com/free-photo/chicken-wings-barbecue-sweetly-sour-sauce-picnic-summer-menu-tasty-food-top-view-flat-lay_2829-6471.jpg);
+  background-size: cover;
+  display: flex;
+  align-items: end;
+  justify-content: end;
+}
+
+.business-logo-container {
+  border-radius: 15px;
+  z-index: 3;
+  max-width: 20%;
+  max-height: 27%;
+  min-width: 65px;
+  min-height: 65px;
+  background-color: aliceblue;
+  padding: 5px;
+  box-sizing: border-box;
+}
+.logo-picture {
+  z-index: 4;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 10px;
+  object-fit: cover;
 }
 
 .order-summary-detail {
-  display: flex;
-  flex-direction: column;
-}
+  flex-grow: 1;
+  flex-flow: column wrap;
+  padding-left: 3%;
+  padding-bottom: 3%;
+  box-sizing: border-box;
+  overflow:hidden;
+  max-height: 90%;
+  text-overflow: ellipsis;
 
-.order-list-container {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
 }
 
 app-order-history-element-list {
@@ -32,5 +69,122 @@ app-order-history-element-list {
 .order-misc {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
+  padding-right: 3%;
+  flex-grow: 1;
+  text-align: end;
+  width: 30%;
+  height: 90%;
+  box-sizing: border-box;
+}
+
+button {
+  position: relative;
+  background: rgba(247, 196, 165);
+  text-decoration: none;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 10px 10px;
+  letter-spacing: 0.1rem;
+  font-size: 0.7rem;
+  padding: 20px;
+  transition: 0.2s;
+}
+
+button:hover {
+  /* box-shadow: 0 0 35px var(--clr); */
+  animation: box 3s infinite;
+}
+
+button::before {
+  content: "";
+  position: absolute;
+}
+
+button span {
+  position: relative;
+  z-index: 1;
+}
+button i {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+button i::before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  left: 80%;
+  top: -2px;
+  border: 2px solid var(--clr);
+  background: $colorP10;
+  transition: 0.2s;
+}
+
+button:hover i::before {
+  width: 15px;
+  left: 20%;
+  animation: move 3s infinite;
+}
+
+button i::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  left: 20%;
+  bottom: -2px;
+  border: 2px solid var(--clr);
+  background: $colorP10;
+  transition: 0.2s;
+}
+
+button:hover i::after {
+  width: 15px;
+  left: 80%;
+  animation: move 3s infinite;
+}
+
+@keyframes move {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes box {
+  50% {
+    box-shadow: 0 0 25px var(--clr);
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .order-cell {
+    flex-direction: column;
+    height:auto;
+  }
+  #list-container {
+    width: 80%;
+  }
+  .business-img-container {
+    height: 20vh;
+    width: 100%;
+  }
+
+  .order-summary-detail {
+    padding-left: 5%;
+    width: 100%;
+  }
+  .order-misc {
+    margin-left: 5%;
+    text-align: start;
+    width: 40%;
+  }
 }
