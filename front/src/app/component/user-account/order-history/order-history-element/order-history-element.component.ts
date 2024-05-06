@@ -12,6 +12,12 @@ import {CurrentUserService} from "../../../../service/user/current-user.service"
 import {BusinessService} from "../../../../service/user/business.service";
 import {ProductService} from "../../../../service/odSystem/product.service";
 import {Router} from "@angular/router";
+import {
+  businessCategory,
+  customerCategory,
+  deliveryPersonCategory,
+  deliveryServiceCategory
+} from "../../../../service/user/userCategories";
 
 @Component({
   selector: 'app-order-history-element',
@@ -45,6 +51,9 @@ export class OrderHistoryElementComponent extends CookieComponent implements OnI
   }
 
   ngOnInit(): void{
+    this.initializeUserByToken().then(() => {
+      this.specificUserPage(customerCategory, deliveryPersonCategory, deliveryServiceCategory, businessCategory).then();
+    });
     let businessId = this.order!.businessId;
     this.fetchBusinessById(businessId);
     this.transformCreationTime(this.order!.creationTime)

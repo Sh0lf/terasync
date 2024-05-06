@@ -1,17 +1,17 @@
 <div class="main-page-body-div">
   <div class="column-container">
     <h1>{{creationTime}}</h1>
-    <h2>Order {{orderId}}</h2>
+    <h2>Order {{order?.customerOrderId}}</h2>
     <div class="row-container">
       <div class="order-information-list">
-        <h4>Informations - Order {{orderId}}</h4>
+        <h5><u>Informations - Order {{order?.customerOrderId}}</u></h5>
         <div>{{business?.name}}</div>
         <div>{{creationTime}}</div>
         <div>{{currentUserService.user?.name}}</div>
-        <div>{{currentUserService.user?.address}}</div>
+        <div></div>
       </div>
       <div class="order-delivery-information">
-        <h4>Delivery - Order {{orderId}}</h4>
+        <h5><u>Delivery - Order {{order?.customerOrderId}}</u></h5>
         <div>{{deliveryTime}}</div>
       </div>
     </div>

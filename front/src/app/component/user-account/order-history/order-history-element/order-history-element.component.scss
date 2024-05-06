@@ -16,6 +16,8 @@
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+  min-width: 100%;
+  min-height: 30%;
 }
 
 .business-img-container {
@@ -54,10 +56,8 @@
   padding-left: 3%;
   padding-bottom: 3%;
   box-sizing: border-box;
-  overflow:hidden;
-  max-height: 90%;
+  overflow: hidden;
   text-overflow: ellipsis;
-
 }
 
 app-order-history-element-list {
@@ -69,13 +69,14 @@ app-order-history-element-list {
 .order-misc {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   padding-right: 3%;
   flex-grow: 1;
   text-align: end;
-  width: 30%;
+  width: 20%;
   height: 90%;
+  justify-content: space-between;
   box-sizing: border-box;
+  align-items: end;
 }
 
 button {

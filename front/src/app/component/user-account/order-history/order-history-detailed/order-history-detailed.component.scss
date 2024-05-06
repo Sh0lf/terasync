@@ -14,37 +14,60 @@
 }
 
 .order-information-list {
+  padding: 3%;
   align-self: center;
   border-radius: 15px;
   background: rgba(247, 196, 165, 0.45);
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  margin-right: 5%;
+  margin-right: 3%;
+  min-width: 69%;
   height: min(30%);
 }
+
+.order-information-list h5{
+  font-size: 18px;
+}
+
+.order-information-list div{
+  font-size: 12px;
+}
+
 .order-delivery-information {
+  padding: 3%;
   align-self: center;
   border-radius: 15px;
   background: rgba(247, 196, 165, 0.45);
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  min-width: 28%;
   height: min(30%);
   border-spacing: 10px;
 }
 
+.order-delivery-information h5{
+  font-size: 18px;
+}
+
+.order-delivery-information div{
+  font-size: 12px;
+}
+
 .order-summary-container{
-  padding: 20px
+  margin-top: 3%;
+  width: 100%;
 }
 
 .order-summary-detail {
+  padding: 3%;
   align-self: center;
   border-radius: 15px;
   background: rgba(247, 196, 165, 0.45);
   display: flex;
   flex-direction: column;
-  width: 100%;
+  min-width: 70%;
   justify-content: space-evenly;
   height: min(30%);
 }

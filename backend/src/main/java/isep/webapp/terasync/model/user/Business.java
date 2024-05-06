@@ -45,6 +45,8 @@ public class Business extends User {
     private boolean approved;
     @Column(name = "pfpImgPath")
     private String pfpImgPath;
+    @Column(name = "thumbnail")
+    private String thumbnail;
 
     @OneToMany(
             fetch = FetchType.EAGER,

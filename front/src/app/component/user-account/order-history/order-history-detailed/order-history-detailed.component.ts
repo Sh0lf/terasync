@@ -26,7 +26,6 @@ import {Business} from "../../../../model/user/business";
 })
 export class OrderHistoryDetailedComponent extends CookieComponent implements OnInit {
 
-  orderId: number | undefined;
   order: CustomerOrder | undefined;
   business: Business | undefined;
   creationTime: String | undefined;
@@ -50,31 +49,16 @@ export class OrderHistoryDetailedComponent extends CookieComponent implements On
       let id= +params['id'];
       if (!id) {
         this.router.navigate(['/user-account/order-history']);
-      } else {
-        this.orderId = id
-        const userOrders = this.currentUserService.user?.customerOrders;
-        if (userOrders){
-          const verifUserOrder = userOrders.some(userOrder => userOrder.customerOrderId === this.orderId);
-          if (verifUserOrder) {
-            this.customerOrderService.findEntityById(this.orderId).subscribe({
-              next: (customerOrder: CustomerOrder) => {
-                this.order = customerOrder;
-                this.fetchBusinessById(customerOrder.businessId)
-                this.transformTime(this.order.creationTime, this.order.deliveryTime)
-              },
-              error: (error: HttpErrorResponse) => {
-                console.error('Error fetching order:', error);
-                console.log("HTTP ERROR / NA : No order found");
-              }
-            });
-          } else {
-            this.router.navigate(['/user-account/order-history']);
-          }
-        } else {
-          // Handle case where userOrders is undefined
-          this.router.navigate(['/user-account/order-history']);
-        }
       }
+      const userOrder = this.currentUserService.user?.customerOrders?.find(order => order.customerOrderId === id);
+      if (!userOrder) {
+        this.router.navigate(['/user-account/order-history']);
+        return;
+      }
+
+      this.order = userOrder;
+      this.fetchBusinessById(userOrder.businessId);
+      this.transformTime(this.order.creationTime, this.order.deliveryTime);
     });
   }
 

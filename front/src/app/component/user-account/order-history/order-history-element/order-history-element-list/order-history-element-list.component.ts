@@ -7,6 +7,12 @@ import {BusinessService} from "../../../../../service/user/business.service";
 import {CookieComponent} from "../../../../misc/cookie-component";
 import {ProductService} from "../../../../../service/odSystem/product.service";
 import {Product} from "../../../../../model/odSystem/product";
+import {
+  businessCategory,
+  customerCategory,
+  deliveryPersonCategory,
+  deliveryServiceCategory
+} from "../../../../../service/user/userCategories";
 
 @Component({
   selector: 'app-order-history-element-list',
@@ -29,6 +35,9 @@ export class OrderHistoryElementListComponent extends CookieComponent implements
   product: Product | undefined;
 
   ngOnInit(): void {
+    this.initializeUserByToken().then(() => {
+      this.specificUserPage(customerCategory, deliveryPersonCategory, deliveryServiceCategory, businessCategory).then();
+    });
     let productId = this.orderList.productId
     this.fetchProductById(productId)
   }

@@ -50,6 +50,8 @@ export class User {
   productMenus: ProductMenu[] | undefined = [];
   products: Product[] | undefined = [];
   ratingLists: RatingList[] | undefined = [];
+  // BUSINESS Thumbnail path
+  thumbnail: string | undefined;
 
   // PFP IMAGE URL (COMPUTED WHEN NEEDED)
   pfpImgUrl: string | undefined;
@@ -57,7 +59,7 @@ export class User {
   protected constructor(email: string, username: string, password: string,
                         userId?: number, registrationDate?: string,
                         token?: string, emailVerified?: boolean,
-                        pfpImgPath?: string, name?: string) {
+                        pfpImgPath?: string, name?: string, thumbnail?: string) {
     this.userId = userId;
     this.name = name;
 
@@ -69,6 +71,7 @@ export class User {
     this.token = token;
     this.emailVerified = emailVerified;
     this.pfpImgPath = pfpImgPath;
+    this.thumbnail = thumbnail;
   }
 
 
