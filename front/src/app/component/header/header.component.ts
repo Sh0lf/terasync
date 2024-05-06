@@ -96,5 +96,4 @@ export class HeaderComponent extends CookieComponent implements OnInit {
     this.dropDownMenuTop = entry.contentRect.height + 10;
   }
 
-  protected readonly customerCategory = customerCategory;
 }
