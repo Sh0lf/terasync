@@ -48,13 +48,13 @@ export abstract class UserService<T extends User> extends EntityService<T> {
 
   public deleteUserAndPfpImg(user: T): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
-      this.deleteEntity(user.userId!).subscribe({
+      this.deleteEntity(user.getUserId()).subscribe({
         next: () => {
-          console.log(`User deleted: ${user.userId!}`);
+          console.log(`User deleted: ${user.getUserId()}`);
           if(user.pfpImgPath != undefined && user.pfpImgPath.length > 0) {
             this.deleteFile(user.pfpImgPath).subscribe({
               next: (response: boolean) => {
-                console.log(`Pfp img deleted: ${response} for user: ${user.userId!}` );
+                console.log(`Pfp img deleted: ${response} for user: ${user.getUserId()}` );
               },
               error: (error: any) => {
                 console.error(error);
@@ -64,7 +64,7 @@ export abstract class UserService<T extends User> extends EntityService<T> {
           resolve(true);
         },
         error: (error: any) => {
-          console.log(`User with id ${user.userId!} can't be deleted`)
+          console.log(`User with id ${user.getUserId()} can't be deleted`)
           resolve(false);
         }
       })

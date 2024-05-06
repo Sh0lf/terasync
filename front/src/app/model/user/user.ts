@@ -7,8 +7,8 @@ import {RatingList} from "../rating.list";
 import {DeliveryPerson} from "./delivery.person";
 
 export class User {
-  userId: number | undefined;
-  name: string | undefined;
+  protected userId: number | undefined;
+  protected name: string | undefined;
 
   email: string;
   username: string;
@@ -105,8 +105,20 @@ export class User {
     return user;
   }
 
+  getUserId(): number {
+    return this.userId!;
+  }
+
   setName(name: string) {
     this.name = name;
+  }
+
+  getName(): string {
+    if(this.firstName !== undefined && this.lastName !== undefined) {
+      return this.firstName + " " + this.lastName;
+    } else {
+      return this.name!;
+    }
   }
 
   setFirstName(firstName: string) {

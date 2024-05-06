@@ -47,8 +47,8 @@ export class ConnectionSecurityElementComponent extends FormComponent implements
   @Input() userCategory!: UserCategory;
 
   @Input() isModal: boolean = false
-  @Output() onCloseModal = new EventEmitter<boolean>();
   @Input() editingUserType: EditingUserType = EditingUserType.USER;
+  @Output() onCloseModal = new EventEmitter<boolean>();
 
   constructor() {
     super();
@@ -57,8 +57,6 @@ export class ConnectionSecurityElementComponent extends FormComponent implements
   ngOnInit(): void {
     if(this.user != undefined && this.userService != undefined && this.userCategory != undefined) {
       this.setEditableElementValues();
-    } else {
-      console.error("ERROR: User, UserService or UserCategory is undefined.")
     }
   }
 
@@ -71,7 +69,7 @@ export class ConnectionSecurityElementComponent extends FormComponent implements
       if (this.isEditableElementRelevant(editableElement)) {
         switch (editableElement.name) {
           case nameElement.name:
-            editableElement.value = this.user?.name!;
+            editableElement.value = this.user?.getName();
             break;
           case firstNameElement.name:
             editableElement.value = this.user?.firstName!;

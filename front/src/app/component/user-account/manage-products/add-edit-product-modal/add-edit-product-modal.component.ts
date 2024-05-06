@@ -216,7 +216,7 @@ export class AddEditProductModalComponent extends ModalComponent {
 
   private resetValues() {
     if (this.modalOpenType == ModalOpenType.ADD) {
-      this.editingProduct = new Product("", false, 0, this.currentUserService.user?.userId!, "");
+      this.editingProduct = new Product("", false, 0, this.currentUserService.user?.getUserId()!, "");
     }
 
     for (let i = this.editingProduct.productImages.length - 1; i >= 0; i--) {

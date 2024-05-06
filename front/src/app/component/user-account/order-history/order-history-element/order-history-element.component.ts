@@ -63,8 +63,8 @@ export class OrderHistoryElementComponent extends CookieComponent implements OnI
 
   fetchBusinessById(id: number): void {
     this.businessService.findEntityById(id).subscribe({
-      next: (business: Business) => {
-        this.business = business;
+      next: (jsonBusiness: Business) => {
+        this.business = Business.fromJson(jsonBusiness) as Business;
       },
       error: (error: HttpErrorResponse) => {
         console.error('Error fetching business:', error);

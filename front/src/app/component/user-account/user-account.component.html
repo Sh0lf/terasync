@@ -3,9 +3,7 @@
     <div class="profile-menu">
       <div *ngFor="let profileMenuItem of profileMenuItems">
         <app-profile-menu-item
-          [profileMenuItem]="profileMenuItem"
-          (clickedOnEmitter)="handleClickedOnEmitter($event)"
-        >
+          [profileMenuItem]="profileMenuItem">
         </app-profile-menu-item>
       </div>
     </div>

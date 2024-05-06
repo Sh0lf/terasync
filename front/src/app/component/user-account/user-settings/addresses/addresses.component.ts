@@ -89,7 +89,7 @@ export class AddressesComponent extends FormComponent implements OnInit {
     }
 
     if(this.modalOpenType == ModalOpenType.ADD) {
-      let newAddress = new Address(this.currentUserService.user?.userId!,
+      let newAddress = new Address(this.currentUserService.user?.getUserId()!,
         this.countryInput,
         this.streetInput,
         this.postalCodeInput,

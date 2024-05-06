@@ -73,4 +73,8 @@ export class ConnectionSecurityComponent extends CookieComponent implements OnIn
     this.userService = this.fetchUserService();
     this.userCategory = this.getCurrentUserCategory();
   }
+
+  onUserEdited(user: User) {
+
+  }
 }

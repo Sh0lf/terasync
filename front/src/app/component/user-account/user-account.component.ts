@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, OnInit} from '@angular/core';
+import {AfterViewChecked, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {FooterComponent} from "../footer/footer.component";
 import {NgxResizeObserverModule} from "ngx-resize-observer";
@@ -14,7 +14,7 @@ import {ActivatedRoute, Router, RouterOutlet} from "@angular/router";
 import {NgForOf, NgIf} from "@angular/common";
 import {CurrentUserService} from "../../service/user/current-user.service";
 import {ProfileMenuItemComponent} from "./profile-menu-item/profile-menu-item.component";
-import {ProfileMenuItem, profileMenuItems, settings} from "./profile-menu-item/profile-menu-item";
+import {profileMenuItems} from "./profile-menu-item/profile-menu-item";
 import {AddressesComponent} from "./user-settings/addresses/addresses.component";
 import {ManageProductsComponent} from "./manage-products/manage-products.component";
 import {UserSettingsComponent} from "./user-settings/user-settings.component";
@@ -41,10 +41,11 @@ import {UserSettingsComponent} from "./user-settings/user-settings.component";
   templateUrl: './user-account.component.html',
   styleUrl: './user-account.component.scss'
 })
-export class UserAccountComponent extends CookieComponent implements OnInit {
+export class UserAccountComponent extends CookieComponent implements OnInit, AfterViewChecked {
   profileMenuItems = profileMenuItems;
 
-  constructor(protected override customerService: CustomerService,
+  constructor(private cdr: ChangeDetectorRef,
+              protected override customerService: CustomerService,
               protected override businessService: BusinessService,
               protected override adminService: AdminService,
               protected override deliveryServiceService: DeliveryServiceService,
@@ -58,17 +59,23 @@ export class UserAccountComponent extends CookieComponent implements OnInit {
   ngOnInit(): void {
     this.initializeUserByToken().then(() => {
       this.loggedInPage();
-      if(this.isDeliveryServiceCategory()) {
+      if (this.isDeliveryServiceCategory()) {
         this.initializeDeliveryPeoplePfpImgUrl().then();
       }
     });
     this.routeTo('/user-account/user-settings');
-    settings.class = "profile-menu-item-clicked";
   }
 
-  handleClickedOnEmitter(exceptProfileMenuItem: ProfileMenuItem) {
+  ngAfterViewChecked(): void {
+    // console.log(this.router.url);
+
     profileMenuItems.forEach((profileMenuItem) => {
-      if(profileMenuItem != exceptProfileMenuItem) profileMenuItem.class = "profile-menu-item";
+      if (profileMenuItem.link == this.router.url) {
+        profileMenuItem.class = "profile-menu-item-clicked";
+      } else {
+        profileMenuItem.class = "profile-menu-item";
+      }
     });
+    this.cdr.detectChanges();
   }
 }

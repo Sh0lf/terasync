@@ -44,9 +44,9 @@ export class ProfileMenuItemComponent extends CookieComponent implements OnInit 
   }
 
   onClick() {
-    this.clickedOnEmitter.emit();
-    this.profileMenuItem.class = "profile-menu-item-clicked";
-
+    // this.clickedOnEmitter.emit();
+    // this.profileMenuItem.class = "profile-menu-item-clicked";
+    //
     if (this.profileMenuItem == logout) {
       this.logoutOnClick();
     } else {

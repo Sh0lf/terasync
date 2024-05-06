@@ -6,6 +6,7 @@ import {Product} from "../odSystem/product";
 import {RatingList} from "../rating.list";
 
 export class Business extends User {
+  protected override name: string;
   override businessId: number | undefined;
   override address: string;
   override phone: string;
@@ -25,6 +26,7 @@ export class Business extends User {
               emailVerified?: boolean | undefined, approved?: boolean | undefined,
               pfpImgPath?: string | undefined, thumbnail?: string | undefined) {
     super(email, username, password, businessId, registrationDate, token, emailVerified, pfpImgPath, name, thumbnail);
+    this.name = name;
     this.businessId = businessId;
     this.address = address;
     this.phone = phone;

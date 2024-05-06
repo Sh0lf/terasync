@@ -65,7 +65,7 @@ export class ManageProductsComponent extends CookieComponent implements OnInit {
   }
 
   addProduct() {
-    this.editingProduct = new Product("", false, 0, this.currentUserService.user?.userId!, "");
+    this.editingProduct = new Product("", false, 0, this.currentUserService.user?.getUserId()!, "");
     this.openModal(ModalOpenType.ADD);
   }
 
