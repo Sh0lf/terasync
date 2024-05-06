@@ -142,6 +142,7 @@ CREATE TABLE CustomerOrder
     businessId        INT           NOT NULL,
     deliveryServiceId INT           NOT NULL,
     deliveryPersonId  INT           NOT NULL,
+    addressId         INT           NOT NULL,
     constraint status_customerOrder_fk FOREIGN KEY (statusId) REFERENCES Status (statusId),
     constraint packaging_customerOrder_fk FOREIGN KEY (packagingId) REFERENCES Packaging (packagingId),
     constraint customer_customerOrder_fk FOREIGN KEY (customerId) REFERENCES Customer (customerId)
@@ -152,6 +153,8 @@ CREATE TABLE CustomerOrder
         ON DELETE NO ACTION ON UPDATE CASCADE,
     constraint deliveryPerson_customerOrder_fk FOREIGN KEY (deliveryPersonId) REFERENCES DeliveryPerson (deliveryPersonId)
         ON DELETE NO ACTION ON UPDATE NO ACTION,
+    constraint address_customerOrder_fk FOREIGN KEY (addressId) REFERENCES Address (addressId)
+            ON DELETE NO ACTION ON UPDATE NO ACTION,
     constraint temp_customerOrder_check check (minTemp >= -273.15 and maxTemp >= -273.15 and minTemp <= maxTemp)
 )
 

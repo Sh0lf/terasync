@@ -4,6 +4,7 @@ import {ProductMenuList} from "./product.menu.list";
 import {MessageList} from "../message.list";
 import {Status} from "./status";
 import {Packaging} from "./packaging";
+import {Address} from "./address";
 
 export class CustomerOrder {
   customerOrderId: number;
@@ -24,6 +25,7 @@ export class CustomerOrder {
 
   status!: Status | undefined
   packaging!: Packaging | undefined;
+  address!: Address | undefined;
 
   constructor(customerOrderId: number, creationTime: string, minTemp: number, maxTemp: number,
               deliveryTime: string, statusId: string, packagingId: number, customerId: number,
@@ -52,6 +54,7 @@ export class CustomerOrder {
     customerOrder.messageLists = MessageList.initializeMessageLists(jsonCustomerOrder);
     customerOrder.status = Status.initializeStatus(jsonCustomerOrder);
     customerOrder.packaging = Packaging.initializePackaging(jsonCustomerOrder);
+    customerOrder.address = Address.initializeAddress(jsonCustomerOrder);
 
     return customerOrder;
   }

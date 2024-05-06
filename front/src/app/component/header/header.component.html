@@ -18,7 +18,7 @@
             <button class="default-btn" type="button" (click)="loginOnClick()">Login</button>
           </div>
           <div class="logged-out-button-elem" *ngIf="!currentUserService.isLoggedIn()">
-            <button class="default-btn" type="button" (click)="registerOnClick()">Register</button>
+            <button class="default-btn" type="button" (click)="applyAs(customerCategory)">Register</button>
           </div>
           <div class="separation-line-small"></div>
           <div class="logged-out-button-elem">
@@ -69,7 +69,7 @@
   <div class="header-elem logo-title-elem" (click)="routeToHome()">
     <img class="logo-img" src="../../../assets/logo.jpeg" alt="logo">
     <div class="title-elem">
-      <span>terasync/ foodapp</span>
+      <span>terasync</span>
     </div>
   </div>
   <div class="header-elem search-elem">
@@ -88,7 +88,7 @@
     <button class="login-button" type="button" (click)="loginOnClick()">Login</button>
   </div>
   <div class="header-elem register-button-elem" *ngIf="!currentUserService.isLoggedIn()">
-    <button class="register-button" type="button" (click)="registerOnClick()">Register</button>
+    <button class="register-button" type="button" (click)="applyAs(customerCategory)">Register</button>
   </div>
 </div>
 

@@ -84,10 +84,6 @@ export class HeaderComponent extends CookieComponent implements OnInit {
     this.router.navigate(['/login'], {relativeTo: this.route}).then();
   }
 
-  registerOnClick() {
-    this.router.navigate(['/register'], {relativeTo: this.route}).then();
-  }
-
   burgerMenuOnClick() {
     this.showMenu = !this.showMenu;
   }
@@ -99,4 +95,6 @@ export class HeaderComponent extends CookieComponent implements OnInit {
   handleResize(entry: ResizeObserverEntry) {
     this.dropDownMenuTop = entry.contentRect.height + 10;
   }
+
+  protected readonly customerCategory = customerCategory;
 }

@@ -63,6 +63,16 @@ public class CustomerOrder extends isep.webapp.terasync.model.Entity {
     )
     private Packaging packaging;
 
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            targetEntity = Address.class
+    )
+    @JoinColumn(
+            name = "addressId",
+            insertable = false,
+            updatable = false
+    )
+    private Address address;
 
     @OneToMany(
             fetch = FetchType.EAGER,

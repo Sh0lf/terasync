@@ -1,3 +1,5 @@
+import {CustomerOrder} from "./customer.order";
+
 export class Address {
   addressId: number | undefined;
   customerId: number;
@@ -41,5 +43,15 @@ export class Address {
       }
     }
     return addresses;
+  }
+
+  static initializeAddress(jsonCustomerOrder: CustomerOrder) {
+    let address: Address | undefined;
+
+    if (jsonCustomerOrder.address != undefined) {
+      address = Address.fromJson(jsonCustomerOrder.address);
+    }
+
+    return address;
   }
 }
