@@ -32,7 +32,7 @@ import {UploadStatus} from "../../../misc/form-component";
 })
 export class AddEditProductModalComponent extends ModalComponent {
   @Input() override isModalOpen = false
-  @Output() override onChangeEmitter = new EventEmitter<boolean>()
+  @Output() override onModalChangeEmitter = new EventEmitter<boolean>()
 
   faXmark = faXmark;
   faCheck = faCheck;

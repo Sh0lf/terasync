@@ -8,7 +8,7 @@
   <div class="separation-line-2"></div>
 
   <div class="delivery-person-container">
-    <div class="dpc-static-add-div">
+    <div class="dpc-static-add-div" (click)="onRegisterUserModal(true)">
       <div class="add-new-elem-div">
         <div class="add-plus-div">
           <fa-icon [icon]="faPlus" [class]="['plus-icon']"></fa-icon>
@@ -20,9 +20,9 @@
         <app-delivery-person
           [style.width.%]="100"
           [deliveryPerson]="deliveryPerson"
-          (onEditDeliveryPersonEmitter)="onEditDeliveryPersonEmitter($event)"
-          (onDeleteDeliveryPersonEmitter)="onDeleteDeliveryPersonEmitter($event)"
-          (onEditImgPfpEmitter)="onEditImgPfpEmitter($event)"
+          (onEditDeliveryPersonEmitter)="onEditDeliveryPerson($event)"
+          (onDeleteDeliveryPersonEmitter)="onDeleteDeliveryPerson($event)"
+          (onEditImgPfpEmitter)="onEditImgPfp($event)"
         ></app-delivery-person>
     </div>
   </div>
@@ -34,12 +34,20 @@
 [editingUserService]="editingUserService"
 [editingUserCategory]="editingUserCategory"
 [editingUserType]="editingUserType"
-(onChangeEmitter)="onConnectionSecurityModal($event)">
+(onModalChangeEmitter)="onConnectionSecurityModal($event)">
 </app-connection-security-modal>
 
 <app-upload-pfp-modal
   [isModalOpen]="isUploadPfpImgModalOpen"
   [user]="editingUser"
   [userService]="editingUserService"
-  (onChangeEmitter)="onUploadPfpImgModal($event)"
+  (onModalChangeEmitter)="onUploadPfpImgModal($event)"
 ></app-upload-pfp-modal>
+
+<app-register-modal
+  [isModalOpen]="isRegisterUserModalOpen"
+  [userService]="editingUserService"
+  [registrationType]="deliveryPersonRegistrationType"
+  (onModalChangeEmitter)="onRegisterUserModal($event)"
+  (onUserAddedEmitter)="onDeliveryPersonAdded($event)">
+</app-register-modal>

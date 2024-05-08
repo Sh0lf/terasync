@@ -1,18 +1,6 @@
-import {Component, ElementRef, Input, OnInit} from '@angular/core';
-import {
-  addressElement,
-  EditableElement,
-  editableElements,
-  emailElement,
-  firstNameElement,
-  lastNameElement,
-  nameElement,
-  passwordElement,
-  phoneElement,
-  usernameElement
-} from "./connection-security-field/editable-element";
+import {Component, ElementRef, OnInit} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
-import {CsElemComponent} from "./connection-security-field/cs-elem.component";
+import {ConnectionSecurityFieldComponent} from "./connection-security-field/connection-security-field.component";
 import {FooterComponent} from "../../footer/footer.component";
 import {CookieService} from "ngx-cookie-service";
 import {CurrentUserService} from "../../../service/user/current-user.service";
@@ -24,7 +12,6 @@ import {AdminService} from "../../../service/user/admin.service";
 import {DeliveryServiceService} from "../../../service/user/delivery-service.service";
 import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
 import {NgxResizeObserverModule} from "ngx-resize-observer";
-import {FormComponent} from "../../misc/form-component";
 import {ConnectionSecurityElementComponent} from "./connection-security-element/connection-security-element.component";
 import {CookieComponent} from "../../misc/cookie-component";
 import {UserService} from "../../../service/user/user.service";
@@ -35,7 +22,7 @@ import {UserCategory} from "../../../service/user/userCategories";
   standalone: true,
   imports: [
     NgForOf,
-    CsElemComponent,
+    ConnectionSecurityFieldComponent,
     FooterComponent,
     NgIf,
     NgxResizeObserverModule,
@@ -72,9 +59,5 @@ export class ConnectionSecurityComponent extends CookieComponent implements OnIn
     this.user = this.currentUserService.user!;
     this.userService = this.fetchUserService();
     this.userCategory = this.getCurrentUserCategory();
-  }
-
-  onUserEdited(user: User) {
-
   }
 }

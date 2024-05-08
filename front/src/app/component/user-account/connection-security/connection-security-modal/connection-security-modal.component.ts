@@ -5,7 +5,7 @@ import {ModalComponent} from "../../../misc/modal-component";
 import {User} from "../../../../model/user/user";
 import {UserService} from "../../../../service/user/user.service";
 import {UserCategory} from "../../../../service/user/userCategories";
-import {EditingUserType} from "../connection-security-field/editable-element";
+import {EditingUserType} from "../../../misc/editing-user-type";
 
 @Component({
   selector: 'app-connection-security-modal',
@@ -19,7 +19,7 @@ import {EditingUserType} from "../connection-security-field/editable-element";
 })
 export class ConnectionSecurityModalComponent extends ModalComponent {
   @Input() override isModalOpen = false
-  @Output() override onChangeEmitter = new EventEmitter<boolean>()
+  @Output() override onModalChangeEmitter = new EventEmitter<boolean>()
 
   @Input() editingUser!: User;
   @Input() editingUserService!: UserService<any>;
@@ -36,6 +36,6 @@ export class ConnectionSecurityModalComponent extends ModalComponent {
 
   onCloseModal(isModalOpen: boolean) {
     this.isModalOpen = isModalOpen;
-    this.onChangeEmitter.emit(isModalOpen);
+    this.onModalChangeEmitter.emit(isModalOpen);
   }
 }

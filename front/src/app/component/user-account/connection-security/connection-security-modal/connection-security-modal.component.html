@@ -2,11 +2,11 @@
   <div class="modal-dialog">
     <div class="modal-content my-modal-content">
       <app-connection-security-element
-        [isModal]="true"
         [user]="editingUser"
         [userService]="editingUserService"
         [userCategory]="editingUserCategory"
         [editingUserType]="editingUserType"
+        [isModal]="true"
         (onCloseModal)="onCloseModal($event)"
       ></app-connection-security-element>
     </div>

@@ -7,7 +7,7 @@ import {
   deliveryServiceCategory,
   userCategories,
   UserCategory
-} from "../../../../service/user/userCategories";
+} from "../../service/user/userCategories";
 
 export class EditableElement {
   name: string;
@@ -57,8 +57,3 @@ export const editableElements: EditableElement[] = [
   emailElement,
   passwordElement,
 ];
-
-export enum EditingUserType {
-  ADMIN,
-  USER
-}

@@ -1,0 +1,99 @@
+<form (ngSubmit)="onSubmit()">
+  <div class="sign-form-body-div-2">
+    <div class="sign-form-elem" *ngIf="registrationType?.hasHeader()">
+      <app-logo></app-logo>
+      <h1>{{ registrationType?.headerTitle }}</h1>
+    </div>
+
+    <div class="my-modal-header-2" *ngIf="isModal">
+      <span class="modal-header-title-2">Add new {{registrationType?.userCategory?.name}}</span>
+      <div class="clickable-icon-elem-1" (click)="closeModal()">
+        <fa-icon [icon]="faXmark" [class]="['clickable-icon-1']"></fa-icon>
+      </div>
+    </div>
+
+    <div class="sign-form-elem-merged">
+      <div class="sign-form-elem" *ngIf="isEditableElementRelevant(firstNameElement, registrationType?.userCategory!)">
+        <label for="firstName-input">First Name:</label>
+        <input type="text" id="firstName-input" [(ngModel)]="firstNameInput" name="firstName-input">
+        <span class="validation-error-span" *ngIf="isFirstNameInvalid()">{{ fieldInvalidMessage }}</span>
+      </div>
+      <div class="sign-form-elem" *ngIf="isEditableElementRelevant(lastNameElement, registrationType?.userCategory!)">
+        <label for="lastName-input">Last Name:</label>
+        <input type="text" id="lastName-input" [(ngModel)]="lastNameInput" name="lastName-input">
+        <span class="validation-error-span" *ngIf="isLastNameInvalid()">{{ fieldInvalidMessage }}</span>
+      </div>
+    </div>
+
+    <div class="sign-form-elem-merged">
+      <div class="sign-form-elem" *ngIf="isEditableElementRelevant(nameElement, registrationType?.userCategory!)">
+        <label for="name-input">Name:</label>
+        <input type="text" id="name-input" [(ngModel)]="nameInput" name="name-input">
+        <span class="validation-error-span" *ngIf="isNameInvalid()">{{ fieldInvalidMessage }}</span>
+      </div>
+      <div class="sign-form-elem" *ngIf="isEditableElementRelevant(usernameElement, registrationType?.userCategory!)">
+        <label for="username-input">Username:</label>
+        <input type="text" id="username-input" [(ngModel)]="usernameInput" name="username-input">
+        <span class="validation-error-span" *ngIf="isUsernameInvalid()">{{ fieldInvalidMessage }}</span>
+      </div>
+    </div>
+
+    <div class="sign-form-elem" *ngIf="isEditableElementRelevant(emailElement, registrationType?.userCategory!)">
+      <label for="email-input">Email:</label>
+      <input type="email" id="email-input" [(ngModel)]="emailInput" name="email-input">
+      <span class="validation-error-span" *ngIf="isEmailInvalid()">{{ fieldInvalidMessage }}</span>
+      <span class="validation-error-span" *ngIf="isEmailExists">Email already exists.</span>
+    </div>
+
+    <div class="sign-form-elem-merged">
+      <div class="sign-form-elem" *ngIf="isEditableElementRelevant(addressElement, registrationType?.userCategory!)">
+        <label for="address-input">Address:</label>
+        <input type="text" id="address-input" [(ngModel)]="addressInput" name="address-input">
+        <span class="validation-error-span" *ngIf="isAddressInvalid()">{{ fieldInvalidMessage }}</span>
+      </div>
+      <div class="sign-form-elem" *ngIf="isEditableElementRelevant(phoneElement, registrationType?.userCategory!)">
+        <label for="phone-input">Phone:</label>
+        <input type="text" id="phone-input" [(ngModel)]="phoneInput" name="phone-input">
+        <span class="validation-error-span" *ngIf="isPhoneInvalid()">{{ fieldInvalidMessage }}</span>
+      </div>
+    </div>
+
+    <div class="sign-form-elem">
+      <label for="password-input">Password:</label>
+      <input type="password" id="password-input" [(ngModel)]="passwordInput" name="password-input">
+      <span class="validation-error-span" *ngIf="isPasswordInvalid()">{{ passwordInvalidMessage }}</span>
+    </div>
+    <div class="sign-form-elem">
+      <label for="passwordConfirmation-input">Password Confirmation:</label>
+      <input type="password" id="passwordConfirmation-input" [(ngModel)]="confirmPasswordInput"
+             name="passwordConfirmation-input">
+      <span class="validation-error-span" *ngIf="isPasswordsNotMatch()">{{ passwordsNotMatchMessage }}</span>
+    </div>
+    <div class="sign-form-elem" *ngIf="isUserRegistration()">
+      <re-captcha (resolved)="resolved($event)"></re-captcha>
+      <label class="validation-error-span centered-span" *ngIf="isCaptchaInvalid()">Please verify that you're not a
+        robot.</label>
+    </div>
+    <div class="separation-line-small"></div>
+    <div class="sign-form-elem" *ngIf="isAdminRegistration()">
+      <span class="validation-error-span centered-span" *ngIf="isUserNotAdded()">
+        {{ registrationType?.userCategory?.name }} could not be added.</span>
+      <span class="validation-success-span centered-span" *ngIf="isUserAdded">
+        {{ registrationType?.userCategory?.name }} added successfully.</span>
+    </div>
+    <div class="sign-form-elem">
+      <button class="auth-button" type="submit" name="submit-button">{{ registrationType?.buttonTitle }}</button>
+    </div>
+    <div class="sign-form-elem" *ngIf="isUserRegistration()">
+            <span class="centered-span">By creating an account, you agree to Terasync's
+              <button class="href-button" (click)="routeTo('')">Conditions of Use</button>
+              and
+              <button class="href-button" (click)="routeTo('')">Privacy Notice</button>.</span>
+    </div>
+    <div class="sign-form-elem" *ngIf="isUserRegistration()">
+        <span class="centered-span">Already have an account?
+          <button class="href-button" (click)="routeTo('/login')">Login here &rarr;</button>
+        </span>
+    </div>
+  </div>
+</form>

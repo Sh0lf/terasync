@@ -28,7 +28,7 @@ export const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
+  {path: `register/:${StorageKeys.USER_CATEGORY}`, component: RegisterComponent},
   {path: 'verify-email', component: VerifyEmailComponent},
   {path: 'partner-selection', component: PartnerSelectionComponent},
   {path: 'password-recovery', component: PasswordRecoveryComponent},

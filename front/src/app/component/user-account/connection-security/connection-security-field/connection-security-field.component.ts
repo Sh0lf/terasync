@@ -1,12 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {EditableElement, EditingUserType} from "./editable-element";
+import {EditableElement} from "../../../misc/editable-element";
 import {NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
-import {EditableElementType} from "./editable-element-type";
+import {EditableElementType} from "../../../misc/editable-element-type";
 import {AuthenticationComponent} from "../../../authentication/authentication-component";
 import bcrypt from "bcryptjs";
 import {CurrentUserService} from "../../../../service/user/current-user.service";
 import {UserCategory} from "../../../../service/user/userCategories";
+import {EditingUserType} from "../../../misc/editing-user-type";
 
 @Component({
   selector: 'app-cs-elem',
@@ -15,10 +16,10 @@ import {UserCategory} from "../../../../service/user/userCategories";
     NgIf,
     FormsModule
   ],
-  templateUrl: './cs-elem.component.html',
-  styleUrl: './cs-elem.component.scss'
+  templateUrl: './connection-security-field.component.html',
+  styleUrl: './connection-security-field.component.scss'
 })
-export class CsElemComponent extends AuthenticationComponent implements OnInit {
+export class ConnectionSecurityFieldComponent extends AuthenticationComponent implements OnInit {
   @Input() editableElement!: EditableElement;
   @Input() userCategory!: UserCategory;
   @Input() editingUserType!: EditingUserType;

@@ -27,6 +27,7 @@ import {DeliveryPerson} from "../../model/user/delivery.person";
 import {DeliveryService} from "../../model/user/delivery.service";
 import {CurrentUserService} from "../../service/user/current-user.service";
 import {Observable} from "rxjs";
+import {EditableElement} from "./editable-element";
 
 export abstract class CookieComponent {
   // Services
@@ -192,6 +193,10 @@ export abstract class CookieComponent {
     this.cookieService.set(StorageKeys.USER_CATEGORY, JSON.stringify(customerCategory), 1, '/');
   }
 
+  isEditableElementRelevant(editableElement: EditableElement, userCategory: UserCategory): boolean {
+    return editableElement.userCategories.includes(userCategory);
+  }
+
   initializeUserByToken(): Promise<boolean> {
     this.currentUserService.incrementCounter();
     return new Promise<boolean>((resolve, reject) => {
@@ -234,7 +239,7 @@ export abstract class CookieComponent {
     this.currentUserService.user = User.fromJson(jsonUser);
     this.currentUserService.user.deliveryPeople = this.initializeDeliveryPeople(jsonUser);
     this.initializeUserPfpImgUrl().then();
-    this.setCurrentUser(jsonUser);
+    this.setCurrentUser(this.currentUserService.user);
 
     console.log(this.currentUserService.user!)
   }
@@ -299,9 +304,9 @@ export abstract class CookieComponent {
     });
   }
 
-  getUserByEmail(email: string): Promise<User | null> {
+  getUserByEmail(email: string, userService: UserService<any>): Promise<User | null> {
     return new Promise<User | null>((resolve, reject) => {
-      this.fetchUserService().findUserByEmail(email).subscribe({
+      userService.findUserByEmail(email).subscribe({
         next: (customer: Customer) => {
           resolve(customer);
         },
@@ -314,7 +319,7 @@ export abstract class CookieComponent {
 
   applyAs(userCategory: UserCategory) {
     this.setCurrentUserCategory(userCategory);
-    this.router.navigate(['/register'], {relativeTo: this.route}).then();
+    this.router.navigate([`/register/${userCategory.getFormattedName()}`], {relativeTo: this.route}).then();
   }
 
   handleFooterTopMinValue(entry: ResizeObserverEntry, staticVal: number = 0) {

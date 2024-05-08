@@ -25,8 +25,13 @@ import {
 import {DeliveryPerson} from "../../../model/user/delivery.person";
 import {User} from "../../../model/user/user";
 import {UserService} from "../../../service/user/user.service";
-import {EditingUserType} from "../connection-security/connection-security-field/editable-element";
 import {UploadPfpModalComponent} from "../upload-pfp-modal/upload-pfp-modal.component";
+import {EditingUserType} from "../../misc/editing-user-type";
+import {RegisterModalComponent} from "../../authentication/register/register-modal/register-modal.component";
+import {
+  deliveryPersonRegistrationType,
+  deliveryServiceRegistrationType
+} from "../../authentication/register/registration-type";
 
 @Component({
   selector: 'app-manage-delivery-persons',
@@ -37,7 +42,8 @@ import {UploadPfpModalComponent} from "../upload-pfp-modal/upload-pfp-modal.comp
     NgForOf,
     DeliveryPersonElementComponent,
     ConnectionSecurityModalComponent,
-    UploadPfpModalComponent
+    UploadPfpModalComponent,
+    RegisterModalComponent
   ],
   templateUrl: './manage-delivery-persons.component.html',
   styleUrl: './manage-delivery-persons.component.scss'
@@ -49,11 +55,14 @@ export class ManageDeliveryPersonsComponent extends CookieComponent implements O
 
   isConnectionSecurityModalOpen: boolean = false;
   isUploadPfpImgModalOpen: boolean = false;
+  isRegisterUserModalOpen: boolean = false;
 
   editingUser!: User;
   editingUserService: UserService<any>;
   editingUserCategory: UserCategory;
+
   editingUserType: EditingUserType = EditingUserType.ADMIN;
+  deliveryPersonRegistrationType = deliveryPersonRegistrationType;
 
   constructor(private el: ElementRef,
               protected override customerService: CustomerService,
@@ -85,22 +94,30 @@ export class ManageDeliveryPersonsComponent extends CookieComponent implements O
     this.isUploadPfpImgModalOpen = newVal;
   }
 
-  onEditDeliveryPersonEmitter(deliveryPerson: DeliveryPerson) {
+  onRegisterUserModal(newVal: boolean) {
+    this.isRegisterUserModalOpen = newVal;
+  }
+
+  onEditDeliveryPerson(deliveryPerson: DeliveryPerson) {
     this.editingUser = deliveryPerson;
     this.onConnectionSecurityModal(true);
   }
 
-  onEditImgPfpEmitter(deliveryPerson: DeliveryPerson) {
+  onEditImgPfp(deliveryPerson: DeliveryPerson) {
     this.editingUser = deliveryPerson;
     this.onUploadPfpImgModal(true);
   }
 
-  onDeleteDeliveryPersonEmitter(deliveryPerson: DeliveryPerson) {
+  onDeleteDeliveryPerson(deliveryPerson: DeliveryPerson) {
     this.deliveryPersonService.deleteUserAndPfpImg(deliveryPerson).then(success => {
       if (success) {
         this.currentUserService.user?.deliveryPeople?.
         splice(this.currentUserService.user?.deliveryPeople?.indexOf(deliveryPerson), 1);
       }
     });
+  }
+
+  onDeliveryPersonAdded(user: User) {
+    this.currentUserService.user?.deliveryPeople?.push(user as DeliveryPerson);
   }
 }

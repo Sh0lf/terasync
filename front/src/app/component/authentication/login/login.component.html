@@ -33,9 +33,9 @@
       </div>
       <div class="sign-form-elem">
         <span class="centered-span">Don't have an account?
-          <button class="href-button" (click)="routeTo('/register')" *ngIf="!isPartnerType()"> Register</button>
-          <button class="href-button" (click)="routeTo('/register')" *ngIf="isBusinessCategory()"> Apply as a Business</button>
-          <button class="href-button" (click)="routeTo('/register')" *ngIf="isDeliveryServiceCategory()"> Apply as a Delivery Service</button>
+          <button class="href-button" (click)="applyAs(customerCategory)" *ngIf="!isPartnerType()"> Register</button>
+          <button class="href-button" (click)="applyAs(businessCategory)" *ngIf="isBusinessCategory()"> Apply as a Business</button>
+          <button class="href-button" (click)="applyAs(deliveryServiceCategory)" *ngIf="isDeliveryServiceCategory()"> Apply as a Delivery Service</button>
         </span>
       </div>
       <div class="sign-form-elem">

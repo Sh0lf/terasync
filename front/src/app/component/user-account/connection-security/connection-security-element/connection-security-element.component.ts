@@ -1,34 +1,31 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
-  addressElement, EditableElement,
-  editableElements, EditingUserType, emailElement,
+  addressElement,
+  EditableElement,
+  editableElements,
+  emailElement,
   firstNameElement,
   lastNameElement,
-  nameElement, passwordElement, phoneElement,
+  nameElement,
+  passwordElement,
+  phoneElement,
   usernameElement
-} from "../connection-security-field/editable-element";
-import {CsElemComponent} from "../connection-security-field/cs-elem.component";
+} from "../../../misc/editable-element";
+import {ConnectionSecurityFieldComponent} from "../connection-security-field/connection-security-field.component";
 import {NgForOf, NgIf} from "@angular/common";
 import {FormComponent} from "../../../misc/form-component";
 import {User} from "../../../../model/user/user";
-import {CustomerService} from "../../../../service/user/customer.service";
-import {BusinessService} from "../../../../service/user/business.service";
-import {AdminService} from "../../../../service/user/admin.service";
-import {DeliveryServiceService} from "../../../../service/user/delivery-service.service";
-import {DeliveryPersonService} from "../../../../service/user/delivery-person.service";
-import {CurrentUserService} from "../../../../service/user/current-user.service";
-import {CookieService} from "ngx-cookie-service";
-import {ActivatedRoute, Router} from "@angular/router";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {UserService} from "../../../../service/user/user.service";
 import {UserCategory} from "../../../../service/user/userCategories";
+import {EditingUserType} from "../../../misc/editing-user-type";
 
 @Component({
   selector: 'app-connection-security-element',
   standalone: true,
   imports: [
-    CsElemComponent,
+    ConnectionSecurityFieldComponent,
     NgForOf,
     NgIf,
     FaIconComponent
@@ -46,8 +43,8 @@ export class ConnectionSecurityElementComponent extends FormComponent implements
   @Input() userService!: UserService<any>
   @Input() userCategory!: UserCategory;
 
-  @Input() isModal: boolean = false
   @Input() editingUserType: EditingUserType = EditingUserType.USER;
+  @Input() isModal: boolean = false
   @Output() onCloseModal = new EventEmitter<boolean>();
 
   constructor() {
@@ -55,7 +52,7 @@ export class ConnectionSecurityElementComponent extends FormComponent implements
   }
 
   ngOnInit(): void {
-    if(this.user != undefined && this.userService != undefined && this.userCategory != undefined) {
+    if (this.user != undefined && this.userService != undefined && this.userCategory != undefined) {
       this.setEditableElementValues();
     }
   }
@@ -66,7 +63,7 @@ export class ConnectionSecurityElementComponent extends FormComponent implements
 
   private setEditableElementValues() {
     this.editableElements.forEach((editableElement) => {
-      if (this.isEditableElementRelevant(editableElement)) {
+      if (this.isEditableElementRelevant(editableElement, this.userCategory)) {
         switch (editableElement.name) {
           case nameElement.name:
             editableElement.value = this.user?.getName();
@@ -99,7 +96,7 @@ export class ConnectionSecurityElementComponent extends FormComponent implements
 
   private setUserFields() {
     this.editableElements.forEach((editableElement) => {
-      if (this.isEditableElementRelevant(editableElement)) {
+      if (this.isEditableElementRelevant(editableElement, this.userCategory)) {
         switch (editableElement.name) {
           case nameElement.name:
             this.user.setName(editableElement.value);
@@ -153,10 +150,6 @@ export class ConnectionSecurityElementComponent extends FormComponent implements
   onCancel() {
     this.setEditableElementValues();
     this.isSubmitted = false;
-  }
-
-  isEditableElementRelevant(editableElement: EditableElement): boolean {
-    return editableElement.userCategories.includes(this.userCategory);
   }
 
   isNotSuccess() {

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CsElemComponent } from './cs-elem.component';
+import { ConnectionSecurityFieldComponent } from './connection-security-field.component';
 
 describe('CsElemComponent', () => {
-  let component: CsElemComponent;
-  let fixture: ComponentFixture<CsElemComponent>;
+  let component: ConnectionSecurityFieldComponent;
+  let fixture: ComponentFixture<ConnectionSecurityFieldComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CsElemComponent]
+      imports: [ConnectionSecurityFieldComponent]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(CsElemComponent);
+
+    fixture = TestBed.createComponent(ConnectionSecurityFieldComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

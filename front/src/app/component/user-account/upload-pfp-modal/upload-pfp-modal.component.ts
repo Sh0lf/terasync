@@ -42,7 +42,7 @@ export class UploadPfpModalComponent extends ModalComponent {
   faTrash = faTrash;
 
   @Input() override isModalOpen = false
-  @Output() override onChangeEmitter = new EventEmitter<boolean>()
+  @Output() override onModalChangeEmitter = new EventEmitter<boolean>()
 
   @Input() user!: User;
   @Input() userService!: UserService<any>;

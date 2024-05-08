@@ -23,6 +23,10 @@ export class UserCategory {
       return userCategory;
     }
   }
+
+  getFormattedName(): string {
+    return this.name.toLowerCase().replace(new RegExp('\\s'), "");
+  }
 }
 
 export const adminCategory = new UserCategory('Admin', UserType.PARTNER);
