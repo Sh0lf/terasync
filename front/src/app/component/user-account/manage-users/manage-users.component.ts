@@ -56,8 +56,8 @@ import {
     ConnectionSecurityModalComponent,
     UploadPfpModalComponent,
     RegisterModalComponent,
-    FormsModule,
-    NgIf
+    NgIf,
+    FormsModule
   ],
   templateUrl: './manage-users.component.html',
   styleUrl: './manage-users.component.scss'

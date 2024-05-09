@@ -484,6 +484,45 @@ $hoverBackground: rgba(0, 0, 0, 0.3);
   color: $colorP17;
 }
 
+// SEARCH ELEMENTS
+.search-div {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  width: 100%;
+}
+
+.filter-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+  padding: 0 10px 0 0;
+}
+
+.select-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+  padding: 0 0 0 10px;
+  min-width: 300px;
+}
+
+.input-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+  flex-grow: 1;
+}
+
 // HIDE NUMBER INPUT ARROWS
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,

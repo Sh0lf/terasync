@@ -6,13 +6,66 @@
     <h1 class="main-page-h1">Order History</h1>
   </div>
   <div class="separation-line-2"></div>
+  <div class="search-div">
+    <div class="filter-div">
+      <span>Filter By Status:</span>
+      <div class="select-div">
+        <select class="default-input-2" [(ngModel)]="selectedStatusId">
+          <option *ngFor="let status of statuses"
+                  [value]="status.statusId"
+                  [selected]="status.statusId == selectedStatusId">
+            {{status.status}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="filter-div">
+      <span>Filter By Delivery Service:</span>
+      <div class="select-div">
+        <select class="default-input-2" [(ngModel)]="selectedDeliveryServiceId">
+          <option *ngFor="let deliveryService of deliveryServices"
+                  [value]="deliveryService.getUserId()"
+                  [selected]="deliveryService.getUserId() == selectedDeliveryServiceId">
+            {{deliveryService.getName()}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="filter-div">
+      <span>Filter By Business:</span>
+      <div class="select-div">
+        <select class="default-input-2" [(ngModel)]="selectedBusinessId">
+          <option *ngFor="let business of businesses"
+                  [value]="business.getUserId()"
+                  [selected]="business.getUserId() == selectedBusinessId">
+            {{business.getName()}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="filter-div">
+      <span>Filter By Delivery Person:</span>
+      <div class="select-div">
+        <select class="default-input-2" [(ngModel)]="selectedDeliveryPersonId">
+          <option *ngFor="let deliveryPerson of deliveryPeople"
+                  [value]="deliveryPerson.getUserId()"
+                  [selected]="deliveryPerson.getUserId() == selectedDeliveryPersonId">
+            {{deliveryPerson.getName()}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="filter-div">
+      <button class="default-btn" (click)="clearFilters()">Clear Filters</button>
+    </div>
+  </div>
+
   <div class="main-container-div">
-    <div class="main-container-div" *ngFor="let order of this.currentUserService.user?.customerOrders">
-      <ng-container *ngIf="order.statusId === '2'">
-        <app-order-history-element [style.height.%]="100"
-                                   [customerOrder]="order">
-        </app-order-history-element>
-      </ng-container>
+    <div class="main-container-div" *ngFor="let order of getFilteredOrders()">
+      <app-order-history-element
+        [style.height.%]="100"
+        [customerOrder]="order">
+      </app-order-history-element>
     </div>
   </div>
 </div>

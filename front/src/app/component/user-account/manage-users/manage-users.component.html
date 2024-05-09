@@ -7,35 +7,39 @@
   </div>
   <div class="separation-line-2"></div>
 
-  <form (ngSubmit)="getSearchedUsers()" class="search-div">
+  <div class="search-div">
     <div class="filter-div" *ngIf="isFilterByDs()">
       <span>Filter By Delivery Service:</span>
-      <select id="ds" [(ngModel)]="filteredDeliveryServiceId" name="select-ds" class="default-input-2">
-        <option *ngFor="let deliveryService of currentUserService.user?.deliveryServices"
-                [value]="deliveryService.getUserId()"
-                [selected]="deliveryService.getUserId() == filteredDeliveryServiceId">
-          {{ deliveryService.getName() }}
-        </option>
-      </select>
+      <div class="select-div">
+        <select id="ds" [(ngModel)]="filteredDeliveryServiceId" name="select-ds" class="default-input-2">
+          <option *ngFor="let deliveryService of currentUserService.user?.deliveryServices"
+                  [value]="deliveryService.getUserId()"
+                  [selected]="deliveryService.getUserId() == filteredDeliveryServiceId">
+            {{ deliveryService.getName() }}
+          </option>
+        </select>
+      </div>
     </div>
     <div class="filter-div">
       <span>Filter By Field:</span>
-      <select id="fields" [(ngModel)]="manageUsersService.fieldFilter" name="select-field" class="default-input-2">
-        <option *ngFor="let editableElement of manageUsersService.editableElements"
-                [value]="editableElement.name"
-                [selected]="editableElement == usernameElement">
-          {{ editableElement.name }}
-        </option>
-      </select>
+      <div class="select-div">
+        <select id="fields" [(ngModel)]="manageUsersService.fieldFilter" name="select-field" class="default-input-2">
+          <option *ngFor="let editableElement of manageUsersService.editableElements"
+                  [value]="editableElement.name"
+                  [selected]="editableElement == usernameElement">
+            {{ editableElement.name }}
+          </option>
+        </select>
+      </div>
     </div>
     <div class="input-div">
       <input class="default-input-2"
              placeholder="Search {{manageUsersService.editingUserCategory?.pluralName}} by {{manageUsersService.fieldFilter}}"
              [(ngModel)]="manageUsersService.searchInput" name="search-input">
     </div>
-  </form>
+  </div>
 
-  <div class="delivery-person-container">
+  <div class="user-container">
     <div class="dpc-static-add-div">
       <div class="add-new-elem-div" (click)="onRegisterUserModal(true)">
         <div class="add-plus-div">
@@ -44,7 +48,7 @@
       </div>
     </div>
 
-    <div class="mdp-delivery-person-body-div" *ngFor="let user of getSearchedUsers()">
+    <div class="user-body-div" *ngFor="let user of getSearchedUsers()">
       <app-user-element
         [style.width.%]="100"
         [user]="user"

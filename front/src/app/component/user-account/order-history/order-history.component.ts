@@ -25,6 +25,10 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {Customer} from "../../../model/user/customer";
 import {DeliveryPerson} from "../../../model/user/delivery.person";
 import {DeliveryService} from "../../../model/user/delivery.service";
+import {usernameElement} from "../../misc/editable-element";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {Status} from "../../../model/odSystem/status";
+import {CustomerOrder} from "../../../model/odSystem/customer.order";
 
 @Component({
   selector: 'app-order-history',
@@ -35,14 +39,27 @@ import {DeliveryService} from "../../../model/user/delivery.service";
     NgForOf,
     OrderHistoryElementComponent,
     NgIf,
-    FaIconComponent
+    FaIconComponent,
+    ReactiveFormsModule,
+    FormsModule
   ],
   templateUrl: './order-history.component.html',
   styleUrl: './order-history.component.scss'
 })
 export class OrderHistoryComponent extends CookieComponent implements OnInit {
-
   faTableList = faTableList;
+
+  statuses: Status[] = [];
+  selectedStatusId: number | undefined;
+
+  deliveryServices: DeliveryService[] = [];
+  selectedDeliveryServiceId: number | undefined;
+
+  deliveryPeople: DeliveryPerson[] = [];
+  selectedDeliveryPersonId: number | undefined;
+
+  businesses: Business[] = [];
+  selectedBusinessId: number | undefined;
 
   constructor(protected override customerService: CustomerService,
               protected override businessService: BusinessService,
@@ -72,13 +89,13 @@ export class OrderHistoryComponent extends CookieComponent implements OnInit {
         this.businessService.findEntityById(order.businessId).subscribe({
           next: (jsonBusiness: Business) => {
             order.business = Business.fromJson(jsonBusiness);
+            this.initBusinesses(order);
           },
           error: (error: HttpErrorResponse) => {
             console.log("HTTP ERROR / NA : No business found");
           }
         });
       }
-
       if(order.customer === undefined) {
         this.customerService.findEntityById(order.customerId).subscribe({
           next: (jsonCustomer) => {
@@ -89,28 +106,83 @@ export class OrderHistoryComponent extends CookieComponent implements OnInit {
           }
         });
       }
-
       if(order.deliveryPerson == undefined) {
         this.deliveryPersonService.findEntityById(order.deliveryPersonId).subscribe({
           next: (jsonDeliveryPerson) => {
             order.deliveryPerson = DeliveryPerson.fromJson(jsonDeliveryPerson);
+            this.initDeliveryPeople(order);
           },
           error: (error: HttpErrorResponse) => {
             console.log("HTTP ERROR / NA : No delivery person found");
           }
         });
-
-        if(order.deliveryService == undefined) {
-          this.deliveryServiceService.findEntityById(order.deliveryServiceId).subscribe({
-            next: (jsonDeliveryService) => {
-              order.deliveryService = DeliveryService.fromJson(jsonDeliveryService);
-            },
-            error: (error: HttpErrorResponse) => {
-              console.log("HTTP ERROR / NA : No delivery service found");
-            }
-          });
-        }
       }
+      if(order.deliveryService == undefined) {
+        this.deliveryServiceService.findEntityById(order.deliveryServiceId).subscribe({
+          next: (jsonDeliveryService) => {
+            order.deliveryService = DeliveryService.fromJson(jsonDeliveryService);
+            this.initDeliveryServices(order)
+          },
+          error: (error: HttpErrorResponse) => {
+            console.log("HTTP ERROR / NA : No delivery service found");
+          }
+        });
+      }
+
+      this.initStatuses(order);
     });
+
+    if(this.statuses.length > 0) this.selectedStatusId = this.statuses.at(0)?.statusId;
+    if(this.deliveryPeople.length > 0) this.selectedDeliveryPersonId = this.deliveryPeople.at(0)?.getUserId();
+    if(this.deliveryServices.length > 0) this.selectedDeliveryServiceId = this.deliveryServices.at(0)?.getUserId();
+    if(this.businesses.length > 0) this.selectedBusinessId = this.businesses.at(0)?.getUserId();
+  }
+
+  private initBusinesses(order: CustomerOrder) {
+    if(!this.businesses.
+    find(business => business.businessId == order.business?.businessId) ||
+      this.businesses.length == 0) {
+      this.businesses.push(order.business!);
+    }
+  }
+
+  private initDeliveryPeople(order: CustomerOrder) {
+    if(!this.deliveryPeople.
+    find(deliveryPerson => deliveryPerson.deliveryPersonId == order.deliveryPerson?.deliveryPersonId) ||
+      this.deliveryPeople.length == 0) {
+      this.deliveryPeople.push(order.deliveryPerson!);
+    }
+  }
+
+  private initDeliveryServices(order: CustomerOrder) {
+    if(!this.deliveryServices.
+    find(deliveryService => deliveryService.deliveryServiceId == order.deliveryService?.deliveryServiceId) ||
+      this.deliveryServices.length == 0) {
+      this.deliveryServices.push(order.deliveryService!);
+    }
+  }
+
+  private initStatuses(order: CustomerOrder) {
+    if(!this.statuses.
+    find(status => status.statusId == order.status!.statusId) ||
+      this.statuses.length == 0) {
+      this.statuses.push(order.status!);
+    }
+  }
+
+  getFilteredOrders() {
+    return this.currentUserService.user?.customerOrders?.filter(order => {
+      return (this.selectedStatusId == undefined || order.status?.statusId == this.selectedStatusId) &&
+        (this.selectedDeliveryPersonId == undefined || order.deliveryPerson?.getUserId() == this.selectedDeliveryPersonId) &&
+        (this.selectedDeliveryServiceId == undefined || order.deliveryService?.getUserId() == this.selectedDeliveryServiceId) &&
+        (this.selectedBusinessId == undefined || order.business?.getUserId() == this.selectedBusinessId);
+    });
+  }
+
+  clearFilters() {
+    this.selectedStatusId = undefined;
+    this.selectedDeliveryPersonId = undefined;
+    this.selectedDeliveryServiceId = undefined;
+    this.selectedBusinessId = undefined;
   }
 }

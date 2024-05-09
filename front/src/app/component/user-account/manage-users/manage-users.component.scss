@@ -1,6 +1,6 @@
 @import "../../common.scss";
 
-.delivery-person-container {
+.user-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -10,7 +10,7 @@
   width: 100%;
 }
 
-.mdp-delivery-person-body-div {
+.user-body-div {
   background-color: $colorP17;
   box-shadow: $boxShadowDefault;
   display: flex;
@@ -34,36 +34,4 @@
 
   margin: 20px;
   width: 500px;
-}
-
-.search-div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-
-  width: 100%;
-}
-
-.filter-div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-
-  padding: 0 10px 0 0;
-  flex-grow: 1;
-}
-
-.filter-div span {
-  width: 100%;
-}
-
-.input-div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-
-  flex-grow: 1;
 }
