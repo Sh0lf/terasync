@@ -1,23 +1,26 @@
 <div class="main-page-body-div">
   <div class="column-container">
     <h1>{{creationTime}}</h1>
-    <h2>Order {{order?.customerOrderId}}</h2>
+    <h2>Order {{customerOrder?.customerOrderId}}</h2>
     <div class="row-container">
       <div class="order-information-list">
-        <h5><u>Informations - Order {{order?.customerOrderId}}</u></h5>
-        <div>{{business?.getName()}}</div>
+        <h5><u>Informations - Order {{customerOrder?.customerOrderId}}</u></h5>
+        <div>{{customerOrder?.business?.getName()}}</div>
         <div>{{creationTime}}</div>
-        <div>{{currentUserService.user?.getName()}}</div>
+        <div>Customer: {{customerOrder?.customer?.getName()}}</div>
+        <div>Business: {{customerOrder?.business?.getName()}}</div>
+        <div>Delivery Service: {{customerOrder?.deliveryService?.getName()}}</div>
+        <div>Delivery Person: {{customerOrder?.deliveryPerson?.getName()}}</div>
         <div></div>
       </div>
       <div class="order-delivery-information">
-        <h5><u>Delivery - Order {{order?.customerOrderId}}</u></h5>
+        <h5><u>Delivery - Order {{customerOrder?.customerOrderId}}</u></h5>
         <div>{{deliveryTime}}</div>
       </div>
     </div>
     <div class="order-summary-container">
       <div class="order-summary-detail">
-        <div class="order-list-container" *ngFor="let orderList of order?.customerOrderLists">
+        <div class="order-list-container" *ngFor="let orderList of customerOrder?.customerOrderLists">
           <app-order-history-element-list [style.height.%]="100"
                                           [orderList]="orderList">
           </app-order-history-element-list>

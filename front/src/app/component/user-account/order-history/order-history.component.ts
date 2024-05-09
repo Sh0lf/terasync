@@ -18,8 +18,13 @@ import {
   deliveryPersonCategory,
   deliveryServiceCategory
 } from "../../../service/user/userCategories";
-import {faCreditCard, faTableList} from "@fortawesome/free-solid-svg-icons";
+import {faTableList} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
+import {Business} from "../../../model/user/business";
+import {HttpErrorResponse} from "@angular/common/http";
+import {Customer} from "../../../model/user/customer";
+import {DeliveryPerson} from "../../../model/user/delivery.person";
+import {DeliveryService} from "../../../model/user/delivery.service";
 
 @Component({
   selector: 'app-order-history',
@@ -55,8 +60,57 @@ export class OrderHistoryComponent extends CookieComponent implements OnInit {
   ngOnInit(): void {
     this.initializeUserByToken().then(() => {
       this.specificUserPage(customerCategory, deliveryPersonCategory, deliveryServiceCategory, businessCategory).then();
+      this.fetchParentUsers();
     });
 
     this.el.nativeElement.style.width = `100%`;
+  }
+
+  private fetchParentUsers() {
+    this.currentUserService.user?.customerOrders?.forEach(order => {
+      if(order.business === undefined) {
+        this.businessService.findEntityById(order.businessId).subscribe({
+          next: (jsonBusiness: Business) => {
+            order.business = Business.fromJson(jsonBusiness);
+          },
+          error: (error: HttpErrorResponse) => {
+            console.log("HTTP ERROR / NA : No business found");
+          }
+        });
+      }
+
+      if(order.customer === undefined) {
+        this.customerService.findEntityById(order.customerId).subscribe({
+          next: (jsonCustomer) => {
+            order.customer = Customer.fromJson(jsonCustomer);
+          },
+          error: (error: HttpErrorResponse) => {
+            console.log("HTTP ERROR / NA : No customer found");
+          }
+        });
+      }
+
+      if(order.deliveryPerson == undefined) {
+        this.deliveryPersonService.findEntityById(order.deliveryPersonId).subscribe({
+          next: (jsonDeliveryPerson) => {
+            order.deliveryPerson = DeliveryPerson.fromJson(jsonDeliveryPerson);
+          },
+          error: (error: HttpErrorResponse) => {
+            console.log("HTTP ERROR / NA : No delivery person found");
+          }
+        });
+
+        if(order.deliveryService == undefined) {
+          this.deliveryServiceService.findEntityById(order.deliveryServiceId).subscribe({
+            next: (jsonDeliveryService) => {
+              order.deliveryService = DeliveryService.fromJson(jsonDeliveryService);
+            },
+            error: (error: HttpErrorResponse) => {
+              console.log("HTTP ERROR / NA : No delivery service found");
+            }
+          });
+        }
+      }
+    });
   }
 }

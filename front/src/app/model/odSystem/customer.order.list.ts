@@ -1,9 +1,13 @@
+import {Product} from "./product";
+
 export class CustomerOrderList {
   customerOrderListId: number | undefined
   selectionTime: string;
   quantity: number;
   customerOrderId: number;
   productId: number;
+
+  product: Product | undefined;
 
   constructor(selectionTime: string, quantity: number, customerOrderId: number, productId: number, customerOrderListId?: number) {
     this.customerOrderListId = customerOrderListId;
@@ -14,9 +18,13 @@ export class CustomerOrderList {
   }
 
   static fromJson(jsonCustomerOrderList: CustomerOrderList) {
-    return new CustomerOrderList(jsonCustomerOrderList.selectionTime, jsonCustomerOrderList.quantity,
+    let customerOrderList = new CustomerOrderList(jsonCustomerOrderList.selectionTime, jsonCustomerOrderList.quantity,
       jsonCustomerOrderList.customerOrderId, jsonCustomerOrderList.productId,
       jsonCustomerOrderList.customerOrderListId);
+
+    customerOrderList.product = Product.fromJson(jsonCustomerOrderList.product!);
+
+    return customerOrderList;
   }
 
   static initializeCustomerOrderLists(json: {customerOrderLists: CustomerOrderList[]}) {

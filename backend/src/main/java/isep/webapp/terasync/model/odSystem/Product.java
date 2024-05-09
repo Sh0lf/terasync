@@ -33,13 +33,13 @@ public class Product extends isep.webapp.terasync.model.Entity {
     @Column(name = "businessId")
     private int businessId;
 
-    @OneToMany(
-            fetch = FetchType.EAGER,
-            targetEntity = CustomerOrderList.class,
-            cascade = CascadeType.ALL
-    )
-    @JoinColumn(name = "productId")
-    private List<CustomerOrderList> customerOrderLists;
+//    @OneToMany(
+//            fetch = FetchType.EAGER,
+//            targetEntity = CustomerOrderList.class,
+//            cascade = CascadeType.ALL
+//    )
+//    @JoinColumn(name = "productId")
+//    private List<CustomerOrderList> customerOrderLists;
 
     @OneToMany(
             fetch = FetchType.EAGER,

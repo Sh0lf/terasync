@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="order-summary-detail">
-      <h5 class="business-name">{{ business?.getName() }}</h5>
+      <h5 class="business-name">{{ customerOrder?.business?.getName() }}</h5>
       <ng-container *ngIf="orderLists">
         <div *ngFor="let orderList of orderLists?.slice(0, 3)">
           <app-order-history-element-list [style.height.%]="100"

@@ -169,8 +169,6 @@ export class ManageUsersComponent extends CookieComponent implements OnInit {
   }
 
   getSearchedUsers() {
-    console.log(this.manageUsersService.editingUserCategory)
-
     if (this.manageUsersService.editingUserCategory === deliveryPersonCategory) {
       return this.currentUserService.user?.deliveryPeople?.filter(user => {
         return this.checkFilter(user);

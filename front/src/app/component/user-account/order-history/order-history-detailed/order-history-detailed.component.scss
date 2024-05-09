@@ -8,9 +8,10 @@
 
 .row-container {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   flex-direction: row;
   width: 100%;
-  justify-content: space-between;
 }
 
 .order-information-list {
@@ -23,7 +24,7 @@
   justify-content: space-evenly;
   margin-right: 3%;
   min-width: 69%;
-  height: min(30%);
+  height: 100%;
 }
 
 .order-information-list h5{
@@ -35,15 +36,16 @@
 }
 
 .order-delivery-information {
-  padding: 3%;
-  align-self: center;
-  border-radius: 15px;
-  background: rgba(247, 196, 165, 0.45);
   display: flex;
+  align-self: center;
   flex-direction: column;
   justify-content: space-evenly;
+
+  padding: 3%;
+  border-radius: 15px;
+  background: rgba(247, 196, 165, 0.45);
   min-width: 28%;
-  height: min(30%);
+  height: 100%;
   border-spacing: 10px;
 }
 
@@ -69,7 +71,6 @@
   flex-direction: column;
   min-width: 70%;
   justify-content: space-evenly;
-  height: min(30%);
 }
 
 .order-list-container{

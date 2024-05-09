@@ -18,4 +18,6 @@ public class DeliveryServiceList extends isep.webapp.terasync.model.Entity {
     private int deliveryServiceId;
     @Column(name = "businessId")
     private int businessId;
+
+
 }

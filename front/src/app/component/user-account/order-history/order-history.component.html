@@ -10,8 +10,7 @@
     <div class="main-container-div" *ngFor="let order of this.currentUserService.user?.customerOrders">
       <ng-container *ngIf="order.statusId === '2'">
         <app-order-history-element [style.height.%]="100"
-                                   [order]="order"
-                                   [orders]="this.currentUserService.user?.customerOrders">
+                                   [customerOrder]="order">
         </app-order-history-element>
       </ng-container>
     </div>

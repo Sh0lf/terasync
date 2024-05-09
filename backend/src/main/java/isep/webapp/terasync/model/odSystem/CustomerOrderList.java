@@ -24,4 +24,15 @@ public class CustomerOrderList extends isep.webapp.terasync.model.Entity {
     private int customerOrderId;
     @Column(name = "productId")
     private int productId;
+
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            targetEntity = Product.class
+    )
+    @JoinColumn(
+            name = "productId",
+            insertable = false,
+            updatable = false
+    )
+    private Product product;
 }

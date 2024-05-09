@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterOutlet} from "@angular/router";
 import {CookieComponent} from "../../../misc/cookie-component";
 import {CustomerService} from "../../../../service/user/customer.service";
@@ -10,12 +10,11 @@ import {CookieService} from "ngx-cookie-service";
 import {CurrentUserService} from "../../../../service/user/current-user.service";
 import {CustomerOrderService} from "../../../../service/odSystem/customer-order.service";
 import {CustomerOrder} from "../../../../model/odSystem/customer.order";
-import {HttpErrorResponse} from "@angular/common/http";
 import {NgForOf} from "@angular/common";
 import {
   OrderHistoryElementListComponent
 } from "../order-history-element/order-history-element-list/order-history-element-list.component";
-import {Business} from "../../../../model/user/business";
+import {getDateTime} from "../../../misc/functions";
 
 @Component({
   selector: 'app-order-history-detailed',
@@ -26,8 +25,7 @@ import {Business} from "../../../../model/user/business";
 })
 export class OrderHistoryDetailedComponent extends CookieComponent implements OnInit {
 
-  order: CustomerOrder | undefined;
-  business: Business | undefined;
+  customerOrder: CustomerOrder | undefined;
   creationTime: String | undefined;
   deliveryTime: String | undefined;
 
@@ -46,43 +44,18 @@ export class OrderHistoryDetailedComponent extends CookieComponent implements On
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      let id= +params['id'];
-      if (!id) {
-        this.router.navigate(['/user-account/order-history']);
-      }
-      const userOrder = this.currentUserService.user?.customerOrders?.find(order => order.customerOrderId === id);
+      let id = params['id'];
+      const userOrder = this.currentUserService.user?.customerOrders?.
+      find(order => order.customerOrderId == id);
+
       if (!userOrder) {
-        this.router.navigate(['/user-account/order-history']);
+        this.router.navigate(['/user-account/order-history']).then();
         return;
       }
 
-      this.order = userOrder;
-      this.fetchBusinessById(userOrder.businessId);
-      this.transformTime(this.order.creationTime, this.order.deliveryTime);
+      this.customerOrder = userOrder;
+      this.creationTime = getDateTime(this.customerOrder.creationTime);
+      this.deliveryTime = getDateTime(this.customerOrder.deliveryTime);
     });
-  }
-
-  fetchBusinessById(id: number): void {
-    this.businessService.findEntityById(id).subscribe({
-      next: (business: Business) => {
-        this.business = business;
-      },
-      error: (error: HttpErrorResponse) => {
-        console.error('Error fetching business:', error);
-        console.log("HTTP ERROR / NA : No business found");
-      }
-    });
-  }
-
-  transformTime(timeCreation: String, timeDelivery: String): void {
-    let splitted = timeCreation.split(" ")
-    let date = splitted[0].split("-")
-    let times=splitted[1].split(":")
-    this.creationTime = date[0] + "/" + date[1] + "/" + date[2] + " at " + times[0] + ":" + times[1];
-
-    splitted = timeDelivery.split(" ")
-    date = splitted[0].split("-")
-    times=splitted[1].split(":")
-    this.deliveryTime = date[0] + "/" + date[1] + "/" + date[2] + " at " + times[0] + ":" + times[1];
   }
 }

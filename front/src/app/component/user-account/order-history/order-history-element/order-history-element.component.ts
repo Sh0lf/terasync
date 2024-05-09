@@ -18,6 +18,7 @@ import {
   deliveryPersonCategory,
   deliveryServiceCategory
 } from "../../../../service/user/userCategories";
+import {getDateTime} from "../../../misc/functions";
 
 @Component({
   selector: 'app-order-history-element',
@@ -32,10 +33,8 @@ import {
   styleUrl: './order-history-element.component.scss'
 })
 export class OrderHistoryElementComponent extends CookieComponent implements OnInit {
-  @Input() order!: CustomerOrder | undefined;
-  @Input() orders!: CustomerOrder[] | undefined;
+  @Input() customerOrder!: CustomerOrder | undefined;
 
-  business : Business | undefined;
   creationTime: string | undefined;
   product: Product | undefined;
   total: number = 0;
@@ -51,53 +50,21 @@ export class OrderHistoryElementComponent extends CookieComponent implements OnI
   }
 
   ngOnInit(): void{
-    this.initializeUserByToken().then(() => {
-      this.specificUserPage(customerCategory, deliveryPersonCategory, deliveryServiceCategory, businessCategory).then();
-    });
-    let businessId = this.order!.businessId;
-    this.fetchBusinessById(businessId);
-    this.transformCreationTime(this.order!.creationTime)
-    this.orderLists = this.order?.customerOrderLists;
+    this.creationTime = getDateTime(this.customerOrder!.creationTime)
+    this.orderLists = this.customerOrder?.customerOrderLists;
     this.sumTotal(this.orderLists);
   }
 
-  fetchBusinessById(id: number): void {
-    this.businessService.findEntityById(id).subscribe({
-      next: (jsonBusiness: Business) => {
-        this.business = Business.fromJson(jsonBusiness) as Business;
-      },
-      error: (error: HttpErrorResponse) => {
-        console.error('Error fetching business:', error);
-        console.log("HTTP ERROR / NA : No business found");
-      }
-    });
-  }
 
   sumTotal(orderLists: CustomerOrderList[] | undefined): void{
     if (orderLists != undefined) {
       for (let orderList of orderLists) {
-        this.productService.findEntityById(orderList.productId).subscribe({
-          next: (product: Product) => {
-            this.total = this.total + (product.price * orderList.quantity);
-          },
-          error: (error: HttpErrorResponse) => {
-            console.error('Error fetching product:', error);
-            console.log("HTTP ERROR / NA : No product found");
-          }
-        })
+        this.total = this.total + (orderList.product?.price! * orderList.quantity);
       }
     }
   }
 
-  transformCreationTime(time: String): void {
-    let splitted = time.split(" ")
-    let date = splitted[0].split("-")
-    let times=splitted[1].split(":")
-
-    this.creationTime = date[0] + "/" + date[1] + "/" + date[2] + " at " + times[0] + ":" + times[1];
-  }
-
   onClickRedirect() {
-    this.router.navigate(['/user-account/order-history-detailed', this.order!.customerOrderId]);
+    this.router.navigate(['/user-account/order-history-detailed', this.customerOrder!.customerOrderId]).then();
   }
 }

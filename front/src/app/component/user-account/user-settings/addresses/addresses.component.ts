@@ -67,7 +67,7 @@ export class AddressesComponent extends FormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeUserByToken().then(() => {
-      this.specificUserPage(customerCategory)
+      this.specificUserPage(customerCategory).then();
     });
   }
 

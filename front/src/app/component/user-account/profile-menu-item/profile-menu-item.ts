@@ -112,6 +112,6 @@ export const profileMenuItems: ProfileMenuItem[] = [
   orderHistory,
   paymentMethods,
   messageCenter,
-  faq,
+  // faq,
   logout
 ];

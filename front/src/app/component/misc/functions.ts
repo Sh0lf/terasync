@@ -22,3 +22,11 @@ export function generateRandomToken(): string {
 export function makeRandomNumber(lengthOfCode: number): number {
   return Math.floor(Math.random() * Math.pow(10, lengthOfCode));
 }
+
+export function getDateTime(dateTime: string) {
+  let split = dateTime.split(" ")
+  let date = split[0].split("-")
+  let times=split[1].split(":")
+
+  return date[0] + "/" + date[1] + "/" + date[2] + " at " + times[0] + ":" + times[1];
+}

@@ -5,6 +5,10 @@ import {MessageList} from "../message.list";
 import {Status} from "./status";
 import {Packaging} from "./packaging";
 import {Address} from "./address";
+import {Business} from "../user/business";
+import {Customer} from "../user/customer";
+import {DeliveryService} from "../user/delivery.service";
+import {DeliveryPerson} from "../user/delivery.person";
 
 export class CustomerOrder {
   customerOrderId: number;
@@ -26,6 +30,11 @@ export class CustomerOrder {
   status!: Status | undefined
   packaging!: Packaging | undefined;
   address!: Address | undefined;
+
+  business!: Business | undefined;
+  customer!: Customer | undefined;
+  deliveryService!: DeliveryService | undefined;
+  deliveryPerson!: DeliveryPerson| undefined;
 
   constructor(customerOrderId: number, creationTime: string, minTemp: number, maxTemp: number,
               deliveryTime: string, statusId: string, packagingId: number, customerId: number,
