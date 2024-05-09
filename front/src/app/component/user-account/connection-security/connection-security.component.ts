@@ -16,6 +16,7 @@ import {ConnectionSecurityElementComponent} from "./connection-security-element/
 import {CookieComponent} from "../../misc/cookie-component";
 import {UserService} from "../../../service/user/user.service";
 import {UserCategory} from "../../../service/user/userCategories";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-connection-security',
@@ -57,6 +58,7 @@ export class ConnectionSecurityComponent extends CookieComponent implements OnIn
     });
 
     this.user = this.currentUserService.user!;
+
     this.userService = this.fetchUserService();
     this.userCategory = this.getCurrentUserCategory();
   }

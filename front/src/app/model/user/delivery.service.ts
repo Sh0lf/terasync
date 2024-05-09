@@ -20,4 +20,16 @@ export class DeliveryService extends User {
     this.deliveryServiceId = deliveryServiceId;
     this.approved = approved;
   }
+
+  static override fromJson(jsonDeliveryService: DeliveryService) {
+    let deliveryService = new DeliveryService(jsonDeliveryService.name!, jsonDeliveryService.email, jsonDeliveryService.username,
+      jsonDeliveryService.password, jsonDeliveryService.deliveryServiceId, jsonDeliveryService.registrationDate,
+      jsonDeliveryService.token, jsonDeliveryService.emailVerified, jsonDeliveryService.approved, jsonDeliveryService.pfpImgPath)
+
+    deliveryService.deliveryServiceLists = DeliveryServiceList.initializeDeliveryServiceLists(jsonDeliveryService);
+    deliveryService.customerOrders = CustomerOrder.initializeCustomerOrders(jsonDeliveryService);
+    deliveryService.deliveryPeople = DeliveryPerson.initializeDeliveryPeople(jsonDeliveryService);
+
+    return deliveryService;
+  }
 }

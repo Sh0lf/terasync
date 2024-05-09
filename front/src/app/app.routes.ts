@@ -14,8 +14,8 @@ import {PaymentMethodsComponent} from "./component/user-account/payment-methods/
 import {ManageProductsComponent} from "./component/user-account/manage-products/manage-products.component";
 import {ManageMenusComponent} from "./component/user-account/manage-menus/manage-menus.component";
 import {
-  ManageDeliveryPersonsComponent
-} from "./component/user-account/manage-delivery-persons/manage-delivery-persons.component";
+  ManageUsersComponent
+} from "./component/user-account/manage-users/manage-users.component";
 import {ConnectionSecurityComponent} from "./component/user-account/connection-security/connection-security.component";
 import {OrderHistoryComponent} from "./component/user-account/order-history/order-history.component";
 import {MessageCenterComponent} from "./component/user-account/message-center/message-center.component";
@@ -39,7 +39,7 @@ export const routes: Routes = [
       {path: 'manage-products', component: ManageProductsComponent},
       {path: 'manage-menus', component: ManageMenusComponent},
       {path: 'message-center', component: MessageCenterComponent},
-      {path: 'manage-delivery-persons', component: ManageDeliveryPersonsComponent},
+      {path: `manage-users/:${StorageKeys.USER_CATEGORY}`, component: ManageUsersComponent},
       {path: 'connection-security', component: ConnectionSecurityComponent},
       {path: 'user-settings', component: UserSettingsComponent},
       {path: 'order-history', component: OrderHistoryComponent},

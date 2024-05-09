@@ -27,6 +27,7 @@ export class RegisterModalComponent extends ModalComponent {
 
   @Input() registrationType!: RegistrationType;
   @Input() userService!: UserService<any>
+  @Input() deliveryServiceId!: number;
 
   constructor() {
     super();

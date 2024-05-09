@@ -23,4 +23,16 @@ export class Customer extends User {
     this.firstName = firstName;
     this.lastName = lastName;
   }
+
+  static override fromJson(jsonCustomer: Customer) {
+    let customer = new Customer(jsonCustomer.firstName, jsonCustomer.lastName, jsonCustomer.email,
+      jsonCustomer.username, jsonCustomer.password, jsonCustomer.customerId, jsonCustomer.registrationDate,
+      jsonCustomer.token, jsonCustomer.emailVerified, jsonCustomer.pfpImgPath, jsonCustomer.name)
+
+    customer.addresses = Address.initializeAddresses(jsonCustomer);
+    customer.ratingLists = RatingList.initializeRatingLists(jsonCustomer);
+    customer.customerOrders = CustomerOrder.initializeCustomerOrders(jsonCustomer);
+
+    return customer;
+  }
 }

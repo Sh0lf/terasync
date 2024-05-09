@@ -1,5 +1,6 @@
 import {User} from "./user";
 import {CustomerOrder} from "../odSystem/customer.order";
+import {DeliveryService} from "./delivery.service";
 
 export class DeliveryPerson extends User {
   override deliveryPersonId: number | undefined;
@@ -30,5 +31,17 @@ export class DeliveryPerson extends User {
     deliveryPerson.customerOrders = CustomerOrder.initializeCustomerOrders(jsonDeliveryPerson);
 
     return deliveryPerson;
+  }
+
+  static initializeDeliveryPeople(jsonDeliveryService: DeliveryService) {
+    let deliveryPeople: DeliveryPerson[] = [];
+
+    if (jsonDeliveryService.deliveryPeople !== undefined) {
+      for (let jsonDeliveryPerson of jsonDeliveryService.deliveryPeople) {
+        deliveryPeople.push(DeliveryPerson.fromJson(jsonDeliveryPerson));
+      }
+    }
+
+    return deliveryPeople;
   }
 }

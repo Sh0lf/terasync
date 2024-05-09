@@ -1,4 +1,4 @@
-import {AfterViewChecked, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {AfterViewChecked, ChangeDetectorRef, Component, ComponentRef, OnInit} from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {FooterComponent} from "../footer/footer.component";
 import {NgxResizeObserverModule} from "ngx-resize-observer";
@@ -59,16 +59,11 @@ export class UserAccountComponent extends CookieComponent implements OnInit, Aft
   ngOnInit(): void {
     this.initializeUserByToken().then(() => {
       this.loggedInPage();
-      if (this.isDeliveryServiceCategory()) {
-        this.initializeDeliveryPeoplePfpImgUrl().then();
-      }
     });
     this.routeTo('/user-account/user-settings');
   }
 
   ngAfterViewChecked(): void {
-    // console.log(this.router.url);
-
     profileMenuItems.forEach((profileMenuItem) => {
       if (profileMenuItem.link == this.router.url) {
         profileMenuItem.class = "profile-menu-item-clicked";

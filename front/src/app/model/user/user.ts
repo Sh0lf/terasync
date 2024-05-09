@@ -5,6 +5,10 @@ import {ProductMenu} from "../odSystem/product.menu";
 import {Product} from "../odSystem/product";
 import {RatingList} from "../rating.list";
 import {DeliveryPerson} from "./delivery.person";
+import {Customer} from "./customer";
+import {Admin} from "./admin";
+import {DeliveryService} from "./delivery.service";
+import {Business} from "./business";
 
 export class User {
   protected userId: number | undefined;
@@ -43,8 +47,14 @@ export class User {
   // BUSINESS - DELIVERY SERVICE
   deliveryServiceLists: DeliveryServiceList[] | undefined = [];
 
-  // DELIVERY SERVICE
-  deliveryPeople: DeliveryPerson[] | undefined= [];
+  // DELIVERY SERVICE - ADMIN
+  deliveryPeople: DeliveryPerson[] | undefined = [];
+
+  // ADMIN
+  customers: Customer[] | undefined = [];
+  businesses: Business[] | undefined = [];
+  deliveryServices: DeliveryService[] | undefined = [];
+  admins: Admin[] | undefined = [];
 
   // BUSINESS
   productMenus: ProductMenu[] | undefined = [];
@@ -100,8 +110,6 @@ export class User {
     user.products = Product.initializeProducts(jsonUser);
     user.ratingLists = RatingList.initializeRatingLists(jsonUser);
 
-    // user.deliveryPeople = DeliveryPerson.initializeDeliveryPeople(jsonUser);
-
     return user;
   }
 
@@ -114,7 +122,7 @@ export class User {
   }
 
   getName(): string {
-    if(this.firstName !== undefined && this.lastName !== undefined) {
+    if (this.firstName !== undefined && this.lastName !== undefined) {
       return this.firstName + " " + this.lastName;
     } else {
       return this.name!;
@@ -189,6 +197,26 @@ export class User {
 
   getPfpImgPrefix(): string {
     return this.userId + "-";
+  }
+
+  setDeliveryPeople(deliveryPeople: DeliveryPerson[]) {
+    this.deliveryPeople = deliveryPeople;
+  }
+
+  setCustomers(customers: Customer[]) {
+    this.customers = customers;
+  }
+
+  setBusinesses(businesses: Business[]) {
+    this.businesses = businesses;
+  }
+
+  setDeliveryServices(deliveryServices: DeliveryService[]) {
+    this.deliveryServices = deliveryServices;
+  }
+
+  setAdmins(admins: Admin[]) {
+    this.admins = admins;
   }
 
   clearLists() {

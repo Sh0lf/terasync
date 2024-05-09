@@ -58,7 +58,11 @@ export abstract class CookieComponent {
   }
 
   fetchUserService(): UserService<any> {
-    switch (this.getCurrentUserCategory().name) {
+    return this.fetchUserServiceByCategory(this.getCurrentUserCategory());
+  }
+
+  fetchUserServiceByCategory(userCategory: UserCategory): UserService<any> {
+    switch (userCategory.name) {
       case(adminCategory.name):
         return this.adminService;
       case(businessCategory.name):
@@ -73,10 +77,11 @@ export abstract class CookieComponent {
     return this.customerService;
   }
 
-  private setCurrentUser(user: User) {
+  private setCurrentUser(user: User, jsonUser: User) {
     switch (this.getCurrentUserCategory().name) {
       case(adminCategory.name):
         this.currentUserService.admin = user as Admin;
+        this.initializeAllUsers();
         break;
       case(businessCategory.name):
         this.currentUserService.business = user as Business;
@@ -89,6 +94,7 @@ export abstract class CookieComponent {
         break;
       case(deliveryServiceCategory.name):
         this.currentUserService.deliveryService = user as DeliveryService;
+        this.initializeDeliveryPeople(jsonUser.deliveryPeople!);
         break;
     }
   }
@@ -114,7 +120,7 @@ export abstract class CookieComponent {
     return userCategories.includes(this.getCurrentUserCategory());
   }
 
-  routeToHome(): Promise<boolean>  {
+  routeToHome(): Promise<boolean> {
     return this.router.navigate([''], {relativeTo: this.route});
   }
 
@@ -237,21 +243,10 @@ export abstract class CookieComponent {
 
   initializeUser(jsonUser: User) {
     this.currentUserService.user = User.fromJson(jsonUser);
-    this.currentUserService.user.deliveryPeople = this.initializeDeliveryPeople(jsonUser);
     this.initializeUserPfpImgUrl().then();
-    this.setCurrentUser(this.currentUserService.user);
+    this.setCurrentUser(this.currentUserService.user, jsonUser);
 
     console.log(this.currentUserService.user!)
-  }
-
-  initializeDeliveryPeople(jsonUser: { deliveryPeople: DeliveryPerson[] | undefined }): DeliveryPerson[] {
-    let deliveryPeople: DeliveryPerson[] = [];
-    if (jsonUser.deliveryPeople != undefined) {
-      for (let deliveryPerson of jsonUser.deliveryPeople) {
-        deliveryPeople.push(DeliveryPerson.fromJson(deliveryPerson));
-      }
-    }
-    return deliveryPeople
   }
 
   resetTokenByOldToken(): Promise<boolean> {
@@ -325,7 +320,7 @@ export abstract class CookieComponent {
   handleFooterTopMinValue(entry: ResizeObserverEntry, staticVal: number = 0) {
     let calculatedValue = entry.contentRect.height + staticVal;
 
-    if(calculatedValue > window.innerHeight) {
+    if (calculatedValue > window.innerHeight) {
       this.position = 'static';
     } else {
       this.position = 'absolute';
@@ -357,22 +352,21 @@ export abstract class CookieComponent {
     });
   }
 
-  initializeDeliveryPeoplePfpImgUrl(): Promise<boolean> {
+  initializeUsersPfpImgUrl(users: User[] | undefined, userService: UserService<any>): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       new Observable<number>((observer) => {
         let count = 0;
-        let deliveryPeople = this.currentUserService.user?.deliveryPeople!;
+        // let deliveryPeople = this.currentUserService.user?.deliveryPeople!;
+        if (users == undefined || users.length == 0) observer.next(count)
 
-        if(deliveryPeople == undefined || deliveryPeople.length == 0) observer.next(count)
-
-        for (let deliveryPerson of deliveryPeople) {
-          if (deliveryPerson.pfpImgPath != undefined && deliveryPerson.pfpImgPath.length > 0) {
-            this.deliveryPersonService.downloadFiles(deliveryPerson.pfpImgPath).subscribe({
+        for (let user of users!) {
+          if (user.pfpImgPath != undefined && user.pfpImgPath.length > 0) {
+            userService.downloadFiles(user.pfpImgPath).subscribe({
               next: (httpEvent: HttpEvent<Blob>) => {
                 if (httpEvent.type === HttpEventType.Response) {
                   const file: File = new File([httpEvent.body!], httpEvent.headers.get('File-Name')!,
                     {type: `${httpEvent.headers.get('Content-Type')};charset=utf-8`});
-                  deliveryPerson.setPfpImgUrl(URL.createObjectURL(file));
+                  user.setPfpImgUrl(URL.createObjectURL(file));
                   observer.next(count++);
                 }
               },
@@ -388,7 +382,7 @@ export abstract class CookieComponent {
         }
       }).subscribe({
         next: (count: number) => {
-          if (count == this.currentUserService.user?.deliveryPeople?.length) {
+          if (count == users?.length) {
             resolve(true);
           }
         }
@@ -402,6 +396,92 @@ export abstract class CookieComponent {
     this.currentUserService.setUsersToNull();
     this.routeToHome().then(() => {
       window.location.reload();
+    });
+  }
+
+  private initializeDeliveryPeople(jsonDeliveryPeople: DeliveryPerson[]) {
+    let deliveryPeople: DeliveryPerson[] = [];
+    for (let deliveryPerson of jsonDeliveryPeople) {
+      deliveryPeople.push(DeliveryPerson.fromJson(deliveryPerson));
+    }
+
+    this.currentUserService.user?.setDeliveryPeople(deliveryPeople);
+    this.initializeUsersPfpImgUrl(this.currentUserService.user?.deliveryPeople, this.deliveryPersonService).then();
+  }
+
+  private initializeCustomers(jsonCustomers: Customer[]) {
+    let customers: Customer[] = [];
+    for (let customer of jsonCustomers) {
+      customers.push(Customer.fromJson(customer));
+    }
+    this.currentUserService.user?.setCustomers(customers);
+    this.initializeUsersPfpImgUrl(this.currentUserService.user?.customers, this.customerService).then();
+  }
+
+  private initializeBusinesses(jsonBusinesses: Business[]) {
+    let businesses: Business[] = [];
+    for (let business of jsonBusinesses) {
+      businesses.push(Business.fromJson(business));
+    }
+    this.currentUserService.user?.setBusinesses(businesses);
+    this.initializeUsersPfpImgUrl(this.currentUserService.user?.businesses, this.businessService).then();
+  }
+
+  private initializeDeliveryServices(jsonDeliveryServices: DeliveryService[]) {
+    let deliveryServices: DeliveryService[] = [];
+    for (let deliveryService of jsonDeliveryServices) {
+      deliveryServices.push(DeliveryService.fromJson(deliveryService));
+    }
+    this.currentUserService.user?.setDeliveryServices(deliveryServices);
+    this.initializeUsersPfpImgUrl(this.currentUserService.user?.deliveryServices, this.deliveryServiceService).then();
+  }
+
+  private initializeAdmins(jsonAdmins: Admin[]) {
+    let admins: Admin[] = [];
+    for (let admin of jsonAdmins) {
+      admins.push(Admin.fromJson(admin));
+    }
+    this.currentUserService.user?.setAdmins(admins);
+    if (this.isAdminCategory()) {
+      let currentAdmin = this.currentUserService.user?.admins?.
+      find(admin => admin.getUserId() == this.currentUserService.user?.getUserId());
+      if (currentAdmin !== undefined) {
+        this.currentUserService.user?.admins?.splice(this.currentUserService.user?.admins?.indexOf(currentAdmin), 1)
+      }
+    }
+
+    this.initializeUsersPfpImgUrl(this.currentUserService.user?.admins, this.adminService).then();
+  }
+
+  private initializeAllUsers() {
+    this.customerService.getAllEntities().subscribe({
+      next: (jsonCustomers: Customer[]) => {
+        this.initializeCustomers(jsonCustomers);
+      }
+    });
+
+    this.businessService.getAllEntities().subscribe({
+      next: (jsonBusinesses: Business[]) => {
+        this.initializeBusinesses(jsonBusinesses)
+      }
+    });
+
+    this.deliveryServiceService.getAllEntities().subscribe({
+      next: (jsonDeliveryServices: DeliveryService[]) => {
+        this.initializeDeliveryServices(jsonDeliveryServices);
+      }
+    });
+
+    this.deliveryPersonService.getAllEntities().subscribe({
+      next: (jsonDeliveryPeople: DeliveryPerson[]) => {
+        this.initializeDeliveryPeople(jsonDeliveryPeople);
+      }
+    });
+
+    this.adminService.getAllEntities().subscribe({
+      next: (jsonAdmins: Admin[]) => {
+        this.initializeAdmins(jsonAdmins);
+      }
     });
   }
 }

@@ -14,7 +14,7 @@ export abstract class EntityService<T> {
     this.entityName = entityName;
   }
 
-  public getEntities(): Observable<T[]> {
+  public getAllEntities(): Observable<T[]> {
     return this.http.get<T[]>(`${this.apiBackendUrl}/${this.entityName}/all`);
   }
 

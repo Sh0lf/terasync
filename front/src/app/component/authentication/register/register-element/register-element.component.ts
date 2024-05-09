@@ -22,6 +22,7 @@ import {DeliveryService} from "../../../../model/user/delivery.service";
 import {AuthenticationComponent} from "../../authentication-component";
 import {UserType} from "../../../../service/user/user.type";
 import {
+  adminCategory,
   businessCategory,
   customerCategory,
   deliveryPersonCategory,
@@ -36,12 +37,14 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {CurrentUserService} from "../../../../service/user/current-user.service";
 import {
   addressElement,
-  EditableElement, emailElement,
+  emailElement,
   firstNameElement,
   lastNameElement,
-  nameElement, phoneElement,
+  nameElement,
+  phoneElement,
   usernameElement
 } from "../../../misc/editable-element";
+import {Admin} from "../../../../model/user/admin";
 
 @Component({
   selector: 'app-register-element',
@@ -97,6 +100,8 @@ export class RegisterElementComponent extends AuthenticationComponent implements
   @Input() isModal: boolean = false
   @Output() onCloseModalEmitter = new EventEmitter<boolean>();
   @Output() onUserAddedEmitter = new EventEmitter<User>();
+
+  @Input() deliveryServiceId!: number;
 
   constructor(protected override customerService: CustomerService,
               protected override businessService: BusinessService,
@@ -196,7 +201,7 @@ export class RegisterElementComponent extends AuthenticationComponent implements
         resolve(false)
       }
     }).then(success => {
-      if(!success) super.onSubmit();
+      if (!success) super.onSubmit();
     });
   }
 
@@ -310,10 +315,19 @@ export class RegisterElementComponent extends AuthenticationComponent implements
       return new DeliveryService(
         this.nameInput, this.emailInput, this.usernameInput, hashPassword
       );
+    } else if (this.isAdminCategory()) {
+      return new Admin (
+        this.firstNameInput, this.lastNameInput, this.emailInput,
+        this.usernameInput, hashPassword
+      )
     } else if (this.isDeliveryPersonCategory() && this.currentUserService?.deliveryService != undefined) {
       return new DeliveryPerson(this.firstNameInput, this.lastNameInput,
         this.emailInput, this.usernameInput, hashPassword,
         this.currentUserService?.deliveryService.deliveryServiceId!);
+    } else if (this.isDeliveryPersonCategory() && super.isAdminCategory() && this.deliveryServiceId != undefined) {
+      return new DeliveryPerson(this.firstNameInput, this.lastNameInput,
+        this.emailInput, this.usernameInput, hashPassword,
+        this.deliveryServiceId);
     }
     return undefined;
   }
@@ -328,6 +342,10 @@ export class RegisterElementComponent extends AuthenticationComponent implements
 
   override isDeliveryServiceCategory() {
     return this.registrationType?.userCategory.name === deliveryServiceCategory.name;
+  }
+
+  override isAdminCategory() {
+    return this.registrationType?.userCategory.name === adminCategory.name;
   }
 
   override isCustomerCategory() {

@@ -1,4 +1,5 @@
 import {
+  adminCategory,
   businessCategory,
   customerCategory,
   deliveryPersonCategory,
@@ -26,14 +27,27 @@ export class RegistrationType {
   }
 }
 
-export const customerRegistrationType = new RegistrationType('Create An Account', customerCategory, EditingUserType.USER, 'Register');
-export const businessRegistrationType = new RegistrationType('Apply As A Business', businessCategory, EditingUserType.USER, 'Apply');
-export const deliveryServiceRegistrationType = new RegistrationType('Apply As A Delivery Service', deliveryServiceCategory, EditingUserType.USER, 'Apply');
-export const deliveryPersonRegistrationType = new RegistrationType('', deliveryPersonCategory, EditingUserType.ADMIN, 'Create Account');
+export const customerRegistrationTypeUSER = new RegistrationType('Create An Account',
+  customerCategory, EditingUserType.USER, 'Register');
+export const customerRegistrationTypeADMIN = new RegistrationType('',
+  customerCategory, EditingUserType.ADMIN, 'Create Account');
+export const businessRegistrationTypeUSER = new RegistrationType('Apply As A Business',
+  businessCategory, EditingUserType.USER, 'Apply');
+export const businessRegistrationTypeADMIN = new RegistrationType('',
+  businessCategory, EditingUserType.ADMIN, 'Create Account');
+export const deliveryServiceRegistrationTypeUSER = new RegistrationType('Apply As A Delivery Service',
+  deliveryServiceCategory, EditingUserType.USER, 'Apply');
+export const deliveryServiceRegistrationTypeADMIN = new RegistrationType('',
+  deliveryServiceCategory, EditingUserType.ADMIN, 'Create Account');
+export const deliveryPersonRegistrationTypeADMIN = new RegistrationType('',
+  deliveryPersonCategory, EditingUserType.ADMIN, 'Create Account');
+export const adminRegistrationTypeADMIN = new RegistrationType('',
+  adminCategory, EditingUserType.ADMIN, 'Create Account');
+
 export const registrationTypes =
   [
-    customerRegistrationType,
-    businessRegistrationType,
-    deliveryServiceRegistrationType,
-    deliveryPersonRegistrationType
+    customerRegistrationTypeUSER,
+    businessRegistrationTypeUSER,
+    deliveryServiceRegistrationTypeUSER,
+    deliveryPersonRegistrationTypeADMIN
   ];

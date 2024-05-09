@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
   addressElement,
-  EditableElement,
   editableElements,
   emailElement,
   firstNameElement,
@@ -20,6 +19,7 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {UserService} from "../../../../service/user/user.service";
 import {UserCategory} from "../../../../service/user/userCategories";
 import {EditingUserType} from "../../../misc/editing-user-type";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-connection-security-element',
@@ -40,6 +40,8 @@ export class ConnectionSecurityElementComponent extends FormComponent implements
   changesSuccess: boolean = false;
 
   @Input() user!: User;
+
+  @Input() userSubject!: Subject<User>;
   @Input() userService!: UserService<any>
   @Input() userCategory!: UserCategory;
 
@@ -52,7 +54,18 @@ export class ConnectionSecurityElementComponent extends FormComponent implements
   }
 
   ngOnInit(): void {
-    if (this.user != undefined && this.userService != undefined && this.userCategory != undefined) {
+    this.checkInfo(this.user);
+
+    if(this.userSubject !== undefined) this.userSubject.subscribe({
+      next: (user: User) => {
+        this.checkInfo(user);
+        this.user = user;
+      }
+    });
+  }
+
+  private checkInfo(user: User) {
+    if (user != undefined && this.userService != undefined && this.userCategory != undefined) {
       this.setEditableElementValues();
     }
   }
@@ -61,7 +74,7 @@ export class ConnectionSecurityElementComponent extends FormComponent implements
     throw new Error('Method not implemented.');
   }
 
-  private setEditableElementValues() {
+  setEditableElementValues() {
     this.editableElements.forEach((editableElement) => {
       if (this.isEditableElementRelevant(editableElement, this.userCategory)) {
         switch (editableElement.name) {

@@ -46,7 +46,7 @@ export abstract class UserService<T extends User> extends EntityService<T> {
     return this.http.post<number>(`${this.apiBackendUrl}/${this.entityName}/update-pfp-img-path-by-email`, pfpImgPathByEmail);
   }
 
-  public deleteUserAndPfpImg(user: T): Promise<boolean> {
+  public deleteUserAndPfpImg(user: User): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       this.deleteEntity(user.getUserId()).subscribe({
         next: () => {

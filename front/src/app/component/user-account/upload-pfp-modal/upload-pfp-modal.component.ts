@@ -4,19 +4,12 @@ import {ModalComponent} from "../../misc/modal-component";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatIconModule} from "@angular/material/icon";
-import {FileService} from "../../../service/misc/file.service";
 import {faCheck, faTrash, faUser, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {CustomerService} from "../../../service/user/customer.service";
-import {BusinessService} from "../../../service/user/business.service";
-import {AdminService} from "../../../service/user/admin.service";
-import {DeliveryServiceService} from "../../../service/user/delivery-service.service";
-import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
-import {CookieService} from "ngx-cookie-service";
-import {CurrentUserService} from "../../../service/user/current-user.service";
 import {UploadStatus} from "../../misc/form-component";
 import {User} from "../../../model/user/user";
 import {UserService} from "../../../service/user/user.service";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-upload-pfp-modal',
@@ -30,7 +23,7 @@ import {UserService} from "../../../service/user/user.service";
   templateUrl: './upload-pfp-modal.component.html',
   styleUrl: './upload-pfp-modal.component.scss'
 })
-export class UploadPfpModalComponent extends ModalComponent {
+export class UploadPfpModalComponent extends ModalComponent implements OnInit {
   file!: File | null;
   imgUrl: string = '';
   statusMsg: string = '';
@@ -44,13 +37,23 @@ export class UploadPfpModalComponent extends ModalComponent {
   @Input() override isModalOpen = false
   @Output() override onModalChangeEmitter = new EventEmitter<boolean>()
 
-  @Input() user!: User;
+  @Input() userSubject!: Subject<User>;
   @Input() userService!: UserService<any>;
+
+  @Input() user!: User;
 
   @ViewChild('imageInput') fileInput!: ElementRef;
 
   constructor() {
     super();
+  }
+
+  ngOnInit(): void {
+    if(this.userSubject !== undefined) this.userSubject.subscribe({
+      next: (user: User) => {
+        this.user = user;
+      }
+    });
   }
 
   onPfpImgSelected(event: any) {

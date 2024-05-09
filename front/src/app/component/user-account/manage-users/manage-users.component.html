@@ -1,11 +1,83 @@
 <div class="main-page-body-div">
   <div class="header-elem">
     <div class="header-icon-elem">
-      <fa-icon [class]="['header-icon']" [icon]="faPeopleRoof"></fa-icon>
+      <fa-icon [class]="['header-icon']" [icon]="faUserGroup"></fa-icon>
     </div>
-    <h1 class="main-page-h1">My Users</h1>
+    <h1 class="main-page-h1">My {{ manageUsersService.editingUserCategory?.pluralName }}</h1>
   </div>
   <div class="separation-line-2"></div>
 
+  <form (ngSubmit)="getSearchedUsers()" class="search-div">
+    <div class="filter-div" *ngIf="isFilterByDs()">
+      <span>Filter By Delivery Service:</span>
+      <select id="ds" [(ngModel)]="filteredDeliveryServiceId" name="select-ds" class="default-input-2">
+        <option *ngFor="let deliveryService of currentUserService.user?.deliveryServices"
+                [value]="deliveryService.getUserId()"
+                [selected]="deliveryService.getUserId() == filteredDeliveryServiceId">
+          {{ deliveryService.getName() }}
+        </option>
+      </select>
+    </div>
+    <div class="filter-div">
+      <span>Filter By Field:</span>
+      <select id="fields" [(ngModel)]="manageUsersService.fieldFilter" name="select-field" class="default-input-2">
+        <option *ngFor="let editableElement of manageUsersService.editableElements"
+                [value]="editableElement.name"
+                [selected]="editableElement == usernameElement">
+          {{ editableElement.name }}
+        </option>
+      </select>
+    </div>
+    <div class="input-div">
+      <input class="default-input-2"
+             placeholder="Search {{manageUsersService.editingUserCategory?.pluralName}} by {{manageUsersService.fieldFilter}}"
+             [(ngModel)]="manageUsersService.searchInput" name="search-input">
+    </div>
+  </form>
 
+  <div class="delivery-person-container">
+    <div class="dpc-static-add-div">
+      <div class="add-new-elem-div" (click)="onRegisterUserModal(true)">
+        <div class="add-plus-div">
+          <fa-icon [icon]="faPlus" [class]="['plus-icon']"></fa-icon>
+        </div>
+      </div>
+    </div>
+
+    <div class="mdp-delivery-person-body-div" *ngFor="let user of getSearchedUsers()">
+      <app-user-element
+        [style.width.%]="100"
+        [user]="user"
+        (onEditUserEmitter)="onEditUser($event)"
+        (onDeleteUserEmitter)="onDeleteUser($event)"
+        (onEditImgPfpEmitter)="onEditUserImgPfp($event)"
+      ></app-user-element>
+    </div>
+  </div>
 </div>
+
+<app-connection-security-modal
+  [isModalOpen]="isConnectionSecurityModalOpen"
+  [editingUserSubject]="editingUserSubject"
+  [editingUser]="editingUser"
+  [editingUserService]="manageUsersService.editingUserService!"
+  [editingUserCategory]="manageUsersService.editingUserCategory!"
+  [editingUserType]="editingUserType"
+  (onModalChangeEmitter)="onConnectionSecurityModal($event)">
+</app-connection-security-modal>
+
+<app-upload-pfp-modal
+  [isModalOpen]="isUploadPfpImgModalOpen"
+  [userSubject]="editingUserSubject"
+  [userService]="manageUsersService.editingUserService!"
+  (onModalChangeEmitter)="onUploadPfpImgModal($event)"
+></app-upload-pfp-modal>
+
+<app-register-modal
+  [isModalOpen]="isRegisterUserModalOpen"
+  [userService]="manageUsersService.editingUserService!"
+  [registrationType]="manageUsersService.registrationType!"
+  [deliveryServiceId]="filteredDeliveryServiceId!"
+  (onModalChangeEmitter)="onRegisterUserModal($event)"
+  (onUserAddedEmitter)="onUserAdded($event)">
+</app-register-modal>

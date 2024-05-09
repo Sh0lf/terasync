@@ -1,1 +1,69 @@
 @import "../../common.scss";
+
+.delivery-person-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  width: 100%;
+}
+
+.mdp-delivery-person-body-div {
+  background-color: $colorP17;
+  box-shadow: $boxShadowDefault;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  border-radius: 15px;
+
+  margin: 20px;
+  width: 500px;
+}
+
+.dpc-static-add-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  border-radius: 15px;
+
+  margin: 20px;
+  width: 500px;
+}
+
+.search-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+  width: 100%;
+}
+
+.filter-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+  padding: 0 10px 0 0;
+  flex-grow: 1;
+}
+
+.filter-div span {
+  width: 100%;
+}
+
+.input-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+  flex-grow: 1;
+}

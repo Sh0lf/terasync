@@ -1,13 +1,13 @@
 import {UserType} from "./user.type";
-import {User} from "../../model/user/user";
-import {Admin} from "../../model/user/admin";
 
 export class UserCategory {
   name: string;
+  pluralName: string;
   userType: UserType;
 
-  constructor(name: string, userType: UserType) {
+  constructor(name: string, pluralName: string, userType: UserType) {
     this.name = name;
+    this.pluralName = pluralName;
     this.userType = userType;
   }
 
@@ -25,15 +25,19 @@ export class UserCategory {
   }
 
   getFormattedName(): string {
-    return this.name.toLowerCase().replace(new RegExp('\\s'), "");
+    return this.name.toLowerCase().replace(new RegExp('\\s'), "-");
+  }
+
+  getFormattedPluralName(): string {
+    return this.pluralName.toLowerCase().replace(new RegExp('\\s'), "-");
   }
 }
 
-export const adminCategory = new UserCategory('Admin', UserType.PARTNER);
-export const businessCategory = new UserCategory('Business', UserType.PARTNER);
-export const customerCategory = new UserCategory('Customer', UserType.CUSTOMER);
-export const deliveryPersonCategory = new UserCategory('Delivery Person', UserType.PARTNER);
-export const deliveryServiceCategory = new UserCategory('Delivery Service', UserType.PARTNER);
+export const adminCategory = new UserCategory('Admin', 'Admins', UserType.PARTNER);
+export const businessCategory = new UserCategory('Business', 'Businesses', UserType.PARTNER);
+export const customerCategory = new UserCategory('Customer', 'Customers', UserType.CUSTOMER);
+export const deliveryPersonCategory = new UserCategory('Delivery Person', 'Deliverymen', UserType.PARTNER);
+export const deliveryServiceCategory = new UserCategory('Delivery Service', 'Delivery Services', UserType.PARTNER);
 
 export const userCategories: UserCategory[] = [
   adminCategory,
