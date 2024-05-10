@@ -21,8 +21,16 @@ public class MessageList extends isep.webapp.terasync.model.Entity {
     @CreationTimestamp
     @Column(name = "timestamp")
     private String timestamp;
-    @Column(name = "ownerId")
-    private int ownerId;
     @Column(name = "customerOrderId")
     private int customerOrderId;
+    @Column(name = "adminId")
+    private int adminId;
+    @Column(name = "customerId")
+    private int customerId;
+    @Column(name = "businessId")
+    private int businessId;
+    @Column(name = "deliveryServiceId")
+    private int deliveryServiceId;
+    @Column(name = "deliveryPersonId")
+    private int deliveryPersonId;
 }

@@ -1,0 +1,26 @@
+<div class="{{customerOrderElement?.class}}">
+  <div>
+    <span class="text-font-700">Customer Order ID:</span><span> {{customerOrderElement?.customerOrder?.customerOrderId}}</span>
+  </div>
+  <div>
+    <span class="text-font-700">Customer:</span><span> {{customerOrderElement?.customerOrder?.customer?.getName()}}</span>
+  </div>
+  <div>
+    <span class="text-font-700">Business:</span><span> {{customerOrderElement?.customerOrder?.business?.getName()}}</span>
+  </div>
+  <div>
+    <span class="text-font-700">Delivery Service:</span><span> {{customerOrderElement?.customerOrder?.deliveryService?.getName()}}</span>
+  </div>
+  <div>
+    <span class="text-font-700">Delivery Person:</span><span> {{customerOrderElement?.customerOrder?.deliveryPerson?.getName()}}</span>
+  </div>
+  <div>
+    <span class="text-font-700">Status:</span><span> {{customerOrderElement?.customerOrder?.status?.status}}</span>
+  </div>
+  <div>
+    <span class="text-font-700">Creation Time:</span><span> {{creationTime}}</span>
+  </div>
+  <div>
+    <span class="text-font-700">Delivery Time:</span><span> {{deliveryTime}}</span>
+  </div>
+</div>

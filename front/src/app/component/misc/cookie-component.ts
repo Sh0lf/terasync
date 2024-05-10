@@ -28,6 +28,9 @@ import {DeliveryService} from "../../model/user/delivery.service";
 import {CurrentUserService} from "../../service/user/current-user.service";
 import {Observable} from "rxjs";
 import {EditableElement} from "./editable-element";
+import {CustomerOrderService} from "../../service/odSystem/customer-order.service";
+import {CustomerOrder} from "../../model/odSystem/customer.order";
+import {Status} from "../../model/odSystem/status";
 
 export abstract class CookieComponent {
   // Services
@@ -39,6 +42,8 @@ export abstract class CookieComponent {
   protected deliveryServiceService!: DeliveryServiceService;
   protected deliveryPersonService!: DeliveryPersonService;
   protected currentUserService!: CurrentUserService;
+
+  protected customerOrderService!: CustomerOrderService;
 
   protected router!: Router;
   protected route!: ActivatedRoute;
@@ -443,8 +448,7 @@ export abstract class CookieComponent {
     }
     this.currentUserService.user?.setAdmins(admins);
     if (this.isAdminCategory()) {
-      let currentAdmin = this.currentUserService.user?.admins?.
-      find(admin => admin.getUserId() == this.currentUserService.user?.getUserId());
+      let currentAdmin = this.currentUserService.user?.admins?.find(admin => admin.getUserId() == this.currentUserService.user?.getUserId());
       if (currentAdmin !== undefined) {
         this.currentUserService.user?.admins?.splice(this.currentUserService.user?.admins?.indexOf(currentAdmin), 1)
       }
@@ -483,5 +487,183 @@ export abstract class CookieComponent {
         this.initializeAdmins(jsonAdmins);
       }
     });
+  }
+
+  initializeAdminCustomerOrders(): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      if (this.customerOrderService != undefined) {
+        this.customerOrderService.getAllEntities().subscribe({
+          next: (jsonCustomerOrders: CustomerOrder[]) => {
+            this.currentUserService.user?.setCustomerOrders(
+              CustomerOrder.initializeCustomerOrders({customerOrders: jsonCustomerOrders}));
+            resolve(true);
+          },
+          error: (error: HttpErrorResponse) => {
+            console.log("HTTP ERROR / NA : No customer orders found");
+            resolve(false);
+          }
+        });
+      }
+    })
+  }
+
+  fetchCustomerOrdersParentEntities(customerOrders: CustomerOrder[]) {
+    let businesses: Business[] = [];
+    let deliveryPeople: DeliveryPerson[] = [];
+    let deliveryServices: DeliveryService[] = [];
+    let statuses: Status[] = [];
+
+    return new Promise<{
+      businesses: Business[],
+      deliveryPeople: DeliveryPerson[],
+      deliveryServices: DeliveryService[],
+      statuses: Status[]
+    }>((resolve, reject) => {
+      if (customerOrders != undefined) {
+        let count = 0;
+        new Observable<number>((observer) => {
+          for (let customerOrder of customerOrders) {
+            this.businessService.findEntityById(customerOrder.businessId).subscribe({
+              next: (jsonBusiness: Business) => {
+                customerOrder.business = Business.fromJson(jsonBusiness);
+                this.initBusinesses(businesses, customerOrder);
+                observer.next(count++);
+              },
+              error: (error: HttpErrorResponse) => {
+                console.log("HTTP ERROR / NA : No business found");
+              }
+            });
+            this.customerService.findEntityById(customerOrder.customerId).subscribe({
+              next: (jsonCustomer) => {
+                customerOrder.customer = Customer.fromJson(jsonCustomer);
+                observer.next(count++);
+              },
+              error: (error: HttpErrorResponse) => {
+                console.log("HTTP ERROR / NA : No customer found");
+              }
+            });
+            this.deliveryPersonService.findEntityById(customerOrder.deliveryPersonId).subscribe({
+              next: (jsonDeliveryPerson) => {
+                customerOrder.deliveryPerson = DeliveryPerson.fromJson(jsonDeliveryPerson);
+                this.initDeliveryPeople(deliveryPeople, customerOrder);
+                observer.next(count++);
+              },
+              error: (error: HttpErrorResponse) => {
+                console.log("HTTP ERROR / NA : No delivery person found");
+              }
+            });
+            this.deliveryServiceService.findEntityById(customerOrder.deliveryServiceId).subscribe({
+              next: (jsonDeliveryService) => {
+                customerOrder.deliveryService = DeliveryService.fromJson(jsonDeliveryService);
+                this.initDeliveryServices(deliveryServices, customerOrder)
+                observer.next(count++);
+              },
+              error: (error: HttpErrorResponse) => {
+                console.log("HTTP ERROR / NA : No delivery service found");
+              }
+            });
+            this.initStatuses(statuses, customerOrder);
+          }
+        }).subscribe({
+          next: (count: number) => {
+            if (count == (customerOrders.length * 4) - 1) {
+              console.log("All parent entities fetched");
+
+              resolve({
+                businesses: businesses,
+                deliveryPeople: deliveryPeople,
+                deliveryServices: deliveryServices,
+                statuses: statuses
+              });
+            }
+          }
+        });
+      }
+    });
+  }
+
+  private initBusinesses(businesses: Business[], order: CustomerOrder) {
+    if (!businesses.find(business => business.businessId == order.business?.businessId) ||
+      businesses.length == 0) {
+      businesses.push(order.business!);
+    }
+  }
+
+  private initDeliveryPeople(deliveryPeople: DeliveryPerson[], order: CustomerOrder) {
+    if (!deliveryPeople.find(deliveryPerson => deliveryPerson.deliveryPersonId == order.deliveryPerson?.deliveryPersonId) ||
+      deliveryPeople.length == 0) {
+      deliveryPeople.push(order.deliveryPerson!);
+    }
+  }
+
+  private initDeliveryServices(deliveryServices: DeliveryService[], order: CustomerOrder) {
+    if (!deliveryServices.find(deliveryService => deliveryService.deliveryServiceId == order.deliveryService?.deliveryServiceId) ||
+      deliveryServices.length == 0) {
+      deliveryServices.push(order.deliveryService!);
+    }
+  }
+
+  private initStatuses(statuses: Status[], order: CustomerOrder) {
+    if (!statuses.find(status => status.statusId == order.status!.statusId) ||
+      statuses.length == 0) {
+      statuses.push(order.status!);
+    }
+  }
+
+  fetchMessageListParentEntities(customerOrders: CustomerOrder[]) {
+    if (customerOrders != undefined) {
+      for (let customerOrder of customerOrders) {
+        if (customerOrder.messageLists != undefined) {
+          for (let messageList of customerOrder.messageLists) {
+            if (messageList.adminId > 0) {
+              this.adminService.findEntityById(messageList.adminId).subscribe({
+                next: (jsonAdmin) => {
+                  messageList.messageUserOwner = User.fromJson(jsonAdmin);
+                },
+                error: (error: HttpErrorResponse) => {
+                  console.log("HTTP ERROR / NA : No admin found");
+                }
+              });
+            } else if (messageList.customerId > 0) {
+              this.customerService.findEntityById(messageList.customerId).subscribe({
+                next: (jsonCustomer) => {
+                  messageList.messageUserOwner = User.fromJson(jsonCustomer);
+                },
+                error: (error: HttpErrorResponse) => {
+                  console.log("HTTP ERROR / NA : No customer found");
+                }
+              });
+            } else if (messageList.businessId > 0) {
+              this.businessService.findEntityById(messageList.businessId).subscribe({
+                next: (jsonBusiness) => {
+                  messageList.messageUserOwner = User.fromJson(jsonBusiness);
+                },
+                error: (error: HttpErrorResponse) => {
+                  console.log("HTTP ERROR / NA : No business found");
+                }
+              });
+            } else if (messageList.deliveryPersonId > 0) {
+              this.deliveryPersonService.findEntityById(messageList.deliveryPersonId).subscribe({
+                next: (jsonDeliveryPerson) => {
+                  messageList.messageUserOwner = User.fromJson(jsonDeliveryPerson);
+                },
+                error: (error: HttpErrorResponse) => {
+                  console.log("HTTP ERROR / NA : No delivery person found");
+                }
+              });
+            } else if (messageList.deliveryServiceId > 0) {
+              this.deliveryServiceService.findEntityById(messageList.deliveryServiceId).subscribe({
+                next: (jsonDeliveryService) => {
+                  messageList.messageUserOwner = User.fromJson(jsonDeliveryService);
+                },
+                error: (error: HttpErrorResponse) => {
+                  console.log("HTTP ERROR / NA : No delivery service found");
+                }
+              });
+            }
+          }
+        }
+      }
+    }
   }
 }

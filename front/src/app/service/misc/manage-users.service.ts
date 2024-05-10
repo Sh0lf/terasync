@@ -12,7 +12,7 @@ export class ManageUsersService {
   private _editingUserService!: UserService<any>;
   private _registrationType!: RegistrationType;
   private _editableElements!: EditableElement[];
-  private _fieldFilter: string;
+  private _fieldFilter: string = '';
   private _searchInput: string = '';
 
   protected constructor() {

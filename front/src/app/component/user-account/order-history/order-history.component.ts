@@ -84,90 +84,12 @@ export class OrderHistoryComponent extends CookieComponent implements OnInit {
   }
 
   private fetchParentUsers() {
-    this.currentUserService.user?.customerOrders?.forEach(order => {
-      if(order.business === undefined) {
-        this.businessService.findEntityById(order.businessId).subscribe({
-          next: (jsonBusiness: Business) => {
-            order.business = Business.fromJson(jsonBusiness);
-            this.initBusinesses(order);
-          },
-          error: (error: HttpErrorResponse) => {
-            console.log("HTTP ERROR / NA : No business found");
-          }
-        });
-      }
-      if(order.customer === undefined) {
-        this.customerService.findEntityById(order.customerId).subscribe({
-          next: (jsonCustomer) => {
-            order.customer = Customer.fromJson(jsonCustomer);
-          },
-          error: (error: HttpErrorResponse) => {
-            console.log("HTTP ERROR / NA : No customer found");
-          }
-        });
-      }
-      if(order.deliveryPerson == undefined) {
-        this.deliveryPersonService.findEntityById(order.deliveryPersonId).subscribe({
-          next: (jsonDeliveryPerson) => {
-            order.deliveryPerson = DeliveryPerson.fromJson(jsonDeliveryPerson);
-            this.initDeliveryPeople(order);
-          },
-          error: (error: HttpErrorResponse) => {
-            console.log("HTTP ERROR / NA : No delivery person found");
-          }
-        });
-      }
-      if(order.deliveryService == undefined) {
-        this.deliveryServiceService.findEntityById(order.deliveryServiceId).subscribe({
-          next: (jsonDeliveryService) => {
-            order.deliveryService = DeliveryService.fromJson(jsonDeliveryService);
-            this.initDeliveryServices(order)
-          },
-          error: (error: HttpErrorResponse) => {
-            console.log("HTTP ERROR / NA : No delivery service found");
-          }
-        });
-      }
-
-      this.initStatuses(order);
+    this.fetchCustomerOrdersParentEntities(this.currentUserService.user?.customerOrders!).then((parentEntities) => {
+      this.statuses = parentEntities.statuses;
+      this.deliveryPeople = parentEntities.deliveryPeople;
+      this.deliveryServices = parentEntities.deliveryServices;
+      this.businesses = parentEntities.businesses;
     });
-
-    if(this.statuses.length > 0) this.selectedStatusId = this.statuses.at(0)?.statusId;
-    if(this.deliveryPeople.length > 0) this.selectedDeliveryPersonId = this.deliveryPeople.at(0)?.getUserId();
-    if(this.deliveryServices.length > 0) this.selectedDeliveryServiceId = this.deliveryServices.at(0)?.getUserId();
-    if(this.businesses.length > 0) this.selectedBusinessId = this.businesses.at(0)?.getUserId();
-  }
-
-  private initBusinesses(order: CustomerOrder) {
-    if(!this.businesses.
-    find(business => business.businessId == order.business?.businessId) ||
-      this.businesses.length == 0) {
-      this.businesses.push(order.business!);
-    }
-  }
-
-  private initDeliveryPeople(order: CustomerOrder) {
-    if(!this.deliveryPeople.
-    find(deliveryPerson => deliveryPerson.deliveryPersonId == order.deliveryPerson?.deliveryPersonId) ||
-      this.deliveryPeople.length == 0) {
-      this.deliveryPeople.push(order.deliveryPerson!);
-    }
-  }
-
-  private initDeliveryServices(order: CustomerOrder) {
-    if(!this.deliveryServices.
-    find(deliveryService => deliveryService.deliveryServiceId == order.deliveryService?.deliveryServiceId) ||
-      this.deliveryServices.length == 0) {
-      this.deliveryServices.push(order.deliveryService!);
-    }
-  }
-
-  private initStatuses(order: CustomerOrder) {
-    if(!this.statuses.
-    find(status => status.statusId == order.status!.statusId) ||
-      this.statuses.length == 0) {
-      this.statuses.push(order.status!);
-    }
   }
 
   getFilteredOrders() {

@@ -64,7 +64,6 @@ import {
 })
 export class ManageUsersComponent extends CookieComponent implements OnInit {
 
-  usernameElement = usernameElement;
   faUserGroup = faUserGroup;
 
   faPlus = faPlus;
@@ -78,7 +77,7 @@ export class ManageUsersComponent extends CookieComponent implements OnInit {
   editingUserType: EditingUserType = EditingUserType.ADMIN;
   // WHEN ADMIN IS LOGGED IN, HE CAN FILTER THE DELIVERY PERSONS BY DELIVERY SERVICE IDK WHY I'M WRITING IN CAPITAL DON'T WORRY ABOUT IT
 
-  filteredDeliveryServiceId!: number | undefined;
+  selectedDeliveryServiceId!: number | undefined;
 
   constructor(private el: ElementRef,
               protected manageUsersService: ManageUsersService,
@@ -104,10 +103,6 @@ export class ManageUsersComponent extends CookieComponent implements OnInit {
         this.manageUsersService.fieldFilter = usernameElement.name;
         this.getSearchedUsers();
       });
-    }
-
-    if(this.isAdminCategory()) {
-      this.filteredDeliveryServiceId = this.currentUserService.user?.deliveryServices?.at(0)?.getUserId();
     }
   }
 
@@ -224,10 +219,16 @@ export class ManageUsersComponent extends CookieComponent implements OnInit {
   }
 
   isFilteringDeliveryService(user: User) {
-    return !this.isEditingDeliveryPeople() || (user.deliveryServiceId == this.filteredDeliveryServiceId);
+    return !this.isEditingDeliveryPeople() || (user.deliveryServiceId == this.selectedDeliveryServiceId) || this.selectedDeliveryServiceId == undefined;
   }
 
   isEditingDeliveryPeople() {
     return this.manageUsersService.editingUserCategory === deliveryPersonCategory && super.isAdminCategory();
+  }
+
+  clearFilters() {
+    this.manageUsersService.fieldFilter = usernameElement.name;
+    this.manageUsersService.searchInput = "";
+    this.selectedDeliveryServiceId = undefined;
   }
 }

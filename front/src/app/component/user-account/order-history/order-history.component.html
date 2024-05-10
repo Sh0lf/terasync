@@ -12,8 +12,7 @@
       <div class="select-div">
         <select class="default-input-2" [(ngModel)]="selectedStatusId">
           <option *ngFor="let status of statuses"
-                  [value]="status.statusId"
-                  [selected]="status.statusId == selectedStatusId">
+                  [value]="status.statusId">
             {{status.status}}
           </option>
         </select>
@@ -24,8 +23,7 @@
       <div class="select-div">
         <select class="default-input-2" [(ngModel)]="selectedDeliveryServiceId">
           <option *ngFor="let deliveryService of deliveryServices"
-                  [value]="deliveryService.getUserId()"
-                  [selected]="deliveryService.getUserId() == selectedDeliveryServiceId">
+                  [value]="deliveryService.getUserId()">
             {{deliveryService.getName()}}
           </option>
         </select>
@@ -36,8 +34,7 @@
       <div class="select-div">
         <select class="default-input-2" [(ngModel)]="selectedBusinessId">
           <option *ngFor="let business of businesses"
-                  [value]="business.getUserId()"
-                  [selected]="business.getUserId() == selectedBusinessId">
+                  [value]="business.getUserId()">
             {{business.getName()}}
           </option>
         </select>
@@ -48,8 +45,7 @@
       <div class="select-div">
         <select class="default-input-2" [(ngModel)]="selectedDeliveryPersonId">
           <option *ngFor="let deliveryPerson of deliveryPeople"
-                  [value]="deliveryPerson.getUserId()"
-                  [selected]="deliveryPerson.getUserId() == selectedDeliveryPersonId">
+                  [value]="deliveryPerson.getUserId()">
             {{deliveryPerson.getName()}}
           </option>
         </select>

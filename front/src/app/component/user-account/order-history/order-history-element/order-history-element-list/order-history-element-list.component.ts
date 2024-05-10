@@ -22,7 +22,7 @@ import {
   styleUrl: './order-history-element-list.component.scss'
 })
 export class OrderHistoryElementListComponent {
-  @Input() orderList!: CustomerOrderList;
+  @Input() orderList!: CustomerOrderList | undefined;
 
   constructor() {}
 }

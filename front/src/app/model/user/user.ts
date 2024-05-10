@@ -219,6 +219,10 @@ export class User {
     this.admins = admins;
   }
 
+  setCustomerOrders(customerOrders: CustomerOrder[]) {
+    this.customerOrders = customerOrders;
+  }
+
   clearLists() {
     // CUSTOMER
     this.addresses = undefined;

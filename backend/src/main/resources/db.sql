@@ -40,7 +40,8 @@ CREATE TABLE Business
     emailVerified    BIT          NOT NULL DEFAULT (0),
     registrationDate DATETIME     NOT NULL DEFAULT (GETDATE()),
     approved         BIT          NOT NULL DEFAULT (0),
-    pfpImgPath       VARCHAR(255)
+    pfpImgPath       VARCHAR(255),
+    thumbnail        VARCHAR(255)
 );
 
 CREATE TABLE DeliveryService
@@ -154,7 +155,7 @@ CREATE TABLE CustomerOrder
     constraint deliveryPerson_customerOrder_fk FOREIGN KEY (deliveryPersonId) REFERENCES DeliveryPerson (deliveryPersonId)
         ON DELETE NO ACTION ON UPDATE NO ACTION,
     constraint address_customerOrder_fk FOREIGN KEY (addressId) REFERENCES Address (addressId)
-            ON DELETE NO ACTION ON UPDATE NO ACTION,
+        ON DELETE NO ACTION ON UPDATE NO ACTION,
     constraint temp_customerOrder_check check (minTemp >= -273.15 and maxTemp >= -273.15 and minTemp <= maxTemp)
 )
 
@@ -243,7 +244,11 @@ CREATE TABLE MessageList
     messageListId   INT IDENTITY (1, 1) PRIMARY KEY,
     message         VARCHAR(255) NOT NULL,
     timestamp       DATETIME     NOT NULL DEFAULT (GETDATE()),
-    ownerId         INT          NOT NULL,
+    adminId         INT,
+    customerId      INT,
+    businessId      INT,
+    deliveryServiceId INT,
+    deliveryPersonId INT,
     customerOrderId INT          NOT NULL,
     constraint customerOrder_messageList_fk FOREIGN KEY (customerOrderId) REFERENCES CustomerOrder (customerOrderId)
         ON DELETE CASCADE ON UPDATE CASCADE

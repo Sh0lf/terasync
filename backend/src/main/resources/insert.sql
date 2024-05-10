@@ -157,34 +157,52 @@ VALUES
     ('Seaweed'),
     ('Polystyrene');
 
-INSERT INTO CustomerOrder (creationTime, minTemp, maxTemp, deliveryTime, statusId, packagingId, customerId, businessId, deliveryServiceId, deliveryPersonId)
+INSERT INTO Address (country, street, postalCode, city, defaultAddress, info, customerId)
 VALUES
-    ('2024-04-28 10:00:00', 0, 3, DATEADD(MINUTE, 30, '2024-04-28 10:00:00'), 3, 1, 23, 10, 1, 1),
-    ('2024-04-27 11:15:00', -1, 5, DATEADD(MINUTE, 45, '2024-04-27 11:15:00'), 3, 2, 23, 10, 2, 2),
-    ('2024-04-26 12:30:00', 2, 6, DATEADD(MINUTE, 30, '2024-04-26 12:30:00'), 3, 3, 23, 10, 3, 3),
-    ('2024-04-25 13:45:00', 5, 7, DATEADD(MINUTE, 45, '2024-04-25 13:45:00'), 3, 4, 23, 10, 4, 4),
-    ('2024-04-24 14:00:00', 3, 4, DATEADD(MINUTE, 30, '2024-04-24 14:00:00'), 3, 5, 23, 10, 5, 5);
+    ('United States', '123 Main St', '12345', 'Cityville', 1, 'Apt 1', 1);
+
+INSERT INTO CustomerOrder (creationTime, minTemp, maxTemp, deliveryTime, statusId, packagingId, customerId, businessId, deliveryServiceId, deliveryPersonId, addressId)
+VALUES
+    ('2024-04-28 10:00:00', 0, 3, DATEADD(MINUTE, 30, '2024-04-28 10:00:00'), 3, 1, 1, 10, 1, 1, 1),
+    ('2024-04-27 11:15:00', -1, 5, DATEADD(MINUTE, 45, '2024-04-27 11:15:00'), 3, 2, 1, 10, 2, 2, 1),
+    ('2024-04-26 12:30:00', 2, 6, DATEADD(MINUTE, 30, '2024-04-26 12:30:00'), 3, 3, 1, 10, 3, 3, 1),
+    ('2024-04-25 13:45:00', 5, 7, DATEADD(MINUTE, 45, '2024-04-25 13:45:00'), 3, 4, 1, 10, 4, 4, 1),
+    ('2024-04-24 14:00:00', 3, 4, DATEADD(MINUTE, 30, '2024-04-24 14:00:00'), 3, 5, 1, 10, 5, 5, 1);
 
 INSERT INTO CustomerOrderList (selectionTime, quantity, customerOrderId, productId)
 VALUES
     -- Since modified populate CustomerOrder a lot, Id go from 11-15. CustomerId = 23
-    ('2024-04-28 10:00:00', 1, 11, 6),
-    ('2024-04-28 10:00:00', 2, 11, 7),
-    ('2024-04-28 10:00:00', 3, 11, 8),
-    ('2024-04-28 10:00:00', 3, 11, 9),
-    ('2024-04-28 10:00:00', 2, 11, 10),
-    ('2024-04-28 10:00:00', 1, 11, 11),
-    ('2024-04-27 11:15:00', 1, 12, 9),
-    ('2024-04-27 11:15:00', 2, 12, 10),
-    ('2024-04-27 11:15:00', 3, 12, 11),
-    ('2024-04-27 11:15:00', 3, 12, 12),
-    ('2024-04-27 11:15:00', 2, 12, 13),
-    ('2024-04-26 12:30:00', 1, 13, 12),
-    ('2024-04-26 12:30:00', 2, 13, 13),
-    ('2024-04-26 12:30:00', 3, 13, 14),
-    ('2024-04-25 13:45:00', 1, 14, 15),
-    ('2024-04-25 13:45:00', 2, 14, 16),
-    ('2024-04-25 13:45:00', 3, 14, 17),
-    ('2024-04-24 14:00:00', 1, 15, 18),
-    ('2024-04-24 14:00:00', 2, 15, 6),
-    ('2024-04-24 14:00:00', 3, 15, 7);
+    ('2024-04-28 10:00:00', 1, 4, 6),
+    ('2024-04-28 10:00:00', 2, 4, 7),
+    ('2024-04-28 10:00:00', 3, 4, 8),
+    ('2024-04-28 10:00:00', 3, 4, 9),
+    ('2024-04-28 10:00:00', 2, 4, 10),
+    ('2024-04-28 10:00:00', 1, 4, 11),
+    ('2024-04-27 11:15:00', 1, 4, 9),
+    ('2024-04-27 11:15:00', 2, 5, 10),
+    ('2024-04-27 11:15:00', 3, 5, 11),
+    ('2024-04-27 11:15:00', 3, 5, 12),
+    ('2024-04-27 11:15:00', 2, 5, 13),
+    ('2024-04-26 12:30:00', 1, 5, 12),
+    ('2024-04-26 12:30:00', 2, 6, 13),
+    ('2024-04-24 14:00:00', 2, 6, 6),
+    ('2024-04-24 14:00:00', 3, 6, 7);
+
+INSERT INTO MessageList (message, customerOrderId, adminId, customerId, deliveryPersonId, deliveryServiceId, businessId)
+VALUES
+    ('Admin Msg1', 1, 1, null, null, null, null),
+    ('Admin Msg2', 1, 1, null, null, null, null),
+    ('Admin Msg3', 1, 1, null, null, null, null),
+    ('Customer Msg1', 1, null, 1, null, null, null),
+    ('Customer Msg2', 1, null, 1, null, null, null),
+    ('Customer Msg3', 1, null, 1, null, null, null),
+    ('Delivery Person Msg1', 1, null, null, 1, null, null),
+    ('Delivery Person Msg2', 1, null, null, 1, null, null),
+    ('Delivery Person Msg3', 1, null, null, 1, null, null),
+    ('Delivery Service Msg1', 1, null, null, null, 1, null),
+    ('Delivery Service Msg2', 1, null, null, null, 1, null),
+    ('Delivery Service Msg3', 1, null, null, null, 1, null),
+    ('Business Msg1', 1, null, null, null, null, 1),
+    ('Business Msg2', 1, null, null, null, null, 1),
+    ('Business Msg3', 1, null, null, null, null, 1);
+

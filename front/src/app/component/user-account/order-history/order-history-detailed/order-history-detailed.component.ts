@@ -37,7 +37,7 @@ export class OrderHistoryDetailedComponent extends CookieComponent implements On
     protected override deliveryPersonService: DeliveryPersonService,
     protected override cookieService: CookieService,
     protected override currentUserService: CurrentUserService,
-    protected customerOrderService: CustomerOrderService,
+    protected override customerOrderService: CustomerOrderService,
     protected override router: Router, protected override route: ActivatedRoute) {
     super();
   }
