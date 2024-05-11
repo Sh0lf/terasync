@@ -84,14 +84,6 @@ public class CustomerOrder extends isep.webapp.terasync.model.Entity {
 
     @OneToMany(
             fetch = FetchType.EAGER,
-            targetEntity = ProductMenuList.class,
-            cascade = CascadeType.ALL
-    )
-    @JoinColumn(name = "customerOrderId")
-    private List<ProductMenuList> productMenuLists;
-
-    @OneToMany(
-            fetch = FetchType.EAGER,
             targetEntity = MessageList.class,
             cascade = CascadeType.ALL
     )

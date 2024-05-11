@@ -1,7 +1,6 @@
 import {User} from "./user";
 import {CustomerOrder} from "../odSystem/customer.order";
 import {DeliveryServiceList} from "../odSystem/delivery.service.list";
-import {ProductMenu} from "../odSystem/product.menu";
 import {Product} from "../odSystem/product";
 import {RatingList} from "../rating.list";
 
@@ -15,7 +14,6 @@ export class Business extends User {
 
   override customerOrders: CustomerOrder[] = [];
   override deliveryServiceLists: DeliveryServiceList[] = [];
-  override productMenus: ProductMenu[] = [];
   override products: Product[] = [];
   override ratingLists: RatingList[] = [];
 
@@ -41,7 +39,6 @@ export class Business extends User {
 
     business.customerOrders = CustomerOrder.initializeCustomerOrders(jsonBusiness);
     business.deliveryServiceLists = DeliveryServiceList.initializeDeliveryServiceLists(jsonBusiness);
-    business.productMenus = ProductMenu.initializeProductMenus(jsonBusiness);
     business.products = Product.initializeProducts(jsonBusiness);
     business.ratingLists = RatingList.initializeRatingLists(jsonBusiness);
 

@@ -4,7 +4,6 @@ import isep.webapp.terasync.model.RatingList;
 import isep.webapp.terasync.model.odSystem.CustomerOrder;
 import isep.webapp.terasync.model.odSystem.DeliveryServiceList;
 import isep.webapp.terasync.model.odSystem.Product;
-import isep.webapp.terasync.model.odSystem.ProductMenu;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -63,14 +62,6 @@ public class Business extends User {
     )
     @JoinColumn(name = "businessId")
     private List<DeliveryServiceList> deliveryServiceLists;
-
-    @OneToMany(
-            fetch = FetchType.EAGER,
-            targetEntity = ProductMenu.class,
-            cascade = CascadeType.ALL
-    )
-    @JoinColumn(name = "businessId")
-    private List<ProductMenu> productMenus;
 
     @OneToMany(
             fetch = FetchType.EAGER,

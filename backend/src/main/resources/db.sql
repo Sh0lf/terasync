@@ -159,32 +159,32 @@ CREATE TABLE CustomerOrder
     constraint temp_customerOrder_check check (minTemp >= -273.15 and maxTemp >= -273.15 and minTemp <= maxTemp)
 )
 
-CREATE TABLE ProductMenu
-(
-    productMenuId INT IDENTITY (1, 1) PRIMARY KEY,
-    name          VARCHAR(255)  NOT NULL,
-    creationTime  DATETIME      NOT NULL DEFAULT (GETDATE()),
-    discount      DECIMAL(3, 2) NOT NULL DEFAULT (0),
-    isVegan       BIT           NOT NULL DEFAULT (0),
-    businessId    INT           NOT NULL,
-    constraint business_productMenu_fk FOREIGN KEY (businessId) REFERENCES Business (businessId)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-    constraint discount_productMenu_check check (discount >= 0 and discount <= 1)
-);
-
-CREATE TABLE ProductMenuList
-(
-    productMenuListId INT IDENTITY (1, 1) PRIMARY KEY,
-    selectionTime     DATETIME NOT NULL DEFAULT (GETDATE()),
-    quantity          INT      NOT NULL,
-    customerOrderId   INT      NOT NULL,
-    productMenuId     INT,
-    constraint customerOrder_productMenuList_fk FOREIGN KEY (customerOrderId) REFERENCES CustomerOrder (customerOrderId)
-        ON DELETE NO ACTION ON UPDATE NO ACTION,
-    constraint productMenu_productMenuList_fk FOREIGN KEY (productMenuId) REFERENCES ProductMenu (productMenuId)
-        ON DELETE NO ACTION ON UPDATE NO ACTION,
-    constraint quantity_productMenuList_check check (quantity > 0)
-);
+-- CREATE TABLE ProductMenu
+-- (
+--     productMenuId INT IDENTITY (1, 1) PRIMARY KEY,
+--     name          VARCHAR(255)  NOT NULL,
+--     creationTime  DATETIME      NOT NULL DEFAULT (GETDATE()),
+--     discount      DECIMAL(3, 2) NOT NULL DEFAULT (0),
+--     isVegan       BIT           NOT NULL DEFAULT (0),
+--     businessId    INT           NOT NULL,
+--     constraint business_productMenu_fk FOREIGN KEY (businessId) REFERENCES Business (businessId)
+--         ON DELETE CASCADE ON UPDATE CASCADE,
+--     constraint discount_productMenu_check check (discount >= 0 and discount <= 1)
+-- );
+--
+-- CREATE TABLE ProductMenuList
+-- (
+--     productMenuListId INT IDENTITY (1, 1) PRIMARY KEY,
+--     selectionTime     DATETIME NOT NULL DEFAULT (GETDATE()),
+--     quantity          INT      NOT NULL,
+--     customerOrderId   INT      NOT NULL,
+--     productMenuId     INT,
+--     constraint customerOrder_productMenuList_fk FOREIGN KEY (customerOrderId) REFERENCES CustomerOrder (customerOrderId)
+--         ON DELETE NO ACTION ON UPDATE NO ACTION,
+--     constraint productMenu_productMenuList_fk FOREIGN KEY (productMenuId) REFERENCES ProductMenu (productMenuId)
+--         ON DELETE NO ACTION ON UPDATE NO ACTION,
+--     constraint quantity_productMenuList_check check (quantity > 0)
+-- );
 
 CREATE TABLE Product
 (

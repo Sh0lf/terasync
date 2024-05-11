@@ -1,6 +1,4 @@
 import {CustomerOrderList} from "./customer.order.list";
-import {CustomerOrderService} from "../../service/odSystem/customer-order.service";
-import {ProductMenuList} from "./product.menu.list";
 import {MessageList} from "../message.list";
 import {Status} from "./status";
 import {Packaging} from "./packaging";
@@ -24,7 +22,6 @@ export class CustomerOrder {
   deliveryPersonId: number;
 
   customerOrderLists: CustomerOrderList[] = [];
-  productMenuLists: ProductMenuList[] = [];
   messageLists: MessageList[] = [];
 
   status!: Status | undefined
@@ -59,7 +56,6 @@ export class CustomerOrder {
       jsonCustomerOrder.businessId, jsonCustomerOrder.deliveryServiceId, jsonCustomerOrder.deliveryPersonId)
 
     customerOrder.customerOrderLists = CustomerOrderList.initializeCustomerOrderLists(jsonCustomerOrder);
-    customerOrder.productMenuLists = ProductMenuList.initializeProductMenuLists(jsonCustomerOrder);
     customerOrder.messageLists = MessageList.initializeMessageLists(jsonCustomerOrder);
     customerOrder.status = Status.initializeStatus(jsonCustomerOrder);
     customerOrder.packaging = Packaging.initializePackaging(jsonCustomerOrder);

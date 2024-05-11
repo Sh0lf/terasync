@@ -1,7 +1,6 @@
 import {Address} from "../odSystem/address";
 import {CustomerOrder} from "../odSystem/customer.order";
 import {DeliveryServiceList} from "../odSystem/delivery.service.list";
-import {ProductMenu} from "../odSystem/product.menu";
 import {Product} from "../odSystem/product";
 import {RatingList} from "../rating.list";
 import {DeliveryPerson} from "./delivery.person";
@@ -57,7 +56,6 @@ export class User {
   admins: Admin[] | undefined = [];
 
   // BUSINESS
-  productMenus: ProductMenu[] | undefined = [];
   products: Product[] | undefined = [];
   ratingLists: RatingList[] | undefined = [];
   // BUSINESS Thumbnail path
@@ -106,7 +104,6 @@ export class User {
     user.addresses = Address.initializeAddresses(jsonUser);
     user.customerOrders = CustomerOrder.initializeCustomerOrders(jsonUser);
     user.deliveryServiceLists = DeliveryServiceList.initializeDeliveryServiceLists(jsonUser);
-    user.productMenus = ProductMenu.initializeProductMenus(jsonUser);
     user.products = Product.initializeProducts(jsonUser);
     user.ratingLists = RatingList.initializeRatingLists(jsonUser);
 
@@ -241,7 +238,6 @@ export class User {
     this.deliveryPeople = undefined;
 
     // BUSINESS
-    this.productMenus = undefined;
     this.products = undefined;
     this.ratingLists = undefined;
   }

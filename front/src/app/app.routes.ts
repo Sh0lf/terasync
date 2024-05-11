@@ -12,7 +12,6 @@ import {UserSettingsComponent} from "./component/user-account/user-settings/user
 import {FaqComponent} from "./component/faq/faq.component";
 import {PaymentMethodsComponent} from "./component/user-account/payment-methods/payment-methods.component";
 import {ManageProductsComponent} from "./component/user-account/manage-products/manage-products.component";
-import {ManageMenusComponent} from "./component/user-account/manage-menus/manage-menus.component";
 import {
   ManageUsersComponent
 } from "./component/user-account/manage-users/manage-users.component";
@@ -37,7 +36,6 @@ export const routes: Routes = [
   {
     path: 'user-account', component: UserAccountComponent, children: [
       {path: 'manage-products', component: ManageProductsComponent},
-      {path: 'manage-menus', component: ManageMenusComponent},
       {path: 'message-center', component: MessageCenterComponent},
       {path: `manage-users/:${StorageKeys.USER_CATEGORY}`, component: ManageUsersComponent},
       {path: 'connection-security', component: ConnectionSecurityComponent},
