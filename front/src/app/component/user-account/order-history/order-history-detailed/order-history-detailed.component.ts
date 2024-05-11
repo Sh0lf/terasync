@@ -15,6 +15,7 @@ import {
   OrderHistoryElementListComponent
 } from "../order-history-element/order-history-element-list/order-history-element-list.component";
 import {getDateTime} from "../../../misc/functions";
+import {composeDeliveryAddress} from "../../../misc/functions";
 
 @Component({
   selector: 'app-order-history-detailed',
@@ -28,6 +29,8 @@ export class OrderHistoryDetailedComponent extends CookieComponent implements On
   customerOrder: CustomerOrder | undefined;
   creationTime: String | undefined;
   deliveryTime: String | undefined;
+  total: number | undefined
+  deliveryAddress: string | undefined;
 
   constructor(
     protected override customerService: CustomerService,
@@ -45,17 +48,17 @@ export class OrderHistoryDetailedComponent extends CookieComponent implements On
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       let id = params['id'];
-      const userOrder = this.currentUserService.user?.customerOrders?.
-      find(order => order.customerOrderId == id);
+      const userOrder = this.currentUserService.user?.customerOrders?.find(order => order.customerOrderId == id);
 
       if (!userOrder) {
         this.router.navigate(['/user-account/order-history']).then();
         return;
       }
-
+      this.total = parseInt(<string>this.route.snapshot.paramMap.get('total'));
       this.customerOrder = userOrder;
       this.creationTime = getDateTime(this.customerOrder.creationTime);
       this.deliveryTime = getDateTime(this.customerOrder.deliveryTime);
+      this.deliveryAddress = composeDeliveryAddress(this.customerOrder?.address?.street, this.customerOrder?.address?.city, this.customerOrder?.address?.postalCode, this.customerOrder?.address?.country)
     });
   }
 }

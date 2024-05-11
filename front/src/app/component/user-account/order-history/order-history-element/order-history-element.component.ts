@@ -65,6 +65,6 @@ export class OrderHistoryElementComponent extends CookieComponent implements OnI
   }
 
   onClickRedirect() {
-    this.router.navigate(['/user-account/order-history-detailed', this.customerOrder!.customerOrderId]).then();
+    this.router.navigate(['/user-account/order-history-detailed', this.customerOrder!.customerOrderId, {total: this.total}]).then();
   }
 }

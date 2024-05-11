@@ -30,3 +30,7 @@ export function getDateTime(dateTime: string) {
 
   return date[0] + "/" + date[1] + "/" + date[2] + " at " + times[0] + ":" + times[1];
 }
+
+export function composeDeliveryAddress(street: string | undefined, city: string | undefined, postalCode: string | undefined, country: string | undefined): string {
+  return (street + ", " + city + ", " + postalCode + ", " + country)
+}

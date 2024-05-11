@@ -1,5 +1,13 @@
 @import '../../../common';
 
+div{
+  font-size: 14px;
+}
+
+h5{
+  font-size: 18px;
+}
+
 .column-container{
   display: flex;
   flex-direction: column;
@@ -27,12 +35,8 @@
   height: 100%;
 }
 
-.order-information-list h5{
-  font-size: 18px;
-}
-
-.order-information-list div{
-  font-size: 12px;
+.delivery-address{
+  word-break: break-word;
 }
 
 .order-delivery-information {
@@ -40,7 +44,6 @@
   align-self: center;
   flex-direction: column;
   justify-content: space-evenly;
-
   padding: 3%;
   border-radius: 15px;
   background: rgba(247, 196, 165, 0.45);
@@ -49,31 +52,49 @@
   border-spacing: 10px;
 }
 
-.order-delivery-information h5{
-  font-size: 18px;
-}
-
 .order-delivery-information div{
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .order-summary-container{
   margin-top: 3%;
+  align-self: center;
+  border-radius: 15px;
+  padding: 3%;
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  background: rgba(247, 196, 165, 0.45);
+  align-items: center;
 }
 
 .order-summary-detail {
-  padding: 3%;
-  align-self: center;
-  border-radius: 15px;
-  background: rgba(247, 196, 165, 0.45);
   display: flex;
   flex-direction: column;
-  min-width: 70%;
-  justify-content: space-evenly;
+  min-width: 60%;
+  justify-content: space-between;
 }
 
 .order-list-container{
   display: flex;
   flex-direction: column;
+}
+
+.vertical-separation-line {
+  height: 250px;
+  width: 3px;
+  padding: 1px;
+  border-radius: 1px;
+  margin: 10px 15px 10px 15px;
+  background: radial-gradient($colorP10 50%, rgba(247, 196, 165, 0), rgba(247, 196, 165, 0));
+}
+
+.order-payment-info{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-height: 250px;
+  justify-content: space-between;
+  box-sizing: border-box;
+  align-items: center;
 }

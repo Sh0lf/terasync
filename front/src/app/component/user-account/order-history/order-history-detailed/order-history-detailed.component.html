@@ -4,18 +4,20 @@
     <h2>Order {{customerOrder?.customerOrderId}}</h2>
     <div class="row-container">
       <div class="order-information-list">
-        <h5><u>Informations - Order {{customerOrder?.customerOrderId}}</u></h5>
-        <div>{{customerOrder?.business?.getName()}}</div>
-        <div>{{creationTime}}</div>
-        <div>Customer: {{customerOrder?.customer?.getName()}}</div>
-        <div>Business: {{customerOrder?.business?.getName()}}</div>
-        <div>Delivery Service: {{customerOrder?.deliveryService?.getName()}}</div>
-        <div>Delivery Person: {{customerOrder?.deliveryPerson?.getName()}}</div>
-        <div></div>
+        <h5><u><b>Informations - Order {{customerOrder?.customerOrderId}}</b></u></h5>
+        <div><u><b>{{customerOrder?.business?.getName()}}</b></u></div>
+        <div><u>{{creationTime}}</u></div>
+        <div>Customer: <u>{{customerOrder?.customer?.getName()}}</u></div>
+        <div>Business: <u>{{customerOrder?.business?.getName()}}</u></div>
+        <div>Delivery Service: <u>{{customerOrder?.deliveryService?.getName()}}</u></div>
+        <div>Delivery Person: <u>{{customerOrder?.deliveryPerson?.getName()}}</u></div>
       </div>
       <div class="order-delivery-information">
-        <h5><u>Delivery - Order {{customerOrder?.customerOrderId}}</u></h5>
-        <div>{{deliveryTime}}</div>
+        <h5><u><b>Delivery - Order {{customerOrder?.customerOrderId}}</b></u></h5>
+        <div>Arrived at :</div>
+        <div><u>{{deliveryTime}}</u></div>
+        <div class="delivery-address">To :</div>
+        <div><u>{{deliveryAddress}}</u></div>
       </div>
     </div>
     <div class="order-summary-container">
@@ -25,11 +27,18 @@
                                           [orderList]="orderList">
           </app-order-history-element-list>
         </div>
-        <div class="order-payment-info">
-
-        </div>
       </div>
+      <div class="vertical-separation-line"></div>
+        <div class="order-payment-info">
+          <div class="card-info">
+            <h5><u><b>Payment information:</b></u></h5>
+            <div>Visa Card:</div>
+            <div>CB xxxx xxxx xxxx 1377</div>
+          </div>
+          <div class="order-total-info">
+            <h5><u><b>Total: {{total?.toFixed(2)}} </b></u></h5>
+          </div>
+        </div>
     </div>
-
   </div>
 </div>
