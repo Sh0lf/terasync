@@ -54,7 +54,7 @@ export class OrderHistoryDetailedComponent extends CookieComponent implements On
         this.router.navigate(['/user-account/order-history']).then();
         return;
       }
-      this.total = parseInt(<string>this.route.snapshot.paramMap.get('total'));
+      this.total = parseFloat(<string>this.route.snapshot.paramMap.get('total'));
       this.customerOrder = userOrder;
       this.creationTime = getDateTime(this.customerOrder.creationTime);
       this.deliveryTime = getDateTime(this.customerOrder.deliveryTime);
