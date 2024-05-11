@@ -32,4 +32,8 @@ public interface DeliveryServiceRepository extends JpaRepository<DeliveryService
     @Modifying
     @Query("DELETE FROM DeliveryService p WHERE p.deliveryServiceId = :id")
     Integer deleteEntityById(Integer id);
+
+    @Modifying
+    @Query("UPDATE DeliveryService c SET c.approved = :approved WHERE c.email = :email")
+    Integer updateApprovalByEmail(@Param("email") String email, @Param("approved") boolean approved);
 }

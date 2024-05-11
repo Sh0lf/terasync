@@ -8,14 +8,26 @@
   <div class="separation-line-2"></div>
 
   <div class="search-div">
-    <div class="filter-div" *ngIf="isFilterByDs()">
+    <div class="filter-div" *ngIf="isFilterByDeliveryService()">
       <span>Filter By Delivery Service:</span>
       <div class="select-div">
-        <select id="ds" [(ngModel)]="selectedDeliveryServiceId" name="select-ds" class="default-input-2">
+        <select [(ngModel)]="selectedDeliveryServiceId" name="select-ds" class="default-input-2">
           <option *ngFor="let deliveryService of currentUserService.user?.deliveryServices"
                   [value]="deliveryService.getUserId()">
             {{ deliveryService.getName() }}
           </option>
+        </select>
+      </div>
+    </div>
+    <div class="filter-div" *ngIf="isFilteredByApproval()">
+      <span>Filter By Approval:</span>
+      <div class="select-div">
+        <select [(ngModel)]="selectedApproval" name="select-ds" class="default-input-2">
+          <option [value] = "true">
+            Approved
+          </option>
+          <option [value] = "false">
+            Not Approved
         </select>
       </div>
     </div>
@@ -57,6 +69,7 @@
         (onEditUserEmitter)="onEditUser($event)"
         (onDeleteUserEmitter)="onDeleteUser($event)"
         (onEditImgPfpEmitter)="onEditUserImgPfp($event)"
+        (onEditApprovementEmitter)="onEditApprovementUser($event)"
       ></app-user-element>
     </div>
   </div>

@@ -44,6 +44,7 @@ import {
   phoneElement,
   usernameElement
 } from "../../misc/editable-element";
+import {ApprovementByEmail} from "../../../model/query/update/approvement-by-email";
 
 @Component({
   selector: 'app-manage-users',
@@ -78,6 +79,7 @@ export class ManageUsersComponent extends CookieComponent implements OnInit {
   // WHEN ADMIN IS LOGGED IN, HE CAN FILTER THE DELIVERY PERSONS BY DELIVERY SERVICE IDK WHY I'M WRITING IN CAPITAL DON'T WORRY ABOUT IT
 
   selectedDeliveryServiceId!: number | undefined;
+  selectedApproval!: boolean | undefined;
 
   constructor(private el: ElementRef,
               protected manageUsersService: ManageUsersService,
@@ -191,44 +193,93 @@ export class ManageUsersComponent extends CookieComponent implements OnInit {
   checkFilter(user: User) {
     if (this.manageUsersService.fieldFilter === usernameElement.name) {
       return user.username.toLowerCase().includes(this.manageUsersService.searchInput.toLowerCase()) &&
-        this.isFilteringDeliveryService(user);
+        this.isFilteringDeliveryService(user) && this.isFilteringApproval(user);
     } else if (this.manageUsersService.fieldFilter === emailElement.name) {
       return user.email.toLowerCase().includes(this.manageUsersService.searchInput.toLowerCase()) &&
-        this.isFilteringDeliveryService(user);
+        this.isFilteringDeliveryService(user) && this.isFilteringApproval(user);
     } else if (this.manageUsersService.fieldFilter === nameElement.name) {
       return user.getName()?.toLowerCase().includes(this.manageUsersService.searchInput.toLowerCase()) &&
-        this.isFilteringDeliveryService(user);
+        this.isFilteringDeliveryService(user) && this.isFilteringApproval(user);
     } else if (this.manageUsersService.fieldFilter === firstNameElement.name) {
       return user.firstName?.toLowerCase().includes(this.manageUsersService.searchInput.toLowerCase()) &&
-        this.isFilteringDeliveryService(user);
+        this.isFilteringDeliveryService(user) && this.isFilteringApproval(user);
     } else if (this.manageUsersService.fieldFilter === lastNameElement.name) {
       return user.lastName?.toLowerCase().includes(this.manageUsersService.searchInput.toLowerCase()) &&
-        this.isFilteringDeliveryService(user);
+        this.isFilteringDeliveryService(user) && this.isFilteringApproval(user);
     } else if (this.manageUsersService.fieldFilter === phoneElement.name) {
       return user.phone?.toLowerCase().includes(this.manageUsersService.searchInput.toLowerCase()) &&
-        this.isFilteringDeliveryService(user);
+        this.isFilteringDeliveryService(user) && this.isFilteringApproval(user);
     } else if (this.manageUsersService.fieldFilter === addressElement.name) {
       return user.address?.toLowerCase().includes(this.manageUsersService.searchInput.toLowerCase()) &&
-        this.isFilteringDeliveryService(user);
+        this.isFilteringDeliveryService(user) && this.isFilteringApproval(user);
     }
     return false;
   }
 
-  isFilterByDs() {
+  isFilterByDeliveryService() {
     return this.isAdminCategory() && this.isEditingDeliveryPeople();
   }
 
   isFilteringDeliveryService(user: User) {
-    return !this.isEditingDeliveryPeople() || (user.deliveryServiceId == this.selectedDeliveryServiceId) || this.selectedDeliveryServiceId == undefined;
+    return !this.isEditingDeliveryPeople() || user.deliveryServiceId == this.selectedDeliveryServiceId || this.selectedDeliveryServiceId == undefined;
+  }
+
+  isFilteringApproval(user: User) {
+    return (!this.isEditingDeliveryServices() && !this.isEditingBusinesses())
+      || this.selectedApproval == undefined || String(user.approved!) == String(this.selectedApproval);
   }
 
   isEditingDeliveryPeople() {
     return this.manageUsersService.editingUserCategory === deliveryPersonCategory && super.isAdminCategory();
   }
 
+  isEditingBusinesses() {
+    return this.manageUsersService.editingUserCategory === businessCategory && super.isAdminCategory();
+  }
+
+  isEditingDeliveryServices() {
+    return this.manageUsersService.editingUserCategory === deliveryServiceCategory && super.isAdminCategory();
+  }
+
   clearFilters() {
     this.manageUsersService.fieldFilter = usernameElement.name;
     this.manageUsersService.searchInput = "";
     this.selectedDeliveryServiceId = undefined;
+    this.selectedApproval = undefined;
+  }
+
+  onEditApprovementUser(user: User) {
+    let approvementByEmail = new ApprovementByEmail(user.email, !user.approved!);
+    console.log(approvementByEmail)
+
+    if(user instanceof Business) {
+      this.businessService.updateApprovalByEmail(approvementByEmail).subscribe({
+        next: (response: number) => {
+          if(response == 1) {
+            user.approved = !user.approved!;
+            console.log("Business approved")
+          } else {
+            console.error("Error while approving business");
+          }
+        }
+      })
+    } else if(user instanceof DeliveryService) {
+      this.deliveryServiceService.updateApprovalByEmail(approvementByEmail).subscribe({
+        next: (response: number) => {
+          if(response == 1) {
+            user.approved = !user.approved!;
+            console.log("Delivery service approved")
+          } else {
+            console.error("Error while approving delivery service");
+          }
+        }
+      })
+    }
+  }
+
+  isFilteredByApproval() {
+    return this.isAdminCategory() &&
+      (this.isEditingDeliveryServices() ||
+      this.isEditingBusinesses());
   }
 }

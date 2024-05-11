@@ -16,6 +16,9 @@
     <span>{{user?.email}}</span>
     <span>Member since: {{memberSince}}</span>
     <div class="edit-elem">
+      <div *ngIf="isApprovableUser()">
+        <button class="default-btn" (click)="onEditApprovementUser()">{{this.user?.approved! ? "Disapprove" : "Approve"}} User</button>
+      </div>
       <div class="clickable-icon-elem-3" (click)="onEditUser()">
         <fa-icon [class]="['clickable-icon-3']" [icon]="faPen"></fa-icon>
       </div>

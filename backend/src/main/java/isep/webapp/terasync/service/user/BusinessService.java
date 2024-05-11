@@ -1,10 +1,7 @@
 package isep.webapp.terasync.service.user;
 
 import isep.webapp.terasync.model.query.select.ByToken;
-import isep.webapp.terasync.model.query.update.PasswordByEmail;
-import isep.webapp.terasync.model.query.update.PfpImgPathByEmail;
-import isep.webapp.terasync.model.query.update.TokenByEmail;
-import isep.webapp.terasync.model.query.update.TokenByOldToken;
+import isep.webapp.terasync.model.query.update.*;
 import isep.webapp.terasync.model.user.Business;
 import isep.webapp.terasync.repository.user.BusinessRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,5 +59,10 @@ public class BusinessService extends UserService<Business, BusinessRepository> {
     @Override
     public Integer updatePfpImgPathByEmail(PfpImgPathByEmail pfpImgPathByEmail) {
         return entityRepository.updatePfpImgPathByEmail(pfpImgPathByEmail.getEmail(), pfpImgPathByEmail.getPfpImgPath());
+    }
+
+    @Transactional
+    public Integer updateApprovalByEmail(ApprovementByEmail approvementByEmail) {
+        return entityRepository.updateApprovalByEmail(approvementByEmail.getEmail(), approvementByEmail.isApproved());
     }
 }

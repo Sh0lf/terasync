@@ -32,4 +32,8 @@ public interface BusinessRepository extends JpaRepository<Business, Integer> {
     @Modifying
     @Query("DELETE FROM Business p WHERE p.businessId = :id")
     Integer deleteEntityById(Integer id);
+
+    @Modifying
+    @Query("UPDATE Business c SET c.approved = :approved WHERE c.email = :email")
+    Integer updateApprovalByEmail(@Param("email") String email, @Param("approved") boolean approved);
 }

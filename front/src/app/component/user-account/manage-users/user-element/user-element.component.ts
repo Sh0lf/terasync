@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {DeliveryPerson} from "../../../../model/user/delivery.person";
 import {CookieComponent} from "../../../misc/cookie-component";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faCamera, faPen, faTrash, faUser} from "@fortawesome/free-solid-svg-icons";
@@ -11,6 +10,9 @@ import {User} from "../../../../model/user/user";
 import {CustomerService} from "../../../../service/user/customer.service";
 import {BusinessService} from "../../../../service/user/business.service";
 import {AdminService} from "../../../../service/user/admin.service";
+import {Customer} from "../../../../model/user/customer";
+import {Business} from "../../../../model/user/business";
+import {DeliveryService} from "../../../../model/user/delivery.service";
 
 @Component({
   selector: 'app-user-element',
@@ -40,6 +42,7 @@ export class UserElementComponent extends CookieComponent implements OnInit {
   @Output() onEditUserEmitter = new EventEmitter<User>();
   @Output() onDeleteUserEmitter = new EventEmitter<User>();
   @Output() onEditImgPfpEmitter = new EventEmitter<User>();
+  @Output() onEditApprovementEmitter = new EventEmitter<User>();
 
   constructor(protected override deliveryServiceService: DeliveryServiceService,
               protected override customerService: CustomerService,
@@ -65,5 +68,13 @@ export class UserElementComponent extends CookieComponent implements OnInit {
 
   onDeleteUser() {
     this.onDeleteUserEmitter.emit(this.user);
+  }
+
+  onEditApprovementUser() {
+    this.onEditApprovementEmitter.emit(this.user);
+  }
+
+  isApprovableUser() {
+    return this.user instanceof Business || this.user instanceof DeliveryService;
   }
 }
