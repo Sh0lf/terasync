@@ -29,20 +29,22 @@ import {usernameElement} from "../../misc/editable-element";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Status} from "../../../model/odSystem/status";
 import {CustomerOrder} from "../../../model/odSystem/customer.order";
+import {OrderHistoryRatingModalComponent} from "./order-history-rating-modal/order-history-rating-modal.component";
 
 @Component({
   selector: 'app-order-history',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    NgxResizeObserverModule,
-    NgForOf,
-    OrderHistoryElementComponent,
-    NgIf,
-    FaIconComponent,
-    ReactiveFormsModule,
-    FormsModule
-  ],
+    imports: [
+        RouterOutlet,
+        NgxResizeObserverModule,
+        NgForOf,
+        OrderHistoryElementComponent,
+        NgIf,
+        FaIconComponent,
+        ReactiveFormsModule,
+        FormsModule,
+        OrderHistoryRatingModalComponent
+    ],
   templateUrl: './order-history.component.html',
   styleUrl: './order-history.component.scss'
 })
@@ -60,6 +62,9 @@ export class OrderHistoryComponent extends CookieComponent implements OnInit {
 
   businesses: Business[] = [];
   selectedBusinessId: number | undefined;
+
+  isRatingModalOpen: boolean = false;
+  ratingCustomerOrder: CustomerOrder | undefined;
 
   constructor(protected override customerService: CustomerService,
               protected override businessService: BusinessService,
@@ -106,5 +111,14 @@ export class OrderHistoryComponent extends CookieComponent implements OnInit {
     this.selectedDeliveryPersonId = undefined;
     this.selectedDeliveryServiceId = undefined;
     this.selectedBusinessId = undefined;
+  }
+
+  closeModal(newVal: boolean) {
+    this.isRatingModalOpen = newVal;
+  }
+
+  onRateOrder(ratingCustomerOrder: CustomerOrder) {
+    this.ratingCustomerOrder = ratingCustomerOrder;
+    this.isRatingModalOpen = true;
   }
 }

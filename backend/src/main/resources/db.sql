@@ -124,12 +124,6 @@ CREATE TABLE Status
     status   VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE Packaging
-(
-    packagingId INT IDENTITY (1, 1) PRIMARY KEY,
-    packaging   VARCHAR(255) NOT NULL,
-);
-
 CREATE TABLE CustomerOrder
 (
     customerOrderId   INT IDENTITY (1, 1) PRIMARY KEY,
@@ -137,6 +131,7 @@ CREATE TABLE CustomerOrder
     minTemp           DECIMAL(5, 2) NOT NULL DEFAULT (0),
     maxTemp           DECIMAL(5, 2) NOT NULL DEFAULT (0),
     deliveryTime      DATETIME      NOT NULL,
+    rated             BIT           NOT NULL DEFAULT (0),
     statusId          INT           NOT NULL,
     packagingId       INT           NOT NULL,
     customerId        INT           NOT NULL,
@@ -158,6 +153,12 @@ CREATE TABLE CustomerOrder
         ON DELETE NO ACTION ON UPDATE NO ACTION,
     constraint temp_customerOrder_check check (minTemp >= -273.15 and maxTemp >= -273.15 and minTemp <= maxTemp)
 )
+
+CREATE TABLE Packaging
+(
+    packagingId INT IDENTITY (1, 1) PRIMARY KEY,
+    packaging   VARCHAR(255) NOT NULL,
+);
 
 -- CREATE TABLE ProductMenu
 -- (
@@ -214,18 +215,18 @@ CREATE TABLE CustomerOrderList
     constraint quantity_customerOrderList_check check (quantity > 0)
 );
 
-CREATE TABLE ProductList
-(
-    productListId INT IDENTITY (1, 1) PRIMARY KEY,
-    quantity      INT NOT NULL DEFAULT (1),
-    productId     INT NOT NULL,
-    productMenuId INT NOT NULL,
-    constraint product_productList_fk FOREIGN KEY (productId) REFERENCES Product (productId)
-        ON DELETE NO ACTION ON UPDATE NO ACTION,
-    constraint productMenu_productList_fk FOREIGN KEY (productMenuId) REFERENCES ProductMenu (productMenuId)
-        ON DELETE NO ACTION ON UPDATE NO ACTION,
-    constraint quantity_productList_check check (quantity > 0)
-);
+-- CREATE TABLE ProductList
+-- (
+--     productListId INT IDENTITY (1, 1) PRIMARY KEY,
+--     quantity      INT NOT NULL DEFAULT (1),
+--     productId     INT NOT NULL,
+--     productMenuId INT NOT NULL,
+--     constraint product_productList_fk FOREIGN KEY (productId) REFERENCES Product (productId)
+--         ON DELETE NO ACTION ON UPDATE NO ACTION,
+--     constraint productMenu_productList_fk FOREIGN KEY (productMenuId) REFERENCES ProductMenu (productMenuId)
+--         ON DELETE NO ACTION ON UPDATE NO ACTION,
+--     constraint quantity_productList_check check (quantity > 0)
+-- );
 
 CREATE TABLE ProductImage
 (
@@ -241,15 +242,15 @@ CREATE TABLE ProductImage
 -- MESSAGING SYSTEM
 CREATE TABLE MessageList
 (
-    messageListId   INT IDENTITY (1, 1) PRIMARY KEY,
-    message         VARCHAR(255) NOT NULL,
-    timestamp       DATETIME     NOT NULL DEFAULT (GETDATE()),
-    adminId         INT,
-    customerId      INT,
-    businessId      INT,
+    messageListId     INT IDENTITY (1, 1) PRIMARY KEY,
+    message           VARCHAR(255) NOT NULL,
+    timestamp         DATETIME     NOT NULL DEFAULT (GETDATE()),
+    adminId           INT,
+    customerId        INT,
+    businessId        INT,
     deliveryServiceId INT,
-    deliveryPersonId INT,
-    customerOrderId INT          NOT NULL,
+    deliveryPersonId  INT,
+    customerOrderId   INT          NOT NULL,
     constraint customerOrder_messageList_fk FOREIGN KEY (customerOrderId) REFERENCES CustomerOrder (customerOrderId)
         ON DELETE CASCADE ON UPDATE CASCADE
 );

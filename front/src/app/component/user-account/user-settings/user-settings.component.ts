@@ -70,7 +70,7 @@ export class UserSettingsComponent extends CookieComponent implements OnInit {
     this.isModalOpen = true;
   }
 
-  onChangeEmitter(newVal: boolean) {
+  closeModal(newVal: boolean) {
     this.isModalOpen = newVal;
   }
 }

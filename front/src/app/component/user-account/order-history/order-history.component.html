@@ -60,8 +60,14 @@
     <div class="main-container-div" *ngFor="let order of getFilteredOrders()">
       <app-order-history-element
         [style.height.%]="100"
-        [customerOrder]="order">
+        [customerOrder]="order"
+        (onRateOrderEmitter)="onRateOrder($event)">
       </app-order-history-element>
     </div>
   </div>
 </div>
+<app-order-history-rating-modal
+  [isModalOpen]="isRatingModalOpen"
+  [ratingCustomerOrder]="ratingCustomerOrder"
+  (onModalChangeEmitter)="closeModal($event)">
+</app-order-history-rating-modal>

@@ -6,7 +6,7 @@
         [userService]="userService"
         [isModal]="true"
         [deliveryServiceId]="deliveryServiceId"
-        (onCloseModalEmitter)="onCloseModal($event)"
+        (onCloseModalEmitter)="closeModal()"
         (onUserAddedEmitter)="onUserAdded($event)">
       </app-register-element>
     </div>

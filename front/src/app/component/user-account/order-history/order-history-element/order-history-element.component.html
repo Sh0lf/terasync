@@ -1,7 +1,8 @@
 <div class="list-container">
   <h2 class="order-timestamp">{{ creationTime }}</h2>
   <div class="order-cell">
-    <div class="business-img-container"> <!-- add white gradient, and add this afterwards ngSrc="{{business!.pfpImgPath}}"-->
+    <div class="business-img-container">
+      <!-- add white gradient, and add this afterwards ngSrc="{{business!.pfpImgPath}}"-->
       <div class="business-logo-container">
         <img
           class="logo-picture"
@@ -22,10 +23,13 @@
       </ng-container>
     </div>
     <div class="order-misc">
-      <div class="order-misc-total-container">
-        <h4 class="order-misc-total-text">Total</h4>
-        <p class="order-misc-total-num">{{total.toFixed(2)}}</p>
+      <div>
+        <span class="order-misc-total-text">Total</span>
       </div>
+      <div>
+        <span class="order-misc-total-num">{{ total.toFixed(2) }}</span>
+      </div>
+      <button (click)="onRateOrder()" *ngIf="isNotRated()"><span>Rate This Order</span><i></i></button>
       <button (click)="onClickRedirect()"><span>More Infos >></span><i></i></button>
     </div>
   </div>

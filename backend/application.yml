@@ -1,9 +1,15 @@
 server.port: 9090
-spring.datasource.url: jdbc:sqlserver://terasync-2.database.windows.net:1433;database=terasync-2;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+#spring.datasource.url: jdbc:sqlserver://terasync-2.database.windows.net:1433;database=terasync-2;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
 # Not secure lol xd but who cares
 # Actually not secured for a master login
-spring.datasource.username: master@terasync-2
-spring.datasource.password: 2s(Z@sGv1i5wKJD6aVJo56
+#spring.datasource.username: master@terasync-2
+#spring.datasource.password: 2s(Z@sGv1i5wKJD6aVJo56
+
+#local db
+spring.datasource.url: jdbc:sqlserver://PHILDESKTOP\MY_SERVER:1433;database=terasync_local;encrypt=true;trustServerCertificate=true;;
+spring.datasource.username: sa
+spring.datasource.password: admin
+
 spring.datasource.driver.class: org.sqlserver.Driver
 spring.jpa.show-sql: true
 spring.jpa.hibernate.naming.implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl

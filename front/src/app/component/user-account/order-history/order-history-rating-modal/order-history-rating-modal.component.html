@@ -1,0 +1,37 @@
+<div class="modal my-modal" *ngIf="isModalOpen">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header my-modal-header">
+        <span class="modal-header-title">Rate your order with {{ ratingCustomerOrder?.business?.getName() }}</span>
+        <div class="clickable-icon-elem-1" (click)="closeModal()">
+          <fa-icon [icon]="faXmark" [class]="['clickable-icon-1']"></fa-icon>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="my-modal-element">
+          <div class="rating-element">
+            <span>How would you rate this restaurant?</span>
+            <div class="rating-stars-container" (mouseout)="onMouseOut()">
+              <div class="{{ratingStar.getClass()}}" *ngFor="let ratingStar of ratingStars"
+                   (click)="onStarClicked(ratingStar)"
+                   (mouseover)="onStarHover(ratingStar)">
+                <fa-icon [icon]="faStar" [class]="['clickable-icon-1', 'star-icon']"></fa-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="my-modal-element">
+          <div class="rating-element">
+            <span>Do you have any comments?</span>
+            <textarea class="default-text-area-3" [(ngModel)]="comment" placeholder="Write your comment here"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="clickable-icon-elem-1">
+          <fa-icon [icon]="faCheck" [class]="['clickable-icon-1']" (click)="onSaveChanges()"></fa-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

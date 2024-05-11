@@ -2,13 +2,13 @@ export class RatingList {
   ratingListId: number | undefined;
   rating: number;
   comment: string;
-  ratingDate: string;
+  ratingDate: string | undefined;
   customerId: number;
   businessId: number;
 
 
-  constructor(rating: number, comment: string, ratingDate: string, customerId: number,
-              businessId: number, ratingListId?: number) {
+  constructor(rating: number, comment: string, customerId: number, businessId: number,
+              ratingDate?: string, ratingListId?: number) {
     this.ratingListId = ratingListId;
     this.rating = rating;
     this.comment = comment;
@@ -18,7 +18,7 @@ export class RatingList {
   }
 
   public static fromJson(json: RatingList): RatingList {
-    return new RatingList(json.rating, json.comment, json.ratingDate, json.customerId, json.businessId, json.ratingListId);
+    return new RatingList(json.rating, json.comment, json.customerId, json.businessId, json.ratingDate, json.ratingListId);
   }
 
   static initializeRatingLists(jsonUser: {ratingLists: RatingList[] | undefined}): RatingList[] {

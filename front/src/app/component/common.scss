@@ -258,6 +258,18 @@ $hoverBackground: rgba(0, 0, 0, 0.3);
   width: 100%;
 }
 
+.default-text-area-3 {
+  background: $colorP17;
+  border-radius: 15px;
+  border: grey solid 1px;
+  height: 90px;
+  max-height: 300px;
+  margin: 5px 0 5px 0;
+  white-space:pre;
+  text-indent: 10px;
+  width: 100%;
+}
+
 .default-check-box-1 {
   background-color: $colorP17;
   border-radius: 15px;
@@ -316,9 +328,7 @@ $hoverBackground: rgba(0, 0, 0, 0.3);
   transition: background-color 0.2s ease-in-out;
 }
 
-
-
-.clickable-icon-elem-1 {
+.clickable-icon-elem-1, .clickable-icon-elem-1-clicked {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -333,6 +343,10 @@ $hoverBackground: rgba(0, 0, 0, 0.3);
 }
 
 .clickable-icon-elem-1:hover {
+  background: $colorP11;
+}
+
+.clickable-icon-elem-1-clicked {
   background: $colorP11;
 }
 

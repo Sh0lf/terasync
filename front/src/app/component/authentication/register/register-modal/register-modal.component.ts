@@ -33,11 +33,6 @@ export class RegisterModalComponent extends ModalComponent {
     super();
   }
 
-  onCloseModal(isModalOpen: boolean) {
-    this.isModalOpen = isModalOpen;
-    this.onModalChangeEmitter.emit(isModalOpen);
-  }
-
   override isFormValid(): boolean {
     throw new Error('Method not implemented.');
   }
