@@ -1,6 +1,7 @@
 import {ProductList} from "./product.list";
 import {ProductImage} from "./product.image";
 import {CustomerOrderList} from "./customer.order.list";
+import {Business} from "../user/business";
 
 export class Product {
   productId: number | undefined;
@@ -13,7 +14,9 @@ export class Product {
 
   productLists: ProductList[] = [];
   productImages: ProductImage[] = [];
-  customerOrderLists: CustomerOrderList[] = [];
+  // customerOrderLists: CustomerOrderList[] = [];
+
+  business!: Business | undefined;
 
   constructor(name: string, isVegan: boolean, price: number, businessId: number,
               description?: string, creationTime?: string, productId?: number) {

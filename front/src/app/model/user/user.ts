@@ -223,6 +223,10 @@ export class User {
     this.customerOrders = customerOrders;
   }
 
+  setProducts(products: Product[]) {
+    this.products = products;
+  }
+
   clearLists() {
     // CUSTOMER
     this.addresses = undefined;

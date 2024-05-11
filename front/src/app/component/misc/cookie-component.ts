@@ -31,6 +31,8 @@ import {EditableElement} from "./editable-element";
 import {CustomerOrderService} from "../../service/odSystem/customer-order.service";
 import {CustomerOrder} from "../../model/odSystem/customer.order";
 import {Status} from "../../model/odSystem/status";
+import {ProductService} from "../../service/odSystem/product.service";
+import {Product} from "../../model/odSystem/product";
 
 export abstract class CookieComponent {
   // Services
@@ -44,6 +46,7 @@ export abstract class CookieComponent {
   protected currentUserService!: CurrentUserService;
 
   protected customerOrderService!: CustomerOrderService;
+  protected productService!: ProductService;
 
   protected router!: Router;
   protected route!: ActivatedRoute;
@@ -582,10 +585,10 @@ export abstract class CookieComponent {
     });
   }
 
-  private initBusinesses(businesses: Business[], order: CustomerOrder) {
-    if (!businesses.find(business => business.businessId == order.business?.businessId) ||
+  private initBusinesses(businesses: Business[], businessContainer: {business: Business | undefined}) {
+    if (!businesses.find(business => business.businessId == businessContainer.business?.businessId) ||
       businesses.length == 0) {
-      businesses.push(order.business!);
+      businesses.push(businessContainer.business!);
     }
   }
 
@@ -665,5 +668,44 @@ export abstract class CookieComponent {
         }
       }
     }
+  }
+
+  initializeAdminProducts(): Promise<Business[]> {
+    let businesses: Business[] = [];
+
+    return new Promise<Business[]>((resolve, reject) => {
+      this.productService.getAllEntities().subscribe({
+        next: (jsonProducts) => {
+          this.currentUserService.user?.setProducts(Product.initializeProducts({products: jsonProducts}));
+          if(jsonProducts.length > 0) {
+            let count = 0;
+            new Observable<number>((observer) => {
+              this.currentUserService.user?.products?.forEach((product: Product) => {
+                this.businessService.findEntityById(product.businessId).subscribe({
+                  next: (jsonBusiness: Business) => {
+                    product.business = Business.fromJson(jsonBusiness);
+                    this.initBusinesses(businesses, product);
+                    observer.next(count++)
+                  },
+                  error: (error: HttpErrorResponse) => {
+                    console.log("HTTP ERROR / NA : No business found");
+                  }
+                });
+              });
+            }).subscribe((count: number) => {
+              if(count == this.currentUserService.user?.products?.length! - 1) {
+                resolve(businesses);
+              }
+            });
+          } else {
+            resolve(businesses);
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log("HTTP ERROR / NA : No products found");
+          resolve(businesses);
+        }
+      });
+    });
   }
 }

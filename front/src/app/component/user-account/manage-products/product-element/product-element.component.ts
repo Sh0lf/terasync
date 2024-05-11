@@ -38,17 +38,16 @@ import {CurrentUserService} from "../../../../service/user/current-user.service"
 })
 export class ProductElementComponent extends CookieComponent {
 
-  ModalOpenType = ModalOpenType;
   faTrash = faTrash;
   faPen = faPen;
 
   @Input() product!: Product | undefined;
   @Output() onEditEmitter = new EventEmitter<void>();
 
-  constructor(private productService: ProductService,
-              private productImageService: ProductImageService,
+  constructor(private productImageService: ProductImageService,
               private customerOrderListService: CustomerOrderListService,
               private productListService: ProductListService,
+              protected override productService: ProductService,
               protected override businessService: BusinessService,
               protected override currentUserService: CurrentUserService,
               protected override cookieService: CookieService) {

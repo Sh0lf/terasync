@@ -84,9 +84,9 @@ export const manageAdmins = new ProfileMenuItem(faUserGroup,
   adminCategory,
   adminRegistrationTypeADMIN);
 export const manageProducts = new ProfileMenuItem(faBurger, 'Manage Products',
-  '/user-account/manage-products', [businessCategory]);
+  '/user-account/manage-products', [businessCategory, adminCategory]);
 export const manageMenus = new ProfileMenuItem(faBowlFood, 'Manage Menus',
-  '/user-account/manage-menus', [businessCategory]);
+  '/user-account/manage-menus', [businessCategory, adminCategory]);
 export const orderHistory = new ProfileMenuItem(faTableList, 'Order History',
   '/user-account/order-history',
   [customerCategory, deliveryPersonCategory, deliveryServiceCategory, businessCategory]);
