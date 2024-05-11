@@ -19,6 +19,7 @@ import {
   deliveryServiceCategory
 } from "../../../../service/user/userCategories";
 import {getDateTime} from "../../../misc/functions";
+import {CustomerOrderService} from "../../../../service/odSystem/customer-order.service";
 
 @Component({
   selector: 'app-order-history-element',
@@ -44,7 +45,7 @@ export class OrderHistoryElementComponent extends CookieComponent implements OnI
     protected override currentUserService: CurrentUserService,
     protected override cookieService: CookieService,
     protected override businessService: BusinessService,
-    protected productService: ProductService,
+    protected override customerOrderService: CustomerOrderService,
     override router: Router,) {
     super();
   }
@@ -52,19 +53,10 @@ export class OrderHistoryElementComponent extends CookieComponent implements OnI
   ngOnInit(): void{
     this.creationTime = getDateTime(this.customerOrder!.creationTime)
     this.orderLists = this.customerOrder?.customerOrderLists;
-    this.sumTotal(this.orderLists);
-  }
-
-
-  sumTotal(orderLists: CustomerOrderList[] | undefined): void{
-    if (orderLists != undefined) {
-      for (let orderList of orderLists) {
-        this.total = this.total + (orderList.product?.price! * orderList.quantity);
-      }
-    }
+    this.total = this.customerOrderService.getOrderTotal(this.customerOrder);
   }
 
   onClickRedirect() {
-    this.router.navigate(['/user-account/order-history-detailed', this.customerOrder!.customerOrderId, {total: this.total}]).then();
+    this.router.navigate(['/user-account/order-history-detailed', this.customerOrder!.customerOrderId]).then();
   }
 }
