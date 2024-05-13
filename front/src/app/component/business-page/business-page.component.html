@@ -1,0 +1,28 @@
+<div (onResize)="handleFooterTopMinValue($event, 80)" class="main-page-body-div">
+  <img class="img-thumbnail" alt="business thumbnail"> <!--src={{business?.thumbnail}}-->
+  <div class="row-container">
+    <div class="column-business-details">
+      <div>{{business?.getName()}}</div>
+      <div>{{business?.address}}</div>
+      <div>{{ratingAverage}}* ({{ratingNbr}} reviews) • Delivery fees: 2,90€</div>
+    </div>
+    <div class="column-business-menu">
+      <ng-container *ngIf="currentUserService.user">
+        <ng-container class="previous-orders" *ngIf="previousOrders">
+          <div>Previous Orders:</div>
+          <div class="main-container-div" *ngFor="let order of previousOrders">
+            <app-order-history-element
+              [style.height.%]="100"
+              [customerOrder]="order">
+            </app-order-history-element>
+          </div>
+        </ng-container>
+      </ng-container>
+      <div class="menu"></div>
+    </div>
+    <div class="column-basket">
+
+    </div>
+  </div>
+
+</div>
