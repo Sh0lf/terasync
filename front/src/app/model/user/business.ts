@@ -44,4 +44,14 @@ export class Business extends User {
 
     return business;
   }
+
+  static initializeBusinesses(json: {businesses: Business[]}) {
+    let businesses: Business[] = [];
+    if (json.businesses) {
+      for (let business of json.businesses) {
+        businesses.push(Business.fromJson(business));
+      }
+    }
+    return businesses;
+  }
 }

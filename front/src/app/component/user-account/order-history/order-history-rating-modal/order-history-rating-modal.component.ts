@@ -65,12 +65,13 @@ export class OrderHistoryRatingModalComponent extends ModalComponent implements 
   onSaveChanges() {
     let ratingList = new RatingList(this.getRating(), this.comment,
       this.currentUserService.user?.getUserId()!,
-      this.ratingCustomerOrder?.businessId!);
+      this.ratingCustomerOrder?.businessId!,
+      this.ratingCustomerOrder?.customerOrderId!);
 
     this.ratingListService.addEntity(ratingList).subscribe({
       next: (jsonRatingList: RatingList) => {
         console.log("Rating added: ", jsonRatingList);
-        this.ratingCustomerOrder!.rated = true;
+        this.ratingCustomerOrder?.setRated(true);
         this.onModalChangeEmitter.emit(false);
       },
       error: (error) => {

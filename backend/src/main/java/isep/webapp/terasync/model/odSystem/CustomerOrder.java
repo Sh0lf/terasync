@@ -27,8 +27,6 @@ public class CustomerOrder extends isep.webapp.terasync.model.Entity {
     private double maxTemp;
     @Column(name = "deliveryTime")
     private String deliveryTime;
-    @Column(name = "rated")
-    private boolean rated;
     @Column(name = "statusId")
     private String statusId;
     @Column(name = "packagingId")

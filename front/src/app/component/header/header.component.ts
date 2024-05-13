@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {LogoComponent} from "../logo/logo.component";
-import {NgForOf, NgIf, NgOptimizedImage, NgStyle} from "@angular/common";
+import {NgIf, NgStyle} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CookieService} from "ngx-cookie-service";
 import {CookieComponent} from "../misc/cookie-component";
@@ -21,29 +21,26 @@ import {BusinessService} from "../../service/user/business.service";
 import {AdminService} from "../../service/user/admin.service";
 import {DeliveryServiceService} from "../../service/user/delivery-service.service";
 import {DeliveryPersonService} from "../../service/user/delivery-person.service";
-import {NgxResizeObserverModule} from "ngx-resize-observer";
 import 'resize-observer-polyfill/dist/ResizeObserver.global'
-import {
-  businessCategory,
-  customerCategory,
-  deliveryServiceCategory,
-  UserCategory
-} from "../../service/user/userCategories";
 import {CurrentUserService} from "../../service/user/current-user.service";
 import {FormsModule} from "@angular/forms";
 import {Business} from "../../model/user/business";
-import {Observable} from "rxjs";
 import {HttpErrorResponse} from "@angular/common/http";
+import {AutoCompleteCompleteEvent, AutoCompleteModule} from 'primeng/autocomplete';
+import {NgxResizeObserverModule} from "ngx-resize-observer";
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [LogoComponent, NgOptimizedImage, NgIf, FontAwesomeModule, NgStyle, NgxResizeObserverModule, FormsModule, NgForOf],
+  imports: [LogoComponent,
+    FontAwesomeModule, NgStyle,
+    FormsModule, AutoCompleteModule,
+    NgxResizeObserverModule, NgIf],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   host: {
     '[header-body]': 'true'
-  },
+  }
 })
 export class HeaderComponent extends CookieComponent implements OnInit {
   // Logic Fields
@@ -63,9 +60,10 @@ export class HeaderComponent extends CookieComponent implements OnInit {
 
   // DOM Elements
   @ViewChild('headerBody') headerBody!: ElementRef;
-  searchQuery: string = '';
   businesses: Business[] = [];
-  searchResults: Business[] = [];
+
+  searchBusiness: string = "";
+  selectedBusinessName: Business | undefined;
 
   constructor(protected override customerService: CustomerService,
               protected override businessService: BusinessService,
@@ -82,7 +80,7 @@ export class HeaderComponent extends CookieComponent implements OnInit {
     this.initializeUserByToken().then();
     this.businessService.getAllEntities().subscribe({
       next: (businesses: Business[]) => {
-        this.businesses = businesses;
+        this.businesses = Business.initializeBusinesses({businesses: businesses});
       },
       error: (error: HttpErrorResponse) => {
         console.error('Error fetching business:', error);
@@ -91,17 +89,10 @@ export class HeaderComponent extends CookieComponent implements OnInit {
     });
   }
 
-  search(): void {
-    if (this.searchQuery.trim() === '') {
-      this.searchResults = [];
-      return;
-    }
-
-    for(let business of this.businesses){
-      if(business.getName().includes(this.searchQuery)){
-        this.searchResults.push(business);
-      }
-    }
+  getFilteredBusinesses() {
+    return this.businesses.filter(business =>
+      business.getName().toLowerCase().includes(this.searchBusiness.toLowerCase()))
+      .map(business => business.getName());
   }
 
   routeToAndCloseBurgerMenu(route: string) {
@@ -127,5 +118,14 @@ export class HeaderComponent extends CookieComponent implements OnInit {
 
   redirect(business: Business) {
     this.router.navigate(['/business-page', business.businessId]).then();
+  }
+
+  onSearchBusiness(autoCompleteCompleteEvent: AutoCompleteCompleteEvent) {
+    this.searchBusiness = autoCompleteCompleteEvent.query;
+  }
+
+
+  onClick() {
+    console.log("on click")
   }
 }
