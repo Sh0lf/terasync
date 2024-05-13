@@ -1,1 +1,204 @@
 @import "../common.scss";
+
+body{
+  box-sizing: border-box;
+  margin: 0;
+  scrollbar-gutter: stable;
+}
+
+.main-page-body-div{
+  padding: 0;
+  margin: 0;
+}
+
+.page-container {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.categories-container{
+  box-sizing: border-box;
+  padding-left: 15%;
+  padding-right: 15%;
+}
+
+.section-title-container{
+  margin: 30px 0 20px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+h2{
+  margin: 0;
+}
+
+.scroll-container-bigger{
+  width: 100%;
+  height: 200px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  flex-direction: row;
+}
+
+.scroll-container-bigger .item:nth-child(1) {
+  margin-left: 0;
+}
+
+.scroll-container-bigger .item{
+  width: 320px;
+}
+
+.scroll-container-bigger::-webkit-scrollbar {
+  /*to hide scrollbar if we put buttons instead*/
+  /*  display: none;*/
+  height: 10px;
+}
+
+.scroll-container-smaller {
+  width: 100%;
+  height: 170px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  flex-direction: row;
+}
+
+.scroll-container-smaller .item:nth-child(1) {
+  margin-left: 0;
+}
+
+.scroll-container-smaller .item{
+  width: 260px;
+}
+
+
+.scroll-container-smaller::-webkit-scrollbar {
+/*to hide scrollbar if we put buttons instead*/
+/*  display: none;*/
+   height: 10px;
+}
+
+
+.item{
+  width: 200px;
+  height: 100%;
+  margin: 0 10px 0 10px;
+  display: inline-block;
+  box-sizing: border-box;
+  /*background: cadetblue;*/
+  background-image: linear-gradient(0deg, transparent 50%, rgba(255, 255, 255, 0.00) 50%, rgba(255, 255, 255, 0.28) 65%, rgba(255, 255, 255, 0.77) 80%, #FFF 100%), url("../../../assets/img-restaurant.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.item p{
+  /*align-self: flex-start;*/
+  position: relative;
+  justify-self: start ;
+  padding-left: 5%;
+  padding-top: 0.025%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+
+.section-title-container .icon-title{
+  font-size: 23px;
+  margin-right: 10px;
+}
+
+
+.restaurants-container{
+  width: 100%;
+  height: fit-content;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
+/*.restaurant-container-smaller{*/
+/*  width: 100%;*/
+/*  height: fit-content;*/
+/*  overflow-x: auto;*/
+/*  overflow-y: hidden;*/
+/*  white-space: nowrap;*/
+/*}*/
+
+.wrap-container {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: start;
+  box-sizing: border-box;
+}
+
+.wrap-container .item {
+  margin: 0 20px 55px 0;
+  height: 170px;
+  width: calc((100% - 80px) / 5);
+  box-sizing: border-box;
+  @media screen and (max-width: 1700px) {
+    width: calc((100% - 60px) / 4);
+  }
+  @media screen and (max-width: 1460px) {
+    width: calc((100% - 40px) / 3);
+  }
+  @media screen and (max-width: 850px) {
+    width: calc((100% - 20px) / 2);
+  }
+  @media screen and (max-width: 500px) {
+    width: 100%;
+  }
+}
+
+.wrap-container .item:nth-child(5n) {
+  margin-right: 0;
+}
+
+@media screen and (max-width: 1700px) {
+  .wrap-container .item:nth-child(5n) {
+    margin-right: 20px;
+  }
+  .wrap-container .item:nth-child(4n) {
+    margin-right: 0;
+  }
+}
+
+@media screen and (max-width: 1460px) {
+  .wrap-container .item:nth-child(4n) {
+    margin-right: 20px;
+  }
+  .wrap-container .item:nth-child(3n) {
+    margin-right: 0;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .wrap-container .item:nth-child(3n) {
+    margin-right: 20px;
+  }
+  .wrap-container .item:nth-child(2n) {
+    margin-right: 0;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .wrap-container .item:nth-child(1n) {
+    margin-right: 0;
+  }
+}
+
+
+.welcome-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

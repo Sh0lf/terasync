@@ -1,5 +1,171 @@
 <div (onResize)="handleFooterTopMinValue($event, 0)" class="main-page-body-div">
-<p>need to do this eventually</p>
+  <div class="page-container">
+
+    <div class="welcome-container"> <!-- welcome message for connected user -->
+      <h1 id="welcome-user">
+        Bienvenue, User
+      </h1>
+    </div>
+
+    <div class="categories-container"> <!-- real content of the page, containing all different designs of restaurants display -->
+
+      <div class="restaurants-container">
+
+        <div class="section-title-container">
+          <fa-icon [icon]="faLocationDot" [class]="['icon-title']"></fa-icon>
+          <h2>
+            Autour de vous
+          </h2>
+        </div> <!-- title -->
+
+        <div class="scroll-container-bigger">
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+        </div>
+
+      </div> <!-- restaurant container bigger -->
+
+      <div class="restaurant-container">
+
+        <div class="section-title-container">
+          <fa-icon [icon]="faClock" [class]="['icon-title']"></fa-icon>
+          <h2>
+            Recently ordered
+          </h2>
+        </div> <!-- title -->
+
+        <div class="scroll-container-smaller">
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+        </div>
+
+      </div> <!-- restaurant container smaller -->
+
+      <div class="restaurant-container-wrap">
+
+        <div class="section-title-container">
+          <img src="popular.png" id="logo-section-3" class="icon-img">
+          <h2>
+            Selon vos préférences
+          </h2>
+        </div> <!-- title -->
+
+        <div class="wrap-container">
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+          <div class="item">
+            <p>Le Méditerranée</p>
+          </div>
+        </div>
+
+      </div> <!-- restaurant container wrap -->
+    </div> <!-- categories container -->
+  </div> <!-- page container -->
 </div>
 <app-footer
   [footerTopMinValue]="footerTopMinValue"
