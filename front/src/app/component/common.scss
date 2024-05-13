@@ -26,6 +26,7 @@ $colorP17: #f3f0f0;
 $colorP18: #d9d9d9;
 $colorP19: #3f3f3f;
 $colorP20: #737373;
+$colorP21: #FCFCFC;
 
 $boxShadowDefault: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 $hoverBackground: rgba(0, 0, 0, 0.3);
@@ -223,7 +224,7 @@ $hoverBackground: rgba(0, 0, 0, 0.3);
 }
 
 .default-input-1 {
-  background: $colorP13;
+  background: $colorP21;
   border-radius: 15px;
   border: grey solid 1px;
   height: 35px;
