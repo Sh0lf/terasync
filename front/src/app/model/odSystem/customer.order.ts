@@ -14,7 +14,6 @@ export class CustomerOrder {
   minTemp: number;
   maxTemp: number;
   deliveryTime: string;
-  rated: boolean;
   statusId: string;
   packagingId: number;
   customerId: number;
@@ -34,15 +33,16 @@ export class CustomerOrder {
   deliveryService!: DeliveryService | undefined;
   deliveryPerson!: DeliveryPerson| undefined;
 
+  rated: boolean = true;
+
   constructor(customerOrderId: number, creationTime: string, minTemp: number, maxTemp: number,
-              deliveryTime: string, rated: boolean, statusId: string, packagingId: number, customerId: number,
+              deliveryTime: string, statusId: string, packagingId: number, customerId: number,
               businessId: number, deliveryServiceId: number, deliveryPersonId: number) {
     this.customerOrderId = customerOrderId;
     this.creationTime = creationTime;
     this.minTemp = minTemp;
     this.maxTemp = maxTemp;
     this.deliveryTime = deliveryTime;
-    this.rated = rated;
     this.statusId = statusId;
     this.packagingId = packagingId;
     this.customerId = customerId;
@@ -53,7 +53,7 @@ export class CustomerOrder {
 
   static fromJson(jsonCustomerOrder: CustomerOrder) {
     let customerOrder: CustomerOrder = new CustomerOrder(jsonCustomerOrder.customerOrderId, jsonCustomerOrder.creationTime,
-      jsonCustomerOrder.minTemp, jsonCustomerOrder.maxTemp, jsonCustomerOrder.deliveryTime, jsonCustomerOrder.rated,
+      jsonCustomerOrder.minTemp, jsonCustomerOrder.maxTemp, jsonCustomerOrder.deliveryTime,
       jsonCustomerOrder.statusId, jsonCustomerOrder.packagingId, jsonCustomerOrder.customerId,
       jsonCustomerOrder.businessId, jsonCustomerOrder.deliveryServiceId, jsonCustomerOrder.deliveryPersonId)
 
@@ -74,5 +74,9 @@ export class CustomerOrder {
       }
     }
     return customerOrders;
+  }
+
+  setRated(rated: boolean) {
+    this.rated = rated;
   }
 }

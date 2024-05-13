@@ -1,7 +1,7 @@
 package isep.webapp.terasync.model;
 
-import jakarta.persistence.*;
 import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -27,4 +27,17 @@ public class RatingList extends isep.webapp.terasync.model.Entity {
     private int customerId;
     @Column(name = "businessId")
     private int businessId;
+    @Column(name = "customerOrderId")
+    private int customerOrderId;
+
+//    @ManyToOne(
+//            fetch = FetchType.EAGER,
+//            targetEntity = CustomerOrder.class
+//    )
+//    @JoinColumn(
+//            name = "customerOrderId",
+//            insertable = false,
+//            updatable = false
+//    )
+//    private CustomerOrder customerOrder;
 }

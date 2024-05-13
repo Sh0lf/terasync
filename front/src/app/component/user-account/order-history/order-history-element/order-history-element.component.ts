@@ -12,6 +12,7 @@ import {Router} from "@angular/router";
 import {getDateTime} from "../../../misc/functions";
 import {CustomerOrderService} from "../../../../service/odSystem/customer-order.service";
 import {OrderHistoryRatingModalComponent} from "../order-history-rating-modal/order-history-rating-modal.component";
+import {RatingListService} from "../../../../service/rating-list.service";
 
 @Component({
   selector: 'app-order-history-element',
@@ -36,6 +37,7 @@ export class OrderHistoryElementComponent extends CookieComponent implements OnI
   orderLists: CustomerOrderList[] | undefined;
 
   constructor(
+    private ratingListService: RatingListService,
     protected override currentUserService: CurrentUserService,
     protected override cookieService: CookieService,
     protected override businessService: BusinessService,
@@ -48,6 +50,11 @@ export class OrderHistoryElementComponent extends CookieComponent implements OnI
     this.creationTime = getDateTime(this.customerOrder!.creationTime)
     this.orderLists = this.customerOrder?.customerOrderLists;
     this.total = this.customerOrderService.getOrderTotal(this.customerOrder);
+
+    this.ratingListService.findByCustomerOrderId(this.customerOrder!.customerOrderId)
+      .subscribe(rating => {
+      this.customerOrder?.setRated(rating != undefined);
+    });
   }
 
   onClickRedirect() {

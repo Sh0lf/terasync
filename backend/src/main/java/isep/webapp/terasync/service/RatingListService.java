@@ -19,4 +19,8 @@ public class RatingListService extends EntityService<RatingList, RatingListRepos
     public Integer deleteEntityById(Integer id) {
         return entityRepository.deleteEntityById(id);
     }
+
+    public RatingList findByCustomerOrderId(Integer id) {
+        return entityRepository.findByCustomerOrderId(id);
+    }
 }

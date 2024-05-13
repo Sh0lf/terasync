@@ -1,18 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
-import {HttpClientModule} from "@angular/common/http";
-import {NgForOf, NgIf} from "@angular/common";
-import {LoginComponent} from "../authentication/login/login.component";
-import {HeaderComponent} from "../header/header.component";
-import {FooterComponent} from "../footer/footer.component";
-import {RegisterComponent} from "../authentication/register/register.component";
 import {CookieComponent} from "../misc/cookie-component";
 import {CookieService} from "ngx-cookie-service";
+import {NgIf} from "@angular/common";
+import {HeaderComponent} from "../header/header.component";
 
 @Component({
   selector: 'main-component',
   standalone: true,
-  imports: [RouterOutlet, NgForOf, HttpClientModule, LoginComponent, HeaderComponent, FooterComponent, NgIf, RegisterComponent],
+  imports: [RouterOutlet, HeaderComponent, NgIf],
   templateUrl: 'main.component.html',
   styleUrls: ['./main.component.scss']
 })

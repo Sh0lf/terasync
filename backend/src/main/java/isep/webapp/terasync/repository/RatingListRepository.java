@@ -9,4 +9,6 @@ public interface RatingListRepository extends JpaRepository<RatingList, Integer>
     @Modifying
     @Query("DELETE FROM RatingList p WHERE p.ratingListId = :id")
     Integer deleteEntityById(Integer id);
+
+    RatingList findByCustomerOrderId(Integer id);
 }

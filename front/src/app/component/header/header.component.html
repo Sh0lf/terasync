@@ -73,7 +73,15 @@
     </div>
   </div>
   <div class="header-elem search-elem">
-    <input type="text" class="default-input-1" placeholder="Search Restaurants" autocomplete="on" [(ngModel)]="searchQuery" (input)="search()">
+    <p-autoComplete
+      [(ngModel)]="selectedBusinessName"
+      [placeholder]="'Search Restaurants'"
+      [inputStyleClass]="'default-input-1'"
+      [styleClass]="'default-input-1-container'"
+      [style.width.%]="100"
+      [suggestions]="getFilteredBusinesses()"
+      (completeMethod)="onSearchBusiness($event)"
+      (click)="onClick()"/>
   </div>
   <div class="header-elem address-elem">
     <div class="address-elem-text">
