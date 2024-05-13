@@ -21,6 +21,7 @@ import {MessageCenterComponent} from "./component/user-account/message-center/me
 import {
   OrderHistoryDetailedComponent
 } from "./component/user-account/order-history/order-history-detailed/order-history-detailed.component";
+import {BusinessPageComponent} from "./component/business-page/business-page.component";
 
 
 export const routes: Routes = [
@@ -33,6 +34,7 @@ export const routes: Routes = [
   {path: 'password-recovery', component: PasswordRecoveryComponent},
   {path: `password-reset/:${StorageKeys.USER_TOKEN}`, component: PasswordResetComponent},
   {path: 'faq', component: FaqComponent},
+  {path: 'business-page/:id', component: BusinessPageComponent},
   {
     path: 'user-account', component: UserAccountComponent, children: [
       {path: 'manage-products', component: ManageProductsComponent},
