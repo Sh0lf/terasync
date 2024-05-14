@@ -29,6 +29,7 @@ import {BusinessListProductComponent} from "./business-list-products/business-li
 import {CustomerOrderList} from "../../model/odSystem/customer.order.list";
 import {filter} from "rxjs";
 import {Product} from "../../model/odSystem/product";
+import {BusinessBasketComponent} from "./business-basket/business-basket.component";
 
 @Component({
   selector: 'app-business-page',
@@ -44,6 +45,7 @@ import {Product} from "../../model/odSystem/product";
     FormsModule,
     OrderHistoryElementListComponent,
     BusinessListProductComponent,
+    BusinessBasketComponent,
   ],
   templateUrl: './business-page.component.html',
   styleUrl: './business-page.component.scss'
@@ -57,7 +59,7 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
 
   previousProducts: Product[] = [];
   allProducts: Product[] | undefined;
-  basket: Product[] | undefined;
+  basket = new Map<Product, number>;
 
   constructor(
     protected override customerService: CustomerService,
@@ -109,5 +111,35 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
         this.allProducts = this.business?.products
       });
     });
+  }
+
+  addToBasket(product: Product) {
+    if (!this.basket.get(product)) {
+      this.basket.set(product, 1);
+    } else {
+      let value = this.basket.get(product);
+      // @ts-ignore
+      this.basket.set(product, (value + 1))
+    }
+  }
+
+  removeFromBasket(product: Product) {
+    let value: number;
+    // @ts-ignore
+    value = this.basket.get(product);
+    if ((value - 1) == 0) {
+      this.basket.delete(product)
+    } else {// @ts-ignore
+      this.basket.set(product, (value - 1))
+    }
+  }
+
+  getTotalPrice(): number {
+    if (!this.basket) return 0;
+    let total: number = 0;
+    for (let [product, quantity] of this.basket){
+      total = total + (product.price * quantity)
+    }
+    return total;
   }
 }

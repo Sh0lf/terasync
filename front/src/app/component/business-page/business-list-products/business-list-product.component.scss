@@ -18,10 +18,97 @@
   flex-direction: column;
   max-width: 50%;
   min-height: 100%;
-  justify-content: space-evenly;
-  white-space: pre-wrap !important;
+  justify-content: space-between;
+  white-space: pre-wrap;
 }
 
 .description{
   font-size:12px;
+}
+
+button {
+  position: relative;
+  background: rgba(247, 196, 165);
+  text-decoration: none;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 10px 10px;
+  letter-spacing: 0.1rem;
+  font-size: 0.7rem;
+  padding: 10px;
+  transition: 0.2s;
+}
+
+button:hover {
+  /* box-shadow: 0 0 35px var(--clr); */
+  animation: box 3s infinite;
+}
+
+button::before {
+  content: "";
+  position: absolute;
+}
+
+button span {
+  position: relative;
+  z-index: 1;
+}
+button i {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+button i::before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  left: 80%;
+  top: -2px;
+  border: 2px solid var(--clr);
+  background: $colorP10;
+  transition: 0.2s;
+}
+
+button:hover i::before {
+  width: 15px;
+  left: 20%;
+  animation: move 3s infinite;
+}
+
+button i::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  left: 20%;
+  bottom: -2px;
+  border: 2px solid var(--clr);
+  background: $colorP10;
+  transition: 0.2s;
+}
+
+button:hover i::after {
+  width: 15px;
+  left: 80%;
+  animation: move 3s infinite;
+}
+
+@keyframes move {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes box {
+  50% {
+    box-shadow: 0 0 25px var(--clr);
+  }
 }

@@ -24,7 +24,8 @@
               <div class="previous-product" *ngFor="let product of previousProducts">
                 <app-business-list-product
                   [style.height.%]="100"
-                  [product]="product">
+                  [product]="product"
+                  (addToBasketEmitter)="addToBasket($event)">
                 </app-business-list-product>
               </div>
             </div>
@@ -35,14 +36,27 @@
           <div class="product" *ngFor="let product of allProducts">
             <app-business-list-product
               [style.height.%]="100"
-              [product]="product">
+              [product]="product"
+              (addToBasketEmitter)="addToBasket($event)">
             </app-business-list-product>
           </div>
         </div>
       </div>
       <div class="column-basket">
         <h5><u><b>Basket:</b></u></h5>
-
+        <div *ngIf="basket.size > 0">
+          <div *ngFor="let entry of basket">
+            <app-business-basket
+              [style.height.%]="100"
+              [entry]="entry"
+              (removeFromBasketEmitter)="removeFromBasket($event)">
+            </app-business-basket>
+          </div>
+          <div>Total: {{ getTotalPrice().toFixed(2) }}€</div>
+        </div>
+        <div *ngIf="basket.size == 0">
+          Your basket is empty.
+        </div>
       </div>
     </div>
   </div>

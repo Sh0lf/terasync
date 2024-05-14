@@ -58,7 +58,7 @@ h5{
 
 .order-summary-container{
   margin-top: 3%;
-  align-self: center;
+  justify-content: center;
   border-radius: 15px;
   padding: 3%;
   width: 100%;
@@ -78,15 +78,6 @@ h5{
 .order-list-container{
   display: flex;
   flex-direction: column;
-}
-
-.vertical-separation-line {
-  height: 250px;
-  width: 3px;
-  padding: 1px;
-  border-radius: 1px;
-  margin: 10px 15px 10px 15px;
-  background: radial-gradient($colorP10 50%, rgba(247, 196, 165, 0), rgba(247, 196, 165, 0));
 }
 
 .order-payment-info{
