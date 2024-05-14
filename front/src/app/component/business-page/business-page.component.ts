@@ -25,6 +25,10 @@ import {
 import {CustomerOrder} from "../../model/odSystem/customer.order";
 import {RatingList} from "../../model/rating.list";
 import {RatingListService} from "../../service/rating-list.service";
+import {BusinessListProductComponent} from "./business-list-products/business-list-product.component";
+import {CustomerOrderList} from "../../model/odSystem/customer.order.list";
+import {filter} from "rxjs";
+import {Product} from "../../model/odSystem/product";
 
 @Component({
   selector: 'app-business-page',
@@ -39,6 +43,7 @@ import {RatingListService} from "../../service/rating-list.service";
     ReactiveFormsModule,
     FormsModule,
     OrderHistoryElementListComponent,
+    BusinessListProductComponent,
   ],
   templateUrl: './business-page.component.html',
   styleUrl: './business-page.component.scss'
@@ -48,8 +53,11 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
   protected readonly faTableList = faTableList;
   business: Business | undefined;
   ratingAverage: number = 0;
-  previousOrders: CustomerOrder[] | undefined;
   ratingNbr: number | undefined = 0;
+
+  previousProducts: Product[] = [];
+  allProducts: Product[] | undefined;
+  basket: Product[] | undefined;
 
   constructor(
     protected override customerService: CustomerService,
@@ -82,9 +90,24 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
         })
         this.ratingAverage = this.ratingService.getRatingAverage(this.business?.ratingLists)
         this.ratingNbr = this.business?.ratingLists.length;
-        this.previousOrders = this.currentUserService.user?.customerOrders?.filter(order => order.businessId == parseInt(id));
+        let previousOrders = this.currentUserService.user?.customerOrders?.filter(order => order.businessId == parseInt(id));
+        console.log(previousOrders)
+        let uniqueProductIdSet = new Set<number>();
+        if (previousOrders) {
+          for (let previousOrder of previousOrders) {
+            let previousOrderLists = previousOrder.customerOrderLists;
+            for (let previousOrderList of previousOrderLists) {
+              if (!uniqueProductIdSet.has(previousOrderList.productId)) {
+                uniqueProductIdSet.add(previousOrderList.productId);
+                if (previousOrderList.product) {
+                  this.previousProducts.push(previousOrderList.product);
+                }
+              }
+            }
+          }
+        }
+        this.allProducts = this.business?.products
       });
     });
-
   }
 }

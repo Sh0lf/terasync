@@ -20,6 +20,7 @@
           </app-order-history-element-list>
         </div>
         <ng-container *ngIf="orderLists.length>3">...</ng-container>
+        <div>Status: <u>{{customerOrder?.status?.status}}</u></div>
       </ng-container>
     </div>
     <div class="order-misc">

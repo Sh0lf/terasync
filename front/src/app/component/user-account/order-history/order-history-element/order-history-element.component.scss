@@ -55,8 +55,7 @@
   flex-flow: column wrap;
   padding: 10px;
   box-sizing: border-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: pre-wrap !important;
 }
 
 app-order-history-element-list {
