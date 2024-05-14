@@ -42,22 +42,30 @@
           </div>
         </div>
       </div>
-      <div class="column-basket">
-        <h5><u><b>Basket:</b></u></h5>
-        <div *ngIf="basket.size > 0">
-          <div *ngFor="let entry of basket">
-            <app-business-basket
-              [style.height.%]="100"
-              [entry]="entry"
-              (removeFromBasketEmitter)="removeFromBasket($event)">
-            </app-business-basket>
+      <div class="column">
+        <div class="column-basket">
+          <h5><u><b>Basket:</b></u></h5>
+          <div *ngIf="basket.size > 0">
+            <div *ngFor="let entry of basket | keyvalue">
+              <app-business-basket
+                [style.height.%]="100"
+                [products]="allProducts"
+                [productId]="entry.key"
+                [quantity]="entry.value"
+                (removeFromBasketEmitter)="removeFromBasket($event)">
+              </app-business-basket>
+            </div>
+            <div>Total: {{ getTotalPrice().toFixed(2) }}€</div>
           </div>
-          <div>Total: {{ getTotalPrice().toFixed(2) }}€</div>
+          <div *ngIf="basket.size == 0">
+            Your basket is empty.
+          </div>
         </div>
-        <div *ngIf="basket.size == 0">
-          Your basket is empty.
-        </div>
+        <button><span><i>Finish order</i></span></button>
       </div>
     </div>
+  </div>
+  <div class="reviews-container">
+
   </div>
 </div>

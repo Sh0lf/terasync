@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, input, Input, OnInit, Output} from '@angular/core';
 import {Product} from "../../../model/odSystem/product";
 import {CurrentUserService} from "../../../service/user/current-user.service";
 import {CookieService} from "ngx-cookie-service";
@@ -13,10 +13,12 @@ import {CookieComponent} from "../../misc/cookie-component";
   styleUrl: './business-basket.component.scss'
 })
 export class BusinessBasketComponent extends CookieComponent implements OnInit {
-  @Input() entry!: [Product, number];
   @Output() removeFromBasketEmitter = new EventEmitter<Product>();
+  @Input() productId: number | undefined;
+  @Input() quantity: number | undefined;
+  totalPriceList: number | undefined;
+  @Input() products!: Product[] | undefined;
   product: Product | undefined;
-  quantity: number | undefined ;
 
   constructor(
     protected override currentUserService: CurrentUserService,
@@ -26,11 +28,14 @@ export class BusinessBasketComponent extends CookieComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.product = this.entry[0];
-    this.quantity = this.entry[1];
+    this.product = this.products?.find(p => this.productId == p.productId)
+    // @ts-ignore
+    this.totalPriceList = this.product?.price * this.quantity;
   }
 
   removeFromBasket() {
     this.removeFromBasketEmitter.emit(this.product)
   }
+
+
 }
