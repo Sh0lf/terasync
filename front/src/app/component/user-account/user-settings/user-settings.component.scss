@@ -1,6 +1,7 @@
 @import "../../common.scss";
 
 $pfpImageSize: 150px;
+$pfpImageWidthBusiness: 266px;
 
 .user-settings-body {
   display: flex;
@@ -58,6 +59,14 @@ $pfpImageSize: 150px;
   border-radius: 50%;
 }
 
+.image-frame-business {
+  width: $pfpImageWidthBusiness;
+  height: $pfpImageSize;
+  max-width: $pfpImageWidthBusiness;
+  max-height: $pfpImageSize;
+
+}
+
 .pfp-image-elem-main {
   display: flex;
   justify-content: center;
@@ -68,6 +77,19 @@ $pfpImageSize: 150px;
   min-width: $pfpImageSize;
   min-height: $pfpImageSize;
   border-radius: 50%;
+
+  background: $colorP18;
+}
+
+.pfp-image-elem-main-business {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: $pfpImageWidthBusiness;
+  height: $pfpImageSize;
+  min-width: $pfpImageWidthBusiness;
+  min-height: $pfpImageSize;
 
   background: $colorP18;
 }
@@ -84,7 +106,21 @@ $pfpImageSize: 150px;
   border-radius: 50%;
 }
 
+.pfp-image-elem-business {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: $pfpImageWidthBusiness;
+  height: $pfpImageSize;
+  min-width: $pfpImageWidthBusiness;
+  min-height: $pfpImageSize;
+}
+
 .pfp-image-elem:hover + .pfp-edit-elem, .pfp-edit-elem:hover {
+  display: flex;
+}
+.pfp-image-elem-business:hover + .pfp-edit-elem-business, .pfp-edit-elem-business:hover {
   display: flex;
 }
 
@@ -100,6 +136,19 @@ $pfpImageSize: 150px;
   min-width: $pfpImageSize;
   min-height: $pfpImageSize;
   border-radius: 50%;
+}
+
+.pfp-edit-elem-business {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background: $hoverBackground;
+
+  width: $pfpImageWidthBusiness;
+  height: $pfpImageSize;
+  min-width: $pfpImageWidthBusiness;
+  min-height: $pfpImageSize;
 }
 
 .profile-top-div-info {
