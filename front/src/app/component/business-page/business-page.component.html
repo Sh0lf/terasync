@@ -1,28 +1,49 @@
-<div (onResize)="handleFooterTopMinValue($event, 80)" class="main-page-body-div">
-  <img class="img-thumbnail" alt="business thumbnail"> <!--src={{business?.thumbnail}}-->
-  <div class="row-container">
-    <div class="column-business-details">
-      <div>{{business?.getName()}}</div>
-      <div>{{business?.address}}</div>
-      <div>{{ratingAverage}}* ({{ratingNbr}} reviews) • Delivery fees: 2,90€</div>
-    </div>
-    <div class="column-business-menu">
-      <ng-container *ngIf="currentUserService.user">
-        <ng-container class="previous-orders" *ngIf="previousOrders">
-          <div>Previous Orders:</div>
-          <div class="main-container-div" *ngFor="let order of previousOrders">
-            <app-order-history-element
-              [style.height.%]="100"
-              [customerOrder]="order">
-            </app-order-history-element>
-          </div>
-        </ng-container>
-      </ng-container>
-      <div class="menu"></div>
-    </div>
-    <div class="column-basket">
-
+<div class="column-container">
+  <div class="business-img-container">
+    <!-- add white gradient, and add this afterwards ngSrc="{{business!.pfpImgPath}}"-->
+    <div class="business-logo-container">
+      <img
+        class="logo-picture"
+        src="https://www.lephillys.fr/wp-content/uploads/2020/11/uber-eats-logo.png"
+        alt="order service logo"
+      />
     </div>
   </div>
+  <div (onResize)="handleFooterTopMinValue($event, 80)" class="main-page-body-div">
+    <div class="row-container">
+      <div class="column-business-details">
+        <h5><b><u>{{business?.getName()}}</u></b></h5>
+        <div>{{business?.address}}</div>
+        <div>{{ratingAverage}}* ({{ratingNbr}} reviews) • Delivery fees: 2,90€</div>
+      </div>
+      <div class="column-business-menu">
+        <ng-container *ngIf="currentUserService.user">
+          <ng-container class="previous-orders" *ngIf="previousProducts.length>0">
+            <h5><u><b>Previous Orders:</b></u></h5>
+            <div class="row-container-orders">
+              <div class="previous-product" *ngFor="let product of previousProducts">
+                <app-business-list-product
+                  [style.height.%]="100"
+                  [product]="product">
+                </app-business-list-product>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+        <div class="menu">
+          <h5><u><b>Menu:</b></u></h5>
+          <div class="product" *ngFor="let product of allProducts">
+            <app-business-list-product
+              [style.height.%]="100"
+              [product]="product">
+            </app-business-list-product>
+          </div>
+        </div>
+      </div>
+      <div class="column-basket">
+        <h5><u><b>Basket:</b></u></h5>
 
+      </div>
+    </div>
+  </div>
 </div>

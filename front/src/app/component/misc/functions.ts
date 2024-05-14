@@ -34,3 +34,7 @@ export function getDateTime(dateTime: string) {
 export function composeDeliveryAddress(street: string | undefined, city: string | undefined, postalCode: string | undefined, country: string | undefined): string {
   return (street + ", " + city + ", " + postalCode + ", " + country)
 }
+
+export function randomIntFromInterval(min: number, max: number): number{
+  return Math.floor(Math.random()* (max-min+1)+ min);
+}
