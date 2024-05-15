@@ -1,0 +1,23 @@
+@import "../../common";
+
+.review-cell {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.rating{
+  align-self: center;
+  padding: 5px;
+}
+
+.comment-section{
+  margin-top: 10px;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.comment{
+  font-size:12px;
+}

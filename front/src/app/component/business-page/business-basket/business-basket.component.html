@@ -3,5 +3,7 @@
     <div class="item">{{quantity}}x - {{product?.name}}</div>
     <div class="price">{{totalPriceList?.toFixed(2)}}€</div>
   </div>
-  <button (click)="removeFromBasket()"><span><i>Remove</i></span></button>
+  <div *ngIf="isBasket">
+    <button (click)="removeFromBasket()"><span><i>Remove</i></span></button>
+  </div>
 </div>
