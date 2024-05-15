@@ -54,4 +54,8 @@ export class Business extends User {
     }
     return businesses;
   }
+
+  override toString() {
+    return this.getName();
+  }
 }

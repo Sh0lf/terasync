@@ -63,7 +63,7 @@ export class HeaderComponent extends CookieComponent implements OnInit {
   businesses: Business[] = [];
 
   searchBusiness: string = "";
-  selectedBusinessName: Business | undefined;
+  selectedBusiness: Business | string | undefined;
 
   constructor(protected override customerService: CustomerService,
               protected override businessService: BusinessService,
@@ -91,8 +91,7 @@ export class HeaderComponent extends CookieComponent implements OnInit {
 
   getFilteredBusinesses() {
     return this.businesses.filter(business =>
-      business.getName().toLowerCase().includes(this.searchBusiness.toLowerCase()))
-      .map(business => business.getName());
+      business.getName().toLowerCase().includes(this.searchBusiness.toLowerCase()));
   }
 
   routeToAndCloseBurgerMenu(route: string) {
@@ -116,16 +115,26 @@ export class HeaderComponent extends CookieComponent implements OnInit {
     this.dropDownMenuTop = entry.contentRect.height + 10;
   }
 
-  redirect(business: Business) {
-    this.router.navigate(['/business-page', business.businessId]).then();
-  }
-
   onSearchBusiness(autoCompleteCompleteEvent: AutoCompleteCompleteEvent) {
     this.searchBusiness = autoCompleteCompleteEvent.query;
   }
 
 
   onClick() {
-    console.log("on click")
+    if(this.selectedBusiness != undefined && this.selectedBusiness instanceof Business) {
+      this.routeTo(`business-page/${this.selectedBusiness?.businessId}`);
+    } else {
+      // todo if business doesn't exists, routes to home and filters businesses with the input string
+      this.routeTo(`/home`)
+    }
+  }
+
+  onSubmit(event: KeyboardEvent) {
+    if(event.key === 'Enter') {
+      if(this.selectedBusiness != undefined && typeof this.selectedBusiness === 'string') {
+        this.selectedBusiness = this.businesses.find(business => business.getName() === this.selectedBusiness);
+        this.onClick();
+      }
+    }
   }
 }
