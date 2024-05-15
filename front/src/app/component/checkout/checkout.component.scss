@@ -1,0 +1,66 @@
+.checkout-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+}
+
+.checkout-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.checkout-body {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 1200px;
+  justify-content: space-between;
+}
+
+.left-section, .right-section {
+  display: flex;
+  flex-direction: column;
+  width: 48%;
+}
+
+.order-summary, .delivery-address, .payment-method, .delivery-service {
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #f9f9f9;
+}
+
+h3 {
+  margin-bottom: 10px;
+}
+
+.checkout-product {
+  margin-bottom: 10px;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.address-option, .payment-option, .delivery-option {
+  margin-bottom: 10px;
+}
+
+.checkout-footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+button {
+  background: rgba(247, 196, 165);
+  border-radius: 10px;
+  letter-spacing: 0.1rem;
+  font-size: 1rem;
+  padding: 10px 20px;
+}
