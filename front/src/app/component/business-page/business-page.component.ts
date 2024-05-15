@@ -30,6 +30,10 @@ import {CustomerOrderList} from "../../model/odSystem/customer.order.list";
 import {filter} from "rxjs";
 import {Product} from "../../model/odSystem/product";
 import {BusinessBasketComponent} from "./business-basket/business-basket.component";
+import {
+  BusinessPageOrderConfirmationComponent
+} from "./business-page-order-confirmation/business-page-order-confirmation.component";
+import {BusinessPageReviewsComponent} from "./business-page-reviews/business-page-reviews.component";
 
 @Component({
   selector: 'app-business-page',
@@ -47,6 +51,8 @@ import {BusinessBasketComponent} from "./business-basket/business-basket.compone
     BusinessListProductComponent,
     BusinessBasketComponent,
     KeyValuePipe,
+    BusinessPageOrderConfirmationComponent,
+    BusinessPageReviewsComponent
   ],
   templateUrl: './business-page.component.html',
   styleUrl: './business-page.component.scss'
@@ -62,6 +68,7 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
   allProducts: Product[] | undefined;
   basket = new Map<number, number>;
   product: Product | undefined;
+  confirmOrderModal: boolean = false;
 
   constructor(
     protected override customerService: CustomerService,
@@ -155,5 +162,13 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
       total = total + (product.price * quantity)
     }
     return total;
+  }
+
+  openConfirmOrder(){
+    this.confirmOrderModal = true;
+  }
+
+  closeConfirmOrder(newVal: boolean) {
+    this.confirmOrderModal = newVal;
   }
 }
