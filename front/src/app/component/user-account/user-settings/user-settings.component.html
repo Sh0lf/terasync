@@ -6,17 +6,36 @@
 
     <div class="profile-card-body">
       <div class="profile-card">
-        <div class="pfp-image-elem-main">
-          <div class="pfp-image-elem">
-            <img class="image-frame" src="{{currentUserService.user?.pfpImgUrl}}" alt="pfp"
-                 *ngIf="currentUserService.user?.hasPfpImg()">
-            <fa-icon [class]="['user-icon']" [icon]="faUser" *ngIf="!currentUserService.user?.hasPfpImg()"></fa-icon>
-          </div>
+        <div *ngIf="!isBusinessCategory()">
+          <div class="pfp-image-elem-main">
+            <div class="pfp-image-elem">
+              <img class="image-frame" src="{{currentUserService.user?.pfpImgUrl}}" alt="pfp"
+                   *ngIf="currentUserService.user?.hasPfpImg()">
+              <fa-icon [class]="['user-icon']" [icon]="faUser" *ngIf="!currentUserService.user?.hasPfpImg()"></fa-icon>
+            </div>
 
-          <div class="pfp-edit-elem" (click)="openModal()">
-            <fa-icon [class]="['camera-icon']" [icon]="faCamera"></fa-icon>
+            <div class="pfp-edit-elem" (click)="openModal()">
+              <fa-icon [class]="['camera-icon']" [icon]="faCamera"></fa-icon>
+            </div>
           </div>
         </div>
+        <div *ngIf="isBusinessCategory()">
+          <div class="pfp-image-elem-main-business">
+            <div class="pfp-image-elem-business">
+              <img class="image-frame-business" src="{{currentUserService.user?.pfpImgUrl}}" alt="pfp"
+                   *ngIf="currentUserService.user?.hasPfpImg()">
+              <fa-icon [class]="['user-icon']" [icon]="faUser" *ngIf="!currentUserService.user?.hasPfpImg()"></fa-icon>
+            </div>
+
+            <div class="pfp-edit-elem-business" (click)="openModal()">
+              <fa-icon [class]="['camera-icon']" [icon]="faCamera"></fa-icon>
+            </div>
+          </div>
+        </div>
+
+
+
+
         <div class="profile-top-div-info">
           <span class="text-font-700">{{ currentUserService.user?.username }}</span>
           <span>{{ currentUserService.user?.getName() }}</span>
