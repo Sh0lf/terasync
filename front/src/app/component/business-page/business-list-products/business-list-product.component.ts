@@ -28,16 +28,14 @@ import {ProductImage} from "../../../model/odSystem/product.image";
   styleUrl: './business-list-product.component.scss'
 })
 export class BusinessListProductComponent extends CookieComponent implements OnInit {
-  @Output() onRateOrderEmitter = new EventEmitter<CustomerOrder>();
   @Input() product: Product | undefined;
   selectedImage: ProductImage | undefined
+  @Output() addToBasketEmitter: EventEmitter<Product> = new EventEmitter<Product>();
 
   constructor(
     protected override currentUserService: CurrentUserService,
     protected override cookieService: CookieService,
-    protected override businessService: BusinessService,
-    protected override customerOrderService: CustomerOrderService,
-    override router: Router) {
+    protected override businessService: BusinessService) {
     super();
   }
 
@@ -46,5 +44,8 @@ export class BusinessListProductComponent extends CookieComponent implements OnI
     this.selectedImage = images[0]
   }
 
+  addToBasket() {
+    this.addToBasketEmitter.emit(this.product)
+  }
 }
 

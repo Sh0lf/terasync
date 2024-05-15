@@ -4,6 +4,9 @@
     <div class="description">{{product?.description}}</div>
     <div>{{product?.price}}€</div>
   </div>
-  <img class="product-img" alt="product-img">
-<!--  ngSrc="{{selectedImage?.imageUrl}}"-->
+  <div class="product-info">
+    <img class="product-img" alt="product-img">
+    <!--  ngSrc="{{selectedImage?.imageUrl}}"-->
+    <button (click)="addToBasket()"><span><i>Add to basket</i></span></button>
+  </div>
 </div>

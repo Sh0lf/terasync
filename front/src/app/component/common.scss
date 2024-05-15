@@ -101,6 +101,18 @@ $hoverBackground: rgba(0, 0, 0, 0.3);
   margin: 1px 15px 1px 15px;
 }
 
+.vertical-separation-line {
+  display: flex;
+  height: 50%;
+  position: absolute;
+  width: 3px;
+  padding: 1px;
+  border-radius: 1px;
+  margin: 10px 15px 10px 15px;
+  background: radial-gradient($colorP10 50%, rgba(247, 196, 165, 0), rgba(247, 196, 165, 0));
+}
+
+
 .text-font {
   font-style: normal;
 }
