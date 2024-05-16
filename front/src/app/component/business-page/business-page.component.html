@@ -19,7 +19,7 @@
           <span>({{ ratingNbr }} reviews) • Delivery fees: 2,90€</span>
         </div>
       </div>
-      <div class="column-business-menu">
+      <div class="column-business-menu" [ngStyle] = '{width : menuWidth}'>
         <ng-container class="previous-orders" *ngIf="previousProducts.length > 0">
           <h5><u><b>Previous Orders:</b></u></h5>
           <div class="row-container-orders">
@@ -59,8 +59,8 @@
             </div>
             <div class="basket-total">Total: {{ getTotalPrice().toFixed(2) }}€</div>
           </div>
-          <div *ngIf="basket.size == 0">
-            Your basket is empty.
+          <div class="basket-placeholder" *ngIf="basket.size == 0">
+            Your basket is currently empty.
           </div>
         </div>
         <div *ngIf="basket.size>0">

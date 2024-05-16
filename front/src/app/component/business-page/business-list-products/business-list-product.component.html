@@ -5,8 +5,9 @@
     <div>{{product?.price}}€</div>
   </div>
   <div class="product-info">
-    <img class="product-img" alt="product-img">
-    <!--  ngSrc="{{selectedImage?.imageUrl}}"-->
+    <div *ngIf="selectedImage?.imageUrl">
+      <img class="product-img" alt="product-img" src="{{selectedImage?.imageUrl}}">
+    </div>
     <div *ngIf="this.currentUserService.user">
       <button (click)="addToBasket()"><span><i>Add to basket</i></span></button>
     </div>

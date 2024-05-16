@@ -40,21 +40,20 @@
 .row-container{
   display: flex;
   flex-direction: row;
-  width: 100%
+  width: 100%;
+  justify-content: space-between;
 }
 
 .column-business-details{
   display: flex;
   flex-direction: column;
-  width: 25%;
-  max-width: 30%
+  width: 20%;
 }
 
 .column-business-menu{
   display: flex;
   flex-direction: column;
-  min-width: 40%;
-  max-width: 50%;
+  width: 80%;
   border-radius: 15px;
 }
 
@@ -104,7 +103,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 25%;
+  width: 30%;
 }
 
 .column-basket{
@@ -114,14 +113,20 @@
   min-height: 90vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 10px;
   white-space: pre-wrap;
   box-shadow: 0 0 15px rgba(0,0,0, 0.15)
 }
 
+.basket-placeholder{
+  display: flex;
+  justify-content: center;
+  min-width: 90%;
+}
+
 .basket-total{
-  align-self: center;
+  display: flex;
+  justify-content: center;
 }
 
 button {
@@ -165,6 +170,6 @@ button {
   box-sizing: border-box;
   background-size: cover;
   border-radius: 15px;
-  background: rgba($colorP12, 0.5) no-repeat center center;
+  background: rgba($colorP12, 1) no-repeat center center;
   padding: 5px;
 }

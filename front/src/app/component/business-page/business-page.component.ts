@@ -3,7 +3,7 @@ import {faTableList} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {ActivatedRoute, Router, RouterOutlet} from "@angular/router";
 import {NgxResizeObserverModule} from "ngx-resize-observer";
-import {KeyValuePipe, NgForOf, NgIf} from "@angular/common";
+import {KeyValuePipe, NgForOf, NgIf, NgStyle} from "@angular/common";
 import {
   OrderHistoryElementComponent
 } from "../user-account/order-history/order-history-element/order-history-element.component";
@@ -48,7 +48,8 @@ import {BusinessPageReviewsComponent} from "./business-page-reviews/business-pag
     BusinessBasketComponent,
     KeyValuePipe,
     BusinessPageOrderConfirmationComponent,
-    BusinessPageReviewsComponent
+    BusinessPageReviewsComponent,
+    NgStyle
   ],
   templateUrl: './business-page.component.html',
   styleUrl: './business-page.component.scss'
@@ -65,6 +66,7 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
   basket = new Map<number, number>;
   product: Product | undefined;
   confirmOrderModal: boolean = false;
+  menuWidth: any;
 
   constructor(
     protected override customerService: CustomerService,
@@ -99,8 +101,11 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
         })
         let previousCustomerOrders = this.currentUserService.user?.customerOrders?.
         filter(order => order.businessId == parseInt(id));
-
         console.log(previousCustomerOrders)
+        //essential for a dynamic width else it's fucked
+        if (this.currentUserService.user){
+          this.menuWidth = '40%';
+        }
         let uniqueProductIdSet = new Set<number>();
 
         if (previousCustomerOrders != undefined && previousCustomerOrders.length > 0) {
