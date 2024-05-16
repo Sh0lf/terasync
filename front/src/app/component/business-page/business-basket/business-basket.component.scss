@@ -4,9 +4,8 @@
   display: flex;
   min-width: 90%;
   flex-direction: column;
-  justify-content: end;
   border-radius: 15px 15px;
-  background: rgba(247, 196, 165, 0.45) no-repeat center center;
+  background: rgba($colorP12, 1) no-repeat center center;
   margin: 10px;
   padding: 5px;
 }
@@ -23,7 +22,7 @@
 }
 
 button {
-  background: rgba(247, 196, 165);
+  background: $colorP11;
   border-radius: 10px 10px;
   letter-spacing: 0.1rem;
   font-size: 0.7rem;
