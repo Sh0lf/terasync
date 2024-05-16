@@ -1,4 +1,4 @@
-<div class="column-container" *ngIf="!confirmOrderModal">
+<div class="column-container">
   <div class="business-img-container">
     <!-- add white gradient, and add this afterwards ngSrc="{{business!.pfpImgPath}}"-->
     <div class="business-logo-container">
@@ -42,42 +42,40 @@
           </div>
         </div>
       </div>
-      <div *ngIf="this.currentUserService.user">
-        <div class="column">
-          <div class="column-basket">
-            <h5><u><b>Basket:</b></u></h5>
-            <div *ngIf="basket.size > 0">
-              <div *ngFor="let entry of basket | keyvalue">
-                <app-business-basket
-                  [style.height.%]="100"
-                  [products]="allProducts"
-                  [productId]="entry.key"
-                  [quantity]="entry.value"
-                  [isBasket]="true"
-                  (removeFromBasketEmitter)="removeFromBasket($event)">
-                </app-business-basket>
-              </div>
-              <div>Total: {{ getTotalPrice().toFixed(2) }}€</div>
+      <div class="column" *ngIf="this.currentUserService.user">
+        <div class="column-basket">
+          <h5><u><b>Basket:</b></u></h5>
+          <div *ngIf="basket.size > 0">
+            <div *ngFor="let entry of basket | keyvalue">
+              <app-business-basket
+                [style.height.%]="100"
+                [products]="allProducts"
+                [productId]="entry.key"
+                [quantity]="entry.value"
+                [isBasket]="true"
+                (removeFromBasketEmitter)="removeFromBasket($event)">
+              </app-business-basket>
             </div>
-            <div *ngIf="basket.size == 0">
-              Your basket is empty.
-            </div>
+            <div class="basket-total">Total: {{ getTotalPrice().toFixed(2) }}€</div>
           </div>
-          <div *ngIf="basket.size>0">
-            <span><button class="confirm-button" (click)="openConfirmOrder()"><i>Finish order</i></button></span>
+          <div *ngIf="basket.size == 0">
+            Your basket is empty.
           </div>
+        </div>
+        <div *ngIf="basket.size>0">
+          <span><button class="confirm-button" (click)="openConfirmOrder()"><i>Finish order</i></button></span>
         </div>
       </div>
     </div>
-  </div>
-  <div class="reviews-container">
-    <h5><u><b>Reviews from previous orders</b></u></h5>
-    <div class="row-container-reviews">
-      <div class="review" *ngFor="let review of business?.ratingLists">
-        <app-business-page-reviews
-          [review]="review"
-          [style.height.%]="100"
-        ></app-business-page-reviews>
+    <div class="reviews-container">
+      <h5><u><b>Reviews from previous orders</b></u></h5>
+      <div class="row-container-reviews">
+        <div class="review" *ngFor="let review of business?.ratingLists">
+          <app-business-page-reviews
+            [review]="review"
+            [style.height.%]="100"
+          ></app-business-page-reviews>
+        </div>
       </div>
     </div>
   </div>

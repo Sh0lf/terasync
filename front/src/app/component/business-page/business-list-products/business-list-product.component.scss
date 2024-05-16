@@ -22,12 +22,22 @@
   white-space: pre-wrap;
 }
 
+.product-info div{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.product-info h5{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 .description{
   font-size:12px;
 }
 
 button {
-  background: rgba(247, 196, 165);
+  background: $colorP11;
   border-radius: 10px 10px;
   letter-spacing: 0.1rem;
   font-size: 0.7rem;
