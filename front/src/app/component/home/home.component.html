@@ -19,8 +19,10 @@
         </div> <!-- title -->
 
         <div class="scroll-container-bigger">
-          <div class="item">
-            <p>Le Méditerranée</p>
+          <div class="item" *ngFor="let business of businesses">
+
+<!--            <img src="{{business.pfpImgUrl}}" alt="business image" class="image-elem">-->
+            <p>{{business?.name}}</p>
           </div>
           <div class="item">
             <p>Le Méditerranée</p>
