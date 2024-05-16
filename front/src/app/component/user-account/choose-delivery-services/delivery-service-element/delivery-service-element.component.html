@@ -1,0 +1,21 @@
+<div class="user-body-div">
+  <div class="delivery-person-elem">
+    <div class="pfp-elem-main">
+      <div class="pfp-elem">
+        <img class="image-frame" src="{{deliveryService?.pfpImgUrl}}" alt="pfp-image" *ngIf="deliveryService?.hasPfpImg()">
+        <div class="image-frame" *ngIf="!deliveryService?.hasPfpImg()">
+          <fa-icon [class]="['user-icon']" [icon]="faUser"></fa-icon>
+        </div>
+      </div>
+    </div>
+    <div class="info-elem">
+      <span class="text-font-700">{{deliveryService?.getName()}}</span>
+      <span>{{deliveryService?.username}}</span>
+      <span>{{deliveryService?.email}}</span>
+      <span>Member since: {{memberSince}}</span>
+      <div class="edit-elem">
+
+      </div>
+    </div>
+  </div>
+</div>

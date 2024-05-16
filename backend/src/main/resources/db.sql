@@ -254,18 +254,3 @@ CREATE TABLE MessageList
     constraint customerOrder_messageList_fk FOREIGN KEY (customerOrderId) REFERENCES CustomerOrder (customerOrderId)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
-
--- FAQ
-CREATE TABLE Faq
-(
-    faqId    INT IDENTITY (1, 1) PRIMARY KEY,
-    question VARCHAR(255) NOT NULL,
-    answer   VARCHAR(255) NOT NULL
-);
-
-ALTER TABLE RatingList ADD customerOrderId INT NOT NULL default 1;
-ALTER TABLE RatingList ADD constraint customerOrder_ratingList_fk FOREIGN KEY (customerOrderId) REFERENCES CustomerOrder (customerOrderId)
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE CustomerOrder DROP COLUMN rated;
-ALTER TABLE RatingList ADD Constraint customerOrderId_unique UNIQUE (customerOrderId);

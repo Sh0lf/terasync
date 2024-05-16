@@ -1,0 +1,107 @@
+@import "../../../common.scss";
+
+$imageSize: 150px;
+
+.user-body-div {
+  background-color: $colorP17;
+  box-shadow: $boxShadowDefault;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  border-radius: 15px;
+
+  margin: 20px;
+  width: 500px;
+}
+
+.delivery-person-elem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+  border-radius: 15px;
+
+  height: 100%;
+  width: 100%;
+}
+
+.pfp-elem-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.pfp-elem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+  min-width: $imageSize;
+  height: $imageSize;
+
+  padding: 5px;
+  border-radius: 15px;
+}
+
+.pfp-elem:hover + .pfp-elem-edit, .pfp-elem-edit:hover {
+  display: flex;
+}
+
+.pfp-elem-edit {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  position: absolute;
+
+  background: $hoverBackground;
+
+  min-width: $imageSize;
+  height: $imageSize;
+  border-radius: 15px;
+
+  padding: 5px;
+}
+
+.image-frame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  height: 150px;
+  width: 150px;
+  border-radius: 15px;
+}
+
+.info-elem {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex-direction: column;
+
+  width: 100%;
+  border-radius: 0 15px 15px 0;
+
+  padding: 15px;
+}
+
+.info-elem > span {
+  text-wrap: wrap;
+  word-break: break-word;
+}
+
+.edit-elem {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  flex-direction: row;
+
+  padding: 2px;
+  width: 100%;
+}

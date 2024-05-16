@@ -473,11 +473,7 @@ export abstract class CookieComponent {
       }
     });
 
-    this.deliveryServiceService.getAllEntities().subscribe({
-      next: (jsonDeliveryServices: DeliveryService[]) => {
-        this.initializeDeliveryServices(jsonDeliveryServices);
-      }
-    });
+    this.initializeAllDeliveryServices();
 
     this.deliveryPersonService.getAllEntities().subscribe({
       next: (jsonDeliveryPeople: DeliveryPerson[]) => {
@@ -488,6 +484,14 @@ export abstract class CookieComponent {
     this.adminService.getAllEntities().subscribe({
       next: (jsonAdmins: Admin[]) => {
         this.initializeAdmins(jsonAdmins);
+      }
+    });
+  }
+
+  initializeAllDeliveryServices() {
+    this.deliveryServiceService.getAllEntities().subscribe({
+      next: (jsonDeliveryServices: DeliveryService[]) => {
+        this.initializeDeliveryServices(jsonDeliveryServices);
       }
     });
   }

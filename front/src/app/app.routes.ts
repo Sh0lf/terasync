@@ -9,12 +9,9 @@ import {PasswordResetComponent} from "./component/authentication/password-reset/
 import {StorageKeys} from "./component/misc/storage-keys";
 import {UserAccountComponent} from "./component/user-account/user-account.component";
 import {UserSettingsComponent} from "./component/user-account/user-settings/user-settings.component";
-import {FaqComponent} from "./component/faq/faq.component";
 import {PaymentMethodsComponent} from "./component/user-account/payment-methods/payment-methods.component";
 import {ManageProductsComponent} from "./component/user-account/manage-products/manage-products.component";
-import {
-  ManageUsersComponent
-} from "./component/user-account/manage-users/manage-users.component";
+import {ManageUsersComponent} from "./component/user-account/manage-users/manage-users.component";
 import {ConnectionSecurityComponent} from "./component/user-account/connection-security/connection-security.component";
 import {OrderHistoryComponent} from "./component/user-account/order-history/order-history.component";
 import {MessageCenterComponent} from "./component/user-account/message-center/message-center.component";
@@ -23,6 +20,9 @@ import {
 } from "./component/user-account/order-history/order-history-detailed/order-history-detailed.component";
 import {BusinessPageComponent} from "./component/business-page/business-page.component";
 import {CheckoutComponent} from "./component/checkout/checkout.component";
+import {
+  ChooseDeliveryServicesComponent
+} from "./component/user-account/choose-delivery-services/choose-delivery-services.component";
 
 
 export const routes: Routes = [
@@ -34,7 +34,6 @@ export const routes: Routes = [
   {path: 'partner-selection', component: PartnerSelectionComponent},
   {path: 'password-recovery', component: PasswordRecoveryComponent},
   {path: `password-reset/:${StorageKeys.USER_TOKEN}`, component: PasswordResetComponent},
-  {path: 'faq', component: FaqComponent},
   {path: 'business-page/:id', component: BusinessPageComponent},
   {path: 'checkout', component: CheckoutComponent},
   {
@@ -42,12 +41,12 @@ export const routes: Routes = [
       {path: 'manage-products', component: ManageProductsComponent},
       {path: 'message-center', component: MessageCenterComponent},
       {path: `manage-users/:${StorageKeys.USER_CATEGORY}`, component: ManageUsersComponent},
+      {path: 'choose-delivery-services', component: ChooseDeliveryServicesComponent},
       {path: 'connection-security', component: ConnectionSecurityComponent},
       {path: 'user-settings', component: UserSettingsComponent},
       {path: 'order-history', component: OrderHistoryComponent},
       {path: 'order-history-detailed/:id', component: OrderHistoryDetailedComponent},
       {path: 'payment-methods', component: PaymentMethodsComponent},
-      {path: 'faq', component: FaqComponent},
     ],
   },
 ];

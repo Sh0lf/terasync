@@ -1,0 +1,27 @@
+<div class="main-page-body-div">
+  <div class="header-elem">
+    <div class="header-icon-elem">
+      <fa-icon [class]="['header-icon']" [icon]="faUserGroup"></fa-icon>
+    </div>
+    <h1 class="main-page-h1">Delivery Services</h1>
+  </div>
+  <div class="separation-line-2"></div>
+  <div class="search-div">
+    <div class="filter-div">
+      <span>Filter By Delivery Service:</span>
+    </div>
+    <div class="input-div">
+      <input type="text" class="default-input-2" placeholder="Search Delivery Services By Name" [(ngModel)]="searchDeliveryService">
+    </div>
+    <div class="filter-div">
+      <button class="default-btn" (click)="clearFilters()">Clear Filters</button>
+    </div>
+  </div>
+
+  <div class="delivery-service-elem-container">
+    <app-delivery-service-element *ngFor="let deliveryService of getFilteredDeliveryServices()"
+      [deliveryService]="deliveryService">
+    </app-delivery-service-element>
+  </div>
+
+</div>

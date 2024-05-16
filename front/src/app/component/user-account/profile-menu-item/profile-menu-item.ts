@@ -85,15 +85,15 @@ export const manageAdmins = new ProfileMenuItem(faUserGroup,
   adminRegistrationTypeADMIN);
 export const manageProducts = new ProfileMenuItem(faBurger, 'Manage Products',
   '/user-account/manage-products', [businessCategory, adminCategory]);
-export const manageMenus = new ProfileMenuItem(faBowlFood, 'Manage Menus',
-  '/user-account/manage-menus', [businessCategory, adminCategory]);
+export const chooseDeliveryServices = new ProfileMenuItem(faUserGroup,
+  `Choose ${deliveryServiceCategory.pluralName}`,
+  `/user-account/choose-${deliveryServiceCategory.getFormattedPluralName()}`,
+  [businessCategory]);
 export const orderHistory = new ProfileMenuItem(faTableList, 'Order History',
   '/user-account/order-history',
   [customerCategory, deliveryPersonCategory, deliveryServiceCategory, businessCategory]);
 export const paymentMethods = new ProfileMenuItem(faCreditCard, 'Payment Methods',
   '/user-account/payment-methods', [customerCategory]);
-export const faq = new ProfileMenuItem(faQuestion, 'FAQ',
-  '/user-account/faq', userCategories);
 export const messageCenter = new ProfileMenuItem(faMessage, 'Message Center',
   '/user-account/message-center', [adminCategory, customerCategory, deliveryPersonCategory]);
 export const logout = new ProfileMenuItem(faArrowRightFromBracket, 'Logout',
@@ -108,10 +108,9 @@ export const profileMenuItems: ProfileMenuItem[] = [
   manageBusinesses,
   manageAdmins,
   manageProducts,
-  manageMenus,
+  chooseDeliveryServices,
   orderHistory,
   paymentMethods,
   messageCenter,
-  // faq,
   logout
 ];
