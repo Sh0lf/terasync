@@ -3,7 +3,7 @@ import {faTableList} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {ActivatedRoute, Router, RouterOutlet} from "@angular/router";
 import {NgxResizeObserverModule} from "ngx-resize-observer";
-import {NgForOf, NgIf} from "@angular/common";
+import {KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {
   OrderHistoryElementComponent
 } from "../user-account/order-history/order-history-element/order-history-element.component";
@@ -30,6 +30,10 @@ import {CustomerOrderList} from "../../model/odSystem/customer.order.list";
 import {filter} from "rxjs";
 import {Product} from "../../model/odSystem/product";
 import {BusinessBasketComponent} from "./business-basket/business-basket.component";
+import {
+  BusinessPageOrderConfirmationComponent
+} from "./business-page-order-confirmation/business-page-order-confirmation.component";
+import {BusinessPageReviewsComponent} from "./business-page-reviews/business-page-reviews.component";
 
 @Component({
   selector: 'app-business-page',
@@ -46,6 +50,9 @@ import {BusinessBasketComponent} from "./business-basket/business-basket.compone
     OrderHistoryElementListComponent,
     BusinessListProductComponent,
     BusinessBasketComponent,
+    KeyValuePipe,
+    BusinessPageOrderConfirmationComponent,
+    BusinessPageReviewsComponent
   ],
   templateUrl: './business-page.component.html',
   styleUrl: './business-page.component.scss'
@@ -59,7 +66,9 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
 
   previousProducts: Product[] = [];
   allProducts: Product[] | undefined;
-  basket = new Map<Product, number>;
+  basket = new Map<number, number>;
+  product: Product | undefined;
+  confirmOrderModal: boolean = false;
 
   constructor(
     protected override customerService: CustomerService,
@@ -114,32 +123,52 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
   }
 
   addToBasket(product: Product) {
-    if (!this.basket.get(product)) {
-      this.basket.set(product, 1);
-    } else {
-      let value = this.basket.get(product);
+    const productId = product.productId;
+    // @ts-ignore
+    const quantity = this.basket.get(productId);
+    if (quantity === undefined) {
       // @ts-ignore
-      this.basket.set(product, (value + 1))
+      this.basket.set(productId, 1);
+    } else {
+      // @ts-ignore
+      this.basket.set(productId, quantity + 1);
     }
+    console.log(this.basket);
   }
 
+
   removeFromBasket(product: Product) {
-    let value: number;
+    const productId = product.productId; // Assuming product ID is accessible as productId property
     // @ts-ignore
-    value = this.basket.get(product);
-    if ((value - 1) == 0) {
-      this.basket.delete(product)
-    } else {// @ts-ignore
-      this.basket.set(product, (value - 1))
+    const quantity = this.basket.get(productId);
+    if (quantity !== undefined) {
+      if (quantity === 1) {
+        // @ts-ignore
+        this.basket.delete(productId);
+      } else {
+        // @ts-ignore
+        this.basket.set(productId, quantity - 1);
+      }
     }
+    console.log(this.basket);
   }
 
   getTotalPrice(): number {
     if (!this.basket) return 0;
     let total: number = 0;
-    for (let [product, quantity] of this.basket){
+    for (let [productId, quantity] of this.basket){
+      let product = this.allProducts?.find(p => productId === p.productId)
+      // @ts-ignore
       total = total + (product.price * quantity)
     }
     return total;
+  }
+
+  openConfirmOrder(){
+    this.confirmOrderModal = true;
+  }
+
+  closeConfirmOrder(newVal: boolean) {
+    this.confirmOrderModal = newVal;
   }
 }

@@ -22,6 +22,7 @@ import {
   OrderHistoryDetailedComponent
 } from "./component/user-account/order-history/order-history-detailed/order-history-detailed.component";
 import {BusinessPageComponent} from "./component/business-page/business-page.component";
+import {CheckoutComponent} from "./component/checkout/checkout.component";
 
 
 export const routes: Routes = [
@@ -35,6 +36,7 @@ export const routes: Routes = [
   {path: `password-reset/:${StorageKeys.USER_TOKEN}`, component: PasswordResetComponent},
   {path: 'faq', component: FaqComponent},
   {path: 'business-page/:id', component: BusinessPageComponent},
+  {path: 'checkout', component: CheckoutComponent},
   {
     path: 'user-account', component: UserAccountComponent, children: [
       {path: 'manage-products', component: ManageProductsComponent},

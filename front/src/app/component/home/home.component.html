@@ -1,9 +1,9 @@
 <div (onResize)="handleFooterTopMinValue($event, 0)" class="main-page-body-div">
   <div class="page-container">
 
-    <div class="welcome-container"> <!-- welcome message for connected user -->
+    <div *ngIf="currentUserService.isLoggedIn()" class="welcome-container"> <!-- welcome message for connected user -->
       <h1 id="welcome-user">
-        Bienvenue, User
+        Bienvenue, {{ currentUserService.user?.firstName }}
       </h1>
     </div>
 

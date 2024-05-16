@@ -1,0 +1,15 @@
+<div class="column-container" *ngIf="isModalOpen">
+  <span>Confirming order:</span>
+  <div *ngFor="let entry of basket | keyvalue">
+    <app-business-basket
+      [style.height.%]="100"
+      [products]="allProducts"
+      [productId]="entry.key"
+      [quantity]="entry.value"
+      [isBasket]="false">
+    </app-business-basket>
+  </div>
+  <div>Total: {{ getTotalPrice().toFixed(2) }}€</div>
+  <button><span><i>Confirm</i></span></button>
+  <button (click)="clickCancel()"><span><i>Close</i></span></button>
+</div>

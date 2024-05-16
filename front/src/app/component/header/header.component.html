@@ -67,21 +67,22 @@
     </div>
   </div>
   <div class="header-elem logo-title-elem" (click)="routeToHome()">
-    <img class="logo-img" src="../../../assets/logo.jpeg" alt="logo">
+    <img class="logo-img" src="assets/logo.jpeg" alt="logo">
     <div class="title-elem">
       <span>terasync</span>
     </div>
   </div>
   <div class="header-elem search-elem">
-    <p-autoComplete
-      [(ngModel)]="selectedBusinessName"
-      [placeholder]="'Search Restaurants'"
-      [inputStyleClass]="'default-input-1'"
-      [styleClass]="'default-input-1-container'"
-      [style.width.%]="100"
-      [suggestions]="getFilteredBusinesses()"
-      (completeMethod)="onSearchBusiness($event)"
-      (click)="onClick()"/>
+    <p-autoComplete name="auto-complete"
+                    [(ngModel)]="selectedBusiness"
+                    [placeholder]="'Search Restaurants'"
+                    [inputStyleClass]="'default-input-1'"
+                    [styleClass]="'default-input-1-container'"
+                    [style.width.%]="100"
+                    [suggestions]="getFilteredBusinesses()"
+                    (completeMethod)="onSearchBusiness($event)"
+                    (click)="onClick()"
+                    (onKeyUp)="onSubmit($event)"/>
   </div>
   <div class="header-elem address-elem">
     <div class="address-elem-text">

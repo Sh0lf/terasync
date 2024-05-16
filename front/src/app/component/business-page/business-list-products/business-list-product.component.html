@@ -7,6 +7,8 @@
   <div class="product-info">
     <img class="product-img" alt="product-img">
     <!--  ngSrc="{{selectedImage?.imageUrl}}"-->
-    <button (click)="addToBasket()"><span><i>Add to basket</i></span></button>
+    <div *ngIf="this.currentUserService.user">
+      <button (click)="addToBasket()"><span><i>Add to basket</i></span></button>
+    </div>
   </div>
 </div>
