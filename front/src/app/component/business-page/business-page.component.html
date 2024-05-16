@@ -12,24 +12,25 @@
   <div (onResize)="handleFooterTopMinValue($event, 80)" class="main-page-body-div">
     <div class="row-container">
       <div class="column-business-details">
-        <h5><b><u>{{business?.getName()}}</u></b></h5>
-        <div>{{business?.address}}</div>
-        <div>{{ratingAverage}}* ({{ratingNbr}} reviews) • Delivery fees: 2,90€</div>
+        <h5><b><u>{{ business?.getName() }}</u></b></h5>
+        <div>{{ business?.address }}</div>
+        <div>
+          <span *ngIf="hasRating()">{{ ratingAverage }}*</span>
+          <span>({{ ratingNbr }} reviews) • Delivery fees: 2,90€</span>
+        </div>
       </div>
       <div class="column-business-menu">
-        <ng-container *ngIf="currentUserService.user">
-          <ng-container class="previous-orders" *ngIf="previousProducts.length>0">
-            <h5><u><b>Previous Orders:</b></u></h5>
-            <div class="row-container-orders">
-              <div class="previous-product" *ngFor="let product of previousProducts">
-                <app-business-list-product
-                  [style.height.%]="100"
-                  [product]="product"
-                  (addToBasketEmitter)="addToBasket($event)">
-                </app-business-list-product>
-              </div>
+        <ng-container class="previous-orders" *ngIf="previousProducts.length > 0">
+          <h5><u><b>Previous Orders:</b></u></h5>
+          <div class="row-container-orders">
+            <div class="previous-product" *ngFor="let product of previousProducts">
+              <app-business-list-product
+                [style.height.%]="100"
+                [product]="product"
+                (addToBasketEmitter)="addToBasket($event)">
+              </app-business-list-product>
             </div>
-          </ng-container>
+          </div>
         </ng-container>
         <div class="menu">
           <h5><u><b>Menu:</b></u></h5>

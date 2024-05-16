@@ -22,12 +22,8 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {
   OrderHistoryElementListComponent
 } from "../user-account/order-history/order-history-element/order-history-element-list/order-history-element-list.component";
-import {CustomerOrder} from "../../model/odSystem/customer.order";
-import {RatingList} from "../../model/rating.list";
 import {RatingListService} from "../../service/rating-list.service";
 import {BusinessListProductComponent} from "./business-list-products/business-list-product.component";
-import {CustomerOrderList} from "../../model/odSystem/customer.order.list";
-import {filter} from "rxjs";
 import {Product} from "../../model/odSystem/product";
 import {BusinessBasketComponent} from "./business-basket/business-basket.component";
 import {
@@ -84,29 +80,34 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
     super();
   }
 
-  ngOnInit(){
-    this.initializeUserByToken().then(()=> {
+  ngOnInit() {
+    this.initializeUserByToken().then(() => {
       this.route.params.subscribe(params => {
         let id = params['id'];
         this.businessService.findEntityById(id).subscribe({
           next: (business: Business) => {
             this.business = Business.fromJson(business);
+            this.ratingAverage = this.ratingService.getRatingAverage(this.business?.ratingLists)
+            this.ratingNbr = this.business?.ratingLists.length;
+            this.allProducts = this.business?.products;
+
           },
           error: (error: HttpErrorResponse) => {
-            console.error('Error fetching business:', error);
             console.log("HTTP ERROR / NA : No businesses found");
             this.router.navigate(['']).then();
-            return;
           }
         })
-        this.ratingAverage = this.ratingService.getRatingAverage(this.business?.ratingLists)
-        this.ratingNbr = this.business?.ratingLists.length;
-        let previousOrders = this.currentUserService.user?.customerOrders?.filter(order => order.businessId == parseInt(id));
-        console.log(previousOrders)
+        let previousCustomerOrders = this.currentUserService.user?.customerOrders?.
+        filter(order => order.businessId == parseInt(id));
+
+        console.log(previousCustomerOrders)
         let uniqueProductIdSet = new Set<number>();
-        if (previousOrders) {
-          for (let previousOrder of previousOrders) {
-            let previousOrderLists = previousOrder.customerOrderLists;
+
+        if (previousCustomerOrders != undefined && previousCustomerOrders.length > 0) {
+
+          for (let previousCustomerOrder of previousCustomerOrders) {
+            let previousOrderLists = previousCustomerOrder.customerOrderLists;
+
             for (let previousOrderList of previousOrderLists) {
               if (!uniqueProductIdSet.has(previousOrderList.productId)) {
                 uniqueProductIdSet.add(previousOrderList.productId);
@@ -117,37 +118,31 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
             }
           }
         }
-        this.allProducts = this.business?.products
       });
     });
   }
 
   addToBasket(product: Product) {
-    const productId = product.productId;
-    // @ts-ignore
-    const quantity = this.basket.get(productId);
-    if (quantity === undefined) {
-      // @ts-ignore
-      this.basket.set(productId, 1);
-    } else {
-      // @ts-ignore
-      this.basket.set(productId, quantity + 1);
+    if(product.productId != undefined) {
+      let quantity = this.basket.get(product.productId);
+      if (quantity === undefined) {
+        this.basket.set(product.productId, 1);
+      } else {
+        this.basket.set(product.productId, quantity + 1);
+      }
     }
-    console.log(this.basket);
   }
 
 
   removeFromBasket(product: Product) {
-    const productId = product.productId; // Assuming product ID is accessible as productId property
-    // @ts-ignore
-    const quantity = this.basket.get(productId);
-    if (quantity !== undefined) {
-      if (quantity === 1) {
-        // @ts-ignore
-        this.basket.delete(productId);
-      } else {
-        // @ts-ignore
-        this.basket.set(productId, quantity - 1);
+    if(product.productId != undefined) {
+      let quantity = this.basket.get(product.productId);
+      if (quantity !== undefined) {
+        if (quantity === 1) {
+          this.basket.delete(product.productId);
+        } else {
+          this.basket.set(product.productId, quantity - 1);
+        }
       }
     }
     console.log(this.basket);
@@ -156,19 +151,23 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
   getTotalPrice(): number {
     if (!this.basket) return 0;
     let total: number = 0;
-    for (let [productId, quantity] of this.basket){
-      let product = this.allProducts?.find(p => productId === p.productId)
-      // @ts-ignore
-      total = total + (product.price * quantity)
-    }
+    this.allProducts?.forEach(product => {
+      if (product.productId != undefined && this.basket.has(product.productId!)) {
+        total = total + (product.price * this.basket.get(product.productId!)!);
+      }
+    });
     return total;
   }
 
-  openConfirmOrder(){
+  openConfirmOrder() {
     this.confirmOrderModal = true;
   }
 
   closeConfirmOrder(newVal: boolean) {
     this.confirmOrderModal = newVal;
+  }
+
+  hasRating() {
+    return this.ratingNbr != 0;
   }
 }
