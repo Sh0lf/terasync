@@ -21,8 +21,8 @@
         <div class="scroll-container-bigger">
           <div class="item" *ngFor="let business of businesses">
 
-<!--            <img src="{{business.pfpImgUrl}}" alt="business image" class="image-elem">-->
-            <p>{{business?.name}}</p>
+<!--            <img src="{{business.pfpImgUrl!}}" alt="business image" class="image-elem">-->
+            <p>{{business?.getName()}}</p>
           </div>
           <div class="item">
             <p>Le Méditerranée</p>

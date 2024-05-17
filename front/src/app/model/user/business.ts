@@ -5,7 +5,7 @@ import {Product} from "../odSystem/product";
 import {RatingList} from "../rating.list";
 
 export class Business extends User {
-  override name: string;
+  protected override name: string;
   override businessId: number | undefined;
   override address: string;
   override phone: string;
@@ -53,10 +53,6 @@ export class Business extends User {
       }
     }
     return businesses;
-  }
-
-  public getBusinessName(): string {
-    return this.name;
   }
 
   override toString() {

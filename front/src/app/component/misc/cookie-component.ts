@@ -364,7 +364,6 @@ export abstract class CookieComponent {
     return new Promise<boolean>((resolve, reject) => {
       new Observable<number>((observer) => {
         let count = 0;
-        // let deliveryPeople = this.currentUserService.user?.deliveryPeople!;
         if (users == undefined || users.length == 0) observer.next(count)
 
         for (let user of users!) {
@@ -390,7 +389,7 @@ export abstract class CookieComponent {
         }
       }).subscribe({
         next: (count: number) => {
-          if (count == users?.length) {
+          if (count == users?.length || users == undefined) {
             resolve(true);
           }
         }
@@ -467,11 +466,7 @@ export abstract class CookieComponent {
       }
     });
 
-    this.businessService.getAllEntities().subscribe({
-      next: (jsonBusinesses: Business[]) => {
-        this.initializeBusinesses(jsonBusinesses)
-      }
-    });
+    this.initializeAllBusinesses();
 
     this.initializeAllDeliveryServices();
 
@@ -484,6 +479,14 @@ export abstract class CookieComponent {
     this.adminService.getAllEntities().subscribe({
       next: (jsonAdmins: Admin[]) => {
         this.initializeAdmins(jsonAdmins);
+      }
+    });
+  }
+
+  initializeAllBusinesses() {
+    this.businessService.getAllEntities().subscribe({
+      next: (jsonBusinesses: Business[]) => {
+        this.initializeBusinesses(jsonBusinesses)
       }
     });
   }
