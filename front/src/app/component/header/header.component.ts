@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {LogoComponent} from "../logo/logo.component";
-import {NgIf, NgStyle} from "@angular/common";
+import {NgForOf, NgIf, NgStyle} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CookieService} from "ngx-cookie-service";
 import {CookieComponent} from "../misc/cookie-component";
@@ -25,9 +25,12 @@ import 'resize-observer-polyfill/dist/ResizeObserver.global'
 import {CurrentUserService} from "../../service/user/current-user.service";
 import {FormsModule} from "@angular/forms";
 import {Business} from "../../model/user/business";
-import {HttpErrorResponse} from "@angular/common/http";
 import {AutoCompleteCompleteEvent, AutoCompleteModule} from 'primeng/autocomplete';
 import {NgxResizeObserverModule} from "ngx-resize-observer";
+import {VariablesService} from "../../service/misc/variables.service";
+import {ProductImageService} from "../../service/odSystem/product-image.service";
+import {ProductService} from "../../service/odSystem/product.service";
+import {logout, ProfileMenuItem, profileMenuItems} from "../user-account/profile-menu-item/profile-menu-item";
 
 @Component({
   selector: 'app-header',
@@ -35,7 +38,7 @@ import {NgxResizeObserverModule} from "ngx-resize-observer";
   imports: [LogoComponent,
     FontAwesomeModule, NgStyle,
     FormsModule, AutoCompleteModule,
-    NgxResizeObserverModule, NgIf],
+    NgxResizeObserverModule, NgIf, NgForOf],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   host: {
@@ -60,17 +63,19 @@ export class HeaderComponent extends CookieComponent implements OnInit {
 
   // DOM Elements
   @ViewChild('headerBody') headerBody!: ElementRef;
-  businesses: Business[] = [];
 
   searchBusiness: string = "";
   selectedBusiness: Business | string | undefined;
 
-  constructor(protected override customerService: CustomerService,
+  constructor(protected override variablesService: VariablesService,
+              protected override customerService: CustomerService,
               protected override businessService: BusinessService,
               protected override adminService: AdminService,
               protected override deliveryServiceService: DeliveryServiceService,
               protected override deliveryPersonService: DeliveryPersonService,
               protected override currentUserService: CurrentUserService,
+              protected override productImageService: ProductImageService,
+              protected override productService: ProductService,
               protected override cookieService: CookieService,
               protected override router: Router, protected override route: ActivatedRoute) {
     super();
@@ -78,24 +83,21 @@ export class HeaderComponent extends CookieComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeUserByToken().then();
-    this.businessService.getAllEntities().subscribe({
-      next: (businesses: Business[]) => {
-        this.businesses = Business.initializeBusinesses({businesses: businesses});
-      },
-      error: (error: HttpErrorResponse) => {
-        console.error('Error fetching business:', error);
-        console.log("HTTP ERROR / NA : No businesses found");
-      }
-    });
+    this.initializeBusinessesVariable().then();
   }
 
   getFilteredBusinesses() {
-    return this.businesses.filter(business =>
+    return this.variablesService.businesses.filter(business =>
       business.getName().toLowerCase().includes(this.searchBusiness.toLowerCase()));
   }
 
-  routeToAndCloseBurgerMenu(route: string) {
-    this.routeTo(route)
+  routeToAndCloseBurgerMenu(profileMenuItem: ProfileMenuItem) {
+    if(profileMenuItem != logout) {
+      this.routeTo(profileMenuItem.link)
+    } else {
+      this.loginOnClick();
+    }
+
     this.showMenu = false;
   }
 
@@ -121,20 +123,24 @@ export class HeaderComponent extends CookieComponent implements OnInit {
 
 
   onClick() {
-    if(this.selectedBusiness != undefined && this.selectedBusiness instanceof Business) {
-      this.routeTo(`business-page/${this.selectedBusiness?.businessId}`);
+    if (this.selectedBusiness != undefined && this.selectedBusiness instanceof Business) {
+      this.variablesService.setSelectedBusiness(this.selectedBusiness)
+
+      this.routeTo('business-page');
     } else {
       // todo if business doesn't exists, routes to home and filters businesses with the input string
-      this.routeTo(`/home`)
+      this.routeTo('home')
     }
   }
 
   onSubmit(event: KeyboardEvent) {
-    if(event.key === 'Enter') {
-      if(this.selectedBusiness != undefined && typeof this.selectedBusiness === 'string') {
-        this.selectedBusiness = this.businesses.find(business => business.getName() === this.selectedBusiness);
+    if (event.key === 'Enter') {
+      if (this.selectedBusiness != undefined && typeof this.selectedBusiness === 'string') {
+        this.selectedBusiness = this.variablesService.businesses.find(business => business.getName() === this.selectedBusiness);
         this.onClick();
       }
     }
   }
+
+  protected readonly profileMenuItems = profileMenuItems;
 }

@@ -34,7 +34,7 @@ export const routes: Routes = [
   {path: 'partner-selection', component: PartnerSelectionComponent},
   {path: 'password-recovery', component: PasswordRecoveryComponent},
   {path: `password-reset/:${StorageKeys.USER_TOKEN}`, component: PasswordResetComponent},
-  {path: 'business-page/:id', component: BusinessPageComponent},
+  {path: 'business-page', component: BusinessPageComponent},
   {path: 'checkout', component: CheckoutComponent},
   {
     path: 'user-account', component: UserAccountComponent, children: [

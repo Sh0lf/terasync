@@ -1,8 +1,13 @@
 <div class="review-cell">
-  <div><u><b>At {{reviewDate}}</b></u></div>
-  <div class="rating"><u><b>{{review.rating}}* out of 5*</b></u></div>
-  <div class="comment-section">
-    <div><u>Comment</u></div>
-    <div class="comment">{{review.comment}}</div>
+  <span class="text-font-700">{{reviewDate}}</span>
+  <div class="rating-div">
+    <div class="rating-container">
+      <div class="{{ratingStar.getStaticClass()}}" *ngFor="let ratingStar of ratingStars">
+        <fa-icon [icon]="faStar" [class]="['clickable-icon-1', 'star-icon']"></fa-icon>
+      </div>
+    </div>
+  </div>
+  <div class="comment-div">
+    <span class="comment">{{review.comment}}</span>
   </div>
 </div>

@@ -3,21 +3,27 @@
     <div class="modal-content">
       <div class="modal-body">
         <span class="modal-header-title">Confirming order:</span>
-        <div *ngFor="let entry of basket | keyvalue">
-          <app-business-basket
-            [style.height.%]="100"
-            [products]="allProducts"
-            [productId]="entry.key"
-            [quantity]="entry.value"
-            [isBasket]="false">
+        <div class="products-container">
+          <app-business-basket *ngFor="let entry of basket | keyvalue"
+                               [style.width.%]="100"
+                               [products]="allProducts"
+                               [productId]="entry.key"
+                               [quantity]="entry.value"
+                               [isBasket]="false">
           </app-business-basket>
         </div>
-        <div>Total: {{ getTotalPrice().toFixed(2) }}€</div>
-        <button><span><i>Confirm</i></span></button>
-        <button (click)="clickCancel()"><span><i>Close</i></span></button></div>
-    </div>
+
+        <div class="bottom-div" *ngIf="basket.size>0">
+          <div>Total: {{ getTotalPrice().toFixed(2) }}€</div>
+          <div class="button-div">
+            <button><span><i>Confirm</i></span></button>
+            <button (click)="clickCancel()"><span><i>Close</i></span></button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+</div>
 
 
 

@@ -16,4 +16,16 @@ export class RatingStar {
       return "clickable-icon-elem-1";
     }
   }
+
+  getStaticClass(): string {
+    if (this.isClicked || this.isHovered) {
+      return "clickable-icon-elem-1-static-clicked";
+    } else {
+      return "clickable-icon-elem-1-static";
+    }
+  }
+
+  setClicked(isClicked: boolean) {
+    this.isClicked = isClicked;
+  }
 }

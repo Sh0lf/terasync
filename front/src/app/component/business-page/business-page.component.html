@@ -1,10 +1,10 @@
 <div class="column-container">
   <div class="business-img-container">
-    <!-- add white gradient, and add this afterwards ngSrc="{{business!.pfpImgPath}}"-->
+    <img class="business-img" src="{{variablesService.selectedBusiness?.pfpImgUrl}}" alt="business-background">
     <div class="business-logo-container">
       <img
         class="logo-picture"
-        src="https://www.lephillys.fr/wp-content/uploads/2020/11/uber-eats-logo.png"
+        src="assets/logo.png"
         alt="order service logo"
       />
     </div>
@@ -12,18 +12,20 @@
   <div (onResize)="handleFooterTopMinValue($event, 80)" class="main-page-body-div">
     <div class="row-container">
       <div class="column-business-details">
-        <h5><b><u>{{ business?.getName() }}</u></b></h5>
-        <div>{{ business?.address }}</div>
+        <span class="title-span">{{ variablesService.selectedBusiness?.getName() }}</span>
+        <div>{{ variablesService.selectedBusiness?.address }}</div>
         <div>
           <span *ngIf="hasRating()">{{ ratingAverage }}*</span>
-          <span>({{ ratingNbr }} reviews) • Delivery fees: 2,90€</span>
+          <span>({{ getRatingAmount() }} reviews) • Delivery fees: 2,90€</span>
         </div>
       </div>
-      <div class="column-business-menu" [ngStyle] = '{width : menuWidth}'>
-        <ng-container class="previous-orders" *ngIf="previousProducts.length > 0">
-          <h5><u><b>Previous Orders:</b></u></h5>
-          <div class="row-container-orders">
-            <div class="previous-product" *ngFor="let product of previousProducts">
+      <div class="column-business-menu">
+        <div class="previous-orders" *ngIf="currentUserService.isLoggedIn() && this.previousProducts.length > 0">
+          <div class="title-div">
+            <span class="title-span">Previous Orders</span>
+          </div>
+          <div class="previous-products-container">
+            <div class="previous-product" *ngFor="let product of this.previousProducts">
               <app-business-list-product
                 [style.height.%]="100"
                 [product]="product"
@@ -31,47 +33,54 @@
               </app-business-list-product>
             </div>
           </div>
-        </ng-container>
+        </div>
         <div class="menu">
-          <h5><u><b>Menu:</b></u></h5>
-          <div class="product" *ngFor="let product of allProducts">
-            <app-business-list-product
-              [style.height.%]="100"
-              [product]="product"
-              (addToBasketEmitter)="addToBasket($event)">
-            </app-business-list-product>
+          <div class="title-div">
+            <span class="title-span">Menu</span>
+          </div>
+          <div class="products-container">
+            <div class="product" *ngFor="let product of variablesService.selectedBusiness?.products">
+              <app-business-list-product
+                [style.height.%]="100"
+                [product]="product"
+                (addToBasketEmitter)="addToBasket($event)">
+              </app-business-list-product>
+            </div>
           </div>
         </div>
       </div>
-      <div class="column" *ngIf="this.currentUserService.user">
-        <div class="column-basket">
-          <h5><u><b>Basket:</b></u></h5>
-          <div *ngIf="basket.size > 0">
-            <div *ngFor="let entry of basket | keyvalue">
-              <app-business-basket
-                [style.height.%]="100"
-                [products]="allProducts"
-                [productId]="entry.key"
-                [quantity]="entry.value"
-                [isBasket]="true"
-                (removeFromBasketEmitter)="removeFromBasket($event)">
-              </app-business-basket>
-            </div>
-            <div class="basket-total">Total: {{ getTotalPrice().toFixed(2) }}€</div>
+      <div class="basket-column" *ngIf="this.currentUserService.isLoggedIn()">
+        <div class="basket">
+          <div class="title-div">
+            <span class="title-span">Basket</span>
+          </div>
+          <div class="products-container" *ngIf="basket.size > 0">
+            <app-business-basket *ngFor="let entry of basket | keyvalue"
+                                 [style.width.%]="100"
+                                 [products]="variablesService.selectedBusiness?.products"
+                                 [productId]="entry.key"
+                                 [quantity]="entry.value"
+                                 [isBasket]="true"
+                                 (removeFromBasketEmitter)="removeFromBasket($event)">
+            </app-business-basket>
+
           </div>
           <div class="basket-placeholder" *ngIf="basket.size == 0">
-            Your basket is currently empty.
+            <span>Your basket is currently empty.</span>
           </div>
-        </div>
-        <div *ngIf="basket.size>0">
-          <span><button class="confirm-button" (click)="openConfirmOrder()"><i>Finish order</i></button></span>
+          <div class="button-div" *ngIf="basket.size>0">
+            <div class="basket-total"><span>Total: {{ getTotalPrice().toFixed(2) }}€</span></div>
+            <span><button class="confirm-button" (click)="openConfirmOrder()"><i>Finish order</i></button></span>
+          </div>
         </div>
       </div>
     </div>
-    <div class="reviews-container">
-      <h5><u><b>Reviews from previous orders</b></u></h5>
+    <div class="reviews-div">
+      <div class="title-div">
+        <span class="title-span">Reviews from previous orders</span>
+      </div>
       <div class="row-container-reviews">
-        <div class="review" *ngFor="let review of business?.ratingLists">
+        <div class="review-div" *ngFor="let review of variablesService.selectedBusiness?.ratingLists">
           <app-business-page-reviews
             [review]="review"
             [style.height.%]="100"
@@ -84,6 +93,6 @@
 <app-business-page-order-confirmation
   [isModalOpen]="confirmOrderModal"
   [basket]="basket"
-  [allProducts]="allProducts"
+  [allProducts]="variablesService.selectedBusiness?.products"
   (onClickCancelEmitter)="closeConfirmOrder($event)">
 </app-business-page-order-confirmation>

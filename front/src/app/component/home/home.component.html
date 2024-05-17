@@ -19,9 +19,8 @@
         </div> <!-- title -->
 
         <div class="scroll-container-bigger">
-          <div class="item" *ngFor="let business of businesses">
-
-<!--            <img src="{{business.pfpImgUrl!}}" alt="business image" class="image-elem">-->
+          <div class="item" *ngFor="let business of variablesService.businesses">
+            <img src="{{business.pfpImgUrl!}}" alt="business image" class="image-elem">
             <p>{{business?.getName()}}</p>
           </div>
           <div class="item">

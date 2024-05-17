@@ -1,15 +1,16 @@
 <div class="product-cell">
   <div class="product-info">
-    <h5><u><b>{{product?.name}}</b></u></h5>
-    <div class="description">{{product?.description}}</div>
-    <div>{{product?.price}}€</div>
+    <span class="text-font-700">{{ product?.name }}</span>
+    <span class="description">{{ product?.description }}</span>
+    <span>{{ product?.price }}€</span>
   </div>
-  <div class="product-info">
-    <div *ngIf="selectedImage?.imageUrl">
-      <img class="product-img" alt="product-img" src="{{selectedImage?.imageUrl}}">
+  <div class="product-image-container">
+    <div *ngFor="let productImage of this.product!.productImages">
+      <img class="product-img" alt="product-img" src="{{productImage?.imageUrl}}">
     </div>
-    <div *ngIf="this.currentUserService.user">
-      <button (click)="addToBasket()"><span><i>Add to basket</i></span></button>
-    </div>
+  </div>
+
+  <div class="product-button-div" *ngIf="this.currentUserService.user">
+    <button (click)="addToBasket()"><span><i>Add to basket</i></span></button>
   </div>
 </div>

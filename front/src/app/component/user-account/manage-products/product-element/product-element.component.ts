@@ -42,8 +42,8 @@ export class ProductElementComponent extends CookieComponent {
   @Input() product!: Product | undefined;
   @Output() onEditEmitter = new EventEmitter<void>();
 
-  constructor(private productImageService: ProductImageService,
-              private customerOrderListService: CustomerOrderListService,
+  constructor(private customerOrderListService: CustomerOrderListService,
+              protected override productImageService: ProductImageService,
               protected override productService: ProductService,
               protected override businessService: BusinessService,
               protected override currentUserService: CurrentUserService,

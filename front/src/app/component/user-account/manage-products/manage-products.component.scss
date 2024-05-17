@@ -98,6 +98,8 @@ $margin: 5px;
   width: $imageSize;
   height: $imageSize;
   border-radius: $borderRadius;
+
+  object-fit: cover;
 }
 
 .mpe-icons-elem {

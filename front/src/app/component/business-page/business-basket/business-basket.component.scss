@@ -2,13 +2,15 @@
 
 .basket-cell{
   display: flex;
-  min-width: 80% !important;
   flex-direction: column;
-  border-radius: 15px 15px;
   justify-content: center;
-  background: rgba($colorP12, 1) no-repeat center center;
+  align-items: center;
+
+  border-radius: 15px 15px;
+  width: 100%;
+  background: $colorP12;
   margin: 10px 0 10px 0;
-  padding: 5px;
+  padding: 10px;
 }
 
 .basket-info{

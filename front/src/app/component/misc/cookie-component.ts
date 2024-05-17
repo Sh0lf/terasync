@@ -33,6 +33,8 @@ import {CustomerOrder} from "../../model/odSystem/customer.order";
 import {Status} from "../../model/odSystem/status";
 import {ProductService} from "../../service/odSystem/product.service";
 import {Product} from "../../model/odSystem/product";
+import {ProductImageService} from "../../service/odSystem/product-image.service";
+import {VariablesService} from "../../service/misc/variables.service";
 
 export abstract class CookieComponent {
   // Services
@@ -47,9 +49,12 @@ export abstract class CookieComponent {
 
   protected customerOrderService!: CustomerOrderService;
   protected productService!: ProductService;
+  protected productImageService!: ProductImageService;
 
   protected router!: Router;
   protected route!: ActivatedRoute;
+
+  protected variablesService!: VariablesService;
 
   // User Categories
   protected readonly businessCategory = businessCategory;
@@ -129,7 +134,7 @@ export abstract class CookieComponent {
   }
 
   routeToHome(): Promise<boolean> {
-    return this.router.navigate([''], {relativeTo: this.route});
+    return this.router.navigate(['/home'], {relativeTo: this.route});
   }
 
   routeTo(path: string) {
@@ -241,6 +246,36 @@ export abstract class CookieComponent {
         }));
       } else if (this.hasUserToken() && this.currentUserService.getCounter() > 1) {
         this.currentUserService.getMainPromise()?.then((success) => {
+          resolve(success);
+        });
+      } else {
+        resolve(false);
+      }
+    });
+  }
+
+  initializeBusinessesVariable() {
+    this.variablesService.incrementCounter();
+    return new Promise<boolean>((resolve, reject) => {
+      if (this.variablesService.businesses != undefined && this.variablesService.businesses.length > 0) {
+        resolve(true);
+      } else if (this.variablesService.getCounter() == 1) {
+        this.variablesService.setMainPromise(new Promise<boolean>((resolve_sub, reject) => {
+          this.businessService.getAllEntities().subscribe({
+            next: (businesses: Business[]) => {
+              this.variablesService.setBusinesses(Business.initializeBusinesses({businesses: businesses}));
+              resolve_sub(true);
+              resolve(true);
+            },
+            error: (error: HttpErrorResponse) => {
+              console.log("Error: " + error);
+              resolve_sub(false);
+              resolve(false);
+            }
+          });
+        }));
+      } else if (this.variablesService.getCounter() > 1) {
+        this.variablesService.getMainPromise()?.then((success) => {
           resolve(success);
         });
       } else {
@@ -367,7 +402,7 @@ export abstract class CookieComponent {
         if (users == undefined || users.length == 0) observer.next(count)
 
         for (let user of users!) {
-          if (user.pfpImgPath != undefined && user.pfpImgPath.length > 0) {
+          if (user != undefined && user.pfpImgPath! != undefined && user.pfpImgPath.length > 0) {
             userService.downloadFiles(user.pfpImgPath).subscribe({
               next: (httpEvent: HttpEvent<Blob>) => {
                 if (httpEvent.type === HttpEventType.Response) {
@@ -395,6 +430,28 @@ export abstract class CookieComponent {
         }
       });
     });
+  }
+
+  initializeProductImages(products: Product[]) {
+    if (products != undefined && products.length! > 0) {
+      products!.forEach((product: Product) => {
+        product.productImages.forEach((productImage) => {
+          this.productImageService.downloadFiles(productImage.path).subscribe({
+            next: (httpEvent: HttpEvent<Blob>) => {
+              if (httpEvent.type === HttpEventType.Response) {
+                const file: File = new File([httpEvent.body!], httpEvent.headers.get('File-Name')!,
+                  {type: `${httpEvent.headers.get('Content-Type')};charset=utf-8`});
+
+                productImage.imageUrl = URL.createObjectURL(file);
+              }
+            },
+            error: (error: HttpErrorResponse) => {
+              console.log("Error downloading file");
+            }
+          });
+        });
+      });
+    }
   }
 
   logoutOnClick() {
@@ -592,7 +649,7 @@ export abstract class CookieComponent {
     });
   }
 
-  private initBusinesses(businesses: Business[], businessContainer: {business: Business | undefined}) {
+  private initBusinesses(businesses: Business[], businessContainer: { business: Business | undefined }) {
     if (!businesses.find(business => business.businessId == businessContainer.business?.businessId) ||
       businesses.length == 0) {
       businesses.push(businessContainer.business!);
@@ -684,7 +741,7 @@ export abstract class CookieComponent {
       this.productService.getAllEntities().subscribe({
         next: (jsonProducts) => {
           this.currentUserService.user?.setProducts(Product.initializeProducts({products: jsonProducts}));
-          if(jsonProducts.length > 0) {
+          if (jsonProducts.length > 0) {
             let count = 0;
             new Observable<number>((observer) => {
               this.currentUserService.user?.products?.forEach((product: Product) => {
@@ -700,7 +757,7 @@ export abstract class CookieComponent {
                 });
               });
             }).subscribe((count: number) => {
-              if(count == this.currentUserService.user?.products?.length! - 1) {
+              if (count == this.currentUserService.user?.products?.length! - 1) {
                 resolve(businesses);
               }
             });

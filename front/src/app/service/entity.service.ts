@@ -2,6 +2,7 @@ import {Observable} from "rxjs";
 import {HttpClient, HttpEvent} from "@angular/common/http";
 import {environment} from "../../environment/environment.prod";
 import {Injectable} from "@angular/core";
+import {withHttpTransferCacheOptions} from "@angular/platform-browser";
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,10 @@ export abstract class EntityService<T> {
     return this.http.get(`${this.apiBackendUrl}/${this.entityName}/download-file/${fileName}`, {
       reportProgress: true,
       observe: 'events',
-      responseType: 'blob'
+      responseType: 'blob',
+      // transferCache: {
+      //   includeHeaders: ['Content-Type', 'File-Name', 'Content-Disposition']
+      // }
     });
   }
 

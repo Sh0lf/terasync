@@ -36,11 +36,11 @@ $font-weight: bold;
   text-align: center;
 }
 
-.address-elem {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-}
+//.address-elem {
+//  display: flex;
+//  justify-content: space-between;
+//  flex-direction: row;
+//}
 
 .address-elem-text {
   max-width: 115px;
@@ -170,6 +170,15 @@ $font-weight: bold;
   align-items: start;
 
   margin-top: 10px;
+}
+
+.dpm-func-elem-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+
+  width: 100%
 }
 
 .dpm-func-elem {

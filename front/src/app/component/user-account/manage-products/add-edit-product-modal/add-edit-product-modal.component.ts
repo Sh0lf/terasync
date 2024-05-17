@@ -49,7 +49,7 @@ export class AddEditProductModalComponent extends ModalComponent {
 
   @Input() modalOpenType: ModalOpenType = ModalOpenType.NONE;
 
-  constructor(private productImageService: ProductImageService,
+  constructor(protected override productImageService: ProductImageService,
               protected override productService: ProductService,
               protected override cookieService: CookieService,
               protected override deliveryPersonService: DeliveryPersonService,

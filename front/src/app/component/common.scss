@@ -162,6 +162,11 @@ $hoverBackground: rgba(0, 0, 0, 0.3);
   color: $colorP11;
 }
 
+.title-span {
+  font-size: 26px;
+  font-weight: 700;
+}
+
 // DEFAULT MAIN PAGE DIV
 .main-page-body-div {
   display: flex;
@@ -357,8 +362,23 @@ $hoverBackground: rgba(0, 0, 0, 0.3);
   transition: background-color 0.2s ease-in-out;
 }
 
-.clickable-icon-elem-1, .clickable-icon-elem-1-clicked {
+.clickable-icon-elem-1, .clickable-icon-elem-1-clicked, .clickable-icon-elem-1-static {
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  min-width: 40px;
+  max-width: 40px;
+  min-height: 40px;
+  max-height: 40px;
+  border-radius: 50%;
+}
+
+.clickable-icon-elem-1-static-clicked {
+  display: flex;
+  background: $colorP11;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -527,6 +547,10 @@ $hoverBackground: rgba(0, 0, 0, 0.3);
 .camera-icon {
   font-size: 30px;
   color: $colorP17;
+}
+
+.star-icon {
+  color: gold;
 }
 
 // SEARCH ELEMENTS

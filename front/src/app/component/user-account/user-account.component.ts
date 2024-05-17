@@ -60,7 +60,9 @@ export class UserAccountComponent extends CookieComponent implements OnInit, Aft
     this.initializeUserByToken().then(() => {
       this.loggedInPage();
     });
-    this.routeTo('/user-account/user-settings');
+    if(this.router.url == '/user-account') {
+      this.routeTo('/user-account/user-settings');
+    }
   }
 
   ngAfterViewChecked(): void {

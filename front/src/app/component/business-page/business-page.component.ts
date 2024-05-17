@@ -8,9 +8,7 @@ import {
   OrderHistoryElementComponent
 } from "../user-account/order-history/order-history-element/order-history-element.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {Business} from "../../model/user/business";
 import {CustomerService} from "../../service/user/customer.service";
-import {BusinessService} from "../../service/user/business.service";
 import {AdminService} from "../../service/user/admin.service";
 import {DeliveryServiceService} from "../../service/user/delivery-service.service";
 import {DeliveryPersonService} from "../../service/user/delivery-person.service";
@@ -18,7 +16,6 @@ import {CookieService} from "ngx-cookie-service";
 import {CurrentUserService} from "../../service/user/current-user.service";
 import {CustomerOrderService} from "../../service/odSystem/customer-order.service";
 import {CookieComponent} from "../misc/cookie-component";
-import {HttpErrorResponse} from "@angular/common/http";
 import {
   OrderHistoryElementListComponent
 } from "../user-account/order-history/order-history-element/order-history-element-list/order-history-element-list.component";
@@ -30,6 +27,10 @@ import {
   BusinessPageOrderConfirmationComponent
 } from "./business-page-order-confirmation/business-page-order-confirmation.component";
 import {BusinessPageReviewsComponent} from "./business-page-reviews/business-page-reviews.component";
+import {VariablesService} from "../../service/misc/variables.service";
+import {ProductImageService} from "../../service/odSystem/product-image.service";
+import {ProductService} from "../../service/odSystem/product.service";
+import {BusinessService} from "../../service/user/business.service";
 
 @Component({
   selector: 'app-business-page',
@@ -57,78 +58,67 @@ import {BusinessPageReviewsComponent} from "./business-page-reviews/business-pag
 export class BusinessPageComponent extends CookieComponent implements OnInit {
 
   protected readonly faTableList = faTableList;
-  business: Business | undefined;
   ratingAverage: number = 0;
-  ratingNbr: number | undefined = 0;
 
-  previousProducts: Product[] = [];
-  allProducts: Product[] | undefined;
   basket = new Map<number, number>;
   product: Product | undefined;
   confirmOrderModal: boolean = false;
-  menuWidth: any;
 
-  constructor(
-    protected override customerService: CustomerService,
-    protected override businessService: BusinessService,
-    protected override adminService: AdminService,
-    protected override deliveryServiceService: DeliveryServiceService,
-    protected override deliveryPersonService: DeliveryPersonService,
-    protected override cookieService: CookieService,
-    protected override currentUserService: CurrentUserService,
-    protected override customerOrderService: CustomerOrderService,
-    protected ratingService: RatingListService,
-    protected override router: Router, protected override route: ActivatedRoute) {
+  previousProducts: Product[] = [];
+
+  constructor(protected override variablesService: VariablesService,
+              protected override customerService: CustomerService,
+              protected override adminService: AdminService,
+              protected override deliveryServiceService: DeliveryServiceService,
+              protected override deliveryPersonService: DeliveryPersonService,
+              protected override cookieService: CookieService,
+              protected override currentUserService: CurrentUserService,
+              protected override customerOrderService: CustomerOrderService,
+              protected override productService: ProductService,
+              protected override productImageService: ProductImageService,
+              protected override businessService: BusinessService,
+              protected ratingService: RatingListService,
+              protected override router: Router, protected override route: ActivatedRoute) {
     super();
   }
 
   ngOnInit() {
+    if(this.variablesService.selectedBusiness == undefined) {
+      this.routeToHome().then();
+    } else {
+      this.initializeBusinessesVariable().then(() => {
+        this.initializeUsersPfpImgUrl(this.variablesService.businesses, this.businessService).then();
+        this.variablesService.businesses.forEach(business => {
+          this.initializeProductImages(business.products!)
+        });
+      });
+    }
+
     this.initializeUserByToken().then(() => {
-      this.route.params.subscribe(params => {
-        let id = params['id'];
-        this.businessService.findEntityById(id).subscribe({
-          next: (business: Business) => {
-            this.business = Business.fromJson(business);
-            this.ratingAverage = this.ratingService.getRatingAverage(this.business?.ratingLists)
-            this.ratingNbr = this.business?.ratingLists.length;
-            this.allProducts = this.business?.products;
+      let previousCustomerOrders = this.currentUserService.user?.customerOrders?.filter(order => order.businessId == this.variablesService.selectedBusiness?.getUserId()!);
+      let uniqueProductIdSet = new Set<number>();
+      if (previousCustomerOrders != undefined && previousCustomerOrders.length > 0) {
 
-          },
-          error: (error: HttpErrorResponse) => {
-            console.log("HTTP ERROR / NA : No businesses found");
-            this.router.navigate(['']).then();
-          }
-        })
-        let previousCustomerOrders = this.currentUserService.user?.customerOrders?.
-        filter(order => order.businessId == parseInt(id));
-        console.log(previousCustomerOrders)
-        //essential for a dynamic width else it's fucked
-        if (this.currentUserService.user){
-          this.menuWidth = '40%';
-        }
-        let uniqueProductIdSet = new Set<number>();
+        for (let previousCustomerOrder of previousCustomerOrders) {
+          let previousOrderLists = previousCustomerOrder.customerOrderLists;
 
-        if (previousCustomerOrders != undefined && previousCustomerOrders.length > 0) {
-
-          for (let previousCustomerOrder of previousCustomerOrders) {
-            let previousOrderLists = previousCustomerOrder.customerOrderLists;
-
-            for (let previousOrderList of previousOrderLists) {
-              if (!uniqueProductIdSet.has(previousOrderList.productId)) {
-                uniqueProductIdSet.add(previousOrderList.productId);
-                if (previousOrderList.product) {
-                  this.previousProducts.push(previousOrderList.product);
-                }
+          for (let previousOrderList of previousOrderLists) {
+            if (!uniqueProductIdSet.has(previousOrderList.productId)) {
+              uniqueProductIdSet.add(previousOrderList.productId);
+              if (previousOrderList.product) {
+                this.previousProducts.push(this.variablesService.selectedBusiness?.products.find(product => product.productId == previousOrderList.productId)!);
               }
             }
           }
         }
-      });
+      }
     });
+
+
   }
 
   addToBasket(product: Product) {
-    if(product.productId != undefined) {
+    if (product.productId != undefined) {
       let quantity = this.basket.get(product.productId);
       if (quantity === undefined) {
         this.basket.set(product.productId, 1);
@@ -140,7 +130,7 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
 
 
   removeFromBasket(product: Product) {
-    if(product.productId != undefined) {
+    if (product.productId != undefined) {
       let quantity = this.basket.get(product.productId);
       if (quantity !== undefined) {
         if (quantity === 1) {
@@ -156,7 +146,7 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
   getTotalPrice(): number {
     if (!this.basket) return 0;
     let total: number = 0;
-    this.allProducts?.forEach(product => {
+    this.variablesService.selectedBusiness?.products?.forEach(product => {
       if (product.productId != undefined && this.basket.has(product.productId!)) {
         total = total + (product.price * this.basket.get(product.productId!)!);
       }
@@ -173,6 +163,11 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
   }
 
   hasRating() {
-    return this.ratingNbr != 0;
+    return this.variablesService.selectedBusiness?.ratingLists.length != 0;
   }
+
+  getRatingAmount() {
+    return this.variablesService.selectedBusiness?.ratingLists.length;
+  }
+
 }

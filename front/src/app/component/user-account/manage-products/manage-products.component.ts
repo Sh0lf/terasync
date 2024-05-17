@@ -4,7 +4,6 @@ import {faBurger, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NgForOf, NgIf} from "@angular/common";
-import {HttpErrorResponse, HttpEvent, HttpEventType} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {UploadPfpModalComponent} from "../upload-pfp-modal/upload-pfp-modal.component";
 import {CookieComponent} from "../../misc/cookie-component";
@@ -48,8 +47,8 @@ export class ManageProductsComponent extends CookieComponent implements OnInit {
   businesses: Business[] = [];
   selectedBusinessId: number | undefined;
 
-  constructor(private productImageService: ProductImageService,
-              private el: ElementRef,
+  constructor(private el: ElementRef,
+              protected override productImageService: ProductImageService,
               protected override productService: ProductService,
               protected override businessService: BusinessService,
               protected override currentUserService: CurrentUserService,
@@ -61,13 +60,13 @@ export class ManageProductsComponent extends CookieComponent implements OnInit {
   ngOnInit(): void {
     this.initializeUserByToken().then(() => {
       this.specificUserPage(businessCategory, adminCategory).then()
-      if(this.isAdminCategory()) {
+      if (this.isAdminCategory()) {
         this.initializeAdminProducts().then(businesses => {
-          this.initializeProductImages();
+          this.initializeProductImages(this.currentUserService.user?.products!);
           this.businesses = businesses;
         });
       } else {
-        this.initializeProductImages();
+        this.initializeProductImages(this.currentUserService.user?.products!);
       }
     });
 
@@ -81,9 +80,9 @@ export class ManageProductsComponent extends CookieComponent implements OnInit {
 
   addProduct() {
     let businessId = this.currentUserService.user?.businessId!;
-    if(this.isAdminCategory() && this.businesses.length > 0) {
+    if (this.isAdminCategory() && this.businesses.length > 0) {
       businessId = this.selectedBusinessId!;
-      if(businessId == undefined) {
+      if (businessId == undefined) {
         businessId = this.businesses[0].businessId!;
       }
     } else {
@@ -101,28 +100,6 @@ export class ManageProductsComponent extends CookieComponent implements OnInit {
 
   onChangeEmitter(isModalOpen: boolean) {
     this.isModalOpen = isModalOpen;
-  }
-
-  initializeProductImages() {
-    if(this.currentUserService.user?.products?.length! > 0) {
-      this.currentUserService.user?.products!.forEach((product: Product) => {
-        product.productImages.forEach((productImage) => {
-          this.productImageService.downloadFiles(productImage.path).subscribe({
-            next: (httpEvent: HttpEvent<Blob>) => {
-              if (httpEvent.type === HttpEventType.Response) {
-                const file: File = new File([httpEvent.body!], httpEvent.headers.get('File-Name')!,
-                  {type: `${httpEvent.headers.get('Content-Type')};charset=utf-8`});
-
-                productImage.imageUrl = URL.createObjectURL(file);
-              }
-            },
-            error: (error: HttpErrorResponse) => {
-              console.log("Error downloading file");
-            }
-          });
-        });
-      });
-    }
   }
 
   getFilteredProducts(): Product[] {
