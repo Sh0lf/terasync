@@ -14,7 +14,7 @@
       <span>{{deliveryService?.email}}</span>
       <span>Member since: {{memberSince}}</span>
       <div class="edit-elem">
-
+          <button class="{{getButtonClass()}}" (click)="onButtonClick()">{{getButtonText()}}</button>
       </div>
     </div>
   </div>
