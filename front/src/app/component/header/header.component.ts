@@ -127,7 +127,7 @@ export class HeaderComponent extends CookieComponent implements OnInit {
       this.variablesService.setSelectedBusiness(this.selectedBusiness)
 
       this.routeTo('business-page');
-    } else {
+    } else if(this.selectedBusiness != undefined) {
       // todo if business doesn't exists, routes to home and filters businesses with the input string
       this.routeTo('home')
     }

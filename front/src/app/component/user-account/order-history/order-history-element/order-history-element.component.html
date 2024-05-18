@@ -1,18 +1,12 @@
 <div class="list-container">
-  <h2 class="order-timestamp">{{ creationTime }}</h2>
   <div class="order-cell">
     <div class="business-img-container">
-      <!-- add white gradient, and add this afterwards ngSrc="{{business!.pfpImgPath}}"-->
       <div class="business-logo-container">
-        <img
-          class="logo-picture"
-          src="https://www.lephillys.fr/wp-content/uploads/2020/11/uber-eats-logo.png"
-          alt="order service logo"
-        />
+        <img class="logo-picture" src="assets/logo.png" alt="order service logo"/>
       </div>
     </div>
     <div class="order-summary-detail">
-      <h5 class="business-name">{{ customerOrder?.business?.getName() }}</h5>
+      <h5 class="business-name">{{ customerOrder?.business?.getName() }} | {{creationTime}}</h5>
       <ng-container *ngIf="orderLists">
         <div *ngFor="let orderList of orderLists?.slice(0, 3)">
           <app-order-history-element-list [style.height.%]="100"
@@ -20,7 +14,7 @@
           </app-order-history-element-list>
         </div>
         <ng-container *ngIf="orderLists.length>3">...</ng-container>
-        <div>Status: <u>{{customerOrder?.status?.status}}</u></div>
+        <span>Status: {{customerOrder?.status?.status}}</span>
       </ng-container>
     </div>
     <div class="order-misc">

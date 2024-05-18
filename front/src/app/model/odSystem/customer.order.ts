@@ -9,15 +9,16 @@ import {DeliveryService} from "../user/delivery.service";
 import {DeliveryPerson} from "../user/delivery.person";
 
 export class CustomerOrder {
-  customerOrderId: number;
-  creationTime: string;
-  minTemp: number;
-  maxTemp: number;
-  deliveryTime: string;
-  statusId: string;
+  customerOrderId: number | undefined;
+  creationTime: string | undefined;
+  minTemp: number | undefined;
+  maxTemp: number | undefined;
+  deliveryTime: string | undefined;
+  statusId: number;
   packagingId: number;
   customerId: number;
   businessId: number;
+  addressId: number;
   deliveryServiceId: number;
   deliveryPersonId: number;
 
@@ -35,9 +36,9 @@ export class CustomerOrder {
 
   rated: boolean = true;
 
-  constructor(customerOrderId: number, creationTime: string, minTemp: number, maxTemp: number,
-              deliveryTime: string, statusId: string, packagingId: number, customerId: number,
-              businessId: number, deliveryServiceId: number, deliveryPersonId: number) {
+  constructor(statusId: number, packagingId: number, customerId: number, businessId: number,
+              deliveryServiceId: number, deliveryPersonId: number, addressId: number, minTemp?: number,
+              maxTemp?: number, deliveryTime?: string, customerOrderId?: number, creationTime?: string) {
     this.customerOrderId = customerOrderId;
     this.creationTime = creationTime;
     this.minTemp = minTemp;
@@ -49,18 +50,20 @@ export class CustomerOrder {
     this.businessId = businessId;
     this.deliveryServiceId = deliveryServiceId;
     this.deliveryPersonId = deliveryPersonId;
+    this.addressId = addressId;
   }
 
   static fromJson(jsonCustomerOrder: CustomerOrder) {
-    let customerOrder: CustomerOrder = new CustomerOrder(jsonCustomerOrder.customerOrderId, jsonCustomerOrder.creationTime,
+    let customerOrder: CustomerOrder = new CustomerOrder(jsonCustomerOrder.statusId,
+      jsonCustomerOrder.packagingId, jsonCustomerOrder.customerId, jsonCustomerOrder.businessId,
+      jsonCustomerOrder.deliveryServiceId, jsonCustomerOrder.deliveryPersonId, jsonCustomerOrder.addressId,
       jsonCustomerOrder.minTemp, jsonCustomerOrder.maxTemp, jsonCustomerOrder.deliveryTime,
-      jsonCustomerOrder.statusId, jsonCustomerOrder.packagingId, jsonCustomerOrder.customerId,
-      jsonCustomerOrder.businessId, jsonCustomerOrder.deliveryServiceId, jsonCustomerOrder.deliveryPersonId)
+      jsonCustomerOrder.customerOrderId, jsonCustomerOrder.creationTime)
 
     customerOrder.customerOrderLists = CustomerOrderList.initializeCustomerOrderLists(jsonCustomerOrder);
     customerOrder.messageLists = MessageList.initializeMessageLists(jsonCustomerOrder);
-    customerOrder.status = Status.initializeStatus(jsonCustomerOrder);
-    customerOrder.packaging = Packaging.initializePackaging(jsonCustomerOrder);
+    customerOrder.status = Status.fromJson(jsonCustomerOrder.status!)
+    customerOrder.packaging = Packaging.fromJson(jsonCustomerOrder.packaging!);
     customerOrder.address = Address.initializeAddress(jsonCustomerOrder);
 
     return customerOrder;
@@ -78,5 +81,9 @@ export class CustomerOrder {
 
   setRated(rated: boolean) {
     this.rated = rated;
+  }
+
+  hasDeliveryTime() {
+    return this.deliveryTime != undefined;
   }
 }

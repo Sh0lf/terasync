@@ -13,10 +13,13 @@
     <div class="row-container">
       <div class="column-business-details">
         <span class="title-span">{{ variablesService.selectedBusiness?.getName() }}</span>
-        <div>{{ variablesService.selectedBusiness?.address }}</div>
-        <div>
-          <span *ngIf="hasRating()">{{ ratingAverage }}*</span>
-          <span>({{ getRatingAmount() }} reviews) • Delivery fees: 2,90€</span>
+        <span>{{ variablesService.selectedBusiness?.address }}</span>
+        <div class="review-info-div">
+          <span *ngIf="hasRating()">{{ getRatingAverage() }}</span>
+          <div class="icon-elem-1">
+            <fa-icon [icon]="faStar" [class]="['star-icon', 'icon-small']"></fa-icon>
+          </div>
+          <span>({{ getRatingAmount() }} reviews)</span>
         </div>
       </div>
       <div class="column-business-menu">
@@ -63,13 +66,12 @@
                                  [isBasket]="true"
                                  (removeFromBasketEmitter)="removeFromBasket($event)">
             </app-business-basket>
-
           </div>
           <div class="basket-placeholder" *ngIf="basket.size == 0">
             <span>Your basket is currently empty.</span>
           </div>
           <div class="button-div" *ngIf="basket.size>0">
-            <div class="basket-total"><span>Total: {{ getTotalPrice().toFixed(2) }}€</span></div>
+            <div class="basket-total"><span>Total: {{ getTotalPrice(this.variablesService.selectedBusiness?.products!, this.basket) }}€</span></div>
             <span><button class="confirm-button" (click)="openConfirmOrder()"><i>Finish order</i></button></span>
           </div>
         </div>
@@ -93,6 +95,6 @@
 <app-business-page-order-confirmation
   [isModalOpen]="confirmOrderModal"
   [basket]="basket"
-  [allProducts]="variablesService.selectedBusiness?.products"
-  (onClickCancelEmitter)="closeConfirmOrder($event)">
+  [business]="variablesService.selectedBusiness"
+  (onCancelEmitter)="closeConfirmOrder($event)">
 </app-business-page-order-confirmation>

@@ -6,7 +6,7 @@
         <div class="products-container">
           <app-business-basket *ngFor="let entry of basket | keyvalue"
                                [style.width.%]="100"
-                               [products]="allProducts"
+                               [products]="business?.products!"
                                [productId]="entry.key"
                                [quantity]="entry.value"
                                [isBasket]="false">
@@ -14,10 +14,10 @@
         </div>
 
         <div class="bottom-div" *ngIf="basket.size>0">
-          <div>Total: {{ getTotalPrice().toFixed(2) }}€</div>
+          <div>Total: {{ getTotalPrice(business?.products!, this.basket) }}€</div>
           <div class="button-div">
-            <button><span><i>Confirm</i></span></button>
-            <button (click)="clickCancel()"><span><i>Close</i></span></button>
+            <button (click)="onConfirm()"><span><i>Confirm</i></span></button>
+            <button (click)="onCancel()"><span><i>Close</i></span></button>
           </div>
         </div>
       </div>

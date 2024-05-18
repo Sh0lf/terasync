@@ -32,15 +32,12 @@
 }
 
 .business-logo-container {
-  border-radius: 15px;
   z-index: 3;
   max-width: 20%;
   max-height: 27%;
   min-width: 65px;
   min-height: 65px;
-  background-color: aliceblue;
   padding: 5px;
-  box-sizing: border-box;
 }
 .logo-picture {
   z-index: 4;
@@ -56,6 +53,8 @@
   padding: 10px;
   box-sizing: border-box;
   white-space: pre-wrap !important;
+
+  height: 100%;
 }
 
 app-order-history-element-list {
@@ -95,6 +94,7 @@ button {
   letter-spacing: 0.1rem;
   font-size: 0.7rem;
   padding: 10px;
+  margin-top: 10px;
   transition: 0.2s;
 }
 

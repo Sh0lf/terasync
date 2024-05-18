@@ -8,30 +8,44 @@ h5{
   font-size: 18px;
 }
 
-.column-container{
+.main-page-div{
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+}
+
+.main-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 70%;
 }
 
 .row-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   flex-direction: row;
+
   width: 100%;
+  height: 250px;
 }
 
 .order-information-list {
-  padding: 3%;
   align-self: center;
-  border-radius: 15px;
-  background: rgba(247, 196, 165, 0.45);
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: start;
+
+  padding: 3%;
+  border-radius: 15px;
+  background: $colorP12;
   margin-right: 3%;
-  min-width: 69%;
+
+  width: 60%;
   height: 100%;
 }
 
@@ -43,49 +57,59 @@ h5{
   display: flex;
   align-self: center;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: start;
   padding: 3%;
   border-radius: 15px;
-  background: rgba(247, 196, 165, 0.45);
-  min-width: 28%;
-  height: 100%;
-  border-spacing: 10px;
-}
+  background: $colorP12;
 
-.order-delivery-information div{
-  font-size: 14px;
+  width: 37%;
+  height: 100%;
 }
 
 .order-summary-container{
-  margin-top: 3%;
+  display: flex;
   justify-content: center;
+  align-items: start;
+  flex-direction: row;
+
+  margin-top: 3%;
   border-radius: 15px;
   padding: 3%;
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  background: rgba(247, 196, 165, 0.45);
-  align-items: center;
+  background: $colorP12;
+
+  height: 300px;
 }
 
 .order-summary-detail {
   display: flex;
   flex-direction: column;
-  min-width: 60%;
-  justify-content: space-between;
-}
+  align-items: start;
+  justify-content: start;
 
-.order-list-container{
-  display: flex;
-  flex-direction: column;
+  width: 61%;
+  height: 100%;
 }
 
 .order-payment-info{
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-  min-height: 250px;
   justify-content: space-between;
-  box-sizing: border-box;
   align-items: center;
+
+  min-height: 250px;
+  box-sizing: border-box;
+
+  width: 36%;
+}
+
+.separation-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+
+  width: 3%;
+  height: 100%;
 }

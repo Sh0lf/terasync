@@ -36,6 +36,7 @@ export const routes: Routes = [
   {path: `password-reset/:${StorageKeys.USER_TOKEN}`, component: PasswordResetComponent},
   {path: 'business-page', component: BusinessPageComponent},
   {path: 'checkout', component: CheckoutComponent},
+  {path: 'order-history-detailed', component: OrderHistoryDetailedComponent},
   {
     path: 'user-account', component: UserAccountComponent, children: [
       {path: 'manage-products', component: ManageProductsComponent},

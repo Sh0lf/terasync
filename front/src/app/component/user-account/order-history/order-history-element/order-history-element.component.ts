@@ -47,11 +47,11 @@ export class OrderHistoryElementComponent extends CookieComponent implements OnI
   }
 
   ngOnInit(): void {
-    this.creationTime = getDateTime(this.customerOrder!.creationTime)
+    this.creationTime = getDateTime(this.customerOrder!.creationTime!)
     this.orderLists = this.customerOrder?.customerOrderLists;
     this.total = this.customerOrderService.getOrderTotal(this.customerOrder);
 
-    this.ratingListService.findByCustomerOrderId(this.customerOrder!.customerOrderId)
+    this.ratingListService.findByCustomerOrderId(this.customerOrder!.customerOrderId!)
       .subscribe(rating => {
       this.customerOrder?.setRated(rating != undefined);
     });

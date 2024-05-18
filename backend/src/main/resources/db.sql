@@ -130,7 +130,7 @@ CREATE TABLE CustomerOrder
     creationTime      DATETIME      NOT NULL DEFAULT (GETDATE()),
     minTemp           DECIMAL(5, 2) NOT NULL DEFAULT (0),
     maxTemp           DECIMAL(5, 2) NOT NULL DEFAULT (0),
-    deliveryTime      DATETIME      NOT NULL,
+    deliveryTime      DATETIME,
     rated             BIT           NOT NULL DEFAULT (0),
     statusId          INT           NOT NULL,
     packagingId       INT           NOT NULL,

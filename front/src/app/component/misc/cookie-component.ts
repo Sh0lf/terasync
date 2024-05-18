@@ -35,6 +35,8 @@ import {ProductService} from "../../service/odSystem/product.service";
 import {Product} from "../../model/odSystem/product";
 import {ProductImageService} from "../../service/odSystem/product-image.service";
 import {VariablesService} from "../../service/misc/variables.service";
+import {PackagingService} from "../../service/odSystem/packaging.service";
+import {Packaging} from "../../model/odSystem/packaging";
 
 export abstract class CookieComponent {
   // Services
@@ -44,6 +46,7 @@ export abstract class CookieComponent {
   protected businessService!: BusinessService;
   protected adminService!: AdminService;
   protected deliveryServiceService!: DeliveryServiceService;
+  protected packagingService!: PackagingService;
   protected deliveryPersonService!: DeliveryPersonService;
   protected currentUserService!: CurrentUserService;
 
@@ -255,11 +258,11 @@ export abstract class CookieComponent {
   }
 
   initializeBusinessesVariable() {
-    this.variablesService.incrementCounter();
+    this.variablesService.incrementBusinessesCounter();
     return new Promise<boolean>((resolve, reject) => {
       if (this.variablesService.businesses != undefined && this.variablesService.businesses.length > 0) {
         resolve(true);
-      } else if (this.variablesService.getCounter() == 1) {
+      } else if (this.variablesService.getBusinessesCounter() == 1) {
         this.variablesService.setMainPromise(new Promise<boolean>((resolve_sub, reject) => {
           this.businessService.getAllEntities().subscribe({
             next: (businesses: Business[]) => {
@@ -274,7 +277,67 @@ export abstract class CookieComponent {
             }
           });
         }));
-      } else if (this.variablesService.getCounter() > 1) {
+      } else if (this.variablesService.getBusinessesCounter() > 1) {
+        this.variablesService.getMainPromise()?.then((success) => {
+          resolve(success);
+        });
+      } else {
+        resolve(false);
+      }
+    });
+  }
+
+  initializeDeliveryServicesVariable() {
+    this.variablesService.incrementDeliveryServicesCounter();
+    return new Promise<boolean>((resolve, reject) => {
+      if (this.variablesService.deliveryServices != undefined && this.variablesService.deliveryServices.length > 0) {
+        resolve(true);
+      } else if (this.variablesService.getDeliveryServicesCounter() == 1) {
+        this.variablesService.setMainPromise(new Promise<boolean>((resolve_sub, reject) => {
+          this.deliveryServiceService.getAllEntities().subscribe({
+            next: (deliveryServices: DeliveryService[]) => {
+              this.variablesService.setDeliveryServices(DeliveryService.initializeDeliveryServices({deliveryServices: deliveryServices}));
+              resolve_sub(true);
+              resolve(true);
+            },
+            error: (error: HttpErrorResponse) => {
+              console.log("Error: " + error);
+              resolve_sub(false);
+              resolve(false);
+            }
+          });
+        }));
+      } else if (this.variablesService.getDeliveryServicesCounter() > 1) {
+        this.variablesService.getMainPromise()?.then((success) => {
+          resolve(success);
+        });
+      } else {
+        resolve(false);
+      }
+    });
+  }
+
+  initializePackagingsVariable() {
+    this.variablesService.incrementPackagingsCounter();
+    return new Promise<boolean>((resolve, reject) => {
+      if (this.variablesService.packagings != undefined && this.variablesService.packagings.length > 0) {
+        resolve(true);
+      } else if (this.variablesService.getPackagingsCounter() == 1) {
+        this.variablesService.setMainPromise(new Promise<boolean>((resolve_sub, reject) => {
+          this.packagingService.getAllEntities().subscribe({
+            next: (packagings: Packaging[]) => {
+              this.variablesService.setPackagings(Packaging.initializePackagings({packagings: packagings}));
+              resolve_sub(true);
+              resolve(true);
+            },
+            error: (error: HttpErrorResponse) => {
+              console.log("Error: " + error);
+              resolve_sub(false);
+              resolve(false);
+            }
+          });
+        }));
+      } else if (this.variablesService.getPackagingsCounter() > 1) {
         this.variablesService.getMainPromise()?.then((success) => {
           resolve(success);
         });

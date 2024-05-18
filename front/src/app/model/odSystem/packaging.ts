@@ -11,11 +11,13 @@ export class Packaging {
     return new Packaging(json.packagingId, json.packaging);
   }
 
-  static initializePackaging(jsonCustomerOrder: {packaging: Packaging | undefined}): Packaging | undefined {
-    let packaging: Packaging | undefined;
-    if(jsonCustomerOrder.packaging != undefined) {
-      packaging = Packaging.fromJson(jsonCustomerOrder.packaging);
+  static initializePackagings(json: {packagings: Packaging[]}): Packaging[] {
+    let packagings: Packaging[] = [];
+    if (json.packagings) {
+      for (let packaging of json.packagings) {
+        packagings.push(Packaging.fromJson(packaging));
+      }
     }
-    return packaging;
+    return packagings;
   }
 }

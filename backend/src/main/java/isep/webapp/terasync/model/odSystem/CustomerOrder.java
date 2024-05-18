@@ -39,6 +39,8 @@ public class CustomerOrder extends isep.webapp.terasync.model.Entity {
     private int deliveryServiceId;
     @Column(name = "deliveryPersonId")
     private int deliveryPersonId;
+    @Column(name = "addressId")
+    private int addressId;
 
 
     @ManyToOne(

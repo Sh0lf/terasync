@@ -1,56 +1,72 @@
 <div class="checkout-container">
   <div class="checkout-header">
-    <h2>Checkout</h2>
+    <h2>Checkout for your order with {{basketService.business?.getName()}}</h2>
   </div>
   <div class="checkout-body">
     <div class="left-section">
-      <div class="delivery-address">
+      <div class="elem-container">
         <h3>Select Delivery Address</h3>
-        <!-- Selection d'adresse -->
-        <div class="address-option">
-          <input type="radio" name="address" value="Address 1"> Address 1
-        </div>
-        <div class="address-option">
-          <input type="radio" name="address" value="Address 2"> Address 2
+        <div class="select-div">
+          <select [(ngModel)]="selectedAddress" class="default-input-2">
+            <option *ngFor="let address of currentUserService.user?.addresses!"
+                    [value]="address">
+              {{ address.country }}, {{ address.city }}, {{ address.street }}, {{ address.postalCode }}
+            </option>
+          </select>
         </div>
       </div>
-      <div class="payment-method">
+      <div class="elem-container">
+        <h3>Select Delivery Service</h3>
+        <div class="select-div">
+          <select [(ngModel)]="selectedDeliveryService" class="default-input-2">
+            <option *ngFor="let deliveryService of getAllowedDeliveryServices()"
+                    [value]="deliveryService">
+              {{ deliveryService.getName() }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="elem-container">
+        <h3>Select Packaging</h3>
+        <div class="select-div">
+          <select [(ngModel)]="selectedPackaging" class="default-input-2">
+            <option *ngFor="let packaging of this.variablesService.packagings"
+                    [value]="packaging">
+              {{ packaging.packaging }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="elem-container">
         <h3>Select Payment Method</h3>
-        <!-- Sélection de méthode de paiement -->
         <div class="payment-option">
-          <input type="radio" name="payment" value="Credit Card"> Credit Card
+          <input type="radio" name="payment" value="Credit Card" checked="checked"> Credit Card
         </div>
         <div class="payment-option">
           <input type="radio" name="payment" value="PayPal"> PayPal
         </div>
       </div>
-      <div class="delivery-service">
-        <h3>Select Delivery Service</h3>
-        <!-- Sélection de service de livraison -->
-        <div class="delivery-option">
-          <input type="radio" name="delivery" value="Uber Eats"> Uber Eats
-        </div>
-        <div class="delivery-option">
-          <input type="radio" name="delivery" value="Deliveroo"> Deliveroo
-        </div>
-      </div>
     </div>
     <div class="right-section">
-      <div class="order-summary">
+      <div class="elem-container">
         <h3>Order Summary</h3>
-        <!-- Liste des produits dans le panier -->
-        <div class="checkout-product">
-          <div>Product 1: 10€</div>
-          <div>Product 2: 15€</div>
+        <div class="large-container">
+          <app-business-basket *ngFor="let entry of basketService.basket | keyvalue"
+                               [style.width.%]="100"
+                               [products]="basketService.business?.products!"
+                               [productId]="entry.key"
+                               [quantity]="entry.value"
+                               [isBasket]="false">
+          </app-business-basket>
         </div>
         <div class="total">
-          <span>Total:</span> <span>25€</span>
+          <span>Total:</span> <span>{{getTotalPrice(basketService.business?.products!, basketService.basket)}}€</span>
         </div>
       </div>
     </div>
   </div>
   <div class="checkout-footer">
     <!-- Bouton de paiement -->
-    <button>Pay</button>
+    <button (click)="onPay()">Pay</button>
   </div>
 </div>

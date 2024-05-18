@@ -92,6 +92,9 @@ export const chooseDeliveryServices = new ProfileMenuItem(faUserGroup,
 export const orderHistory = new ProfileMenuItem(faTableList, 'Order History',
   '/user-account/order-history',
   [customerCategory, deliveryPersonCategory, deliveryServiceCategory, businessCategory]);
+export const manageOrders = new ProfileMenuItem(faTableList, 'Manage Orders',
+  '/user-account/manage-orders',
+  [businessCategory, customerCategory, deliveryServiceCategory, deliveryPersonCategory]);
 export const paymentMethods = new ProfileMenuItem(faCreditCard, 'Payment Methods',
   '/user-account/payment-methods', [customerCategory]);
 export const messageCenter = new ProfileMenuItem(faMessage, 'Message Center',

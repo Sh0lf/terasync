@@ -107,14 +107,11 @@ $hoverBackground: rgba(0, 0, 0, 0.3);
 }
 
 .vertical-separation-line {
-  display: flex;
-  height: 50%;
-  position: absolute;
+  height: 100%;
   width: 3px;
   padding: 1px;
   border-radius: 1px;
-  margin: 10px 15px 10px 15px;
-  background: radial-gradient($colorP10 50%, rgba(247, 196, 165, 0), rgba(247, 196, 165, 0));
+  background: radial-gradient($colorP11 30%, $colorP12, $colorP12);
 }
 
 
@@ -362,6 +359,13 @@ $hoverBackground: rgba(0, 0, 0, 0.3);
   transition: background-color 0.2s ease-in-out;
 }
 
+.icon-elem-1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
 .clickable-icon-elem-1, .clickable-icon-elem-1-clicked, .clickable-icon-elem-1-static {
   display: flex;
   flex-direction: row;
@@ -551,6 +555,10 @@ $hoverBackground: rgba(0, 0, 0, 0.3);
 
 .star-icon {
   color: gold;
+}
+
+.icon-small {
+  font-size: 14px;
 }
 
 // SEARCH ELEMENTS

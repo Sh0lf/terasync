@@ -1,1 +1,15 @@
 @import "../../../../common";
+
+.elem-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+
+  width: 100%;
+}
+
+.item-span {
+  text-wrap: wrap;
+  word-break: break-word;
+}

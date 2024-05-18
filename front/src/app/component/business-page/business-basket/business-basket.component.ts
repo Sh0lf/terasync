@@ -16,12 +16,13 @@ import {NgIf} from "@angular/common";
   styleUrl: './business-basket.component.scss'
 })
 export class BusinessBasketComponent extends CookieComponent implements OnInit {
+  totalPriceList: number | undefined;
+  product: Product | undefined;
+
   @Output() removeFromBasketEmitter = new EventEmitter<Product>();
   @Input() productId: number | undefined;
   @Input() quantity: number | undefined;
-  totalPriceList: number | undefined;
   @Input() products!: Product[] | undefined;
-  product: Product | undefined;
   @Input() isBasket: Boolean | undefined;
 
   constructor(
@@ -33,8 +34,7 @@ export class BusinessBasketComponent extends CookieComponent implements OnInit {
 
   ngOnInit(): void {
     this.product = this.products?.find(p => this.productId == p.productId)
-    // @ts-ignore
-    this.totalPriceList = this.product?.price * this.quantity;
+    this.totalPriceList = this.product?.price! * this.quantity!;
   }
 
   removeFromBasket() {

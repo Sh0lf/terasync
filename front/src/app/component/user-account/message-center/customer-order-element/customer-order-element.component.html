@@ -20,7 +20,7 @@
   <div>
     <span class="text-font-700">Creation Time:</span><span> {{creationTime}}</span>
   </div>
-  <div>
+  <div *ngIf="customerOrderElement?.customerOrder?.hasDeliveryTime()">
     <span class="text-font-700">Delivery Time:</span><span> {{deliveryTime}}</span>
   </div>
 </div>

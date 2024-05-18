@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {faTableList} from "@fortawesome/free-solid-svg-icons";
+import {faStar, faTableList} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {ActivatedRoute, Router, RouterOutlet} from "@angular/router";
 import {NgxResizeObserverModule} from "ngx-resize-observer";
@@ -58,13 +58,10 @@ import {BusinessService} from "../../service/user/business.service";
 export class BusinessPageComponent extends CookieComponent implements OnInit {
 
   protected readonly faTableList = faTableList;
-  ratingAverage: number = 0;
-
-  basket = new Map<number, number>;
-  product: Product | undefined;
   confirmOrderModal: boolean = false;
 
   previousProducts: Product[] = [];
+  basket = new Map<number, number>;
 
   constructor(protected override variablesService: VariablesService,
               protected override customerService: CustomerService,
@@ -83,6 +80,9 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.basket = new Map<number, number>();
+    this.previousProducts = [];
+
     if(this.variablesService.selectedBusiness == undefined) {
       this.routeToHome().then();
     } else {
@@ -143,16 +143,7 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
     console.log(this.basket);
   }
 
-  getTotalPrice(): number {
-    if (!this.basket) return 0;
-    let total: number = 0;
-    this.variablesService.selectedBusiness?.products?.forEach(product => {
-      if (product.productId != undefined && this.basket.has(product.productId!)) {
-        total = total + (product.price * this.basket.get(product.productId!)!);
-      }
-    });
-    return total;
-  }
+
 
   openConfirmOrder() {
     this.confirmOrderModal = true;
@@ -170,4 +161,27 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
     return this.variablesService.selectedBusiness?.ratingLists.length;
   }
 
+  protected readonly getTotalPrice = getTotalPrice;
+
+  getRatingAverage() {
+    let ratingSum = 0;
+    this.variablesService.selectedBusiness?.ratingLists.forEach(rating => {
+      ratingSum += rating.rating;
+    });
+    return ratingSum / this.variablesService.selectedBusiness?.ratingLists?.length!;
+  }
+
+  protected readonly faStar = faStar;
+}
+
+export function getTotalPrice(products: Product[], basket: Map<number, number>): string {
+  if (basket.size == 0) return "0.00";
+
+  let total: number = 0;
+  products.forEach(product => {
+    if (product.productId != undefined && basket.has(product.productId!)) {
+      total = total + (product.price * basket.get(product.productId!)!);
+    }
+  });
+  return total.toFixed(2);
 }

@@ -32,4 +32,14 @@ export class DeliveryService extends User {
 
     return deliveryService;
   }
+
+  static initializeDeliveryServices(json: {deliveryServices: DeliveryService[]}) {
+    let deliveryServices: DeliveryService[] = [];
+    if (json.deliveryServices) {
+      for (let deliveryService of json.deliveryServices) {
+        deliveryServices.push(DeliveryService.fromJson(deliveryService));
+      }
+    }
+    return deliveryServices;
+  }
 }
