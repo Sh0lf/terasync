@@ -12,3 +12,12 @@ export class Status {
   }
 }
 
+export enum StatusEnum {
+  PENDING = "Pending",
+  COMPLETED = "Completed",
+  ACCEPTED = "Accepted",
+  CANCELLED = "Cancelled",
+  REJECTED = "Rejected",
+  DELIVERING = "Delivering",
+}
+

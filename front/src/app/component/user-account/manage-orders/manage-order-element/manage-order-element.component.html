@@ -1,0 +1,50 @@
+<div class="customer-order-body-div">
+  <div class="customer-order-div">
+    <div class="info-div">
+      <span><span class="text-font-700">Customer Order ID: </span> {{ customerOrder?.customerOrderId }}</span>
+      <span><span class="text-font-700">Customer: </span>{{ customerOrder?.customer?.getName() }}</span>
+      <span><span class="text-font-700">Business: </span>{{ customerOrder?.business?.getName() }}</span>
+      <span><span class="text-font-700">Delivery Service: </span>{{ customerOrder?.deliveryService?.getName() }}</span>
+      <span><span class="text-font-700">Delivery Person: </span>{{ customerOrder?.deliveryPerson?.getName() }}</span>
+      <span><span class="text-font-700">Status: </span>{{ customerOrder?.status?.status }}</span>
+      <span><span class="text-font-700">Packaging: </span>{{ customerOrder?.packaging?.packaging }}</span>
+      <span><span class="text-font-700">Min Temp (°C): </span>{{ minTemp }}</span>
+      <span><span class="text-font-700">Max Temp (°C): </span>{{ maxTemp }}</span>
+      <span><span class="text-font-700">Order Time: </span>{{ creationTime }}</span>
+      <span *ngIf="customerOrder?.isCompleted()"><span
+        class="text-font-700">Delivery Time: </span>{{ deliveryTime }}</span>
+    </div>
+    <div class="edit-temp-div" *ngIf="canChangeTemp()">
+      <div class="edit-temp">
+        <span class="text-font-700">Min Temp (°C):</span>
+        <div class="edit-temp-input-div">
+          <input class="default-input-2" type="number" [(ngModel)]="minTemp">
+        </div>
+      </div>
+      <div class="edit-temp">
+        <span class="text-font-700">Max Temp (°C):</span>
+        <div class="edit-temp-input-div">
+          <input class="default-input-2" type="number" [(ngModel)]="maxTemp">
+        </div>
+      </div>
+    </div>
+    <div class="search-div" *ngIf="canSelectDeliveryPerson()">
+      <select class="default-input-2" [(ngModel)]="selectedDeliveryPersonId">
+        <option *ngFor="let deliveryPerson of currentUserService.user?.deliveryPeople!"
+                [value]="deliveryPerson.getUserId()">
+          {{ deliveryPerson.getName() }}
+        </option>
+      </select>
+    </div>
+    <div class="control-panel-div">
+      <button class="deny-button" (click)="onDenyButtonClick()"
+              *ngIf="hasText(getDenyButtonText())">{{ getDenyButtonText() }}
+      </button>
+      <button class="allow-button" (click)="onAcceptButtonClick()"
+              *ngIf="hasText(getAcceptButtonText())">{{ getAcceptButtonText() }}
+      </button>
+    </div>
+  </div>
+</div>
+
+

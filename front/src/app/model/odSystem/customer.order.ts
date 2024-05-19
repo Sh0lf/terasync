@@ -1,6 +1,6 @@
 import {CustomerOrderList} from "./customer.order.list";
 import {MessageList} from "../message.list";
-import {Status} from "./status";
+import {Status, StatusEnum} from "./status";
 import {Packaging} from "./packaging";
 import {Address} from "./address";
 import {Business} from "../user/business";
@@ -85,5 +85,53 @@ export class CustomerOrder {
 
   hasDeliveryTime() {
     return this.deliveryTime != undefined;
+  }
+
+  isPending() {
+    return this.status?.status == StatusEnum.PENDING;
+  }
+
+  isAccepted() {
+    return this.status?.status == StatusEnum.ACCEPTED;
+  }
+
+  isRejected() {
+    return this.status?.status == StatusEnum.REJECTED;
+  }
+
+  isCancelled() {
+    return this.status?.status == StatusEnum.CANCELLED;
+  }
+
+  isDelivering() {
+    return this.status?.status == StatusEnum.DELIVERING;
+  }
+
+  isCompleted() {
+    return this.status?.status == StatusEnum.COMPLETED;
+  }
+
+  setStatusId(statusId: number) {
+    this.statusId = statusId;
+  }
+
+  setStatus(status: Status) {
+    this.status = status;
+  }
+
+  setDeliveryPerson(deliveryPerson: DeliveryPerson) {
+    this.deliveryPerson = deliveryPerson;
+  }
+
+  setDeliveryTime(deliveryTime: string) {
+    this.deliveryTime = deliveryTime;
+  }
+
+  setMinTemp(minTemp: number) {
+    this.minTemp = minTemp;
+  }
+
+  setMaxTemp(maxTemp: number) {
+    this.maxTemp = maxTemp;
   }
 }

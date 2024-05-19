@@ -23,6 +23,7 @@ import {CheckoutComponent} from "./component/checkout/checkout.component";
 import {
   ChooseDeliveryServicesComponent
 } from "./component/user-account/choose-delivery-services/choose-delivery-services.component";
+import {ManageOrdersComponent} from "./component/user-account/manage-orders/manage-orders.component";
 
 
 export const routes: Routes = [
@@ -46,6 +47,7 @@ export const routes: Routes = [
       {path: 'connection-security', component: ConnectionSecurityComponent},
       {path: 'user-settings', component: UserSettingsComponent},
       {path: 'order-history', component: OrderHistoryComponent},
+      {path: 'manage-orders', component: ManageOrdersComponent},
       {path: 'order-history-detailed/:id', component: OrderHistoryDetailedComponent},
       {path: 'payment-methods', component: PaymentMethodsComponent},
     ],

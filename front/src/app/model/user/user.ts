@@ -241,4 +241,8 @@ export class User {
     this.products = undefined;
     this.ratingLists = undefined;
   }
+
+  toString() {
+    return this.getName();
+  }
 }

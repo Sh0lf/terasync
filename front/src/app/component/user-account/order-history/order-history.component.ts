@@ -82,22 +82,18 @@ export class OrderHistoryComponent extends CookieComponent implements OnInit {
   ngOnInit(): void {
     this.initializeUserByToken().then(() => {
       this.specificUserPage(customerCategory, deliveryPersonCategory, deliveryServiceCategory, businessCategory).then();
-      this.fetchParentUsers();
+      this.fetchCustomerOrdersParentEntities(this.currentUserService.user?.customerOrders!).then((parentEntities) => {
+        this.statuses = parentEntities.statuses;
+        this.deliveryPeople = parentEntities.deliveryPeople;
+        this.deliveryServices = parentEntities.deliveryServices;
+        this.businesses = parentEntities.businesses;
+      });
     });
 
     this.el.nativeElement.style.width = `100%`;
   }
 
-  private fetchParentUsers() {
-    this.fetchCustomerOrdersParentEntities(this.currentUserService.user?.customerOrders!).then((parentEntities) => {
-      this.statuses = parentEntities.statuses;
-      this.deliveryPeople = parentEntities.deliveryPeople;
-      this.deliveryServices = parentEntities.deliveryServices;
-      this.businesses = parentEntities.businesses;
-    });
-  }
-
-  getFilteredOrders() {
+  getFilteredCustomerOrders() {
     return this.currentUserService.user?.customerOrders?.filter(order => {
       return (this.selectedStatusId == undefined || order.status?.statusId == this.selectedStatusId) &&
         (this.selectedDeliveryPersonId == undefined || order.deliveryPerson?.getUserId() == this.selectedDeliveryPersonId) &&

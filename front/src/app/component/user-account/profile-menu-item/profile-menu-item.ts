@@ -98,7 +98,7 @@ export const manageOrders = new ProfileMenuItem(faTableList, 'Manage Orders',
 export const paymentMethods = new ProfileMenuItem(faCreditCard, 'Payment Methods',
   '/user-account/payment-methods', [customerCategory]);
 export const messageCenter = new ProfileMenuItem(faMessage, 'Message Center',
-  '/user-account/message-center', [adminCategory, customerCategory, deliveryPersonCategory]);
+  '/user-account/message-center', [adminCategory, customerCategory, businessCategory, deliveryServiceCategory, deliveryPersonCategory]);
 export const logout = new ProfileMenuItem(faArrowRightFromBracket, 'Logout',
   '', userCategories);
 
@@ -113,6 +113,7 @@ export const profileMenuItems: ProfileMenuItem[] = [
   manageProducts,
   chooseDeliveryServices,
   orderHistory,
+  manageOrders,
   paymentMethods,
   messageCenter,
   logout

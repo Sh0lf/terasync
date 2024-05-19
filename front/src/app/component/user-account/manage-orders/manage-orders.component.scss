@@ -1,0 +1,21 @@
+@import "../../common.scss";
+
+.main-container-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+  flex-wrap: wrap;
+
+  width: 100%;
+}
+
+.customer-order-body-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 5px 10px 5px 10px;
+  width: 100%;
+}

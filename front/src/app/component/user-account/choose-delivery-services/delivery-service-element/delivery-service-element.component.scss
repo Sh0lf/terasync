@@ -105,30 +105,3 @@ $imageSize: 150px;
   padding: 2px;
   width: 100%;
 }
-
-.allow-button, .deny-button {
-  border-radius: 15px;
-  border: transparent;
-  height: 35px;
-  width: 100%;
-
-  margin: 5px 0 5px 0;
-  font-weight: 700;
-  font-size: 16px;
-}
-
-.allow-button {
-  background: $validColor_1;;
-}
-
-.allow-button:hover {
-  background: $validColor_2;
-}
-
-.deny-button {
-  background: $invalidColor_1;
-}
-
-.deny-button:hover {
-  background: $invalidColor_2;
-}

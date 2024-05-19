@@ -1,30 +1,19 @@
-<div (onResize)="handleFooterTopMinValue($event, 80)" class="main-page-body-div">
+<div class="main-page-body-div">
   <div class="header-elem">
     <div class="header-icon-elem">
       <fa-icon [class]="['header-icon']" [icon]="faTableList"></fa-icon>
     </div>
-    <h1 class="main-page-h1">Order History</h1>
+    <h1 class="main-page-h1">My Orders</h1>
   </div>
   <div class="separation-line-2"></div>
   <div class="search-div">
-    <div class="filter-div">
-      <span>Filter By Status:</span>
-      <div class="select-div">
-        <select class="default-input-2" [(ngModel)]="selectedStatusId">
-          <option *ngFor="let status of statuses"
-                  [value]="status.statusId">
-            {{status.status}}
-          </option>
-        </select>
-      </div>
-    </div>
     <div class="filter-div">
       <span>Filter By Delivery Service:</span>
       <div class="select-div">
         <select class="default-input-2" [(ngModel)]="selectedDeliveryServiceId">
           <option *ngFor="let deliveryService of deliveryServices"
                   [value]="deliveryService.getUserId()">
-            {{deliveryService.getName()}}
+            {{ deliveryService.getName() }}
           </option>
         </select>
       </div>
@@ -35,7 +24,7 @@
         <select class="default-input-2" [(ngModel)]="selectedBusinessId">
           <option *ngFor="let business of businesses"
                   [value]="business.getUserId()">
-            {{business.getName()}}
+            {{ business.getName() }}
           </option>
         </select>
       </div>
@@ -46,7 +35,7 @@
         <select class="default-input-2" [(ngModel)]="selectedDeliveryPersonId">
           <option *ngFor="let deliveryPerson of deliveryPeople"
                   [value]="deliveryPerson.getUserId()">
-            {{deliveryPerson.getName()}}
+            {{ deliveryPerson.getName() }}
           </option>
         </select>
       </div>
@@ -55,19 +44,12 @@
       <button class="default-btn" (click)="clearFilters()">Clear Filters</button>
     </div>
   </div>
-
   <div class="main-container-div">
-    <div class="main-container-div" *ngFor="let order of getFilteredCustomerOrders()">
-      <app-order-history-element
+    <div *ngFor="let customerOrder of getFilteredCustomerOrders()">
+      <app-manage-order-element *ngIf="customerOrder.deliveryPerson != undefined"
         [style.height.%]="100"
-        [customerOrder]="order"
-        (onRateOrderEmitter)="onRateOrder($event)">
-      </app-order-history-element>
+        [customerOrder]="customerOrder">
+      </app-manage-order-element>
     </div>
   </div>
 </div>
-<app-order-history-rating-modal
-  [isModalOpen]="isRatingModalOpen"
-  [ratingCustomerOrder]="ratingCustomerOrder"
-  (onModalChangeEmitter)="closeModal($event)">
-</app-order-history-rating-modal>

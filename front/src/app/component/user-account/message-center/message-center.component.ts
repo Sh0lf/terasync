@@ -25,7 +25,7 @@ import {MessageListElementComponent} from "./message-list-element/message-list-e
 import {MessageListElement} from "./message-list-element/message-list-element";
 import {FormsModule} from "@angular/forms";
 import {MessageListService} from "../../../service/message-list.service";
-import {Status} from "../../../model/odSystem/status";
+import {Status, StatusEnum} from "../../../model/odSystem/status";
 import {DeliveryService} from "../../../model/user/delivery.service";
 import {DeliveryPerson} from "../../../model/user/delivery.person";
 import {Business} from "../../../model/user/business";
@@ -81,7 +81,6 @@ export class MessageCenterComponent extends CookieComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeUserByToken().then(() => {
-      this.specificUserPage(customerCategory, adminCategory, deliveryPersonCategory).then();
       if(this.isAdminCategory()) {
         this.initializeAdminCustomerOrders().then(success => {
           if(success) {
@@ -189,7 +188,8 @@ export class MessageCenterComponent extends CookieComponent implements OnInit {
   }
 
   isPending() {
-    return this.selectedCustomerOrderElement?.customerOrder?.status?.status == "Pending";
+    let status = this.selectedCustomerOrderElement?.customerOrder?.status?.status;
+    return status == StatusEnum.PENDING || status == StatusEnum.ACCEPTED || status == StatusEnum.DELIVERING;
   }
 
   getFilteredCustomerOrderElements() {
