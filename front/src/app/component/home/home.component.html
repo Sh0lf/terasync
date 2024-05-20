@@ -38,7 +38,7 @@
         </div> <!-- title -->
 
         <div class="scroll-container-smaller">
-          <div class="item" *ngFor="let business of businesses" [ngStyle]="{'background-image': business?.pfpImgUrl ? 'url(' + business?.pfpImgUrl + ')' : 'none' }">
+          <div class="item" *ngFor="let business of businesses" [ngStyle]="{'background-image': 'url(' + business?.pfpImgUrl + ')'}">
             <p>{{business?.getName()}}</p>
           </div>
 

@@ -75,6 +75,8 @@ export class HomeComponent extends CookieComponent implements OnInit, AfterViewI
 
   customerOrders: CustomerOrder[] | undefined = [];
 
+  images: String[] = [];
+
   ngOnInit(): void {
     this.initializeUserByToken().then(()=>{
       this.specificUserPage(customerCategory, deliveryPersonCategory, deliveryServiceCategory, businessCategory).then();
@@ -89,6 +91,9 @@ export class HomeComponent extends CookieComponent implements OnInit, AfterViewI
           // Convert the Set back to an array
           this.businesses = Array.from(uniqueBusinesses);
           console.log(this.businesses)
+
+          this.initializeUsersPfpImgUrl(this.businesses, this.businessService).then()
+          let imgvariable = {}
         });
         this.initializeBusinessesVariable().then();
       }
