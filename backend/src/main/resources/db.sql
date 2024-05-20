@@ -139,6 +139,7 @@ CREATE TABLE CustomerOrder
     deliveryServiceId INT           NOT NULL,
     deliveryPersonId  INT           NOT NULL,
     addressId         INT           NOT NULL,
+    paymentMethodId         INT           NOT NULL,
     constraint status_customerOrder_fk FOREIGN KEY (statusId) REFERENCES Status (statusId),
     constraint packaging_customerOrder_fk FOREIGN KEY (packagingId) REFERENCES Packaging (packagingId),
     constraint customer_customerOrder_fk FOREIGN KEY (customerId) REFERENCES Customer (customerId)
@@ -151,6 +152,8 @@ CREATE TABLE CustomerOrder
         ON DELETE NO ACTION ON UPDATE NO ACTION,
     constraint address_customerOrder_fk FOREIGN KEY (addressId) REFERENCES Address (addressId)
         ON DELETE NO ACTION ON UPDATE NO ACTION,
+    constraint paymentMethod_customerOrder_fk FOREIGN KEY (paymentMethodId) REFERENCES PaymentMethod (paymentMethodId)
+        ON DELETE CASCADE ON UPDATE CASCADE,
     constraint temp_customerOrder_check check (minTemp >= -273.15 and maxTemp >= -273.15 and minTemp <= maxTemp)
 )
 
@@ -252,5 +255,22 @@ CREATE TABLE MessageList
     deliveryPersonId  INT,
     customerOrderId   INT          NOT NULL,
     constraint customerOrder_messageList_fk FOREIGN KEY (customerOrderId) REFERENCES CustomerOrder (customerOrderId)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- Payment methods
+CREATE TABLE PaymentMethod
+(
+    paymentMethodId         INT IDENTITY (1, 1) PRIMARY KEY,
+    name                    VARCHAR(255) NOT NULL,
+    cardNumber              VARCHAR(255) NOT NULL,
+    billingCountry          VARCHAR(255) NOT NULL,
+    billingPostalCode       VARCHAR(255) NOT NULL,
+    billingCity             VARCHAR(255) NOT NULL,
+    billingStreet           VARCHAR(255) NOT NULL,
+    defaultPaymentMethod    BIT          NOT NULL DEFAULT (0),
+    customerId              INT,
+
+    constraint customerId_paymentMethod_fk FOREIGN KEY (customerId) REFERENCES Customer (customerId)
         ON DELETE CASCADE ON UPDATE CASCADE
 );

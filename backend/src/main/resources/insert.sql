@@ -205,4 +205,3 @@ VALUES
     ('Business Msg1', 1, null, null, null, null, 1),
     ('Business Msg2', 1, null, null, null, null, 1),
     ('Business Msg3', 1, null, null, null, null, 1);
-

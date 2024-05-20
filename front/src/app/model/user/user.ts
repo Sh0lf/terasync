@@ -8,6 +8,7 @@ import {Customer} from "./customer";
 import {Admin} from "./admin";
 import {DeliveryService} from "./delivery.service";
 import {Business} from "./business";
+import {PaymentMethod} from "../odSystem/payment.method";
 
 export class User {
   protected userId: number | undefined;
@@ -39,6 +40,7 @@ export class User {
   // CHILD TABLES
   // CUSTOMER
   addresses: Address[] | undefined = [];
+  paymentMethods: PaymentMethod[] | undefined = [];
 
   // CUSTOMER - BUSINESS - DELIVERY PERSON - DELIVERY SERVICE
   customerOrders: CustomerOrder[] | undefined = [];
@@ -102,6 +104,7 @@ export class User {
     user.deliveryServiceId = jsonUser.deliveryServiceId;
 
     user.addresses = Address.initializeAddresses(jsonUser);
+    user.paymentMethods = PaymentMethod.initializePayments(jsonUser);
     user.customerOrders = CustomerOrder.initializeCustomerOrders(jsonUser);
     user.deliveryServiceLists = DeliveryServiceList.initializeDeliveryServiceLists(jsonUser);
     user.products = Product.initializeProducts(jsonUser);

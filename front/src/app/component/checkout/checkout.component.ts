@@ -25,6 +25,7 @@ import {CustomerOrderService} from "../../service/odSystem/customer-order.servic
 import {CustomerOrderListService} from "../../service/odSystem/customer-order-list.service";
 import {CustomerOrderList} from "../../model/odSystem/customer.order.list";
 import {Observable} from "rxjs";
+import {PaymentMethod} from "../../model/odSystem/payment.method";
 
 @Component({
   selector: 'app-checkout',
@@ -44,6 +45,7 @@ export class CheckoutComponent extends CookieComponent implements OnInit {
   selectedAddress!: Address | undefined;
   selectedDeliveryService!: DeliveryService | undefined;
   selectedPackaging!: Packaging | undefined;
+  selectedPaymentMethod!: PaymentMethod | undefined;
 
   constructor(protected basketService: BasketService,
               protected override customerOrderService: CustomerOrderService,
@@ -92,7 +94,8 @@ export class CheckoutComponent extends CookieComponent implements OnInit {
       this.basketService.business?.businessId!,
       this.selectedDeliveryService?.deliveryServiceId!,
       1,
-      this.selectedAddress?.addressId!)
+      this.selectedAddress?.addressId!,
+      this.selectedPaymentMethod?.paymentMethodId!)
 
     this.customerOrderService.addEntity(newCustomerOrder).subscribe({
       next: (jsonCustomerOrder: CustomerOrder) => {

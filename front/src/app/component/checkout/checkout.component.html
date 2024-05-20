@@ -40,7 +40,13 @@
       <div class="elem-container">
         <h3>Select Payment Method</h3>
         <div class="payment-option">
-          <input type="radio" name="payment" value="Credit Card" checked="checked"> Credit Card
+        <select [(ngModel)]="selectedPaymentMethod" class="default-input-2">
+          <option *ngFor="let paymentMethod of this.currentUserService.user?.paymentMethods"
+                  [value]="paymentMethod">
+            {{ paymentMethod.name }}
+            {{ paymentMethod.card }}
+          </option>
+        </select>
         </div>
         <div class="payment-option">
           <input type="radio" name="payment" value="PayPal"> PayPal
