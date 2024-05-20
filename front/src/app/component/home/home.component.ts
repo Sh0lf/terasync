@@ -1,4 +1,4 @@
-import {AfterViewInit, APP_INITIALIZER, Component, OnInit} from '@angular/core';
+import {AfterViewInit, APP_INITIALIZER, Component, ElementRef, OnInit} from '@angular/core';
 import {FooterComponent} from "../footer/footer.component";
 import {CookieComponent} from "../misc/cookie-component";
 import {NgxResizeObserverModule} from "ngx-resize-observer";
@@ -28,6 +28,12 @@ import {
   deliveryPersonCategory,
   deliveryServiceCategory
 } from "../../service/user/userCategories";
+import {Customer} from "../../model/user/customer";
+import {CustomerService} from "../../service/user/customer.service";
+import {AdminService} from "../../service/user/admin.service";
+import {DeliveryServiceService} from "../../service/user/delivery-service.service";
+import {DeliveryPersonService} from "../../service/user/delivery-person.service";
+import {CustomerOrderService} from "../../service/odSystem/customer-order.service";
 
 @Component({
   selector: 'app-home',
@@ -45,15 +51,20 @@ import {
   styleUrl: './home.component.scss'
 })
 export class HomeComponent extends CookieComponent implements OnInit, AfterViewInit {
+  statuses: Status[] = [];
+  deliveryPeople: DeliveryPerson[] = [];
+  deliveryServices: DeliveryService[] = [];
+  businesses: Business[] = [];
 
-  constructor(protected override variablesService: VariablesService,
-              protected override currentUserService: CurrentUserService,
-              protected override cookieService: CookieService,
-              protected override productImageService: ProductImageService,
-              protected override productService: ProductService,
+  constructor(protected override customerService: CustomerService,
               protected override businessService: BusinessService,
-              protected override router: Router,
-              protected override route: ActivatedRoute) {
+              protected override adminService: AdminService,
+              protected override deliveryServiceService: DeliveryServiceService,
+              protected override deliveryPersonService: DeliveryPersonService,
+              protected override cookieService: CookieService,
+              protected override currentUserService: CurrentUserService,
+              protected override variablesService: VariablesService,
+              protected override router: Router, protected override route: ActivatedRoute) {
     super();
   }
 
@@ -62,14 +73,14 @@ export class HomeComponent extends CookieComponent implements OnInit, AfterViewI
   faClock = faClock;
   faFire = faFire;
 
-  businesses: Business[] = [];
+  customerOrders: CustomerOrder[] | undefined = [];
 
   ngOnInit(): void {
     this.initializeUserByToken().then(()=>{
       this.specificUserPage(customerCategory, deliveryPersonCategory, deliveryServiceCategory, businessCategory).then();
-      if (this.currentUserService.user!.customerOrders!) {
+      if (this.currentUserService.user?.customerOrders!) {
         this.fetchCustomerOrdersParentEntities(
-          this.currentUserService.user!.customerOrders
+          this.currentUserService.user?.customerOrders!
         ).then((parentEntities) => {
           // Use a Set to store unique businesses
           console.log(parentEntities.businesses)

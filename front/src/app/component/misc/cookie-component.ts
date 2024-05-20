@@ -37,6 +37,7 @@ import {ProductImageService} from "../../service/odSystem/product-image.service"
 import {VariablesService} from "../../service/misc/variables.service";
 import {PackagingService} from "../../service/odSystem/packaging.service";
 import {Packaging} from "../../model/odSystem/packaging";
+import {cursorTo} from "node:readline";
 
 export abstract class CookieComponent {
   // Services
@@ -654,8 +655,10 @@ export abstract class CookieComponent {
         let count = 0;
         new Observable<number>((observer) => {
           for (let customerOrder of customerOrders) {
+            console.log(customerOrder);
             this.businessService.findEntityById(customerOrder.businessId).subscribe({
               next: (jsonBusiness: Business) => {
+                console.log(jsonBusiness);
                 customerOrder.business = Business.fromJson(jsonBusiness);
                 this.initBusinesses(businesses, customerOrder);
                 observer.next(count++);
@@ -664,8 +667,10 @@ export abstract class CookieComponent {
                 console.log("HTTP ERROR / NA : No business found");
               }
             });
+            console.log(customerOrder.customerId)
             this.customerService.findEntityById(customerOrder.customerId).subscribe({
-              next: (jsonCustomer) => {
+              next: (jsonCustomer: Customer) => {
+                console.log(jsonCustomer)
                 customerOrder.customer = Customer.fromJson(jsonCustomer);
                 observer.next(count++);
               },
@@ -674,7 +679,8 @@ export abstract class CookieComponent {
               }
             });
             this.deliveryPersonService.findEntityById(customerOrder.deliveryPersonId).subscribe({
-              next: (jsonDeliveryPerson) => {
+              next: (jsonDeliveryPerson: DeliveryPerson) => {
+                console.log(jsonDeliveryPerson)
                 customerOrder.deliveryPerson = DeliveryPerson.fromJson(jsonDeliveryPerson);
                 this.initDeliveryPeople(deliveryPeople, customerOrder);
                 observer.next(count++);
@@ -684,7 +690,8 @@ export abstract class CookieComponent {
               }
             });
             this.deliveryServiceService.findEntityById(customerOrder.deliveryServiceId).subscribe({
-              next: (jsonDeliveryService) => {
+              next: (jsonDeliveryService: DeliveryService) => {
+                console.log(jsonDeliveryService)
                 customerOrder.deliveryService = DeliveryService.fromJson(jsonDeliveryService);
                 this.initDeliveryServices(deliveryServices, customerOrder)
                 observer.next(count++);
