@@ -3,13 +3,13 @@
 
     <div *ngIf="currentUserService.isLoggedIn()" class="welcome-container"> <!-- welcome message for connected user -->
       <h1 id="welcome-user">
-        Bienvenue, {{ currentUserService.user?.firstName }}
+        Welcome, {{ currentUserService.user?.firstName }}
       </h1>
     </div>
 
     <div class="categories-container"> <!-- real content of the page, containing all different designs of restaurants display -->
 
-      <div class="restaurants-container">
+      <div *ngIf="!currentUserService.isLoggedIn()" class="restaurants-container">
 
         <div class="section-title-container">
           <fa-icon [icon]="faLocationDot" [class]="['icon-title']"></fa-icon>
@@ -18,67 +18,17 @@
           </h2>
         </div> <!-- title -->
 
+
         <div class="scroll-container-bigger">
-          <div class="item" *ngFor="let business of variablesService.businesses">
-            <img src="{{business.pfpImgUrl!}}" alt="business image" class="image-elem">
+          <div class="item" *ngFor="let business of variablesService.businesses"
+               [ngStyle]="{'background-image': 'url(' + business.pfpImgUrl + ')'}">
             <p>{{business?.getName()}}</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
           </div>
         </div>
 
       </div> <!-- restaurant container bigger -->
 
-      <div class="restaurant-container">
+      <div *ngIf="currentUserService.isLoggedIn()" class="restaurant-container">
 
         <div class="section-title-container">
           <fa-icon [icon]="faClock" [class]="['icon-title']"></fa-icon>
@@ -88,15 +38,13 @@
         </div> <!-- title -->
 
         <div class="scroll-container-smaller">
-          <div class="item">
-            <p>Le Méditerranée</p>
+          <div class="item" *ngFor="let business of businesses" [ngStyle]="{'background-image': business?.pfpImgUrl ? 'url(' + business?.pfpImgUrl + ')' : 'none' }">
+            <p>{{business?.getName()}}</p>
           </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
+
+<!--          <div class="item">-->
+<!--            <p>Le Méditerranée</p>-->
+<!--          </div>-->
         </div>
 
       </div> <!-- restaurant container smaller -->
@@ -111,56 +59,9 @@
         </div> <!-- title -->
 
         <div class="wrap-container">
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
-          </div>
-          <div class="item">
-            <p>Le Méditerranée</p>
+          <div class="item" *ngFor="let business of variablesService.businesses"
+               [ngStyle]="{'background-image': 'url(' + business.pfpImgUrl + ')'}">
+            <p>{{business?.getName()}}</p>
           </div>
         </div>
 

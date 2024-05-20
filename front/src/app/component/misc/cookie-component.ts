@@ -141,6 +141,7 @@ export abstract class CookieComponent {
   }
 
   routeTo(path: string) {
+    console.log(path);
     this.router.navigate([path], {relativeTo: this.route}).then();
   }
 
