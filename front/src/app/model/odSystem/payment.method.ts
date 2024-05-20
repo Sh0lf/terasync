@@ -4,7 +4,7 @@ import {User} from "../user/user";
 export class PaymentMethod {
   paymentMethodId: number | undefined;
   name: string
-  card: string;
+  cardNumber: string;
   billingCountry: string;
   billingStreet: string;
   billingPostalCode: string;
@@ -30,11 +30,11 @@ export class PaymentMethod {
     this.defaultPaymentMethod = defaultPaymentMethod;
     this.paymentMethodId = paymentMethodId;
     this.name = name;
-    this.card = card;
+    this.cardNumber = card;
   }
 
   public static fromJson(json: PaymentMethod): PaymentMethod {
-    return new PaymentMethod(json.customerId, json.name, json.card, json.billingCountry, json.billingPostalCode,
+    return new PaymentMethod(json.customerId, json.name, json.cardNumber, json.billingCountry, json.billingPostalCode,
       json.billingCity, json.billingStreet, json.defaultPaymentMethod,  json.paymentMethodId);
   }
 

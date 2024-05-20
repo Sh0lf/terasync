@@ -44,7 +44,7 @@
           <option *ngFor="let paymentMethod of this.currentUserService.user?.paymentMethods"
                   [value]="paymentMethod">
             {{ paymentMethod.name }}
-            {{ paymentMethod.card }}
+            {{ paymentMethod.cardNumber }}
           </option>
         </select>
         </div>

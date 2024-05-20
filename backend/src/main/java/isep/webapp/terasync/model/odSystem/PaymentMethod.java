@@ -18,10 +18,16 @@ public class PaymentMethod extends isep.webapp.terasync.model.Entity {
     private String name;
     @Column(name = "cardNumber")
     private String cardNumber;
+    @Column(name = "billingCountry")
+    private String billingCountry;
+    @Column(name = "billingPostalCode")
+    private String billingPostalCode;
+    @Column(name = "billingCity")
+    private String billingCity;
+    @Column(name = "billingStreet")
+    private String billingStreet;
     @Column(name ="defaultPaymentMethod")
     private boolean defaultPaymentMethod;
     @Column(name = "customerId")
     private int customerId;
-    @Column(name = "addressId")
-    private int addressId;
 }

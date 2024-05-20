@@ -3,6 +3,7 @@ package isep.webapp.terasync.model.user;
 import isep.webapp.terasync.model.RatingList;
 import isep.webapp.terasync.model.odSystem.Address;
 import isep.webapp.terasync.model.odSystem.CustomerOrder;
+import isep.webapp.terasync.model.odSystem.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -63,6 +64,14 @@ public class Customer extends User {
     )
     @JoinColumn(name = "customerId")
     private List<RatingList> ratingLists;
+
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            targetEntity = PaymentMethod.class,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "customerId")
+    private List<PaymentMethod> paymentMethods;
 
     @Override
     public int getUserId() {

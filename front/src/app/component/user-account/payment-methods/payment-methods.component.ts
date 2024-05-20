@@ -1,7 +1,6 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {faCheck, faCreditCard, faPlus, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {userCategories} from "../../../service/user/userCategories";
 import {CookieComponent} from "../../misc/cookie-component";
 import {CookieService} from "ngx-cookie-service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -12,12 +11,9 @@ import {DeliveryServiceService} from "../../../service/user/delivery-service.ser
 import {DeliveryPersonService} from "../../../service/user/delivery-person.service";
 import {CurrentUserService} from "../../../service/user/current-user.service";
 import {ModalOpenType} from "../../misc/modal-open-type";
-import {Address} from "../../../model/odSystem/address";
 import {FormsModule} from "@angular/forms";
 import {PaymentMethod} from "../../../model/odSystem/payment.method";
 import {PaymentMethodService} from "../../../service/odSystem/payment-method.service";
-import {AddressService} from "../../../service/odSystem/address.service";
-import {paymentMethods} from "../profile-menu-item/profile-menu-item";
 import {PaymentMethodsElementComponent} from "./payment-methods-element/payment-methods-element.component";
 import {NgForOf, NgIf} from "@angular/common";
 
@@ -37,8 +33,8 @@ import {NgForOf, NgIf} from "@angular/common";
 export class PaymentMethodsComponent extends CookieComponent implements OnInit {
 
   faCreditCard = faCreditCard;
-  modalOpenType: ModalOpenType | undefined;
-  protected readonly ModalOpenType = ModalOpenType;
+  ModalOpenType = ModalOpenType;
+  modalOpenType: ModalOpenType = ModalOpenType.NONE;
   protected readonly faPlus = faPlus;
   protected readonly faXmark = faXmark;
   protected readonly faCheck = faCheck;
@@ -112,7 +108,7 @@ export class PaymentMethodsComponent extends CookieComponent implements OnInit {
       })
     } else if(this.modalOpenType == ModalOpenType.EDIT && this.editingPaymentMethod != undefined) {
       this.editingPaymentMethod.name= this.nameInput;
-      this.editingPaymentMethod.card= this.cardInput
+      this.editingPaymentMethod.cardNumber= this.cardInput
       this.editingPaymentMethod.billingCountry= this.countryInput;
       this.editingPaymentMethod.billingStreet= this.streetInput;
       this.editingPaymentMethod.billingPostalCode = this.postalCodeInput;
@@ -150,7 +146,7 @@ export class PaymentMethodsComponent extends CookieComponent implements OnInit {
   editPayment(payment: PaymentMethod) {
     this.modalOpenType = ModalOpenType.EDIT;
     this.nameInput = payment.name;
-    this.cardInput = payment.card;
+    this.cardInput = payment.cardNumber;
     this.countryInput = payment.billingCountry;
     this.streetInput = payment.billingStreet;
     this.postalCodeInput = payment.billingPostalCode;
@@ -174,6 +170,4 @@ export class PaymentMethodsComponent extends CookieComponent implements OnInit {
   isFormInvalid(): boolean {
     return !this.isFormValid() && this.isSubmitted!;
   }
-
-
 }

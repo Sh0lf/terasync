@@ -41,6 +41,8 @@ public class CustomerOrder extends isep.webapp.terasync.model.Entity {
     private int deliveryPersonId;
     @Column(name = "addressId")
     private int addressId;
+    @Column(name = "paymentMethodId")
+    private int paymentMethodId;
 
 
     @ManyToOne(
@@ -91,4 +93,15 @@ public class CustomerOrder extends isep.webapp.terasync.model.Entity {
     )
     @JoinColumn(name = "customerOrderId")
     private List<MessageList> messageLists;
+
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            targetEntity = PaymentMethod.class
+    )
+    @JoinColumn(
+            name = "paymentMethodId",
+            insertable = false,
+            updatable = false
+    )
+    private PaymentMethod paymentMethod;
 }
