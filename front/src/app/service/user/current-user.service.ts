@@ -6,6 +6,7 @@ import {DeliveryService} from "../../model/user/delivery.service";
 import {DeliveryPerson} from "../../model/user/delivery.person";
 import {Business} from "../../model/user/business";
 import {Address} from "../../model/odSystem/address";
+import {PaymentMethod} from "../../model/odSystem/payment.method";
 
 @Injectable({
   providedIn: 'root'
@@ -98,6 +99,17 @@ export class CurrentUserService {
       for (let address of this.user?.addresses!) {
         if (address.defaultAddress) {
           return address;
+        }
+      }
+    }
+    return undefined;
+  }
+
+  getDefaultPaymentMethod(): PaymentMethod | undefined {
+    if(this.user != undefined) {
+      for (let payment of this.user?.paymentMethods!) {
+        if (payment.defaultPaymentMethod) {
+          return payment;
         }
       }
     }

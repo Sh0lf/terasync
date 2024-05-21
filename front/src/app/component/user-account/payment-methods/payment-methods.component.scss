@@ -8,7 +8,7 @@
 .ad-main-div {
   display: flex;
   justify-content: start;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   margin: 20px;
 }
@@ -18,12 +18,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   border-radius: 20px;
-
   margin: 10px;
-  min-width: 250px;
-  max-width: 250px;
+  width: 100%;
 }
 
 .title-span {
@@ -41,8 +38,7 @@
   border-radius: 20px;
 
   margin: 10px;
-  min-width: 250px;
-  max-width: 250px;
+  width: 100%;
 }
 
 .ad-payment-div {
@@ -60,22 +56,34 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+}
 
+.row-container{
+  display: flex;
+  flex-direction:row ;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
 }
 
 .ad-info-div {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: start;
-
   width: 100%;
+  padding: 10px;
+}
+
+.column-container {
+  display: flex;
+  flex-direction:column;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
 }
 
 .span-div {
-  min-width: 200px;
-  max-width: 200px;
   text-wrap: normal;
   word-wrap: break-word;
   text-align: left;

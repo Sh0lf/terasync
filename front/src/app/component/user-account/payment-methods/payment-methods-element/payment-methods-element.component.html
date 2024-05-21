@@ -1,1 +1,53 @@
-<p>payment-methods-element works!</p>
+<div class="ad-payment-div">
+  <div class="ad-info-div">
+    <div class="span-div" *ngIf="payment?.defaultPaymentMethod">
+      <span class="text-font-700 colorP11-span">Default Payment Method</span>
+      <div class="separation-line-small"></div>
+    </div>
+    <div class="row-container">
+      <div class="column-container">
+        <div class="span-div">
+          <div class="text-font-700">{{ payment?.name }}</div>
+        </div>
+        <div class="span-div">
+          <div class="text-font-700">{{ payment?.cardNumber }}</div>
+        </div>
+      </div>
+      <div class="column-container">
+        <div class="span-div">
+          <div class="text-font-700">Billing Address:</div>
+        </div>
+        <div class="span-div">
+          <div class="text-font-500">{{ payment?.billingCountry }}</div>
+        </div>
+        <div class="span-div">
+          <div class="text-font-500">{{ payment?.billingStreet }}</div>
+        </div>
+        <div class="span-div">
+          <div class="text-font-500">{{ payment?.billingPostalCode }}</div>
+        </div>
+        <div class="span-div">
+          <div class="text-font-500">{{ payment?.billingCity }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="separation-line-small"></div>
+    <div class="ad-button-sub-div-1">
+      <div class="ad-button-sub-div-2">
+        <div class="clickable-icon-elem-2" (click)="modifyOnClick()">
+          <fa-icon [icon]="faPen" [class]="['clickable-icon-2']"></fa-icon>
+        </div>
+        <div class="clickable-icon-elem-2" (click)="onDelete()">
+          <fa-icon [icon]="faTrash" [class]="['clickable-icon-2']"></fa-icon>
+        </div>
+      </div>
+      <div class="clickable-icon-elem-2" (click)="onDefaultOnClick()">
+        <fa-icon [icon]="faStar" [class]="['clickable-icon-2']"></fa-icon>
+      </div>
+    </div>
+  </div>
+
+
+
+

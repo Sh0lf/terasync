@@ -29,41 +29,43 @@
             <fa-icon [icon]="faXmark" [class]="['clickable-icon-1']" (click)="toggleOnClick(ModalOpenType.NONE)"></fa-icon>
           </div>
         </div>
-        <div class="column-container">
-          <div class="add-form-elem-1">
-            <label for="country-input">Name:*</label>
-            <input class="default-input-2" type="text" [(ngModel)]="nameInput" id="name-input">
+        <div class="row-container">
+          <div class="column-container">
+            <div class="add-form-elem-1">
+              <label for="country-input">Name:*</label>
+              <input class="default-input-2" type="text" [(ngModel)]="nameInput" id="name-input">
+            </div>
+            <div class="add-form-elem-1">
+              <label for="country-input">Card number:*</label>
+              <input class="default-input-2" placeholder="xxxx xxxx xxxx xxxx" autocomplete="cc-number"
+                     pattern="[0-9\s]{13,19}" inputmode="numeric" maxlength="16" [(ngModel)]="cardInput" id="card-input">
+            </div>
           </div>
-          <div class="add-form-elem-1">
-            <label for="country-input">Card number:*</label>
-            <input class="default-input-2" placeholder="xxxx xxxx xxxx xxxx" autocomplete="cc-number"
-                   pattern="[0-9\s]{13,19}" inputmode="numeric" maxlength="16" [(ngModel)]="cardInput" id="card-input">
+          <div class="column-container">
+            <div class="add-form-elem-1">
+              <label for="country-input">Country:*</label>
+              <input class="default-input-2" type="text" [(ngModel)]="countryInput" id="country-input">
+            </div>
+            <div class="add-form-elem-1">
+              <label for="street-input">Street:*</label>
+              <input class="default-input-2" type="text" [(ngModel)]="streetInput" id="street-input">
+            </div>
+            <div class="add-form-elem-1">
+              <label for="postal-code-input">Postal Code:*</label>
+              <input class="default-input-2" type="text" [(ngModel)]="postalCodeInput" id="postal-code-input">
+            </div>
+            <div class="add-form-elem-1">
+              <label for="city-input">City:*</label>
+              <input class="default-input-2" type="text" [(ngModel)]="cityInput" id="city-input">
+            </div>
+            <span class="validation-error-span" *ngIf="isFormInvalid()">*Required Fields</span>
           </div>
         </div>
-        <div class="add-form-elem-1">
-          <label for="country-input">Country:*</label>
-          <input class="default-input-2" type="text" [(ngModel)]="countryInput" id="country-input">
-        </div>
-        <div class="add-form-elem-1">
-          <label for="street-input">Street:*</label>
-          <input class="default-input-2" type="text" [(ngModel)]="streetInput" id="street-input">
-        </div>
-        <div class="add-form-elem-1">
-          <label for="postal-code-input">Postal Code:*</label>
-          <input class="default-input-2" type="text" [(ngModel)]="postalCodeInput" id="postal-code-input">
-        </div>
-        <div class="add-form-elem-1">
-          <label for="city-input">City:*</label>
-          <input class="default-input-2" type="text" [(ngModel)]="cityInput" id="city-input">
-        </div>
-        <span class="validation-error-span" *ngIf="isFormInvalid()">*Required Fields</span>
         <div class="separation-line-small"></div>
-        <div class="clickable-icon-elem-2" (click)="onSubmit()">
-          <fa-icon [icon]="faCheck"></fa-icon>
+          <div class="clickable-icon-elem-2" (click)="onSubmit()">
+            <fa-icon [icon]="faCheck"></fa-icon>
         </div>
       </div>
     </div>
   </div>
-
-
 </div>
