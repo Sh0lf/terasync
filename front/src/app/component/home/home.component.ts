@@ -104,5 +104,10 @@ export class HomeComponent extends CookieComponent implements OnInit, AfterViewI
     this.initializeUsersPfpImgUrl(this.variablesService.businesses, this.businessService).then();
   }
 
+  onClick(business: Business): void {
+    console.log("test")
+    this.variablesService.setSelectedBusiness(business);
+    this.routeTo('/business-page');
+  }
 }
 

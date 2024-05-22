@@ -20,7 +20,7 @@
 
 
         <div class="scroll-container-bigger">
-          <div class="item" *ngFor="let business of variablesService.businesses"
+          <div class="item" *ngFor="let business of variablesService.businesses" (click)="onClick(business)"
                [ngStyle]="{'background-image': 'url(' + business.pfpImgUrl + ')'}">
             <p>{{business?.getName()}}</p>
           </div>
@@ -38,13 +38,9 @@
         </div> <!-- title -->
 
         <div class="scroll-container-smaller">
-          <div class="item" *ngFor="let business of businesses" [ngStyle]="{'background-image': 'url(' + business?.pfpImgUrl + ')'}">
+          <div class="item" *ngFor="let business of businesses" (click)="onClick(business)" [ngStyle]="{'background-image': 'url(' + business?.pfpImgUrl + ')'}">
             <p>{{business?.getName()}}</p>
           </div>
-
-<!--          <div class="item">-->
-<!--            <p>Le Méditerranée</p>-->
-<!--          </div>-->
         </div>
 
       </div> <!-- restaurant container smaller -->
@@ -59,7 +55,7 @@
         </div> <!-- title -->
 
         <div class="wrap-container">
-          <div class="item" *ngFor="let business of variablesService.businesses"
+          <div class="item" *ngFor="let business of variablesService.businesses" (click)="onClick(business)"
                [ngStyle]="{'background-image': 'url(' + business.pfpImgUrl + ')'}">
             <p>{{business?.getName()}}</p>
           </div>
