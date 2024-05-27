@@ -94,6 +94,9 @@ h2{
   background-repeat: no-repeat;
   background-size: cover;
 
+  cursor: pointer;
+  background-color: $colorP17;
+
   &::before {
     content: '';
     position: absolute;

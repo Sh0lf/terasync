@@ -147,7 +147,8 @@ VALUES
     ('Completed'),
     ('Accepted'),
     ('Cancelled'),
-    ('Rejected');
+    ('Rejected'),
+    ('Delivering');
 
 INSERT INTO Packaging (packaging)
 VALUES

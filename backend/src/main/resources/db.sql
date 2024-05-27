@@ -139,7 +139,7 @@ CREATE TABLE CustomerOrder
     deliveryServiceId INT           NOT NULL,
     deliveryPersonId  INT           NOT NULL,
     addressId         INT           NOT NULL,
-    paymentMethodId         INT           NOT NULL,
+    paymentMethodId   INT           NOT NULL,
     constraint status_customerOrder_fk FOREIGN KEY (statusId) REFERENCES Status (statusId),
     constraint packaging_customerOrder_fk FOREIGN KEY (packagingId) REFERENCES Packaging (packagingId),
     constraint customer_customerOrder_fk FOREIGN KEY (customerId) REFERENCES Customer (customerId)
@@ -162,33 +162,6 @@ CREATE TABLE Packaging
     packagingId INT IDENTITY (1, 1) PRIMARY KEY,
     packaging   VARCHAR(255) NOT NULL,
 );
-
--- CREATE TABLE ProductMenu
--- (
---     productMenuId INT IDENTITY (1, 1) PRIMARY KEY,
---     name          VARCHAR(255)  NOT NULL,
---     creationTime  DATETIME      NOT NULL DEFAULT (GETDATE()),
---     discount      DECIMAL(3, 2) NOT NULL DEFAULT (0),
---     isVegan       BIT           NOT NULL DEFAULT (0),
---     businessId    INT           NOT NULL,
---     constraint business_productMenu_fk FOREIGN KEY (businessId) REFERENCES Business (businessId)
---         ON DELETE CASCADE ON UPDATE CASCADE,
---     constraint discount_productMenu_check check (discount >= 0 and discount <= 1)
--- );
---
--- CREATE TABLE ProductMenuList
--- (
---     productMenuListId INT IDENTITY (1, 1) PRIMARY KEY,
---     selectionTime     DATETIME NOT NULL DEFAULT (GETDATE()),
---     quantity          INT      NOT NULL,
---     customerOrderId   INT      NOT NULL,
---     productMenuId     INT,
---     constraint customerOrder_productMenuList_fk FOREIGN KEY (customerOrderId) REFERENCES CustomerOrder (customerOrderId)
---         ON DELETE NO ACTION ON UPDATE NO ACTION,
---     constraint productMenu_productMenuList_fk FOREIGN KEY (productMenuId) REFERENCES ProductMenu (productMenuId)
---         ON DELETE NO ACTION ON UPDATE NO ACTION,
---     constraint quantity_productMenuList_check check (quantity > 0)
--- );
 
 CREATE TABLE Product
 (
@@ -217,19 +190,6 @@ CREATE TABLE CustomerOrderList
         ON DELETE NO ACTION ON UPDATE NO ACTION,
     constraint quantity_customerOrderList_check check (quantity > 0)
 );
-
--- CREATE TABLE ProductList
--- (
---     productListId INT IDENTITY (1, 1) PRIMARY KEY,
---     quantity      INT NOT NULL DEFAULT (1),
---     productId     INT NOT NULL,
---     productMenuId INT NOT NULL,
---     constraint product_productList_fk FOREIGN KEY (productId) REFERENCES Product (productId)
---         ON DELETE NO ACTION ON UPDATE NO ACTION,
---     constraint productMenu_productList_fk FOREIGN KEY (productMenuId) REFERENCES ProductMenu (productMenuId)
---         ON DELETE NO ACTION ON UPDATE NO ACTION,
---     constraint quantity_productList_check check (quantity > 0)
--- );
 
 CREATE TABLE ProductImage
 (
@@ -261,15 +221,15 @@ CREATE TABLE MessageList
 -- Payment methods
 CREATE TABLE PaymentMethod
 (
-    paymentMethodId         INT IDENTITY (1, 1) PRIMARY KEY,
-    name                    VARCHAR(255) NOT NULL,
-    cardNumber              VARCHAR(255) NOT NULL,
-    billingCountry          VARCHAR(255) NOT NULL,
-    billingPostalCode       VARCHAR(255) NOT NULL,
-    billingCity             VARCHAR(255) NOT NULL,
-    billingStreet           VARCHAR(255) NOT NULL,
-    defaultPaymentMethod    BIT          NOT NULL DEFAULT (0),
-    customerId              INT,
+    paymentMethodId      INT IDENTITY (1, 1) PRIMARY KEY,
+    name                 VARCHAR(255) NOT NULL,
+    cardNumber           VARCHAR(255) NOT NULL,
+    billingCountry       VARCHAR(255) NOT NULL,
+    billingPostalCode    VARCHAR(255) NOT NULL,
+    billingCity          VARCHAR(255) NOT NULL,
+    billingStreet        VARCHAR(255) NOT NULL,
+    defaultPaymentMethod BIT          NOT NULL DEFAULT (0),
+    customerId           INT,
 
     constraint customerId_paymentMethod_fk FOREIGN KEY (customerId) REFERENCES Customer (customerId)
         ON DELETE CASCADE ON UPDATE CASCADE

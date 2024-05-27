@@ -25,7 +25,7 @@ import {faPen, faPenToSquare, faStar, faTrash, faXmark} from "@fortawesome/free-
 export class PaymentMethodsElementComponent extends CookieComponent {
   @Output() newPaymentEvent = new EventEmitter<PaymentMethod>();
   @Input() payments!: PaymentMethod[] | undefined;
-  @Input() payment!: PaymentMethod;
+  @Input() payment!: PaymentMethod | undefined;
 
   faStar = faStar;
   faPen = faPen;

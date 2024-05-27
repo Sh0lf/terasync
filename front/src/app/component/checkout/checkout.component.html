@@ -13,6 +13,9 @@
               {{ address.country }}, {{ address.city }}, {{ address.street }}, {{ address.postalCode }}
             </option>
           </select>
+          <div class="clickable-icon-elem-3" (click)="addAddressOnClick()">
+            <fa-icon [class]="['clickable-icon-3']" [icon]="faPlus"></fa-icon>
+          </div>
         </div>
       </div>
       <div class="elem-container">

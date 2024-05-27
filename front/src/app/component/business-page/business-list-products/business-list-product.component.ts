@@ -35,7 +35,7 @@ export class BusinessListProductComponent extends CookieComponent implements OnI
   }
 
   ngOnInit(): void {
-    if(this.product!.productImages != undefined) {
+    if(this.product != undefined && this.product!.productImages != undefined) {
       this.selectedImage = this.product!.productImages?.at(0)!
     }
   }

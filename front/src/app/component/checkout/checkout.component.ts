@@ -26,6 +26,8 @@ import {CustomerOrderListService} from "../../service/odSystem/customer-order-li
 import {CustomerOrderList} from "../../model/odSystem/customer.order.list";
 import {Observable} from "rxjs";
 import {PaymentMethod} from "../../model/odSystem/payment.method";
+import {faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 
 @Component({
   selector: 'app-checkout',
@@ -35,7 +37,8 @@ import {PaymentMethod} from "../../model/odSystem/payment.method";
     KeyValuePipe,
     NgForOf,
     AddressElementComponent,
-    FormsModule
+    FormsModule,
+    FaIconComponent
   ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss'
@@ -138,5 +141,12 @@ export class CheckoutComponent extends CookieComponent implements OnInit {
       },
       error: (error: HttpErrorResponse) => console.error(error)
     });
+  }
+
+    protected readonly faTrash = faTrash;
+  protected readonly faPlus = faPlus;
+
+  addAddressOnClick() {
+    this.routeTo('/user-account');
   }
 }

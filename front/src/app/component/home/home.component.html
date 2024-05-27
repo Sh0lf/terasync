@@ -21,14 +21,14 @@
 
         <div class="scroll-container-bigger">
           <div class="item" *ngFor="let business of variablesService.businesses" (click)="onClick(business)"
-               [ngStyle]="{'background-image': 'url(' + business.pfpImgUrl + ')'}">
+               [ngStyle]="business.pfpImgUrl != undefined ? {'background-image': 'url(' + business.pfpImgUrl + ')'} : {}">
             <p>{{business?.getName()}}</p>
           </div>
         </div>
 
       </div> <!-- restaurant container bigger -->
 
-      <div *ngIf="currentUserService.isLoggedIn()" class="restaurant-container">
+      <div *ngIf="currentUserService.isLoggedIn() && isCustomerCategory()" class="restaurant-container">
 
         <div class="section-title-container">
           <fa-icon [icon]="faClock" [class]="['icon-title']"></fa-icon>
@@ -38,7 +38,8 @@
         </div> <!-- title -->
 
         <div class="scroll-container-smaller">
-          <div class="item" *ngFor="let business of businesses" (click)="onClick(business)" [ngStyle]="{'background-image': 'url(' + business?.pfpImgUrl + ')'}">
+          <div class="item" *ngFor="let business of businesses" (click)="onClick(business)"
+               [ngStyle]="business.pfpImgUrl != undefined ? {'background-image': 'url(' + business.pfpImgUrl + ')'} : {}">
             <p>{{business?.getName()}}</p>
           </div>
         </div>
@@ -56,7 +57,7 @@
 
         <div class="wrap-container">
           <div class="item" *ngFor="let business of variablesService.businesses" (click)="onClick(business)"
-               [ngStyle]="{'background-image': 'url(' + business.pfpImgUrl + ')'}">
+               [ngStyle]="business.pfpImgUrl != undefined ? {'background-image': 'url(' + business.pfpImgUrl + ')'} : {}">
             <p>{{business?.getName()}}</p>
           </div>
         </div>

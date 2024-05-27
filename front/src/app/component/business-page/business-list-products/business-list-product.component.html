@@ -5,7 +5,7 @@
     <span>{{ product?.price }}€</span>
   </div>
   <div class="product-image-container">
-    <div *ngFor="let productImage of this.product!.productImages">
+    <div *ngFor="let productImage of this.product?.productImages">
       <img class="product-img" alt="product-img" src="{{productImage?.imageUrl}}">
     </div>
   </div>

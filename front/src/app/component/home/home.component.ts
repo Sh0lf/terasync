@@ -75,37 +75,27 @@ export class HomeComponent extends CookieComponent implements OnInit, AfterViewI
 
   customerOrders: CustomerOrder[] | undefined = [];
 
-  images: String[] = [];
-
   ngOnInit(): void {
     this.initializeUserByToken().then(()=>{
       this.specificUserPage(customerCategory, deliveryPersonCategory, deliveryServiceCategory, businessCategory).then();
-      if (this.currentUserService.user?.customerOrders!) {
-        this.fetchCustomerOrdersParentEntities(
-          this.currentUserService.user?.customerOrders!
-        ).then((parentEntities) => {
-          // Use a Set to store unique businesses
-          console.log(parentEntities.businesses)
-          const uniqueBusinesses = new Set<Business>(parentEntities.businesses);
-          console.log(uniqueBusinesses)
-          // Convert the Set back to an array
-          this.businesses = Array.from(uniqueBusinesses);
-          console.log(this.businesses)
-
-          this.initializeUsersPfpImgUrl(this.businesses, this.businessService).then()
-          let imgvariable = {}
+      this.initializeBusinessesVariable().then(() => {
+        this.currentUserService.user?.customerOrders?.forEach((customerOrder) => {
+          let business = this.variablesService.businesses?.find(business => business.businessId === customerOrder.businessId)
+          let hasBusiness = this.businesses.find(business => business.businessId === customerOrder.businessId)
+            if(business != undefined && !hasBusiness){
+              this.businesses.push(business)
+            }
         });
-        this.initializeBusinessesVariable().then();
-      }
+      });
     });
   }
 
   ngAfterViewInit(): void {
+    this.initializeUsersPfpImgUrl(this.businesses, this.businessService).then();
     this.initializeUsersPfpImgUrl(this.variablesService.businesses, this.businessService).then();
   }
 
   onClick(business: Business): void {
-    console.log("test")
     this.variablesService.setSelectedBusiness(business);
     this.routeTo('/business-page');
   }
