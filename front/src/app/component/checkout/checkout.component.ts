@@ -50,6 +50,8 @@ export class CheckoutComponent extends CookieComponent implements OnInit {
   selectedPackaging!: Packaging | undefined;
   selectedPaymentMethod!: PaymentMethod | undefined;
 
+  errorMsg: string = "";
+
   constructor(protected basketService: BasketService,
               protected override customerOrderService: CustomerOrderService,
               protected customerOrderListService: CustomerOrderListService,
@@ -92,55 +94,60 @@ export class CheckoutComponent extends CookieComponent implements OnInit {
   }
 
   onPay() {
-    let newCustomerOrder = new CustomerOrder(1, this.selectedPackaging?.packagingId!,
-      this.currentUserService.user?.customerId!,
-      this.basketService.business?.businessId!,
-      this.selectedDeliveryService?.deliveryServiceId!,
-      1,
-      this.selectedAddress?.addressId!,
-      this.selectedPaymentMethod?.paymentMethodId!)
+    if(this.selectedPackaging != undefined && this.selectedDeliveryService != undefined &&
+      this.selectedAddress != undefined && this.selectedPaymentMethod != undefined) {
+      let newCustomerOrder = new CustomerOrder(1, this.selectedPackaging?.packagingId!,
+        this.currentUserService.user?.customerId!,
+        this.basketService.business?.businessId!,
+        this.selectedDeliveryService?.deliveryServiceId!,
+        1,
+        this.selectedAddress?.addressId!,
+        this.selectedPaymentMethod?.paymentMethodId!)
 
-    this.customerOrderService.addEntity(newCustomerOrder).subscribe({
-      next: (jsonCustomerOrder: CustomerOrder) => {
-        this.customerOrderService.findEntityById(jsonCustomerOrder.customerOrderId!).subscribe({
-          next: (jsonCustomerOrder: CustomerOrder) => {
-            let customerOrder = CustomerOrder.fromJson(jsonCustomerOrder);
-            console.log(customerOrder);
-            this.basketService.setNewCustomerOrder(customerOrder);
-            let addedCount = 0;
-            new Observable<number>(observer => {
-              this.basketService.basket.forEach((productId, quantity) => {
-                let customerOrderList = new CustomerOrderList(productId, quantity, this.basketService.getNewCustomerOrder()?.customerOrderId!);
+      this.customerOrderService.addEntity(newCustomerOrder).subscribe({
+        next: (jsonCustomerOrder: CustomerOrder) => {
+          this.customerOrderService.findEntityById(jsonCustomerOrder.customerOrderId!).subscribe({
+            next: (jsonCustomerOrder: CustomerOrder) => {
+              let customerOrder = CustomerOrder.fromJson(jsonCustomerOrder);
+              console.log(customerOrder);
+              this.basketService.setNewCustomerOrder(customerOrder);
+              let addedCount = 0;
+              new Observable<number>(observer => {
+                this.basketService.basket.forEach((productId, quantity) => {
+                  let customerOrderList = new CustomerOrderList(productId, quantity, this.basketService.getNewCustomerOrder()?.customerOrderId!);
 
-                this.customerOrderListService.addEntity(customerOrderList).subscribe({
-                  next: (jsonCustomerOrderList: CustomerOrderList) => {
-                    this.customerOrderListService.findEntityById(jsonCustomerOrderList.customerOrderListId!).subscribe({
-                      next: (jsonCustomerOrderList: CustomerOrderList) => {
-                        let customerOrderList = CustomerOrderList.fromJson(jsonCustomerOrderList);
-                        console.log(customerOrderList)
-                        this.basketService.getNewCustomerOrder()?.customerOrderLists.push(customerOrderList);
-                        observer.next(++addedCount);
-                      },
-                      error: (error: HttpErrorResponse) => console.error(error)
-                    });
-                  },
-                  error: (error: HttpErrorResponse) => console.error(error)
+                  this.customerOrderListService.addEntity(customerOrderList).subscribe({
+                    next: (jsonCustomerOrderList: CustomerOrderList) => {
+                      this.customerOrderListService.findEntityById(jsonCustomerOrderList.customerOrderListId!).subscribe({
+                        next: (jsonCustomerOrderList: CustomerOrderList) => {
+                          let customerOrderList = CustomerOrderList.fromJson(jsonCustomerOrderList);
+                          console.log(customerOrderList)
+                          this.basketService.getNewCustomerOrder()?.customerOrderLists.push(customerOrderList);
+                          observer.next(++addedCount);
+                        },
+                        error: (error: HttpErrorResponse) => console.error(error)
+                      });
+                    },
+                    error: (error: HttpErrorResponse) => console.error(error)
+                  });
                 });
-              });
-            }).subscribe({
-              next: (addedCount: number) => {
-                if (addedCount === this.basketService.basket.size) {
-                  this.basketService.basket.clear();
-                  this.routeTo('/order-history-detailed');
+              }).subscribe({
+                next: (addedCount: number) => {
+                  if (addedCount === this.basketService.basket.size) {
+                    this.basketService.basket.clear();
+                    this.routeTo('/order-history-detailed');
+                  }
                 }
-              }
-            });
-          },
-          error: (error: HttpErrorResponse) => console.error(error)
-        });
-      },
-      error: (error: HttpErrorResponse) => console.error(error)
-    });
+              });
+            },
+            error: (error: HttpErrorResponse) => console.error(error)
+          });
+        },
+        error: (error: HttpErrorResponse) => console.error(error)
+      });
+    } else {
+      this.errorMsg = "Please fill in all fields";
+    }
   }
 
     protected readonly faTrash = faTrash;

@@ -106,7 +106,8 @@ export class BusinessPageComponent extends CookieComponent implements OnInit {
             if (!uniqueProductIdSet.has(previousOrderList.productId)) {
               uniqueProductIdSet.add(previousOrderList.productId);
               if (previousOrderList.product) {
-                this.previousProducts.push(this.variablesService.selectedBusiness?.products.find(product => product.productId == previousOrderList.productId)!);
+                let product = this.variablesService.selectedBusiness?.products.find(product => product.productId == previousOrderList.productId);
+                if(product != undefined) this.previousProducts.push(product);
               }
             }
           }

@@ -1,6 +1,6 @@
 <div class="checkout-container">
   <div class="checkout-header">
-    <h2>Checkout for your order with {{basketService.business?.getName()}}</h2>
+    <h2>Checkout for your order with {{ basketService.business?.getName() }}</h2>
   </div>
   <div class="checkout-body">
     <div class="left-section">
@@ -52,9 +52,6 @@
             </option>
           </select>
         </div>
-        <div class="payment-option">
-          <input type="radio" name="payment" value="PayPal"> PayPal
-        </div>
       </div>
     </div>
     <div class="right-section">
@@ -70,7 +67,7 @@
           </app-business-basket>
         </div>
         <div class="total">
-          <span>Total:</span> <span>{{getTotalPrice(basketService.business?.products!, basketService.basket)}}€</span>
+          <span>Total:</span> <span>{{ getTotalPrice(basketService.business?.products!, basketService.basket) }}€</span>
         </div>
       </div>
     </div>
@@ -78,5 +75,6 @@
   <div class="checkout-footer">
     <!-- Bouton de paiement -->
     <button (click)="onPay()">Pay</button>
+    <span class="p-error">{{ errorMsg }}</span>
   </div>
 </div>
