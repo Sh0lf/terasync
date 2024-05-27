@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="column-business-menu">
-        <div class="previous-orders" *ngIf="currentUserService.isLoggedIn() && this.previousProducts.length > 0">
+        <div class="previous-orders" *ngIf="this.isCustomerCategory() && this.previousProducts.length > 0">
           <div class="title-div">
             <span class="title-span">Previous Orders</span>
           </div>
@@ -52,7 +52,7 @@
           </div>
         </div>
       </div>
-      <div class="basket-column" *ngIf="this.currentUserService.isLoggedIn()">
+      <div class="basket-column" *ngIf="this.isCustomerCategory()">
         <div class="basket">
           <div class="title-div">
             <span class="title-span">Basket</span>
@@ -77,8 +77,8 @@
         </div>
       </div>
     </div>
-    <div class="reviews-div">
-      <div class="title-div">
+    <div class="reviews-div" *ngIf="variablesService.selectedBusiness?.ratingLists">
+      <div class="title-div" >
         <span class="title-span">Reviews from previous orders</span>
       </div>
       <div class="row-container-reviews">

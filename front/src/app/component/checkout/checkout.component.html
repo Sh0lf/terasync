@@ -40,13 +40,14 @@
       <div class="elem-container">
         <h3>Select Payment Method</h3>
         <div class="payment-option">
-        <select [(ngModel)]="selectedPaymentMethod" class="default-input-2">
-          <option *ngFor="let paymentMethod of this.currentUserService.user?.paymentMethods"
-                  [value]="paymentMethod">
-            {{ paymentMethod.name }}
-            {{ paymentMethod.cardNumber }}
-          </option>
-        </select>
+          <div>Credit Card:</div>
+          <select [(ngModel)]="selectedPaymentMethod" class="default-input-2">
+            <option *ngFor="let paymentMethod of this.currentUserService.user?.paymentMethods"
+                    [value]="paymentMethod">
+              {{ paymentMethod.name }} -
+              Card number: {{ paymentMethod.cardNumber }}
+            </option>
+          </select>
         </div>
         <div class="payment-option">
           <input type="radio" name="payment" value="PayPal"> PayPal
