@@ -85,8 +85,6 @@ export class ManageProductsComponent extends CookieComponent implements OnInit {
       if (businessId == undefined) {
         businessId = this.businesses[0].businessId!;
       }
-    } else {
-      return;
     }
 
     this.editingProduct = new Product("", false, 0, businessId, "");
