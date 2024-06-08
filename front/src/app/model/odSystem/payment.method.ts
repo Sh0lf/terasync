@@ -42,7 +42,7 @@ export class PaymentMethod {
     this.defaultPaymentMethod = defaultPaymentMethod;
   }
 
-  static initializePayments(json: User): PaymentMethod[] {
+  static initializePayments(json: {paymentMethods: PaymentMethod[] | undefined}): PaymentMethod[] {
     let payments: PaymentMethod[] = [];
     if (json.paymentMethods != undefined) {
       for (let payment of json.paymentMethods) {

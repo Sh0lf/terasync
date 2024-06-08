@@ -45,10 +45,10 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 })
 export class CheckoutComponent extends CookieComponent implements OnInit {
 
-  selectedAddress!: Address | undefined;
-  selectedDeliveryService!: DeliveryService | undefined;
-  selectedPackaging!: Packaging | undefined;
-  selectedPaymentMethod!: PaymentMethod | undefined;
+  selectedAddressId!: number | undefined;
+  selectedDeliveryServiceId!: number | undefined;
+  selectedPackagingId!: number | undefined;
+  selectedPaymentMethodId!: number | undefined;
 
   errorMsg: string = "";
 
@@ -69,17 +69,18 @@ export class CheckoutComponent extends CookieComponent implements OnInit {
     if (this.basketService.basket.size === 0 || this.basketService.business == undefined) {
       this.routeToHome().then();
     } else {
-      this.selectedAddress = this.currentUserService.user?.addresses?.find(a => a.defaultAddress);
+      this.selectedAddressId = this.currentUserService.user?.addresses?.find(a => a.defaultAddress)?.addressId;
+      this.selectedPaymentMethodId = this.currentUserService.user?.paymentMethods?.find(pm => pm.defaultPaymentMethod)?.paymentMethodId;
 
       this.initializeDeliveryServicesVariable().then((success) => {
         if (success) {
-          this.selectedDeliveryService = this.getAllowedDeliveryServices()[0];
+          this.selectedDeliveryServiceId = this.getAllowedDeliveryServices()[0].deliveryServiceId;
         }
       });
 
       this.initializePackagingsVariable().then((success) => {
         if (success) {
-          this.selectedPackaging = this.variablesService.packagings[0];
+          this.selectedPackagingId = this.variablesService.packagings[0].packagingId;
         }
       })
     }
@@ -94,22 +95,23 @@ export class CheckoutComponent extends CookieComponent implements OnInit {
   }
 
   onPay() {
-    if(this.selectedPackaging != undefined && this.selectedDeliveryService != undefined &&
-      this.selectedAddress != undefined && this.selectedPaymentMethod != undefined) {
-      let newCustomerOrder = new CustomerOrder(1, this.selectedPackaging?.packagingId!,
+    if(this.selectedPackagingId != undefined && this.selectedDeliveryServiceId != undefined &&
+      this.selectedAddressId != undefined && this.selectedPaymentMethodId != undefined) {
+      let newCustomerOrder = new CustomerOrder(1, this.selectedPackagingId!,
         this.currentUserService.user?.customerId!,
         this.basketService.business?.businessId!,
-        this.selectedDeliveryService?.deliveryServiceId!,
+        this.selectedDeliveryServiceId!,
         1,
-        this.selectedAddress?.addressId!,
-        this.selectedPaymentMethod?.paymentMethodId!)
+        this.selectedAddressId!,
+        this.selectedPaymentMethodId!)
+
+      console.log(newCustomerOrder)
 
       this.customerOrderService.addEntity(newCustomerOrder).subscribe({
         next: (jsonCustomerOrder: CustomerOrder) => {
           this.customerOrderService.findEntityById(jsonCustomerOrder.customerOrderId!).subscribe({
             next: (jsonCustomerOrder: CustomerOrder) => {
               let customerOrder = CustomerOrder.fromJson(jsonCustomerOrder);
-              console.log(customerOrder);
               this.basketService.setNewCustomerOrder(customerOrder);
               let addedCount = 0;
               new Observable<number>(observer => {
@@ -121,7 +123,6 @@ export class CheckoutComponent extends CookieComponent implements OnInit {
                       this.customerOrderListService.findEntityById(jsonCustomerOrderList.customerOrderListId!).subscribe({
                         next: (jsonCustomerOrderList: CustomerOrderList) => {
                           let customerOrderList = CustomerOrderList.fromJson(jsonCustomerOrderList);
-                          console.log(customerOrderList)
                           this.basketService.getNewCustomerOrder()?.customerOrderLists.push(customerOrderList);
                           observer.next(++addedCount);
                         },

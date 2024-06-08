@@ -7,9 +7,9 @@
       <div class="elem-container">
         <h3>Select Delivery Address</h3>
         <div class="select-div">
-          <select [(ngModel)]="selectedAddress" class="default-input-2">
+          <select [(ngModel)]="selectedAddressId" class="default-input-2">
             <option *ngFor="let address of currentUserService.user?.addresses!"
-                    [value]="address">
+                    [value]="address.addressId">
               {{ address.country }}, {{ address.city }}, {{ address.street }}, {{ address.postalCode }}
             </option>
           </select>
@@ -21,9 +21,9 @@
       <div class="elem-container">
         <h3>Select Delivery Service</h3>
         <div class="select-div">
-          <select [(ngModel)]="selectedDeliveryService" class="default-input-2">
+          <select [(ngModel)]="selectedDeliveryServiceId" class="default-input-2">
             <option *ngFor="let deliveryService of getAllowedDeliveryServices()"
-                    [value]="deliveryService">
+                    [value]="deliveryService.deliveryServiceId">
               {{ deliveryService.getName() }}
             </option>
           </select>
@@ -32,9 +32,9 @@
       <div class="elem-container">
         <h3>Select Packaging</h3>
         <div class="select-div">
-          <select [(ngModel)]="selectedPackaging" class="default-input-2">
+          <select [(ngModel)]="selectedPackagingId" class="default-input-2">
             <option *ngFor="let packaging of this.variablesService.packagings"
-                    [value]="packaging">
+                    [value]="packaging.packagingId">
               {{ packaging.packaging }}
             </option>
           </select>
@@ -44,11 +44,10 @@
         <h3>Select Payment Method</h3>
         <div class="payment-option">
           <div>Credit Card:</div>
-          <select [(ngModel)]="selectedPaymentMethod" class="default-input-2">
-            <option *ngFor="let paymentMethod of this.currentUserService.user?.paymentMethods"
-                    [value]="paymentMethod">
-              {{ paymentMethod.name }} -
-              Card number: {{ paymentMethod.cardNumber }}
+          <select [(ngModel)]="selectedPaymentMethodId" class="default-input-2">
+            <option *ngFor="let paymentMethod of currentUserService.user?.paymentMethods!"
+                    [value]="paymentMethod.paymentMethodId">
+              {{ paymentMethod.name }} - Card number: {{ paymentMethod.cardNumber }}
             </option>
           </select>
         </div>
