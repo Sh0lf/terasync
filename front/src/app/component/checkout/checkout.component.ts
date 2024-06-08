@@ -51,6 +51,7 @@ export class CheckoutComponent extends CookieComponent implements OnInit {
   selectedPaymentMethodId!: number | undefined;
 
   errorMsg: string = "";
+  checkoutError: boolean = true;
 
   constructor(protected basketService: BasketService,
               protected override customerOrderService: CustomerOrderService,
@@ -74,6 +75,7 @@ export class CheckoutComponent extends CookieComponent implements OnInit {
 
       this.initializeDeliveryServicesVariable().then((success) => {
         if (success) {
+          this.checkoutError = false;
           this.selectedDeliveryServiceId = this.getAllowedDeliveryServices()[0].deliveryServiceId;
         }
       });
@@ -83,6 +85,9 @@ export class CheckoutComponent extends CookieComponent implements OnInit {
           this.selectedPackagingId = this.variablesService.packagings[0].packagingId;
         }
       })
+    }
+    if (this.checkoutError){
+      this.routeTo('/checkout-error')
     }
   }
 

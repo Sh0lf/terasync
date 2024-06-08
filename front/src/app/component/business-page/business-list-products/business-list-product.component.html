@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <div class="product-button-div" *ngIf="isCustomerCategory()">
+  <div class="product-button-div" *ngIf="this.currentUserService.customer">
     <button (click)="addToBasket()"><span><i>Add to basket</i></span></button>
   </div>
 </div>

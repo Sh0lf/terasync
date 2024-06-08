@@ -24,6 +24,7 @@ import {
   ChooseDeliveryServicesComponent
 } from "./component/user-account/choose-delivery-services/choose-delivery-services.component";
 import {ManageOrdersComponent} from "./component/user-account/manage-orders/manage-orders.component";
+import {CheckoutErrorComponent} from "./component/checkout/checkout-error/checkout-error.component";
 
 
 export const routes: Routes = [
@@ -37,6 +38,7 @@ export const routes: Routes = [
   {path: `password-reset/:${StorageKeys.USER_TOKEN}`, component: PasswordResetComponent},
   {path: 'business-page', component: BusinessPageComponent},
   {path: 'checkout', component: CheckoutComponent},
+  {path: 'checkout-error', component: CheckoutErrorComponent},
   {path: 'order-history-detailed', component: OrderHistoryDetailedComponent},
   {
     path: 'user-account', component: UserAccountComponent, children: [

@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="column-business-menu">
-        <div class="previous-orders" *ngIf="this.isCustomerCategory() && this.previousProducts.length > 0">
+        <div class="previous-orders" *ngIf="this.currentUserService.customer && this.previousProducts.length > 0">
           <div class="title-div">
             <span class="title-span">Previous Orders</span>
           </div>
@@ -52,7 +52,7 @@
           </div>
         </div>
       </div>
-      <div class="basket-column" *ngIf="this.isCustomerCategory()">
+      <div class="basket-column" *ngIf="this.currentUserService.customer">
         <div class="basket">
           <div class="title-div">
             <span class="title-span">Basket</span>
